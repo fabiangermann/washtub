@@ -2,6 +2,6 @@ from django.db import models
 
 # Create your models here.
 class Setting(models.Model):
-    value = CharField(max_length=128)
-    data = CharField()
-    hostname = CharField(max_length=255)
+    value = models.CharField(max_length=128)
+    data = models.CharField()
+    hostname = models.CharField(max_length=255)
