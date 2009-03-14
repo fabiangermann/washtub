@@ -8,6 +8,10 @@ class HostOptions(admin.ModelAdmin):
         )
 
 class SettingOptions(admin.ModelAdmin):
+	list_display = ('value', 'data', 'hostname')
+
+
+admin.site.register(Setting)
         list_display = ('value', 'data', 'hostname')
         
 admin.site.register(Host)
