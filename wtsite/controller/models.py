@@ -6,7 +6,7 @@ class Host(models.Model):
     name = models.CharField(max_length=128)
     ip_address = models.IPAddressField('Server IP Address')
     description = models.TextField('Description', blank=True)
-    administrator = models.ManyToManyField(User, related_name='host_administrator',default=1)
+    administrator = models.ManyToManyField(User, related_name='host_administrator',default=0)
     
 class Setting(models.Model):
     value = models.CharField(max_length=128)
