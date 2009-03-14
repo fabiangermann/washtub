@@ -13,7 +13,7 @@ import telnetlib
 def display_status(request):
 	tn = telnetlib.Telnet("localhost", 1234)
 	tn.write("help\n")
-	status tn.read_until("END")
+	status_real = tn.read_until("END")
 	status = "test"
 	tn.close()
 	assert False
