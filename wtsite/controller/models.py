@@ -19,4 +19,3 @@ class Setting(models.Model):
     class Meta:
         verbose_name = "Washtub Setting"
         verbose_name_plural = "Washtub Settings"
-
