@@ -11,5 +11,5 @@ class Host(models.Model):
 class Setting(models.Model):
     value = models.CharField(max_length=128)
     data = models.CharField(max_length=255)
-
     hostname = models.ForeignKey('Host',default=1)
+
