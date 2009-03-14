@@ -3,13 +3,13 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Host(models.Model):
-    hostname = models.CharField(max_length=128)
+    name = models.CharField(max_length=128)
     ip_address = models.IPAddressField('Server IP Address')
     description = models.TextField('Description', blank=True)
     administrator = models.ManyToManyField(User, related_name='host_administrator',default=1)
     
     def __unicode__(self):
-        return self.hostname
+        return self.name
 
 class Setting(models.Model):
     value = models.CharField(max_length=128)
