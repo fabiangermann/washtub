@@ -2,7 +2,7 @@ from wtsite.controller.models import *
 from django.contrib import admin
 
 class HostAdmin(admin.ModelAdmin):
-	list_display = ('name', 'ip_address')
+	list_display = ('name', 'ip_address', 'admin')
 
 class SettingAdmin(admin.ModelAdmin):
 	list_filter = ['hostname']
