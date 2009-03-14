@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.template import RequestContext
 from wtsite.controller.models import *
 from django.conf import settings
-import telnetlib
+#import telnetlib
 
 # Create your views here.
 @login_required()
