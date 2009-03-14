@@ -8,9 +8,6 @@ class Host(models.Model):
     description = models.TextField('Description', blank=True)
     administrator = models.ManyToManyField(User, related_name='host_administrator',default=1)
     
-    def __unicode__(self):
-        return self.name
-
 class Setting(models.Model):
     value = models.CharField(max_length=128)
     data = models.CharField(max_length=255)
