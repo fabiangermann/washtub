@@ -16,6 +16,5 @@ def display_status(request):
 	status_real = tn.read_until("END")
 	status = "test"
 	tn.close()
-	assert False
 	return render_to_response('controller/status.html', {'status': status}, context_instance=RequestContext(request))
 
