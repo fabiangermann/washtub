@@ -18,7 +18,7 @@ class Setting(models.Model):
     	('protocol', 'Protocol'),
     	)
 
-    value = models.CharField(max_length=128. choices=SETTINGS_CHOICES)
+    value = models.CharField(max_length=128, choices=SETTINGS_CHOICES)
     data = models.CharField(max_length=255)
     hostname = models.ForeignKey('Host',default=1)
     
