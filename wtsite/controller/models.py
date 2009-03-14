@@ -1,18 +1,24 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 # Create your models here.
 class Host(models.Model):
     name = models.CharField(max_length=128)
     ip_address = models.IPAddressField('Server IP Address')
     description = models.TextField('Description', blank=True)
-    administrator = models.ManyToManyField(User, related_name='host_administrator')
+    admin_group = models.ManyToManyField(Group, related_name='host_admin_group')
+    admin = models.FoereignKey(User, related_name='host_admin')
 
     def __unicode__(self):
     	return self.name
     
 class Setting(models.Model):
-    value = models.CharField(max_length=128)
+    SETTINGS_CHOICES = (
+    	('port', 'Port'),
+    	('protocol', 'Protocol'),
+    	)
+
+    value = models.CharField(max_length=128. choices=SETTINGS_CHOICES)
     data = models.CharField(max_length=255)
     hostname = models.ForeignKey('Host',default=1)
     
@@ -20,5 +26,5 @@ class Setting(models.Model):
         return self.value
     
     class Meta:
-        verbose_name = "Washtub Setting"
-        verbose_name_plural = "Washtub Settings"
+        verbose_name = "Setting"
+        verbose_name_plural = "Settings"
