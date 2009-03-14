@@ -7,7 +7,7 @@ class Host(models.Model):
     ip_address = models.IPAddressField('Server IP Address')
     description = models.TextField('Description', blank=True)
     admin_group = models.ManyToManyField(Group, related_name='host_admin_group')
-    admin = models.FoereignKey(User, related_name='host_admin')
+    admin = models.ForeignKey(User, related_name='host_admin')
 
     def __unicode__(self):
     	return self.name
