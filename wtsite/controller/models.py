@@ -7,9 +7,19 @@ class Host(models.Model):
     ip_address = models.IPAddressField('Server IP Address')
     description = models.TextField('Description', blank=True)
     administrator = models.ManyToManyField(User, related_name='host_administrator',default=1)
+    
+    def __unicode__(self):
+        return self.hostname
 
 class Setting(models.Model):
     value = models.CharField(max_length=128)
     data = models.CharField(max_length=255)
     hostname = models.ForeignKey('Host',default=1)
+    
+    def __unicode__(self):
+        return self.value
+    
+    class Meta:
+        verbose_name = "Washtub Setting"
+        verbose_name_plural = "Washtub Settings"
 
