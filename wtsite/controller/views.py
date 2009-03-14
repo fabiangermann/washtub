@@ -14,7 +14,7 @@ def display_status(request):
 	tn = telnetlib.Telnet("localhost", 1234)
 	tn.write("help\n")
 	print tn.read_until("END")
-	status = tn.read_until("END")
+	status = "test"
 	tn.close()
 	return render_to_response('controller/status.html', {'status': status}, context_instance=RequestContext(request))
 
