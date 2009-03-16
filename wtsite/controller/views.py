@@ -14,7 +14,7 @@ def parse_help(input):
 	out = []
 	for item in list:
 		if item.startswith('|'):
-			item.lstrip('|')
+			item = item.lstrip('|')
 			out.append(item)
 	list = out
 	return list
