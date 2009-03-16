@@ -6,14 +6,25 @@ from django.db.models import Q
 from django.template import RequestContext
 from wtsite.controller.models import *
 from django.conf import settings
-import telnetlib
+import telnetlib, string
 
 # Create your views here.
+def parse_help(input):
+	list = input.splitline()
+	out = []
+	for item in list:
+		if item.startswith('|'):
+			item.lstrip('|')
+			out.append(item)
+	list = out
+	return list
+
 @login_required()
 def display_status(request):
 	tn = telnetlib.Telnet("localhost", 1234)
 	tn.write("help\n")
 	status = tn.read_until("END")
 	tn.close()
+	status = parse_help(status)
 	return render_to_response('controller/status.html', {'status': status}, context_instance=RequestContext(request))
 

@@ -4,5 +4,8 @@
 {% endblock title %}
 
 {% block content %}
-Status is {{ status|default:"nothing here" }}
+Status is:<br/> 
+{% for command in status %}
+	{{ command|default:"nothing here" }}<br/>
+{% endfor %}
 {% endblock content %}
