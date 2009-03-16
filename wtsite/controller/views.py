@@ -10,7 +10,7 @@ import telnetlib, string
 
 # Create your views here.
 def parse_help(input):
-	list = input.splitline()
+	list = input.splitlines()
 	out = []
 	for item in list:
 		if item.startswith('|'):
