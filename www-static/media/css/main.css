@@ -21,7 +21,9 @@ margin: 0 50px 0 50px;
     border-color : black;
     color : green;
     background : white;
-	margin:auto;
+    padding: 2px 5px 3px 5px;
+	margin-left:auto;
+	margin-right:auto;
     height: 24px;
 	text-align:center;
 }
