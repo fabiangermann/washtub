@@ -21,8 +21,7 @@ margin: 0 50px 0 50px;
     border-color : black;
     color : green;
     background : white;
-	margin-left:auto;
-	margin-right:auto;
+	margin:auto;
     height: 24px;
 	text-align:center;
 }
