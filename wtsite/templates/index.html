@@ -2,13 +2,6 @@
 <title>
 	{% block title %} Washtub Liquidsoap Controller - Index {% endblock title %}
 </title>
-{% block userstatus %}
-   {% if user.is_authenticated %}
-     Hello {{ user.first_name }}!&nbsp;<a class="action" href="/site/logout">Logout?</a> 
-   {% else %}
-     Please <a href="/site/login" >log-in</a> to continue....<a class="action" href="/site/password_reset/">Retrieve Password</a>
-   {% endif %}
-{% endblock userstatus %}
 
 {% block content %}
 		<div id="accordion">

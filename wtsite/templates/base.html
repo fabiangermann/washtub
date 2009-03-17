@@ -76,10 +76,15 @@
 <div class="header">
   <div class="status"> 
     {% block userstatus %}
+      {% if user.is_authenticated %}
+        Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a> 
+      {% else %}
+        Please <a href="/washtub/login" >log-in</a> to continue....<a class="action" href="/washtub/password_reset">Retrieve Password</a>
+      {% endif %}
     {% endblock userstatus %}
   </div>
   <div class="navigation">
-    portal menu:&nbsp;<a class="menu" href="/washtub/">home</a>
+    menu:&nbsp;<a class="menu" href="/washtub/">home</a>
   </div>  
 </div>
 
