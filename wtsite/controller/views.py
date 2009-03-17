@@ -32,6 +32,7 @@ def parse_help(input):
 def build_status_list(available_commands):
 	status = []
 	command_list = ['on_air', 'alive', 'version', 'uptime']
+	assert False
 	for command in command_list:
 		if command in available_commands:
 			response = parse_command(command)
