@@ -15,7 +15,8 @@ def parse_command(command):
 	tn.write(command)
 	response = tn.read_until("END")
 	tn.close()
-	response.strip('\n')
+	response = response.splitlines()
+	response = response[0]
 	assert False
 	return response
 
