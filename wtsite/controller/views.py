@@ -31,7 +31,7 @@ def display_status(request):
 	tn.close()
 	status = parse_help(status)
 	hosts = get_host_list()
-	return render_to_response('controller/status.html', {'hosts': hosts}, {'status': status}, context_instance=RequestContext(request))
+	return render_to_response('controller/status.html', {'hosts': hosts, 'status': status}, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()
