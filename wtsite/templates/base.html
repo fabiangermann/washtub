@@ -10,7 +10,6 @@
 <meta name="description" content="Washtub, the liquidsoap controller." />
 <meta name="keywords" content="" />
 <meta name="author" content="Chris Everest" />
-<link rel="stylesheet" type="text/css" href="/media/style/webalizer.css" />
 <link rel="stylesheet" type="text/css" href="/washtub/media/css/main.css" />
 <base target="_top" />
 <link type="text/css" href="/washtub/media/css/washtub-theme/jquery-ui-1.7.custom.css" rel="stylesheet" />	
@@ -74,6 +73,27 @@
 {% block extrahead %}
 {% endblock extrahead %}
 </head>
+<div class="header">
+<div class="status"> 
+{% block userstatus %}
+{% endblock userstatus %}
+</div>
+<div class="navigation">
+  portal menu:&nbsp;<a class="menu" href="/site/">home</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/site/entries/page/1">weblog</a>&nbsp;&#8226;&nbsp;<a class="menu"</B> href="/lists/">mailing lists</a>{% block adminlinks %}{% if user.is_authenticated %}&nbsp;&#8226;&nbsp;<a class="menu" href="/site/portal/stats">stats</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/site/portal/invoices&quot;>invoices</a>{% endif %}
+</div>  
+</div>
+{% if user.is_staff %}
+<div class="header">
+<div class="navigation">
+<font color="red">admin menu:</font>&nbsp;<a class="menu" href="/piwik/">analytics</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/invoice/">create invoice</a>&nbsp;>&#8226;&nbsp;<a class="menu" href="/site/admin/">admin</a>
+</div>
+</div>
+{% endif %}
+
+  {% endblock adminlinks %}
+  {% block errormessage %}
+  {% endblock errormessage %}
+</div>
 
 <body>
 {% block content %}
