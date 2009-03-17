@@ -17,7 +17,6 @@ def parse_command(command):
 	tn.close()
 	response = response.splitlines()
 	response = response[0]
-	assert False
 	return response
 
 def parse_help(input):
