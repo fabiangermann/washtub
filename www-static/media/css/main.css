@@ -7,18 +7,24 @@ ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; f
 ul#icons span.ui-icon {float: left; margin: 0 4px;}
 
 /* written by Chris Everest */
+body {
+color:black;
+font:62.5% "lucida sans", sans-serif;
+padding:0px;
+text-align:left;
+margin: 0 50px 0 50px;
+}
+
 .header {
     border-style : solid;
     border-width : 0px 0px 0px 0px;
     border-color : black;
-    font-size : 11px;
-    font-family : arial;
     color : green;
     background : white;
     padding: 2px 5px 3px 5px;
 	margin-left:auto;
 	margin-right:auto;
-    height: 12px;
+    height: 24px;
 	text-align:center;
 }
 
@@ -58,15 +64,6 @@ a.action {
     font-weight : normal;
     text-decoration : none;
     color : red;
-}
-
-
-body {
-color:black;
-font:62.5% "lucida sans", sans-serif;
-padding:0px;
-text-align:left;
-margin: 0 50px 0 50px;
 }
 
 a {
