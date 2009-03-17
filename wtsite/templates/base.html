@@ -74,25 +74,13 @@
 {% endblock extrahead %}
 </head>
 <div class="header">
-<div class="status"> 
-{% block userstatus %}
-{% endblock userstatus %}
-</div>
-<div class="navigation">
-  portal menu:&nbsp;<a class="menu" href="/site/">home</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/site/entries/page/1">weblog</a>&nbsp;&#8226;&nbsp;<a class="menu"</B> href="/lists/">mailing lists</a>{% block adminlinks %}{% if user.is_authenticated %}&nbsp;&#8226;&nbsp;<a class="menu" href="/site/portal/stats">stats</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/site/portal/invoices&quot;>invoices</a>{% endif %}
-</div>  
-</div>
-{% if user.is_staff %}
-<div class="header">
-<div class="navigation">
-<font color="red">admin menu:</font>&nbsp;<a class="menu" href="/piwik/">analytics</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/invoice/">create invoice</a>&nbsp;>&#8226;&nbsp;<a class="menu" href="/site/admin/">admin</a>
-</div>
-</div>
-{% endif %}
-
-  {% endblock adminlinks %}
-  {% block errormessage %}
-  {% endblock errormessage %}
+  <div class="status"> 
+    {% block userstatus %}
+    {% endblock userstatus %}
+  </div>
+  <div class="navigation">
+    portal menu:&nbsp;<a class="menu" href="/site/">home</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/site/entries/page/1">weblog</a>&nbsp;&#8226;&nbsp;<a class="menu"</B> href="/lists/">mailing lists</a>{% block adminlinks %}{% if user.is_authenticated %}&nbsp;&#8226;&nbsp;<a class="menu" href="/site/portal/stats">stats</a>&nbsp;&#8226;&nbsp;<a class="menu" href="/site/portal/invoices&quot;>invoices</a>{% endif %}
+  </div>  
 </div>
 
 <body>
