@@ -84,7 +84,7 @@
     {% endblock userstatus %}
   </div>
   <div class="navigation">
-    menu:&nbsp;<a class="menu" href="/washtub/">home</a>
+    host:&nbsp;<select>{% for name in hosts %}<option>{{name}}</option>{%endfor}</select>
   </div>  
 </div>
 

@@ -19,6 +19,10 @@ def parse_help(input):
 	list = out
 	return list
 
+def get_host_list():
+	h = Host.objects.all()
+	return h   
+
 @login_required()
 def display_status(request):
 	tn = telnetlib.Telnet("localhost", 1234)
@@ -29,5 +33,6 @@ def display_status(request):
 	return render_to_response('controller/status.html', {'status': status}, context_instance=RequestContext(request))
 
 def index (request):
-	return render_to_response('index.html', context_instance=RequestContext(request))
+	hosts = get_host_list()
+	return render_to_response('index.html', {'hosts': hosts}, context_instance=RequestContext(request))
 
