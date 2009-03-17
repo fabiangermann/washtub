@@ -9,6 +9,15 @@ from django.conf import settings
 import telnetlib, string
 
 # Create your views here.
+def parse_command(command):
+	command+='\n'
+	tn = telnetlib.Telnet("localhost", 1234)
+	tn.write(command)
+	response = tn.read_until("END")
+	tn.close()
+	response.strip('\n')
+	return response
+
 def parse_help(input):
 	list = input.splitlines()
 	out = []
@@ -18,6 +27,16 @@ def parse_help(input):
 			out.append(item)
 	list = out
 	return list
+
+def build_status_list(available_commands):
+	status = []
+	command_list = ['on_air', 'alive', 'version', 'uptime']
+	for command in command_list:
+		if command in help:
+			response = parse_command(command)
+			response = [command, response]
+			status.append(response)
+	return status
 
 def get_host_list():
 	h = Host.objects.all()
@@ -30,6 +49,7 @@ def display_status(request):
 	status = tn.read_until("END")
 	tn.close()
 	status = parse_help(status)
+	status = build_status_list(status)
 	hosts = get_host_list()
 	return render_to_response('controller/status.html', {'hosts': hosts, 'status': status}, context_instance=RequestContext(request))
 
