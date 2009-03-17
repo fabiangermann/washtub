@@ -32,7 +32,7 @@ def build_status_list(available_commands):
 	status = []
 	command_list = ['on_air', 'alive', 'version', 'uptime']
 	for command in command_list:
-		if command in help:
+		if command in available_commands:
 			response = parse_command(command)
 			response = [command, response]
 			status.append(response)
