@@ -28,3 +28,6 @@ def display_status(request):
 	status = parse_help(status)
 	return render_to_response('controller/status.html', {'status': status}, context_instance=RequestContext(request))
 
+def index (request):
+	return render_to_response('index.html', context_instance=RequestContext(request))
+

@@ -13,8 +13,64 @@
 <link rel="stylesheet" type="text/css" href="/media/style/webalizer.css" />
 <link rel="stylesheet" type="text/css" href="/media/style/main.css" />
 <base target="_top" />
-<script type="text/javascript" src="/media/js/MochiKit/MochiKit.js"></script>
-<script type="text/javascript" src="/media/js/main.js"></script>
+<link type="text/css" href="/washtub/media/css/washtub-theme/jquery-ui-1.7.custom.css" rel="stylesheet" />	
+<script type="text/javascript" src="/washtub/media/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/washtub/media/js/jquery-ui-1.7.custom.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+
+				// Accordion
+				$("#accordion").accordion({ header: "h3" });
+	
+				// Tabs
+				$('#tabs').tabs();
+	
+
+				// Dialog			
+				$('#dialog').dialog({
+					autoOpen: false,
+					width: 600,
+					buttons: {
+						"Ok": function() { 
+							$(this).dialog("close"); 
+						}, 
+						"Cancel": function() { 
+							$(this).dialog("close"); 
+						} 
+					}
+				});
+				
+				// Dialog Link
+				$('#dialog_link').click(function(){
+					$('#dialog').dialog('open');
+					return false;
+				});
+
+				// Datepicker
+				$('#datepicker').datepicker({
+					inline: true
+				});
+				
+				// Slider
+				$('#slider').slider({
+					range: true,
+					values: [17, 67]
+				});
+				
+				// Progressbar
+				$("#progressbar").progressbar({
+					value: 20 
+				});
+				
+				//hover states on the static widgets
+				$('#dialog_link, ul#icons li').hover(
+					function() { $(this).addClass('ui-state-hover'); }, 
+					function() { $(this).removeClass('ui-state-hover'); }
+				);
+				
+			});
+		</script>
+
 {% block extrahead %}
 {% endblock extrahead %}
 </head>
