@@ -49,7 +49,7 @@ def get_host_list():
 
 @login_required()
 def display_status(request, host_name):
-	settings = Setting.objects.filter(host__host__exact=host_name)
+	settings = Setting.objects.filter(name__host__exact=host_name)
 	assert False
 	help = parse_help()
 	status = build_status_list(help)
