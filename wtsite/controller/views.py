@@ -19,8 +19,12 @@ def parse_command(command):
 	response = response[0]
 	return response
 
-def parse_help(input):
-	list = input.splitlines()
+def parse_help():
+	tn = telnetlib.Telnet("localhost", 1234)
+	tn.write("help\n")
+	help = tn.read_until("END")
+	tn.close()
+	list = help.splitlines()
 	out = []
 	for item in list:
 		if item.startswith('|'):
@@ -45,14 +49,10 @@ def get_host_list():
 
 @login_required()
 def display_status(request):
-	tn = telnetlib.Telnet("localhost", 1234)
-	tn.write("help\n")
-	status = tn.read_until("END")
-	tn.close()
-	status = parse_help(status)
-	status = build_status_list(status)
+	help = parse_help(status)
+	status = build_status_list(help)
 	hosts = get_host_list()
-	return render_to_response('controller/status.html', {'hosts': hosts, 'status': status}, context_instance=RequestContext(request))
+	return render_to_response('controller/status.html', {'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()
