@@ -9,25 +9,24 @@
 	<h3><a href="#">Server Tools</a></h3>
 		<div>
 		    <div id="tabs">
-			    <div>
-			      <h3><a href="#">Status</a></h3>
-			      <div>
+			    <ul>
+			    	<li><a href="#tabs-1">Status</a></li>
+			    	<li><a href="#tabs-2">Help</a></li>
+			    </ul>
+			    <div id="tabs-1">    
 					  {% for item in status %}
 					  <b>{{ item.0 }}:</b>&nbsp;{{item.1}}<br/>
 					  {% endfor %}
-				  </div>
 				</div>
-			    <div>
-			      <h3><a href="#">Help</a></h3>
-			      <div>
+			    <div id="tabs-2">
 			      	  <b>Available Commands:</b><br/>
 					  {% for item in help %}
 					  {{item}}<br/>
 					  {% endfor %}
-				  </div>
 				</div>
 			</div>
 		</div>
+	</div>
   </div>
   <div>
 	<h3><a href="#">Second</a></h3>
