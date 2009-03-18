@@ -49,7 +49,7 @@ def get_host_list():
 
 @login_required()
 def display_status(request):
-	help = parse_help(status)
+	help = parse_help()
 	status = build_status_list(help)
 	hosts = get_host_list()
 	return render_to_response('controller/status.html', {'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
