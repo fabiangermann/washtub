@@ -48,7 +48,9 @@ def get_host_list():
 	return h   
 
 @login_required()
-def display_status(request):
+def display_status(request, host_name):
+	settings = Setting.objects.get(hostname__exact=host_name)
+	assert False
 	help = parse_help()
 	status = build_status_list(help)
 	hosts = get_host_list()
