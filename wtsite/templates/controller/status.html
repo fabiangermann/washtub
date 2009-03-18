@@ -5,23 +5,39 @@
 
 {% block content %}
 <div id="accordion">
-	<div>
-		<h3><a href="#">Server Status</a></h3>
-				<div>
-					{% for item in status %}
-					<b>{{ item.0 }}:</b>&nbsp;{{item.1}}<br/>
-					{% endfor %}
+  <div>
+	<h3><a href="#">Server Tools</a></h3>
+		<div>
+		    <div id="tabs">
+			    <div>
+			      <h3><a href="#">Status</a></h3>
+			      <div>
+					  {% for item in status %}
+					  <b>{{ item.0 }}:</b>&nbsp;{{item.1}}<br/>
+					  {% endfor %}
+				  </div>
+				</div>
+			    <div>
+			      <h3><a href="#">Help</a></h3>
+			      <div>
+			      	  <b>Available Commands:</b><br/>
+					  {% for item in help %}
+					  {{item}}<br/>
+					  {% endfor %}
+				  </div>
 				</div>
 			</div>
-			<div>
-				<h3><a href="#">Second</a></h3>
-				<div>Phasellus mattis tincidunt nibh.</div>
-			</div>
-
-			<div>
-				<h3><a href="#">Third</a></h3>
-				<div>Nam dui erat, auctor a, dignissim quis.</div>
-			</div>
 		</div>
+  </div>
+  <div>
+	<h3><a href="#">Second</a></h3>
+		<div>Phasellus mattis tincidunt nibh.</div>
+  </div>
+
+  <div>
+	<h3><a href="#">Third</a></h3>
+		<div>Nam dui erat, auctor a, dignissim quis.</div>
+	</div>
+</div>
 
 {% endblock content %}
