@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.template import RequestContext
-from django.utils.encoding import *
 from django.conf import settings
 from wtsite.controller.models import *
 
@@ -24,13 +23,12 @@ def parse_command(host, settings, command):
 def parse_help(host, settings):
 	poo = '1234'
 	for p in settings:
-	   if p.value == 'port':
-	       port = smart_str(p.data)
+	   if p == 'port':
+	       port = str(p.data)
 	#default port number (for telnet)
 	#if not port:
 		#port = '1234' 
-	assert False
-	tn = telnetlib.Telnet(host.name, port)
+	tn = telnetlib.Telnet(str(host), port)
 	tn.write("help\n")
 	help = tn.read_until("END")
 	tn.close()
