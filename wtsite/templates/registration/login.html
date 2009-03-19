@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 
+{% block title %} Washtub Liquidsoap Controller - Please Login {% endblock title %}
+
 {% block content %}
 
 <div id="accordion">
 	<div>
-	<h3>Please login to continue...</h3>
-	<ul>
+	<h3><a href="#">Please login to continue...</a></h3>
+	<div><ul>
 	<li>You may have entered the wrong password.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
 	<li>You attempted to access a private page.  Login to access the site or contact the site administrator to gain access to the site.</li> 
-	</ul>
+	</ul></div>
 	</div>
 </div>
 
