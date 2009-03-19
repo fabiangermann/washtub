@@ -72,7 +72,10 @@
 			{
 			var hostlist = document.getElementById("HostList");
 			var myhost = hostlist.options[hostlist.selectedIndex].text;
-			window.location="http://home.vinylproject.com/washtub/control/"+myhost;
+			if (myhost == '----------')
+				window.location="/washtub/;
+			else
+				window.location="/washtub/control/"+myhost;
 			}
 		</script>
 
@@ -91,7 +94,7 @@
   </div>
   <div class="navigation">
     <select id="HostList" onchange="GetHostStatus()">
-    <option>---------</option>
+    <option>----------</option>
     {% for name in hosts %}{% ifequal name active_host %}<option selected="yes">{% else %}<option>{% endifequal %}{{ name }}</option>{% endfor %}
     </select>
     {% if user.is_staff %}
