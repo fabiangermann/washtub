@@ -68,6 +68,12 @@
 				);
 				
 			});
+			function GetHostStatus()
+			{
+			var hostlist = document.getElementById("HostList");
+			var myhost = hostlist.options[hostlist.selectedIndex].text
+			window.location="/washtub/control/"+myhost;
+			}
 		</script>
 
 {% block extrahead %}
@@ -84,7 +90,7 @@
     {% endblock userstatus %}
   </div>
   <div class="navigation">
-    <select>
+    <select id="HostList" onselect="GetHostStatus()">
     {% for name in hosts %}{% ifequal name active_host %}<option selected="yes">{% else %}<option>{% endifequal %}{{ name }}</option>{% endfor %}
     </select>
   </div>  
