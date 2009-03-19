@@ -23,7 +23,7 @@ class Setting(models.Model):
     hostname = models.ForeignKey('Host',default=1)
     
     def __unicode__(self):
-        return self.value
+        return self.data
     
     class Meta:
         verbose_name = "Setting"
