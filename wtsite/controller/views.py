@@ -63,7 +63,7 @@ def get_host_list():
 @login_required()
 def display_status(request, host_name):
 	h = get_object_or_404(Host, name=host_name)
-	settings = get_object_or_404(Setting, hostname=h)	
+	settings = get_list_or_404(Setting, hostname=h)	
 	help = parse_help(h, settings)
 	status = build_status_list(h, settings, help)
 	hosts = get_host_list()
