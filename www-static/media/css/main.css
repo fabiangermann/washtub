@@ -44,8 +44,6 @@ margin: 0 50px 0 50px;
 .ui-state-error, .ui-widget-content .ui-state-error {
 	display:inline-block;
 	width:30%;
-	margin-top:-1px;
-	height:1.2em;
 }
 
 a.menu {
