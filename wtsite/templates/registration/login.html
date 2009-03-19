@@ -4,19 +4,18 @@
 
  
 {% block userstatus %}
-
- 
+	{% if user.is_authenticated %}
+		Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a>
+	{% else %}
+		<form method="post" action=".">
+		{{ form.username.label_tag }}{{ form.username }}
+		{{ form.password.label_tag }}{{ form.password }}
+		<input type="submit" value="login" />
+		<input type="hidden" name="next" value="{{ next }}" />
+		</form>
+	{% endif %}
 {% endblock userstatus %}
-{% if user.is_authenticated %}
-	Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a>
-{% else %}
-	<form method="post" action=".">
-	{{ form.username.label_tag }}{{ form.username }}
-	{{ form.password.label_tag }}{{ form.password }}
-	<input type="submit" value="login" />
-	<input type="hidden" name="next" value="{{ next }}" />
-	</form>
-{% endif %}
+
 {% block errormessage %}
 {% if form.errors %}
 	<div class="ui-widget">
