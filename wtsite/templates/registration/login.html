@@ -2,6 +2,32 @@
 
 {% block title %} Washtub Liquidsoap Controller - Please Login {% endblock title %}
 
+ 
+{% block userstatus %}
+
+ 
+{% endblock userstatus %}
+{% if user.is_authenticated %}
+	Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a>
+{% else %}
+	<form method="post" action=".">
+	{{ form.username.label_tag }}{{ form.username }}
+	{{ form.password.label_tag }}{{ form.password }}
+	<input type="submit" value="login" />
+	<input type="hidden" name="next" value="{{ next }}" />
+	</form>
+{% endif %}
+{% block errormessage %}
+{% if form.errors %}
+	<div class="ui-widget">
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+			<strong>Alert:</strong> Sample ui-state-error style.</p>
+		</div>
+	</div>
+{% endif %}
+{% endblock errormessage %}
+
 {% block content %}
 
 <div id="accordion">
