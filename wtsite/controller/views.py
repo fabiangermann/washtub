@@ -67,8 +67,8 @@ def display_status(request, host_name):
 	settings = get_list_or_404(Setting, hostname=host)	
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
-	host = active_host
 	hosts = get_host_list()
+	active_host = host
 	return render_to_response('controller/status.html', {'active_host': active_host, 'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
 
 def index (request):
