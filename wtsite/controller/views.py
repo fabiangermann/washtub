@@ -10,7 +10,13 @@ from wtsite.controller.models import *
 import telnetlib, string
 
 # Create your views here.
-def parse_command(host, settings, command):
+def parse_command(host, settings, command):	
+	for p in settings:
+	   if p.value == 'port':
+	       port = str(p.data)
+	#default port number (for telnet)
+	#if not port:
+		#port = '1234' 
 	command+='\n'
 	tn = telnetlib.Telnet(host, settings.port)
 	tn.write(command)
@@ -21,7 +27,6 @@ def parse_command(host, settings, command):
 	return response
 
 def parse_help(host, settings):
-	poo = '1234'
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
