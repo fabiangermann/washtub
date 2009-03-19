@@ -33,7 +33,9 @@
   <div class="navigation">
     <select id="HostList" onchange="GetHostStatus()">
     <option>----------</option>
+    {% if user.is_authenticated %}
     {% for name in hosts %}{% ifequal name active_host %}<option selected="yes">{% else %}<option>{% endifequal %}{{ name }}</option>{% endfor %}
+    {% endif %}
     </select>
     {% if user.is_staff %}
     <a class="menu" href="/washtub/admin">Administration Panel</a>
