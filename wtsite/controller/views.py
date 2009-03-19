@@ -18,7 +18,7 @@ def parse_command(host, settings, command):
 	#if not port:
 		#port = '1234' 
 	command+='\n'
-	tn = telnetlib.Telnet(host, settings.port)
+	tn = telnetlib.Telnet(str(host), port)
 	tn.write(command)
 	response = tn.read_until("END")
 	tn.close()
