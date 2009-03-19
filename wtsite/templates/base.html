@@ -94,7 +94,7 @@
     {% for name in hosts %}{% ifequal name active_host %}<option selected="yes">{% else %}<option>{% endifequal %}{{ name }}</option>{% endfor %}
     </select>
     {% if user.is_staff %}
-    <a href="/washtub/admin">Administration Panel</a>
+    <a class="menu" href="/washtub/admin">Administration Panel</a>
     {% endif %}
   </div>  
 </div>
