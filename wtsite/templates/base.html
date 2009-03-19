@@ -85,7 +85,7 @@
   </div>
   <div class="navigation">
     <select>
-    {% for name in hosts %}{% ifequal name status.0.1 %}"selected="yes"{% endifequal %}<option>{{ name }} {{status0.0}}</option>{% endfor %}
+    {% for name in hosts %}{% ifequal name status.0.1 %}<option selected="yes">{% else %}<option>{% endifequal %}{{ name }} {{status0.1}}</option>{% endfor %}
     </select>
   </div>  
 </div>
