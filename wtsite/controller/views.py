@@ -47,7 +47,7 @@ def parse_help(host, settings):
 	return list
 
 def build_status_list(host, settings, available_commands):
-	status = []
+	status = ['host', str(host)]
 	command_list = ['on_air', 'alive', 'version', 'uptime']
 	for command in command_list:
 		if command in available_commands:

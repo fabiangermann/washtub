@@ -84,7 +84,12 @@
     {% endblock userstatus %}
   </div>
   <div class="navigation">
-    <select>{% for name in hosts %}<option>{{ name }}</option>{% endfor %}</select>
+    <select selectedIndex="
+    	{% for name in hosts %}
+    		{% ifequal name status.0.1 %}
+    			{% forloop.counter0 %}
+    		{% endif %}
+    	{% endfor %}">{% for name in hosts %}<option>{{ name }}</option>{% endfor %}</select>
   </div>  
 </div>
 
