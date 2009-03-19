@@ -4,8 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.template import RequestContext
-from wtsite.controller.models import *
+from django.utils import encoding
 from django.conf import settings
+from wtsite.controller.models import *
+
 import telnetlib, string
 
 # Create your views here.
@@ -23,7 +25,7 @@ def parse_help(host, settings):
 	poo = '1234'
 	for p in settings:
 	   if p.value == 'port':
-	       port = string(p.data)
+	       port = smart_str(p.data)
 	#default port number (for telnet)
 	#if not port:
 		#port = '1234' 
