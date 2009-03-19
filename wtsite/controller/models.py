@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
-
+from django.utils.encoding import *
 # Create your models here.
 class Host(models.Model):
     name = models.CharField(max_length=128)
@@ -23,7 +23,7 @@ class Setting(models.Model):
     hostname = models.ForeignKey('Host',default=1)
     
     def __unicode__(self):
-        return self.data
+        return self.value
     
     class Meta:
         verbose_name = "Setting"
