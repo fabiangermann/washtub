@@ -1,0 +1,10 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title|escape }} | {% trans 'Good Function' %}{% endblock %}
+{% block branding %}
+<h1 id="site-name">{% trans 'Washtub Site Administration' %}</h1>
+<h2><a href="/washtub/">Main Site</a></h2>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
