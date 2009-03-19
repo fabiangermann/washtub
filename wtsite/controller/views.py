@@ -23,7 +23,7 @@ def parse_help(host, settings):
 	poo = '1234'
 	for p in settings:
 	   if p.value == 'port':
-	       port = p.data
+	       port = p
 	#default port number (for telnet)
 	#if not port:
 		#port = '1234' 
