@@ -20,7 +20,7 @@ def parse_command(host, settings, command):
 	return response
 
 def parse_help(host, settings):
-	tn = telnetlib.Telnet(host, settings[0])
+	tn = telnetlib.Telnet(host, settings)
 	tn.write("help\n")
 	help = tn.read_until("END")
 	tn.close()
