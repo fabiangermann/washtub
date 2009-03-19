@@ -27,6 +27,7 @@ def parse_help(host, settings):
 	#default port number (for telnet)
 	#if not port:
 		#port = '1234' 
+	assert False
 	tn = telnetlib.Telnet(host.name, port)
 	tn.write("help\n")
 	help = tn.read_until("END")
