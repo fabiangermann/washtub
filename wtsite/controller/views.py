@@ -31,8 +31,8 @@ def parse_help(host, settings):
 	   if p.value == 'port':
 	       port = str(p.data)
 	#default port number (for telnet)
-	#if not port:
-		#port = '1234' 
+	if not port:
+		port = '1234' 
 	try:
 		tn = telnetlib.Telnet(str(host), port)
 	except:
