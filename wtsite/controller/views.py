@@ -62,10 +62,10 @@ def get_host_list():
 
 @login_required()
 def display_status(request, host_name):
-	h = get_object_or_404(Host, name=host_name)
-	settings = get_list_or_404(Setting, hostname=h)	
-	help = parse_help(h, settings)
-	status = build_status_list(h, settings, help)
+	host = get_object_or_404(Host, name=host_name)
+	settings = get_list_or_404(Setting, hostname=host)	
+	help = parse_help(host, settings)
+	status = build_status_list(host, settings, help)
 	hosts = get_host_list()
 	return render_to_response('controller/status.html', {'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
 
