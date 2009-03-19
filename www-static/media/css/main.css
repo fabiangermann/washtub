@@ -41,6 +41,16 @@ margin: 0 50px 0 50px;
 	float:right;
 }
 
+.error {
+	display:inline-block;
+	color:red;
+	background-color:#FFC0CB;
+	width:30%;
+	border:solid 1px red;
+	margin-top:-1px;
+	height:1.2em;
+}
+
 a.menu {
     font-weight : normal;
     text-decoration : none;
