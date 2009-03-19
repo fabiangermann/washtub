@@ -20,6 +20,7 @@ def parse_command(host, settings, command):
 	return response
 
 def parse_help(host, settings):
+	poo = '1234'
 	for p in settings:
 	   if p.value == 'port':
 	       port = p.data
