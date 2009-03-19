@@ -18,7 +18,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^washtub/admin/(.*)', admin.site.root),
-        
+    
+    # Add Login URLS
+    (r'^washtub/login/$', 'django.contrib.auth.views.login'),
     #Provide password reset 
     (r'^washtub/password_reset/$', 'django.contrib.auth.views.password_reset'),
     (r'^washtub/password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
