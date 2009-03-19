@@ -88,7 +88,7 @@
     	{% for name in hosts %}
     		{% ifequal name status.0.1 %}
     			{{ forloop.counter0 }}
-    		{% endif %}
+    		{% endifequal %}
     	{% endfor %}">{% for name in hosts %}<option>{{ name }}</option>{% endfor %}</select>
   </div>  
 </div>
