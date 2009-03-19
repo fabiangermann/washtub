@@ -30,8 +30,6 @@
       {% endif %}
     {% endblock userstatus %}
   </div>
-  {% block errormessage %}
-{% endblock errormessage %}
   <div class="navigation">
     <select id="HostList" onchange="GetHostStatus()">
     <option>----------</option>
@@ -44,6 +42,8 @@
 </div>
 
 <body>
+{% block errormessage %}
+{% endblock errormessage %}
 
 {% block content %}
 {% endblock content %}
