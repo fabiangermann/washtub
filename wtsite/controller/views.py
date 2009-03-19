@@ -33,10 +33,7 @@ def parse_help(host, settings):
 	#default port number (for telnet)
 	if not port:
 		port = '1234' 
-	try:
-		tn = telnetlib.Telnet(str(host), port)
-	except:
-		raise http500
+	tn = telnetlib.Telnet(str(host), port)
 	tn.write("help\n")
 	help = tn.read_until("END")
 	tn.close()
