@@ -33,8 +33,13 @@
 	<div>
 	<h3><a href="#">Please login to continue...</a></h3>
 	<div><ul>
+	{% if form.errors %}
 	<li>You may have entered the wrong password.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
-	<li>You attempted to access a private page.  Login to access the site or contact the site administrator to gain access to the site.</li> 
+	<li>You attempted to access a private page.  Login to access the {{ site }} or contact the {{ site }} administrator to gain access to the site.</li>
+	{% else %}
+	<li>This is the {{ site }} login page.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
+	<li>Login to access {{ site }} or contact the {{ site }} administrator to gain access.</li>
+	 {% endif %}
 	</ul></div>
 	</div>
 </div>

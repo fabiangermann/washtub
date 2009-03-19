@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     
     # Add Login URLS
     (r'^washtub/login/$', 'django.contrib.auth.views.login'),
+    (r'^washtub/logout/$', 'django.contrib.auth.views.logout_then_login'),
     #Provide password reset 
     (r'^washtub/password_reset/$', 'django.contrib.auth.views.password_reset'),
     (r'^washtub/password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
