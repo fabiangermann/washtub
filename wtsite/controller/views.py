@@ -20,6 +20,9 @@ def parse_command(host, settings, command):
 	return response
 
 def parse_help(host, settings):
+	for p in settings:
+	   if p.data == 'port':
+	       port = p.settings
 	tn = telnetlib.Telnet(host, settings[0][1])
 	tn.write("help\n")
 	help = tn.read_until("END")
