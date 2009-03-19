@@ -65,7 +65,7 @@ def display_status(request, host_name):
 	h = get_object_or_404(Host, name=host_name)
 	try:
 		settings = h.setting_set.all()	
-	except Setting.DoesNotExist:
+	except settings.DoesNotExist:
 		raise Http404
 	help = parse_help(h, settings)
 	status = build_status_list(h, settings, help)
