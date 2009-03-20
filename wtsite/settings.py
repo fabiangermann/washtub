@@ -44,6 +44,7 @@ MEDIA_URL = 'http://home.vinylproject.com/washtub/media/'
 
 # Provide the URL for access denied redirects.
 LOGIN_URL = '/washtub/login'
+LOGIN_REDIRECT_URL = '/washtub'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
