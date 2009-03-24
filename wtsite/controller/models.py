@@ -27,5 +27,6 @@ class Setting(models.Model):
         return self.value
     
     class Meta:
+        ordering = ['value','hostname']
         verbose_name = "Setting"
         verbose_name_plural = "Settings"
