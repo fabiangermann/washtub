@@ -50,7 +50,7 @@ def parse_queue_list(host, settings):
 	queue_list = []
 	for p in settings:
 	   if p.value == 'queue_id':
-	   	queue_list.append[p.data]
+	   	queue_list.append(str(p.data))
 	#default port number (for telnet)
 	if queue_list == []:
 		return None
