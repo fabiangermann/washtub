@@ -46,6 +46,25 @@ def parse_help(host, settings):
 	list = out
 	return list
 
+def parse_queue_list(host, settings):
+	queue_list = []
+	for p in settings:
+	   if p.value == 'queue_id':
+	   	queue_list.append[str(p.data)]
+	#default port number (for telnet)
+	if queue_list == []:
+		return None
+	request_list = []
+	for q in queue_list:
+		tn = telnetlib.Telnet(str(host.ip_address), port)
+		tn.write("%s.queue\n" % (q))
+		entry = tn.read_until("END").split()
+		for e in entry:
+			request_list.append(q, e)
+	if request_list == []:
+		return None
+	return request_list;
+
 def build_status_list(host, settings, available_commands):
 	status = []
 	status.append(['host', str(host)])
@@ -68,9 +87,10 @@ def display_status(request, host_name):
 	settings = get_list_or_404(Setting, hostname=host)	
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
+	queue = parse_queue_list(host, settings)
 	hosts = get_host_list()
 	active_host = host
-	return render_to_response('controller/status.html', {'active_host': active_host, 'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
+	return render_to_response('controller/status.html', {'queue': queue, 'active_host': active_host, 'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()

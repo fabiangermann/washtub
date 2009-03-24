@@ -24,6 +24,12 @@
 					  {{item}}<br/>
 					  {% endfor %}
 				</div>
+			    <div id="tabs-2">
+			      	  <b>Request Queues:</b><br/>
+					  {% for item in queue %}
+					  {{item.0}}%nbsp;{{item.1}}<br/>
+					  {% endfor %}
+				</div>
 			</div>
 		</div>
   </div>
