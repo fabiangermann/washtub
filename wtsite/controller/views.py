@@ -66,7 +66,7 @@ def parse_queue_list(host, settings):
 		tn.write("%s.queue\n" % (q))
 		entry = tn.read_until("END").split()
 		for e in entry:
-			request_list.append(q, e)
+			request_list.append([q, e])
 	if request_list == []:
 		return None
 	return request_list;
