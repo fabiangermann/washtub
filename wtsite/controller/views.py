@@ -47,6 +47,12 @@ def parse_help(host, settings):
 	return list
 
 def parse_queue_list(host, settings):
+	for p in settings:
+	   if p.value == 'port':
+	       port = str(p.data)
+	#default port number (for telnet)
+	if not port:
+		port = '1234'
 	queue_list = []
 	for p in settings:
 	   if p.value == 'queue_id':
