@@ -22,11 +22,12 @@
 			    <div id="tabs-2">
 					  {% for item in queue %}
 					  	{% if forloop.first %}
-					  		Queue({{ item.0 }}):
+					  		Queue({{ item.0 }}):<br/>
 					  	{% endif %}
 					  	{% for i in item %}
 			      	  	  	{{i}}&nbsp;
 			      	  	{% endfor %}
+			      	  	<br/>
 					  {% endfor %}
 				</div>
 			    <div id="tabs-3">
