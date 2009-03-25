@@ -20,12 +20,10 @@
 					  {% endfor %}
 				</div>
 			    <div id="tabs-2">
-					  {% for item in queue %}
-					  	{% if forloop.first %}
-					  		Queue({{ item.0 }}):<br/>
-					  	{% endif %}
-					  	{% for i in item %}
-			      	  	  	{{i}}&nbsp;
+					  {% for name, entries in queue.items %}
+					  	Queue({{ name }}):<br/>
+					  	{% for e in entries %}
+			      	  	  	{{e}}&nbsp;
 			      	  	{% endfor %}
 			      	  	<br/>
 					  {% endfor %}

@@ -15,8 +15,8 @@ def parse_command(host, settings, command):
 	   if p.value == 'port':
 	       port = str(p.data)
 	#default port number (for telnet)
-	#if not port:
-		#port = '1234' 
+	if not port:
+		port = '1234' 
 	command+='\n'
 	tn = telnetlib.Telnet(str(host.ip_address), port)
 	tn.write(command)
@@ -60,14 +60,16 @@ def parse_queue_list(host, settings):
 	#default port number (for telnet)
 	if queue_list == []:
 		return None
-	request_list = []
+	request_list = {}
 	for q in queue_list:
 		tn = telnetlib.Telnet(str(host.ip_address), port)
 		tn.write("%s.queue\n" % (q))
 		entry = tn.read_until("END").split()
+		entry_list = []
 		for e in entry:
 			if e != 'END':
-			 request_list.append([q, e])
+			 entry_list.append(e)
+		request_list[q] = entry_list
 	if request_list == []:
 		return None
 	return request_list;
