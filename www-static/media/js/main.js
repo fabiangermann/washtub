@@ -50,6 +50,9 @@ $(function(){
 		function() { $(this).removeClass('ui-state-hover'); }
 	);
 	
+	//Call Table Sorter
+	$("#metaTable").tablesorter();
+	
 });
 function GetHostStatus()
 {
@@ -63,9 +66,5 @@ function GetHostStatus()
 	{
 		window.location="/washtub/control/"+myhost;
 	}
-}
-$(document).ready(function() 
-	    { 
-	        $("#metaTable").tablesorter(); 
-	    } 
-	);
+} 
+
