@@ -23,13 +23,30 @@
 					  {% for name, entries in queue.items %}
 					  	<b>Queue({{ name }}):</b><br/>
 					  	{% for e in entries %}
+					  	<table id="myTable"> 
+						<thead> 
+						<tr> 
+						    <th>#</th> 
+						    <th>Title</th> 
+						    <th>Artist</th> 
+						    <th>Album</th> 
+						    <th>Status</th>
+						    <th>Request ID</th> 
+						</tr>
 					  		{% for rid, listing in queue_metadata.items %}
 					  			{% ifequal e rid %}
-					  				{% for category, value in listing.items %}
-					  					{{ category }} : {{ value }} <br/>
-					  				{% endfor %}
+					  				<tr>
+					  					<td>{{ rid }}<td/>
+					  					<td>{{ listing.title }}<td/>
+					  					<td>{{ listing.artist }}<td/>
+					  					<td>{{ listing.album }}<td/>
+					  					<td>{{ listing.status }}<td/>
+					  					<td>{{ listing.rid }}<td/>
+					  				</tr>
 					  			{% endifequal %}
 			      	  	  	{% endfor %}
+			      	  	</thead>
+			      	  	</table>
 			      	  	{% endfor %}
 			      	  	<br/>
 					  {% endfor %}
