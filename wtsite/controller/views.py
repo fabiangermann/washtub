@@ -34,7 +34,6 @@ def parse_queue_metadata(host, settings, queue):
 	for name,entries in queue.iteritems():
 		for rid in entries:
 			queue_metadata[rid]= parse_metadata(host, settings, rid)
-	assert False
 	return queue_metadata
 
 def parse_command(host, settings, command):	
@@ -127,6 +126,7 @@ def display_status(request, host_name):
 	queue_metadata = parse_queue_metadata(host, settings, queue)
 	hosts = get_host_list()
 	active_host = host
+	assert False
 	return render_to_response('controller/status.html', {'queue_metadata': queue_metadata, 'queue': queue, 'active_host': active_host, 'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
 
 def index (request):
