@@ -27,7 +27,6 @@ def parse_metadata(host, settings, rid):
 		m = m.split('=')
 		if m[0] != 'END':
 			metadata[m[0]] = m[1].strip('"')
-	assert False
 	return metadata
 
 def parse_queue_metadata(host, settings, queue):
@@ -35,6 +34,7 @@ def parse_queue_metadata(host, settings, queue):
 	for name,entries in queue.iteritems():
 		for rid in entries:
 			queue_metadata[rid]= parse_metadata(host, settings, rid)
+	assert False
 	return queue_metadata
 
 def parse_command(host, settings, command):	
