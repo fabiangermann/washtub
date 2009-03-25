@@ -11,8 +11,8 @@
 		    <div id="tabs">
 			    <ul>
 			    	<li><a href="#tabs-1">Status</a></li>
-			    	<li><a href="#tabs-2">Help</a></li>
-			    	<li><a href="#tabs-3">Request Queues</a></li>
+			    	<li><a href="#tabs-2">Queues</a></li>
+			    	<li><a href="#tabs-3">Help</a></li>
 			    </ul>
 			    <div id="tabs-1">    
 					  {% for item in status %}
@@ -20,15 +20,14 @@
 					  {% endfor %}
 				</div>
 			    <div id="tabs-2">
-			      	  <b>Available Commands:</b><br/>
-					  {% for item in help %}
-					  {{item}}<br/>
+					  {% for item in queue %}
+			      	  	  {{item.0}}&nbsp;{{item.1}}<br/>
 					  {% endfor %}
 				</div>
 			    <div id="tabs-3">
-			    	  
-					  {% for item in queue %}
-			      	  	  {{item.0}}&nbsp;{{item.1}}<br/>
+			      	  <b>Available Commands:</b><br/>
+					  {% for item in help %}
+					  {{item}}<br/>
 					  {% endfor %}
 				</div>
 			</div>
