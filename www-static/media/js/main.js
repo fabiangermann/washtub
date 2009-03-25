@@ -50,7 +50,10 @@ $(function(){
 		function() { $(this).removeClass('ui-state-hover'); }
 	);
 	
-
+	//Call Table Sorter
+	$("#metaTable").tablesorter({
+		widgets: ['zebra']
+	});
 	
 });
 function GetHostStatus()

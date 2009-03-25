@@ -33,6 +33,7 @@
 						    <th>Request ID</th> 
 						</tr>
 			      	  	</thead>
+			      	  	<tbody>
 					  	{% for e in entries %}
 					  		{% for rid, listing in queue_metadata.items %}
 					  			{% ifequal e rid %}
@@ -47,6 +48,7 @@
 					  			{% endifequal %}
 			      	  	  	{% endfor %}
 			      	  	{% endfor %}
+			      	  	</tbody>
 			      	  	</table>
 			      	  	<br/>
 					  {% endfor %}
