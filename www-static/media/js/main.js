@@ -51,7 +51,11 @@ $(function(){
 	);
 	
 	//Call Table Sorter
-	$("#metaTable").tablesorter();
+	$("#metaTable").tablesorter({
+		widgets: ['zebra'] 
+	});
+
+	}
 	
 });
 function GetHostStatus()
