@@ -38,8 +38,8 @@
 					  		{% for rid, listing in queue_metadata.items %}
 					  			{% ifequal e rid %}
 					  				<tr>
-					  					<td> {{ listing.rid }} <td/>
-					  					<td> {{ listing.title }} <td/>
+					  					{% if listing.rid %}<td>{{ listing.rid }}<td/>{% endif %}
+					  					{% if listing.title %}<td>{{ listing.title }}<td/>{% endif %}
 					  					<td>{{ listing.artist }}<td/>
 					  					<td>{{ listing.album }}<td/>
 					  					<td>{{ listing.status }}<td/>
