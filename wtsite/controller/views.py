@@ -30,8 +30,9 @@ def parse_metadata(host, settings, rid):
 
 def parse_queue_metadata(queue):
 	queue_metadata = {}
-	for name,rid in queue:
-		queue_metadata[rid]= parse_metadata(rid)
+	for name,entries in queue:
+		for rid in entries:
+			queue_metadata[rid]= parse_metadata(rid)
 	return queue_metadata
 
 def parse_command(host, settings, command):	
