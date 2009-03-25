@@ -21,8 +21,11 @@
 				</div>
 			    <div id="tabs-2">
 					  {% for item in queue %}
+					  	{% if forloop.first %}
+					  		Queue({{ item.0 }}):
+					  	{% endif %}
 					  	{% for i in item %}
-			      	  	  	{{i}}&nbsp;<br/>
+			      	  	  	{{i}}&nbsp;
 			      	  	{% endfor %}
 					  {% endfor %}
 				</div>
