@@ -23,7 +23,7 @@
 					  {% for name, entries in queue.items %}
 					  	<b>Queue({{ name }}):</b><br/>
 					  	{% for e in entries %}
-					  		{% for cat, value in queue_metadata.{{e}} %}
+					  		{% for cat, value in queue_metadata.e %}
 					  			{{ cat }} : {{ value }}
 			      	  	  	{% endfor %}
 			      	  	{% endfor %}
