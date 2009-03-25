@@ -51,9 +51,7 @@ $(function(){
 	);
 	
 	//Call Table Sorter
-	$("#metaTable").tablesorter({
-		widgets: ['zebra'] 
-	});
+	$("#metaTable").tablesorter();
 
 	}
 	
