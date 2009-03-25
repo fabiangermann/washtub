@@ -33,13 +33,12 @@
 						    <th>Request ID</th> 
 						</tr>
 			      	  	</thead>
-			      	  	<tbody>
 					  	{% for e in entries %}
 					  		{% for rid, listing in queue_metadata.items %}
 					  			{% ifequal e rid %}
 					  				<tr>
-					  					{% if listing.rid %}<td>{{ listing.rid }}<td/>{% endif %}
-					  					{% if listing.title %}<td>{{ listing.title }}<td/>{% endif %}
+					  					<td>{{ listing.rid }}<td/>
+					  					<td>{{ listing.title }}<td/>
 					  					<td>{{ listing.artist }}<td/>
 					  					<td>{{ listing.album }}<td/>
 					  					<td>{{ listing.status }}<td/>
@@ -48,7 +47,6 @@
 					  			{% endifequal %}
 			      	  	  	{% endfor %}
 			      	  	{% endfor %}
-			      	  	</tbody>
 			      	  	</table>
 			      	  	<br/>
 					  {% endfor %}
