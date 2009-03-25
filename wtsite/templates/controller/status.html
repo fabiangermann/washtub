@@ -12,6 +12,7 @@
 			    <ul>
 			    	<li><a href="#tabs-1">Status</a></li>
 			    	<li><a href="#tabs-2">Help</a></li>
+			    	<li><a href="#tabs-3">Request Queues</a></li>
 			    </ul>
 			    <div id="tabs-1">    
 					  {% for item in status %}
@@ -25,9 +26,9 @@
 					  {% endfor %}
 				</div>
 			    <div id="tabs-3">
-			      	  <b>Request Queues:</b><br/>
+			    	  
 					  {% for item in queue %}
-					  {{item.0}}&nbsp;{{item.1}}<br/>
+			      	  	  {{item.0}}&nbsp;{{item.1}}<br/>
 					  {% endfor %}
 				</div>
 			</div>
