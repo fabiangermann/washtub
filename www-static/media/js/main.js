@@ -50,6 +50,12 @@ $(function(){
 		function() { $(this).removeClass('ui-state-hover'); }
 	);
 	
+	$(document).ready(function() 
+		    { 
+		        $("#metaTable").tablesorter(); 
+		    } 
+		);
+	
 });
 function GetHostStatus()
 {
