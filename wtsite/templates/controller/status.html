@@ -23,9 +23,10 @@
 					  {% for name, entries in queue.items %}
 					  	Queue({{ name }}):<br/>
 					  	{% for e in entries %}
-			      	  	  	{{e}}&nbsp;
+			      	  	  	{{e}}<br/>
+			      	  	{% empty %}
+    					<li>This queue is currently empty.</li>
 			      	  	{% endfor %}
-			      	  	<br/>
 					  {% endfor %}
 				</div>
 			    <div id="tabs-3">
