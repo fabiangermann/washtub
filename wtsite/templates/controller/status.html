@@ -26,7 +26,7 @@
 					  		{% for rid, listing in queue_metadata.items %}
 					  			{% ifequal e rid %}
 					  				{% for cat, value in listing.items %}
-					  					{{ listing.cat }} : {{ value }}
+					  					{{ listing.cat }} : {{ value }} <br/>
 					  				{% endfor %}
 					  			{% endifequal %}
 			      	  	  	{% endfor %}
