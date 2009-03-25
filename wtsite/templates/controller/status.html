@@ -4,6 +4,38 @@
 {% endblock title %}
 
 {% block content %}
+					  {% for name, entries in queue.items %}
+					  	<b>Queue({{ name }}):</b><br/>
+					  	<table id="metaTable" class="tablesorter"> 
+						<thead> 
+						<tr> 
+						    <th>#</th> 
+						    <th>Title</th> 
+						    <th>Artist</th> 
+						    <th>Album</th> 
+						    <th>Status</th>
+						    <th>Request ID</th> 
+						</tr>
+			      	  	</thead>
+			      	  	<tbody>
+					  	{% for e in entries %}
+					  		{% for rid, listing in queue_metadata.items %}
+					  			{% ifequal e rid %}
+					  				<tr>
+					  					<td>{{ listing.rid }}<td/>
+					  					<td>{{ listing.title }}<td/>
+					  					<td>{{ listing.artist }}<td/>
+					  					<td>{{ listing.album }}<td/>
+					  					<td>{{ listing.status }}<td/>
+					  					<td>{{ listing.rid }}<td/>
+					  				</tr>
+					  			{% endifequal %}
+			      	  	  	{% endfor %}
+			      	  	{% endfor %}
+			      	  	</tbody>
+			      	  	</table>
+			      	  	<br/>
+					  {% endfor %}
 <div id="accordion">
   <div>
 	<h3><a href="#">Server Tools</a></h3>
