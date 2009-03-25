@@ -10,6 +10,30 @@ from wtsite.controller.models import *
 import telnetlib, string
 
 # Create your views here.
+def parse_metadata(host, settings, rid):
+	for p in settings:
+	   if p.value == 'port':
+	       port = str(p.data)
+	#default port number (for telnet)
+	if not port:
+		port = '1234'
+	tn = telnetlib.Telnet(str(host.ip_address), port)
+	tn.write('metadata %s\n' % rid)
+	meta_list= tn.read_until("END")
+	tn.close()
+	meta_list = meta_list.splitlines()
+	metadata = {}
+	for m in meta_list:
+		m = m.split('=')
+		metadata[m(0)] = m(1)
+	return metadata
+
+def parse_queue_metadata(queue):
+	queue_metadata = {}
+	for name,rid in queue:
+		queue_metadata[rid]= parse_metadata(rid)
+	return queue_metadata
+
 def parse_command(host, settings, command):	
 	for p in settings:
 	   if p.value == 'port':
@@ -97,9 +121,10 @@ def display_status(request, host_name):
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
 	queue = parse_queue_list(host, settings)
+	queue_metadata = parse_queue_metadata(queue)
 	hosts = get_host_list()
 	active_host = host
-	return render_to_response('controller/status.html', {'queue': queue, 'active_host': active_host, 'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
+	return render_to_response('controller/status.html', {'queue_metadata': queue_metadata, 'queue': queue, 'active_host': active_host, 'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()
