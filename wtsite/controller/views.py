@@ -25,7 +25,7 @@ def parse_metadata(host, settings, rid):
 	metadata = {}
 	for m in meta_list:
 		m = m.split('=')
-		if m[1] != 'END':
+		if m[0] != 'END':
 			metadata[m[0]] = m[1].strip('"')
 	return metadata
 
