@@ -30,7 +30,7 @@ def parse_metadata(host, settings, rid):
 
 def parse_queue_metadata(queue):
 	queue_metadata = {}
-	for name,entries in queue:
+	for name,entries in queue.iteritems():
 		for rid in entries:
 			queue_metadata[rid]= parse_metadata(rid)
 	return queue_metadata
