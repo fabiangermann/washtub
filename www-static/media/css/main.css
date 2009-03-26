@@ -697,7 +697,7 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 background-color: #8dbdd8;
 }
 
-table.tablesorter td.title {
+table.tablesorter th.title {
 	width: 150px;
 }
 /*** End of file ***/
