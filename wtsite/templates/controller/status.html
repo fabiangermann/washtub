@@ -39,7 +39,7 @@
 					  			{% ifequal e rid %}
 					  				<tr>
 					  					<td>{{ forloop.counter }}</td>
-					  					<td>{{ listing.title }}</td>
+					  					<td>{{ listing.title|truncatewords:4 }}</td>
 					  					<td>{{ listing.artist }}</td>
 					  					<td>{{ listing.album }}</td>
 					  					<td>{{ listing.status }}</td>
