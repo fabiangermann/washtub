@@ -39,7 +39,7 @@
 					  		{% for rid, listing in queue_metadata.items %}
 					  			{% ifequal e rid %}
 					  				<tr>
-					  					<td>{{ forloop.counter }}</td>
+					  					<td class="pos">{{ forloop.counter }}</td>
 					  					<td>{{ listing.title|truncatewords:6 }}</td>
 					  					<td>{{ listing.artist }}</td>
 					  					<td>{{ listing.album }}</td>
