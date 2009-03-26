@@ -51,7 +51,17 @@ $(function(){
 	);
 	
 	//Call Table Sorter
-	$("#metaTable").tablesorter({
+	$("#metaTable0").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#metaTable1").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#metaTable2").tablesorter({
 		widgets: ['zebra']
 	});
 	
