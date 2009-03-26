@@ -72,6 +72,23 @@ def parse_help(host, settings):
 	list = out
 	return list
 
+def parse_rid_list(host, settings, command):
+	for p in settings:
+	   if p.value == 'port':
+	       port = str(p.data)
+	#default port number (for telnet)
+	if not port:
+		port = '1234'
+	tn = telnetlib.Telnet(str(host.ip_address), port)
+	tn.write("%s\n" % (command))
+	entry = tn.read_until("END").split()
+	entry_list = []
+	for e in entry:
+		if e != 'END':
+		 entry_list.append(e)
+	return entry_list
+	
+
 def parse_queue_list(host, settings):
 	for p in settings:
 	   if p.value == 'port':
@@ -88,13 +105,7 @@ def parse_queue_list(host, settings):
 		return None
 	request_list = {}
 	for q in queue_list:
-		tn = telnetlib.Telnet(str(host.ip_address), port)
-		tn.write("%s.queue\n" % (q))
-		entry = tn.read_until("END").split()
-		entry_list = []
-		for e in entry:
-			if e != 'END':
-			 entry_list.append(e)
+		entry_list = parse_rid_list(host, settings, "%s.queue\n" % (q))
 		request_list[q] = entry_list
 	if request_list == []:
 		return None
