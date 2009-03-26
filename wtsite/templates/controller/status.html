@@ -22,15 +22,15 @@
 			    <div id="tabs-2">
 					  {% for name, entries in queue.items %}
 					  	<b>Queue({{ name }}):</b><br/>
-					  	<table id="sortable_table" class="tablesorter"> 
+					  	<table id="sortable_table" class="datagrid"> 
 						<thead> 
 						<tr> 
-						    <th>#</th> 
-						    <th>Title</th> 
-						    <th>Artist</th> 
-						    <th>Album</th> 
-						    <th>Status</th>
-						    <th>Request ID</th> 
+						    <th mochi:format="int">#</th> 
+						    <th mochi:format="str">Title</th> 
+						    <th mochi:format="str">Artist</th> 
+						    <th mochi:format="str">Album</th> 
+						    <th mochi:format="str">Status</th>
+						    <th mochi:format="int">Request ID</th> 
 						</tr>
 			      	  	</thead>
 			      	  	<tbody>
