@@ -696,11 +696,17 @@ table.tablesorter thead tr .headerSortDown {
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #8dbdd8;
 }
-
 table.tablesorter th.pos {
 	width: 25px;
 }
 table.tablesorter th.title {
 	width: 250px;
 }
+table.tablesorter th.artist, th.album {
+	width: 180px;
+}
+table.tablesorter th.onair {
+	width: 100px;
+}
+
 /*** End of file ***/
