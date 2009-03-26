@@ -689,11 +689,9 @@ table.tablesorter tbody tr.odd td {
 }
 table.tablesorter thead tr .headerSortUp {
 	background-image: url(../images/tango/16x16/actions/go-up.png);
-	background-size: 60% 60%;
 }
 table.tablesorter thead tr .headerSortDown {
 	background-image: url(../images/tango/16x16/actions/go-down.png);
-	background-size: 60% 60%;
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #8dbdd8;
