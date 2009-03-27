@@ -68,7 +68,7 @@ def parse_list(host, settings):
 	list = list.splitlines()
 	out = {}
 	for item in list:
-		if item[0] != 'END':
+		if item != 'END':
 			item = item.split(' : ')
 			out[item[0]]=item[1]
 	return out
