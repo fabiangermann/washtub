@@ -29,7 +29,7 @@ margin: 0 50px 0 50px;
 	text-align:center;
 }
 
-.status a {
+div.status a {
 	color:green;
 }
 
@@ -37,7 +37,7 @@ margin: 0 50px 0 50px;
     float:left;
 }
 
-.status{
+div.status{
 	float:right;
 }
 
@@ -697,6 +697,9 @@ table.tablesorter th.artist, th.album {
 }
 table.tablesorter th.onair {
 	width: 125px;
+}
+table.tablesorter th.status {
+	width: 50px;
 }
 
 /*** End of file ***/
