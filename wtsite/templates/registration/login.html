@@ -19,6 +19,9 @@
 {% block content %}
 
 <div id="accordion">
+	<div>
+	<h3><a href="#">Please login to continue...</a></h3>
+	<div>
     {% block errormessage %}
     {% if form.errors %}
 	 <div class="ui-widget">
@@ -29,9 +32,7 @@
 	 </div>
     {% endif %}
     {% endblock errormessage %}
-	<div>
-	<h3><a href="#">Please login to continue...</a></h3>
-	<div><ul>
+    <ul>
 	{% if form.errors %}
 	<li>You may have entered the wrong password.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
 	<li>You attempted to access a private area of <b>{{ site_name }}</b>.  Login to access or contact the administrator to gain access.</li>
