@@ -18,7 +18,7 @@
 					  {% for item in status %}
 					  <b>{{ item.0 }}:</b>&nbsp;{{item.1}}<br/>
 					  {% endfor %}
-					  
+					  <br/>
 					  {% for name, entries in air_queue.items %}
 					  	<b>Queue({{ name }}):</b><br/>
 					  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
@@ -53,7 +53,6 @@
 			      	  	</table>
 			      	  	<br/>
 					  {% endfor %}
-					  
 					  
 					  {% for name, entries in alive_queue.items %}
 					  	<b>Queue({{ name }}):</b><br/>
