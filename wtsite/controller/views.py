@@ -54,6 +54,25 @@ def parse_command(host, settings, command):
 	response = response[0]
 	return response
 
+def parse_list(host, settings):
+	for p in settings:
+		if p.value == 'port':
+			port = str(p.data)
+	#default port number (for telnet)
+	if not port:
+		port = '1234' 
+	tn = telnetlib.Telnet(str(host.ip_address), port)
+	tn.write("list\n")
+	list = tn.read_until("END")
+	tn.close()
+	list = list.splitlines()
+	out = {}
+	for item in list:
+		if item[0] != 'END':
+			item = item.split(' : ')
+			out[item[0]]=item[1]
+	return out
+
 def parse_help(host, settings):
 	for p in settings:
 	   if p.value == 'port':
@@ -134,16 +153,19 @@ def display_status(request, host_name):
 	settings = get_list_or_404(Setting, hostname=host)	
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
+	node_list = parse_list(host, settingss)
 	
 	metadata_storage = {}
 	#Get Request Queue and Grab Metadata for it
 	queue = parse_queue_dict(host, settings)
 	metadata_storage = parse_queue_metadata(host, settings, queue, metadata_storage)
 	
+	#Get 'on_air' Queue and Grab Metadata for it
 	air_queue = {}
 	air_queue['on_air'] = parse_rid_list(host, settings, "on_air")
 	metadata_storage = parse_queue_metadata(host, settings, air_queue, metadata_storage)
 	
+	#Get 'alive' Queue and Grab Metadata for it
 	alive_queue = {}
 	alive_queue['alive'] = parse_rid_list(host, settings, "alive")
 	metadata_storage = parse_queue_metadata(host, settings, alive_queue, metadata_storage)
@@ -157,6 +179,7 @@ def display_status(request, host_name):
 														 'active_host': active_host, 
 														 'hosts': hosts, 
 														 'help': help, 
+														 'node_list': node_list,
 														 'status': status
 														 }, context_instance=RequestContext(request))
 
