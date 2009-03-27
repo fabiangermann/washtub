@@ -68,7 +68,7 @@
 			      	  	<br/>
 					  {% endfor %}
 					  
-					  {% for name, entries in alive_queue.items reversed %}
+					  {% for name, entries in alive_queue.items %}
 					  	<b>Currently Alive:</b><br/>
 					  	<table id="aliveTable" class="tablesorter"> 
 						<thead> 
@@ -83,7 +83,7 @@
 						</tr>
 			      	  	</thead>
 			      	  	<tbody>
-					  	{% for e in entries %}
+					  	{% for e in entries reversed %}
 					  		{% for rid, listing in metadata_storage.items %}
 					  			{% ifequal e rid %}
 					  				<tr>
