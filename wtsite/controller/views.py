@@ -29,12 +29,14 @@ def parse_metadata(host, settings, rid):
 			metadata[m[0]] = m[1].strip('"')
 	return metadata
 
-def parse_queue_metadata(host, settings, queue):
-	queue_metadata = {}
+def parse_queue_metadata(host, settings, queue, storage):
+	if not storage:
+	   storage = {}
 	for name,entries in queue.iteritems():
 		for rid in entries:
-			queue_metadata[rid]= parse_metadata(host, settings, rid)
-	return queue_metadata
+			if rid not in storage:
+				storage[rid]= parse_metadata(host, settings, rid)
+	return storage
 
 def parse_command(host, settings, command):	
 	for p in settings:
@@ -89,7 +91,7 @@ def parse_rid_list(host, settings, command):
 	return entry_list
 	
 
-def parse_queue_list(host, settings):
+def parse_queue_dict(host, settings):
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
@@ -105,12 +107,11 @@ def parse_queue_list(host, settings):
 		return None
 	request_list = {}
 	for q in queue_list:
-		entry_list = parse_rid_list(host, settings, "%s.queue\n" % (q))
-		request_list[q] = entry_list
+		request_list[q] = parse_rid_list(host, settings, "%s.queue" % (q))
 	if request_list == []:
 		return None
 	return request_list;
-
+	
 def build_status_list(host, settings, available_commands):
 	status = []
 	status.append(['host', str(host)])
@@ -133,11 +134,29 @@ def display_status(request, host_name):
 	settings = get_list_or_404(Setting, hostname=host)	
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
-	queue = parse_queue_list(host, settings)
-	queue_metadata = parse_queue_metadata(host, settings, queue)
+	
+	metadata_storage = {}
+	#Get Request Queue and Grab Metadata for it
+	queue = parse_queue_dict(host, settings)
+	metadata_storage = parse_queue_metadata(host, settings, queue, metadata_storage)
+	
+	air_queue['on_air'] = parse_rid_list(host, settings, "on_air")
+	metadata_storage = parse_queue_metadata(host, settings, air_queue, metadata_storage)
+	
+	alive_queue['alive'] = parse_rid_list(host, settings, "alive")
+	metadata_storage = parse_queue_metadata(host, settings, alive_queue, metadata_storage)
+	
 	hosts = get_host_list()
 	active_host = host
-	return render_to_response('controller/status.html', {'queue_metadata': queue_metadata, 'queue': queue, 'active_host': active_host, 'hosts': hosts, 'help': help, 'status': status}, context_instance=RequestContext(request))
+	return render_to_response('controller/status.html', {'metadata_storage': metadata_storage, 
+														 'alive_queue': alive_queue,
+														 'air_queue': air_queue, 
+														 'queue': queue, 
+														 'active_host': active_host, 
+														 'hosts': hosts, 
+														 'help': help, 
+														 'status': status
+														 }, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()

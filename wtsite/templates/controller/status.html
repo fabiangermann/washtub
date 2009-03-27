@@ -36,7 +36,7 @@
 			      	  	</thead>
 			      	  	<tbody>
 					  	{% for e in entries %}
-					  		{% for rid, listing in queue_metadata.items %}
+					  		{% for rid, listing in metadata_storage.items %}
 					  			{% ifequal e rid %}
 					  				<tr>
 					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
