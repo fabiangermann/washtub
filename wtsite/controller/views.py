@@ -126,7 +126,6 @@ def parse_history(host, settings, node_list):
 	history = {}
 	for node,type in node_list.iteritems():
 		type = type.split('.')
-		assert False
 		if (len(type) > 0):
 		  if (type[0] == 'output'):
 				entry_list = []
