@@ -107,14 +107,37 @@ def parse_rid_list(host, settings, command):
 	if not port:
 		port = '1234'
 	tn = telnetlib.Telnet(str(host.ip_address), port)
-	tn.write("%s\n" % (command))
-	entry = tn.read_until("END").split()
+	tn.write('%s\n' % (command))
+	entry = tn.read_until('END').split()
 	entry_list = []
 	for e in entry:
 		if e != 'END':
 		 entry_list.append(e)
 	return entry_list
-	
+
+def parse_history(host, settings, node_list):
+	port = None
+	for p in settings:
+	   if p.value == 'port':
+	       port = str(p.data)
+	#default port number (for telnet)
+	if not port:
+		port = '1234'
+	history = {}
+	for node,type in node_list:
+		type = type.split('.')
+		if ('output' in type):
+			entry_list = []
+			tn = telnetlib.Telnet(str(host.ip_address), port)
+			tn.write('%s.metadata' % (node))
+			output = tn.read_until('END')
+			output = ouput.splitlines()
+			for line in output:
+				line = line.split('=')
+				if( 'rid' in line):
+				    entry_list.append(line[0].strip('"'))
+			history[node] = entry_list
+	return history
 
 def parse_queue_dict(host, settings):
 	port = None
@@ -161,6 +184,11 @@ def display_status(request, host_name):
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
 	node_list = parse_list(host, settings)
+	
+	history_storage = {}
+	history = parse_history(host, settings, node_list)
+	history_storage = parse_queue_metadata(host, settings, queue, history_storage)
+	
 	
 	metadata_storage = {}
 	#Get Request Queue and Grab Metadata for it
