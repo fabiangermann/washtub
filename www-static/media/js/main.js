@@ -65,6 +65,16 @@ $(function(){
 		widgets: ['zebra']
 	});
 	
+	//Call Table Sorter
+	$("#onAirTable").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#aliveTable").tablesorter({
+		widgets: ['zebra']
+	});
+	
 });
 function GetHostStatus()
 {
