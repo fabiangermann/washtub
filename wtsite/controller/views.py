@@ -131,8 +131,8 @@ def parse_history(host, settings, node_list):
 				entry_list = []
 				tn = telnetlib.Telnet(str(host.ip_address), port)
 				tn.write('%s.metadata' % (node))
-				assert False
 				output = tn.read_until('END')
+				assert False
 				output = ouput.splitlines()
 				for line in output:
 					line = line.split('=')
