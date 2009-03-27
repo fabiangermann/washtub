@@ -105,6 +105,7 @@
 					  
 				</div>
 			    <div id="tabs-2">
+			       {% if queue %}
 					  {% for name, entries in queue.items %}
 					  	<b>Queue({{ name }}):</b><br/>
 					  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
@@ -139,6 +140,9 @@
 			      	  	</table>
 			      	  	<br/>
 					  {% endfor %}
+				  {% else %}
+				     <p> Queues Are Not Defined or Configured.</p>
+				  {% endif %}
 				</div>
 			    <div id="tabs-3">
 			      	  <b>Available Commands:</b><br/>
