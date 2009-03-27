@@ -153,7 +153,7 @@ def display_status(request, host_name):
 	settings = get_list_or_404(Setting, hostname=host)	
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
-	node_list = parse_list(host, settingss)
+	node_list = parse_list(host, settings)
 	
 	metadata_storage = {}
 	#Get Request Queue and Grab Metadata for it
