@@ -686,7 +686,7 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 background-color: #8dbdd8;
 }
 table.tablesorter th.pos, td.pos, th.rid, td.rid {
-	width: auto;
+	width: 30px;
 	text-align:center;
 }
 table.tablesorter th.title {
@@ -699,7 +699,7 @@ table.tablesorter th.onair {
 	width: 125px;
 }
 table.tablesorter th.status {
-	width: 50px;
+	width: 75px;
 }
 
 /*** End of file ***/
