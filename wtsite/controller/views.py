@@ -125,19 +125,21 @@ def parse_history(host, settings, node_list):
 		port = '1234'
 	history = {}
 	for node,type in node_list.iteritems():
-		type = type.rstrip('.')
+		type = type.split('.')
 		assert False
-		if (type == 'output'):
-			entry_list = []
-			tn = telnetlib.Telnet(str(host.ip_address), port)
-			tn.write('%s.metadata' % (node))
-			output = tn.read_until('END')
-			output = ouput.splitlines()
-			for line in output:
-				line = line.split('=')
-				if( 'rid' in line):
-				    entry_list.append(line[0].strip('"'))
-			history[node] = entry_list
+		if (len(type) > 0):
+		  if (type[0] == 'output'):
+				assert False
+				entry_list = []
+				tn = telnetlib.Telnet(str(host.ip_address), port)
+				tn.write('%s.metadata' % (node))
+				output = tn.read_until('END')
+				output = ouput.splitlines()
+				for line in output:
+					line = line.split('=')
+					if( 'rid' in line):
+						entry_list.append(line[0].strip('"'))
+				history[node] = entry_list
 	return history
 
 def parse_queue_dict(host, settings):
