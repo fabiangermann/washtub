@@ -11,6 +11,7 @@ import telnetlib, string
 
 # Create your views here.
 def parse_metadata(host, settings, rid):
+	port = None
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
@@ -39,7 +40,8 @@ def parse_queue_metadata(host, settings, queue, storage):
 					storage[rid]= parse_metadata(host, settings, rid)
 	return storage
 
-def parse_command(host, settings, command):	
+def parse_command(host, settings, command):
+	port = None
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
@@ -56,6 +58,7 @@ def parse_command(host, settings, command):
 	return response
 
 def parse_list(host, settings):
+	port = None
 	for p in settings:
 		if p.value == 'port':
 			port = str(p.data)
@@ -96,6 +99,7 @@ def parse_help(host, settings):
 	return list
 
 def parse_rid_list(host, settings, command):
+	port = None
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
@@ -113,6 +117,7 @@ def parse_rid_list(host, settings, command):
 	
 
 def parse_queue_dict(host, settings):
+	port = None
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
