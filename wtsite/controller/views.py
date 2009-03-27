@@ -75,11 +75,12 @@ def parse_list(host, settings):
 	return out
 
 def parse_help(host, settings):
+	port = None
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
 	#default port number (for telnet)
-	if port is None:
+	if not port:
 		port = '1234' 
 	tn = telnetlib.Telnet(str(host.ip_address), port)
 	tn.write("help\n")
