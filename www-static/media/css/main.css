@@ -691,8 +691,7 @@ table.tablesorter thead tr .headerSortUp {
 	background-image: url(../images/tango/16x16/actions/go-up.png);
 }
 table.tablesorter thead tr .headerSortDown {
-	background-image: url(washtub-theme/images/ui-icons_222222_256x240.png);
-	background-position: -64px -48px;
+	background-image: url(../images/ui-icons_222222_256x240.png);
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #8dbdd8;
