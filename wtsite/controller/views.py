@@ -131,7 +131,7 @@ def parse_history(host, settings, node_list):
 			tn = telnetlib.Telnet(str(host.ip_address), port)
 	        tn.write('%s.metadata\n' % (node))
 	        output = tn.read_until('END')
-	        output = ouput.splitlines()
+	        output = output.splitlines()
 	        for line in output:
 	        	line = line.split('=')
 	        	if( 'rid' in line):
