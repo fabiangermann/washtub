@@ -121,6 +121,7 @@
 						</tr>
 			      	  	</thead>
 			      	  	<tbody>
+			      	  	{% if entries %}
 					  	{% for e in entries %}
 					  		{% for rid, listing in metadata_storage.items %}
 					  			{% ifequal e rid %}
@@ -136,6 +137,8 @@
 					  			{% endifequal %}
 			      	  	  	{% endfor %}
 			      	  	{% endfor %}
+			      	  	{% else %}
+			      	  	<tr><td>There are no items in this queue to display.</td></tr>
 			      	  	</tbody>
 			      	  	</table>
 			      	  	<br/>
