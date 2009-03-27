@@ -135,8 +135,8 @@ def parse_history(host, settings, node_list):
 	        for line in output:
 	        	line = line.split('=')
 	        	if( 'rid' in line):
-	        		if ( len(line) > 0 ):
-	        			entry_list.append(line[0].strip('"'))
+	        		if ( len(line) > 1 ):
+	        			entry_list.append(line[1].strip('"'))
 	        			assert False
 	        history[node] = entry_list
 	return history
