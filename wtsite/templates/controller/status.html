@@ -141,7 +141,12 @@
 			      	  	<br/>
 					  {% endfor %}
 				  {% else %}
-				     <p> Queues Are Not Defined or Configured.</p>
+					 <div class="ui-widget">
+						<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+							<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
+							<strong>Notice:</strong> Queues have not been defined or configured.</p>
+						</div>
+					 </div>
 				  {% endif %}
 				</div>
 			    <div id="tabs-3">
