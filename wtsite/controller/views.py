@@ -57,7 +57,7 @@ def parse_command(host, settings, command):
 	response = response[0]
 	return response
 
-def parse_list(host, settings):
+def parse_node_list(host, settings):
 	port = None
 	for p in settings:
 		if p.value == 'port':
@@ -124,7 +124,7 @@ def parse_history(host, settings, node_list):
 	if not port:
 		port = '1234'
 	history = {}
-	for node,type in node_list:
+	for node,type in node_list.iteritems():
 		type = type.split('.')
 		if ('output' in type):
 			entry_list = []
@@ -183,14 +183,12 @@ def display_status(request, host_name):
 	settings = get_list_or_404(Setting, hostname=host)	
 	help = parse_help(host, settings)
 	status = build_status_list(host, settings, help)
-	node_list = parse_list(host, settings)
-	
-	history_storage = {}
-	history = parse_history(host, settings, node_list)
-	history_storage = parse_queue_metadata(host, settings, queue, history_storage)
-	
+	node_list = parse_node_list(host, settings)
 	
 	metadata_storage = {}
+	history = parse_history(host, settings, node_list)
+	metadata_storage = parse_queue_metadata(host, settings, queue, metadata_storage)
+
 	#Get Request Queue and Grab Metadata for it
 	queue = parse_queue_dict(host, settings)
 	metadata_storage = parse_queue_metadata(host, settings, queue, metadata_storage)
@@ -207,7 +205,8 @@ def display_status(request, host_name):
 	
 	hosts = get_host_list()
 	active_host = host
-	return render_to_response('controller/status.html', {'metadata_storage': metadata_storage, 
+	return render_to_response('controller/status.html', {'metadata_storage': metadata_storage,
+														 'history': history,
 														 'alive_queue': alive_queue,
 														 'air_queue': air_queue, 
 														 'queue': queue, 
