@@ -57,7 +57,11 @@
 					  					<td>{{ listing.artist }}</td>
 					  					<td>{{ listing.album }}</td>
 					  					<td>{{ listing.status }}</td>
-					  					<td>{{ listing.on_air }}</td>
+					  					{% if listing.on_air %}
+					  						<td>{{ listing.on_air }}{% now "T" %}</td>
+					  					{% else %}
+					  						<td></td>
+					  					{% endif %}
 					  					<td class="rid">{{ listing.rid }}</td>
 					  				</tr>
 					  			{% endifequal %}
