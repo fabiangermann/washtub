@@ -79,7 +79,7 @@ def parse_help(host, settings):
 	   if p.value == 'port':
 	       port = str(p.data)
 	#default port number (for telnet)
-	if not port:
+	if port is None:
 		port = '1234' 
 	tn = telnetlib.Telnet(str(host.ip_address), port)
 	tn.write("help\n")
