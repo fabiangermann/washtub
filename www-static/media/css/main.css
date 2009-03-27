@@ -285,7 +285,7 @@ width: 542px;
 text-align:left;
 float:right;
 margin:0px;
-width:300px;
+width:225px;
 display:block;
 }
 .rightblock {
@@ -599,7 +599,7 @@ padding-left:3px;
 
 .clearingdiv {
 clear:both;
-height:10px;
+height:1px;
 width:1px;
 }
 
