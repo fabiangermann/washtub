@@ -12,7 +12,8 @@
 			    <ul>
 			    	<li><a href="#tabs-1">Status</a></li>
 			    	<li><a href="#tabs-2">Queues</a></li>
-			    	<li><a href="#tabs-3">Help</a></li>
+			    	<li><a href="#tabs-3">History</a></li>
+			    	<li><a href="#tabs-4">Help</a></li>
 			    </ul>
 			    <div id="tabs-1">
 			    	  <div id="rightside">
@@ -166,6 +167,42 @@
 				  {% endif %}
 				</div>
 			    <div id="tabs-3">
+					  {% for name, entries in history.items %}
+					  	<b>Queue({{ name }}):</b><br/>
+					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
+						<thead> 
+						<tr> 
+						    <th class="pos">#</th> 
+						    <th class="title">Title</th> 
+						    <th class="artist">Artist</th> 
+						    <th class="album">Album</th> 
+						    <th>Status</th>
+						    <th class="onair">On Air</th>
+						    <th class="rid">RID</th> 
+						</tr>
+			      	  	</thead>
+			      	  	<tbody>
+					  	{% for e in entries %}
+					  		{% for rid, listing in metadata_storage.items %}
+					  			{% ifequal e rid %}
+					  				<tr>
+					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
+					  					<td>{{ listing.title|truncatewords:6 }}</td>
+					  					<td>{{ listing.artist }}</td>
+					  					<td>{{ listing.album }}</td>
+					  					<td>{{ listing.status }}</td>
+					  					<td>{{ listing.on_air }}</td>
+					  					<td class="rid">{{ listing.rid }}</td>
+					  				</tr>
+					  			{% endifequal %}
+			      	  	  	{% endfor %}
+			      	  	{% endfor %}
+			      	  	</tbody>
+			      	  	</table>
+			      	  	<br/>
+					  {% endfor %}
+				</div>
+			    <div id="tabs-4">
 			      	  <b>Available Commands:</b><br/>
 					  {% for item in help %}
 					  {{item}}<br/>
