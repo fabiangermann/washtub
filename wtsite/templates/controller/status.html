@@ -18,6 +18,78 @@
 					  {% for item in status %}
 					  <b>{{ item.0 }}:</b>&nbsp;{{item.1}}<br/>
 					  {% endfor %}
+					  
+					  {% for name, entries in air_queue.items %}
+					  	<b>Queue({{ name }}):</b><br/>
+					  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
+						<thead> 
+						<tr> 
+						    <th class="pos">#</th> 
+						    <th class="title">Title</th> 
+						    <th class="artist">Artist</th> 
+						    <th class="album">Album</th> 
+						    <th>Status</th>
+						    <th class="onair">On Air</th>
+						    <th class="rid">RID</th> 
+						</tr>
+			      	  	</thead>
+			      	  	<tbody>
+					  	{% for e in entries %}
+					  		{% for rid, listing in metadata_storage.items %}
+					  			{% ifequal e rid %}
+					  				<tr>
+					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
+					  					<td>{{ listing.title|truncatewords:6 }}</td>
+					  					<td>{{ listing.artist }}</td>
+					  					<td>{{ listing.album }}</td>
+					  					<td>{{ listing.status }}</td>
+					  					<td>{{ listing.on_air }}</td>
+					  					<td class="rid">{{ listing.rid }}</td>
+					  				</tr>
+					  			{% endifequal %}
+			      	  	  	{% endfor %}
+			      	  	{% endfor %}
+			      	  	</tbody>
+			      	  	</table>
+			      	  	<br/>
+					  {% endfor %}
+					  
+					  
+					  {% for name, entries in alive_queue.items %}
+					  	<b>Queue({{ name }}):</b><br/>
+					  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
+						<thead> 
+						<tr> 
+						    <th class="pos">#</th> 
+						    <th class="title">Title</th> 
+						    <th class="artist">Artist</th> 
+						    <th class="album">Album</th> 
+						    <th>Status</th>
+						    <th class="onair">On Air</th>
+						    <th class="rid">RID</th> 
+						</tr>
+			      	  	</thead>
+			      	  	<tbody>
+					  	{% for e in entries %}
+					  		{% for rid, listing in metadata_storage.items %}
+					  			{% ifequal e rid %}
+					  				<tr>
+					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
+					  					<td>{{ listing.title|truncatewords:6 }}</td>
+					  					<td>{{ listing.artist }}</td>
+					  					<td>{{ listing.album }}</td>
+					  					<td>{{ listing.status }}</td>
+					  					<td>{{ listing.on_air }}</td>
+					  					<td class="rid">{{ listing.rid }}</td>
+					  				</tr>
+					  			{% endifequal %}
+			      	  	  	{% endfor %}
+			      	  	{% endfor %}
+			      	  	</tbody>
+			      	  	</table>
+			      	  	<br/>
+					  {% endfor %}
+					  
 				</div>
 			    <div id="tabs-2">
 					  {% for name, entries in queue.items %}
