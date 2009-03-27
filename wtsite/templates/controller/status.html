@@ -16,9 +16,16 @@
 			    </ul>
 			    <div id="tabs-1">
 			    	  <div id="rightside">
+			    	  <table>
+			    	  <thead>
+			    	  <tr><td>Node</td><td>Type</td></tr>
+			    	  </thead>
+			    	  <tbody>
 			    	  {% for item,type in node_list.items %}
-			    	  <b>{{ item }}</b> : {{ type }}<br/>
+			    	  <tr><td>{{ item }}</td><td>{{ type }}</td></tr>
 			    	  {% endfor %}
+			    	  </tbody>
+			    	  </table>
 			    	  </div>
 			    	  <div id="leftside">
 					  {% for item in status %}
