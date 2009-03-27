@@ -126,6 +126,7 @@ def parse_history(host, settings, node_list):
 	history = {}
 	for node,type in node_list.iteritems():
 		type = type.split('.')
+		assert False
 		if ('output' in type):
 			entry_list = []
 			tn = telnetlib.Telnet(str(host.ip_address), port)
