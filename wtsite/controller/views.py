@@ -133,6 +133,7 @@ def parse_history(host, settings, node_list):
 				tn.write('%s.metadata' % (node))
 				output = tn.read_until('END')
 				output = ouput.splitlines()
+				assert False
 				for line in output:
 					line = line.split('=')
 					if( 'rid' in line):
