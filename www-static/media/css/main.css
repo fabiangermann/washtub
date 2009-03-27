@@ -270,11 +270,7 @@ padding:0px;
 #leftside,#footer,.rightblock {
 margin-left:auto;
 margin-right:auto;
-padding:10px;
 text-align:left;
-background:#FFEFD3;
-color:#1E1220;
-border: 1px solid black;
 display:block;
 }
 #leftside,#footer {
@@ -285,18 +281,11 @@ margin:10px 0 0 0;
 width: 542px;
 }
 
-#leftside {
-border-bottom:0;
-background:#FFEFD3 url(/media/images/sine.png) 0px 5px repeat-x;
-min-height:360px;
-}
-
 #rightside{
-padding:10px;
 text-align:left;
 float:right;
 margin:0px;
-width:200px;
+width:300px;
 display:block;
 }
 .rightblock {
