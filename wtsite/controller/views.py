@@ -140,9 +140,11 @@ def display_status(request, host_name):
 	queue = parse_queue_dict(host, settings)
 	metadata_storage = parse_queue_metadata(host, settings, queue, metadata_storage)
 	
+	air_queue = {}
 	air_queue['on_air'] = parse_rid_list(host, settings, "on_air")
 	metadata_storage = parse_queue_metadata(host, settings, air_queue, metadata_storage)
 	
+	alive_queue = {}
 	alive_queue['alive'] = parse_rid_list(host, settings, "alive")
 	metadata_storage = parse_queue_metadata(host, settings, alive_queue, metadata_storage)
 	
