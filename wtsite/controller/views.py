@@ -32,10 +32,11 @@ def parse_metadata(host, settings, rid):
 def parse_queue_metadata(host, settings, queue, storage):
 	if not storage:
 	   storage = {}
-	for name,entries in queue.iteritems():
-		for rid in entries:
-			if rid not in storage:
-				storage[rid]= parse_metadata(host, settings, rid)
+	if queue:
+		for name,entries in queue.iteritems():
+			for rid in entries:
+				if rid not in storage:
+					storage[rid]= parse_metadata(host, settings, rid)
 	return storage
 
 def parse_command(host, settings, command):	
