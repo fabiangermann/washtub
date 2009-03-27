@@ -15,14 +15,14 @@
 			    	<li><a href="#tabs-3">Help</a></li>
 			    </ul>
 			    <div id="tabs-1">
-					  {% for item in status %}
-					  <b>{{ item.0 }}:</b>&nbsp;{{item.1}}<br/>
-					  {% endfor %}
 			    	  <div id="rightside">
 			    	  {% for item,type in node_list.items %}
 			    	  <b>{{ item }}</b> : {{ type }}<br/>
 			    	  {% endfor %}
 			    	  </div>
+					  {% for item in status %}
+					  <b>{{ item.0 }}:</b>&nbsp;{{item.1}}<br/>
+					  {% endfor %}
 			    	  <div class="clearingdiv">&nbsp;</div>
 					  {% for name, entries in air_queue.items %}
 					  	<b>Currently On Air:</b><br/>
