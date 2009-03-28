@@ -281,12 +281,15 @@ margin:10px 0 0 0;
 width: 542px;
 }
 
-#rightside{
+#rightside, #controls{
 text-align:left;
 float:right;
 margin:0px 0px 0px 10px;
 width:275px;
 display:block;
+}
+#controls{
+width:225px;
 }
 .rightblock {
 margin:0;
