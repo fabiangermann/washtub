@@ -187,11 +187,14 @@ def parse_queue_dict(host, settings):
 		return None
 	return request_list;
 	
-def build_status_list(host, settings, available_commands):
-	status = []
-	status.append(['host', str(host)])
-	status.append(['ip address', str(host.ip_address)])
+def build_status_list(host, settings, node_list, available_commands):
+	status = {}
+	status['host'] = str(host)
+	status['ip address'] = str(host.ip_address)]
 	command_list = ['version', 'uptime']
+	for name in streams:
+		command_list.append(name+".remaining")
+		command_list.append(name+".status")
 	for command in command_list:
 		if command in available_commands:
 			response = parse_command(host, settings, command)
@@ -208,10 +211,9 @@ def display_status(request, host_name):
 	host = get_object_or_404(Host, name=host_name)
 	settings = get_list_or_404(Setting, hostname=host)	
 	help = parse_help(host, settings)
-	status = build_status_list(host, settings, help)
 	node_list = parse_node_list(host, settings)
-	
 	streams = parse_output_streams(host, settings, node_list)
+	status = build_status_list(host, settings, streams, help)
 	
 	metadata_storage = {}
 	history = parse_history(host, settings, node_list)
