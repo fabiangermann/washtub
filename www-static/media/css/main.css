@@ -280,7 +280,9 @@ padding-bottom:0;
 margin:10px 0 0 0;
 width: 542px;
 }
-
+#leftside{
+width:150px;
+}
 #rightside, #controls{
 text-align:left;
 float:right;
@@ -345,7 +347,6 @@ margin:0px 0 0 0px;
 #leftside div {
 margin-left:10px;
 margin-top:5px;
-width:150px;
 }
 
 #leftside p,#leftside ul{
