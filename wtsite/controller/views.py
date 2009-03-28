@@ -142,6 +142,9 @@ def parse_history(host, settings, node_list):
 				for name,list in history.iteritems():
 					if(list == entry_list):
 					   found = True
+					   new_name = name+', '+node
+					   history[new_name] = entry_list
+					   del history[name]
 				if(not found):
 				    history[node] = entry_list
 	return history
