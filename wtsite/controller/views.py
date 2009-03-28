@@ -275,6 +275,61 @@ def stream_skip(request, host_name, stream):
 	else:
 		raise Http404
 	return HttpResponseRedirect('/washtub/control/'+host_name)
+
+@login_required
+def stream_stop(request, host_name, stream):
+	host = get_object_or_404(Host, name=host_name)
+	settings = get_list_or_404(Setting, hostname=host)
+	node_list = parse_node_list(host, settings)
+	if(stream in node_list):
+		port = None
+		for p in settings:
+			if p.value == 'port':
+				port = str(p.data)
+		#default port number (for telnet)
+		if not port:
+			port = '1234'
+		tn = telnetlib.Telnet(str(host.ip_address), port)
+		tn.write('%s.stop\n' % (str(stream)))
+		response = tn.read_until('END')
+		response = response.splitlines()
+		assert False
+		if('' in response):
+			tn.close()
+		else:
+			tn.close()
+			raise Http404
+		else:
+			raise Http404
+	return HttpResponseRedirect('/washtub/control/'+host_name)
+
+
+@login_required
+def stream_start(request, host_name, stream):
+	host = get_object_or_404(Host, name=host_name)
+	settings = get_list_or_404(Setting, hostname=host)
+	node_list = parse_node_list(host, settings)
+	if(stream in node_list):
+		port = None
+		for p in settings:
+			if p.value == 'port':
+				port = str(p.data)
+		#default port number (for telnet)
+		if not port:
+			port = '1234'
+		tn = telnetlib.Telnet(str(host.ip_address), port)
+		tn.write('%s.start\n' % (str(stream)))
+		response = tn.read_until('END')
+		response = response.splitlines()
+		assert False
+		if('' in response):
+			tn.close()
+		else:
+			tn.close()
+			raise Http404
+		else:
+			raise Http404
+	return HttpResponseRedirect('/washtub/control/'+host_name)
 	
 	
 	
