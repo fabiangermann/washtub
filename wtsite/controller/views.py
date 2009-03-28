@@ -299,8 +299,8 @@ def stream_stop(request, host_name, stream):
 		else:
 			tn.close()
 			raise Http404
-		else:
-			raise Http404
+	else:
+		raise Http404
 	return HttpResponseRedirect('/washtub/control/'+host_name)
 
 @login_required
@@ -326,8 +326,8 @@ def stream_start(request, host_name, stream):
 		else:
 			tn.close()
 			raise Http404
-		else:
-			raise Http404
+	else:
+		raise Http404
 	return HttpResponseRedirect('/washtub/control/'+host_name)
 	
 	
