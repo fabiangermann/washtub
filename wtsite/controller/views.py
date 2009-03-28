@@ -138,7 +138,8 @@ def parse_history(host, settings, node_list):
 					if( 'rid' in line):
 						if ( len(line) > 1 ):
 							entry_list.append(line[1].strip('"'))
-				history[node] = entry_list
+				if(entry_list not in history):
+					history[node] = entry_list
 	return history
 
 def parse_queue_dict(host, settings):
@@ -189,6 +190,7 @@ def display_status(request, host_name):
 	
 	metadata_storage = {}
 	history = parse_history(host, settings, node_list)
+	history = reduce_queue(history)
 	metadata_storage = parse_queue_metadata(host, settings, history, metadata_storage)
 
 	#Get Request Queue and Grab Metadata for it
