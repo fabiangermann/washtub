@@ -344,7 +344,8 @@ margin:0px 0 0 0px;
 
 #leftside div {
 margin-left:10px;
-margin-top:5px;	
+margin-top:5px;
+width:150px;
 }
 
 #leftside p,#leftside ul{
