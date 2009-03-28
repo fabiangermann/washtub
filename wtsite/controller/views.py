@@ -255,7 +255,6 @@ def stream_skip(request, host_name, stream):
 	host = get_object_or_404(Host, name=host_name)
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
-	assert False
 	if(stream in node_list):
 		port = None
 		for p in settings:
