@@ -281,7 +281,7 @@ margin:10px 0 0 0;
 width: 542px;
 }
 #leftside{
-width:150px;
+width:175px;
 }
 #rightside, #controls{
 text-align:left;
@@ -291,7 +291,7 @@ width:275px;
 display:block;
 }
 #controls{
-width:125px;
+width:150px;
 }
 .rightblock {
 margin:0;
