@@ -210,25 +210,12 @@ def stream_stop(request, host_name, stream):
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
 	if(stream in node_list):
-		port = None
-		for p in settings:
-			if p.value == 'port':
-				port = str(p.data)
-		#default port number (for telnet)
-		if not port:
-			port = '1234'
-		tn = telnetlib.Telnet(str(host.ip_address), port)
-		tn.write('%s.stop\n' % (str(stream)))
-		response = tn.read_until('END')
+		response = parse_command(host, settings, '%s.stop\n' % (str(stream)))
 		response = response.splitlines()
-		if('' in response):
-			tn.close()
+		if('Done' in response):
+			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
-			tn.close()
-			raise Http404
-	else:
-		raise Http404
-	return HttpResponseRedirect('/washtub/control/'+host_name)
+			return HttpResponse(status=404)
 
 @login_required
 def stream_start(request, host_name, stream):
@@ -236,25 +223,12 @@ def stream_start(request, host_name, stream):
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
 	if(stream in node_list):
-		port = None
-		for p in settings:
-			if p.value == 'port':
-				port = str(p.data)
-		#default port number (for telnet)
-		if not port:
-			port = '1234'
-		tn = telnetlib.Telnet(str(host.ip_address), port)
-		tn.write('%s.start\n' % (str(stream)))
-		response = tn.read_until('END')
+		response = parse_command(host, settings, '%s.start\n' % (str(stream)))
 		response = response.splitlines()
-		if('' in response):
-			tn.close()
+		if('Done' in response):
+			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
-			tn.close()
-			raise Http404
-	else:
-		raise Http404
-	return HttpResponseRedirect('/washtub/control/'+host_name)
+			return HttpResponse(status=404)
 	
 	
 	
