@@ -293,7 +293,6 @@ def stream_stop(request, host_name, stream):
 		tn.write('%s.stop\n' % (str(stream)))
 		response = tn.read_until('END')
 		response = response.splitlines()
-		assert False
 		if('' in response):
 			tn.close()
 		else:
@@ -320,7 +319,6 @@ def stream_start(request, host_name, stream):
 		tn.write('%s.start\n' % (str(stream)))
 		response = tn.read_until('END')
 		response = response.splitlines()
-		assert False
 		if('' in response):
 			tn.close()
 		else:
