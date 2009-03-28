@@ -23,8 +23,8 @@
 			    	  </tbody>
 			    	  </table>
 			    	  </div>
-					  {% for name in streams %}
 			    	  	<div id="controls">
+					  {% for name in streams %}
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
 			    	  	<tr><td>Stream Control({{ name }}):</td></tr>
@@ -49,8 +49,8 @@
 			    	  	</tr>
 			    	  	</tbody>
 			    	  	</table>
-			    	  	</div>
 			    	  {% endfor %}
+			    	  	</div>
 			    	  <div id="leftside">
 					  {% for item in status %}
 					  <b>{{ item.0|title }}:</b>&nbsp;{{item.1}}<br/>
