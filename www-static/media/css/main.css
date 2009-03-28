@@ -716,6 +716,15 @@ table.tablesorter th.onair {
 table.tablesorter th.status {
 	width: 75px;
 }
+table.tablesorter td.play {
+	background-image: url(../images/tango/16x16/actions/media-playback-start.png);
+}
+table.tablesorter td.stop {
+	background-image: url(../images/tango/16x16/actions/media-playback-stop.png);
+}
+table.tablesorter td.skip {
+	background-image: url(../images/tango/16x16/actions/media-skip-forward.png);
+}
 
 .ui-tabs {
 	min-height: 450px;
