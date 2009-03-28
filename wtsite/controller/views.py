@@ -187,7 +187,7 @@ def parse_queue_dict(host, settings):
 		return None
 	return request_list;
 	
-def build_status_list(host, settings, node_list, available_commands):
+def build_status_list(host, settings, streams, available_commands):
 	status = {}
 	status['host'] = str(host)
 	status['ip address'] = str(host.ip_address)
