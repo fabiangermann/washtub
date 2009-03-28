@@ -138,7 +138,6 @@ def parse_history(host, settings, node_list):
 	        		if ( len(line) > 1 ):
 	        			entry_list.append(line[1].strip('"'))
 	        history[node] = entry_list
-	assert False
 	return history
 
 def parse_queue_dict(host, settings):
