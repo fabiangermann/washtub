@@ -194,7 +194,6 @@ def display_status(request, host_name):
 	
 	metadata_storage = {}
 	history = parse_history(host, settings, node_list)
-	history = reduce_queue(history)
 	metadata_storage = parse_queue_metadata(host, settings, history, metadata_storage)
 
 	#Get Request Queue and Grab Metadata for it
