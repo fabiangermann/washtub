@@ -4,6 +4,6 @@ from django import template
 register = template.Library()
 
 @register.filter(name='replacedot')
-@template.stringfilter
+@stringfilter
 def replacedot(value):
 	return value.replace('(dot)', '.')
