@@ -205,7 +205,11 @@
 			    <div id="tabs-4">
 			      	  <b>Available Commands:</b><br/>
 					  {% for item in help %}
-					  {{item}}<br/>
+					    {% if forloop.counter|divisibleby:"6" %}
+					    	{{item}}<br/>
+						{% else %}
+							{{item}}, 
+						{% end if %}
 					  {% endfor %}
 				</div>
 			</div>
