@@ -57,7 +57,7 @@ def parse_node_list(host, settings):
 
 def parse_help(host, settings):
 	list = parse_command(host, settings, "help")
-	list = help.splitlines()
+	list = list.splitlines()
 	out = []
 	for item in list:
 		if item.startswith('|'):
