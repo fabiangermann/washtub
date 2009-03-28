@@ -717,13 +717,13 @@ table.tablesorter th.status {
 	width: 75px;
 }
 table.tablesorter td.play {
-	background-image: url(../images/tango/16x16/actions/media-playback-start.png);
+	background: url(../images/tango/16x16/actions/media-playback-start.png) no-repeat;
 }
 table.tablesorter td.stop {
-	background-image: url(../images/tango/16x16/actions/media-playback-stop.png);
+	background: url(../images/tango/16x16/actions/media-playback-stop.png) no-repeat;
 }
 table.tablesorter td.skip {
-	background-image: url(../images/tango/16x16/actions/media-skip-forward.png);
+	background: url(../images/tango/16x16/actions/media-skip-forward.png) no-repeat;
 }
 
 .ui-tabs {
