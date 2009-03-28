@@ -303,7 +303,6 @@ def stream_stop(request, host_name, stream):
 			raise Http404
 	return HttpResponseRedirect('/washtub/control/'+host_name)
 
-
 @login_required
 def stream_start(request, host_name, stream):
 	host = get_object_or_404(Host, name=host_name)
