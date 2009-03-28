@@ -127,7 +127,7 @@ def parse_output_streams(host, settings, node_list):
 	for node,type in node_list.iteritems():
 		temp = type.split('.')
 		if ('output' in temp):
-			streams.append{type)
+			streams.append(type)
 	return streams
 							
 def parse_history(host, settings, node_list):
