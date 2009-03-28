@@ -665,6 +665,11 @@ table.tablesorter {
 	width: 100%;
 	text-align: left;
 }
+
+#controls table.tablesorter {
+	margin:10px 0pt 0px;
+}
+	
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	background-color: #e6EEEE;
 	border: 1px solid #FFF;
