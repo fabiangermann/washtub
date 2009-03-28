@@ -53,7 +53,6 @@ div.status{
 
 a #controlspan {
 	display:block;
-	background-color:#FFF;
 }
 
 a.menu {
@@ -722,7 +721,7 @@ table.tablesorter th.status {
 	width: 75px;
 }
 table.tablesorter td.play {
-	background: url(../images/tango/16x16/actions/media-playback-start.png) no-repeat right;
+	background: #fff url(../images/tango/16x16/actions/media-playback-start.png) no-repeat right;
 }
 table.tablesorter td.stop {
 	background: url(../images/tango/16x16/actions/media-playback-stop.png) no-repeat right;
