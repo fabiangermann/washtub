@@ -206,9 +206,10 @@
 			      	  <b>Available Commands:</b><br/>
 					  {% for item in help %}
 					    {% if forloop.counter0|divisibleby:"6" %}
+					    {% cycle "<div id="rightside">" "</div><div id="rightside">" %}
 					    	{{item}}<br/>
 						{% else %}
-							{{item}}, 
+							{{item}}<br/>
 						{% endif %}
 					  {% endfor %}
 				</div>
