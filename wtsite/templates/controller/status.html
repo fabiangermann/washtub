@@ -52,8 +52,8 @@
 			    	  {% endfor %}
 			    	  	</div>
 			    	  <div id="leftside">
-					  {% for item in status %}
-					  <b>{{ item.0|title }}:</b>&nbsp;{{item.1}}<br/>
+					  {% for item, info in status.items %}
+					  <b>{{ item|title }}:</b>&nbsp;{{info}}<br/>
 					  {% endfor %}
 					  </div>
 			    	  <div class="clearingdiv">&nbsp;</div>

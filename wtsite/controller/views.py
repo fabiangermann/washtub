@@ -198,8 +198,7 @@ def build_status_list(host, settings, node_list, available_commands):
 	for command in command_list:
 		if command in available_commands:
 			response = parse_command(host, settings, command)
-			response = [command, response]
-			status.append(response)
+			status[command] = response
 	return status
 
 def get_host_list():
