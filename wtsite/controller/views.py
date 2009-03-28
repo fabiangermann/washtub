@@ -46,17 +46,7 @@ def parse_queue_metadata(host, settings, queue, storage):
 	return storage
 
 def parse_node_list(host, settings):
-	port = None
-	for p in settings:
-		if p.value == 'port':
-			port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234' 
-	tn = telnetlib.Telnet(str(host.ip_address), port)
-	tn.write("list\n")
-	list = tn.read_until("END")
-	tn.close()
+	list = parse_command(host, settings, "list")
 	list = list.splitlines()
 	out = {}
 	for item in list:
@@ -66,17 +56,7 @@ def parse_node_list(host, settings):
 	return out
 
 def parse_help(host, settings):
-	port = None
-	for p in settings:
-	   if p.value == 'port':
-	       port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234' 
-	tn = telnetlib.Telnet(str(host.ip_address), port)
-	tn.write("help\n")
-	help = tn.read_until("END")
-	tn.close()
+	list = parse_command(host, settings, "help")
 	list = help.splitlines()
 	out = []
 	for item in list:
@@ -87,16 +67,8 @@ def parse_help(host, settings):
 	return list
 
 def parse_rid_list(host, settings, command):
-	port = None
-	for p in settings:
-	   if p.value == 'port':
-	       port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234'
-	tn = telnetlib.Telnet(str(host.ip_address), port)
-	tn.write('%s\n' % (command))
-	entry = tn.read_until('END').split()
+	entry = parse_command(host, settings, command)
+	entry = entry.split()
 	entry_list = []
 	for e in entry:
 		if e != 'END':
@@ -104,13 +76,6 @@ def parse_rid_list(host, settings, command):
 	return entry_list
 
 def parse_output_streams(host, settings, node_list):
-	port = None
-	for p in settings:
-		if p.value == 'port':
-			port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234'
 	streams = []
 	for node,type in node_list.iteritems():
 		temp = type.split('.')
@@ -119,22 +84,13 @@ def parse_output_streams(host, settings, node_list):
 	return streams
 							
 def parse_history(host, settings, node_list):
-	port = None
-	for p in settings:
-	   if p.value == 'port':
-	       port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234'
 	history = {}
 	for node,type in node_list.iteritems():
 		type = type.split('.')
 		if (len(type) > 0):
 			if ('output' in type):
 				entry_list = []
-				tn = telnetlib.Telnet(str(host.ip_address), port)
-				tn.write('%s.metadata\n' % (node))
-				output = tn.read_until('END')
+				output = parse_command(host, settings, '%s.metadata\n' % (node))
 				output = output.splitlines()
 				for line in output:
 					line = line.split('=')
@@ -154,13 +110,6 @@ def parse_history(host, settings, node_list):
 	return history
 
 def parse_queue_dict(host, settings):
-	port = None
-	for p in settings:
-	   if p.value == 'port':
-	       port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234'
 	queue_list = []
 	for p in settings:
 	   if p.value == 'queue_id':
