@@ -10,18 +10,23 @@ from wtsite.controller.models import *
 import telnetlib, string
 
 # Create your views here.
-def parse_metadata(host, settings, rid):
+def parse_command(host, settings, command):
 	port = None
 	for p in settings:
 	   if p.value == 'port':
 	       port = str(p.data)
 	#default port number (for telnet)
 	if not port:
-		port = '1234'
+		port = '1234' 
+	command+='\n'
 	tn = telnetlib.Telnet(str(host.ip_address), port)
-	tn.write('metadata %s\n' % rid)
-	meta_list= tn.read_until("END")
+	tn.write(command)
+	response = tn.read_until("END")
 	tn.close()
+	return response
+
+def parse_metadata(host, settings, rid):
+	meta_list = parse_command(host, settings, 'metadata %s\n' % rid)
 	meta_list = meta_list.splitlines()
 	metadata = {}
 	for m in meta_list:
@@ -39,23 +44,6 @@ def parse_queue_metadata(host, settings, queue, storage):
 				if rid not in storage:
 					storage[rid]= parse_metadata(host, settings, rid)
 	return storage
-
-def parse_command(host, settings, command):
-	port = None
-	for p in settings:
-	   if p.value == 'port':
-	       port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234' 
-	command+='\n'
-	tn = telnetlib.Telnet(str(host.ip_address), port)
-	tn.write(command)
-	response = tn.read_until("END")
-	tn.close()
-	response = response.splitlines()
-	response = response[0]
-	return response
 
 def parse_node_list(host, settings):
 	port = None
@@ -198,7 +186,10 @@ def build_status_list(host, settings, streams, available_commands):
 	for command in command_list:
 		if command in available_commands:
 			response = parse_command(host, settings, command)
-			status[command] = response
+			response = response.splitlines()
+			if(len(response) > 0):
+				response = response[0]
+				status[command] = response
 	return status
 
 def get_host_list():
