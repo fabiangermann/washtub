@@ -722,12 +722,15 @@ table.tablesorter th.status {
 }
 table.tablesorter td.play {
 	background: #FFF url(../images/tango/16x16/actions/media-playback-start.png) no-repeat right;
+	width:50%;
 }
 table.tablesorter td.stop {
 	background: #FFF url(../images/tango/16x16/actions/media-playback-stop.png) no-repeat right;
+	width:25%;
 }
 table.tablesorter td.skip {
 	background: #FFF url(../images/tango/16x16/actions/media-skip-forward.png) no-repeat right;
+	width:25%;
 }
 
 .ui-tabs {
