@@ -721,16 +721,16 @@ table.tablesorter th.status {
 	width: 75px;
 }
 table.tablesorter td.play {
-	background: #FFF url(../images/tango/16x16/actions/media-playback-start.png) no-repeat right;
-	width:50%;
+	background: #FFF url(../images/tango/16x16/actions/media-playback-start.png) no-repeat center;
+	width:60%;
 }
 table.tablesorter td.stop {
-	background: #FFF url(../images/tango/16x16/actions/media-playback-stop.png) no-repeat right;
-	width:25%;
+	background: #FFF url(../images/tango/16x16/actions/media-playback-stop.png) no-repeat center;
+	width:20%;
 }
 table.tablesorter td.skip {
-	background: #FFF url(../images/tango/16x16/actions/media-skip-forward.png) no-repeat right;
-	width:25%;
+	background: #FFF url(../images/tango/16x16/actions/media-skip-forward.png) no-repeat center;
+	width:20%;
 }
 
 .ui-tabs {
