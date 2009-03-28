@@ -84,5 +84,4 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'wtsite.controller'
-    'wtsite.controller.templatetags'
 )
