@@ -291,6 +291,7 @@ width:275px;
 display:block;
 }
 #controls{
+dispaly:inline;
 width:175px;
 }
 .rightblock {
