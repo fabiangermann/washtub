@@ -51,6 +51,10 @@ div.status{
 	height:1.2em;
 }
 
+a#spancontrol {
+	display:block;
+}
+
 a.menu {
     font-weight : normal;
     text-decoration : none;
