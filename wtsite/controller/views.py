@@ -267,7 +267,6 @@ def stream_skip(request, host_name, stream):
 		tn.write('%s.skip\n' % (str(stream)))
 		response = tn.read_until('END')
 		response = response.splitlines()
-		assert False
 		if('Done' in response):
 			tn.close()
 		else:
