@@ -252,6 +252,7 @@ def index (request):
 
 @login_required
 def stream_skip(request, host_name, stream):
+	assert False
 	host = get_object_or_404(Host, name=host_name)
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
