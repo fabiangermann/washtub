@@ -646,6 +646,11 @@ width:31%;
 display:inline-block;
 }
 
+div .help{
+	font-size:7pt;
+	font-family:courier-new;
+}
+
 /* tables */
 table.tablesorter {
 	font-family:arial;
