@@ -139,7 +139,7 @@ def parse_history(host, settings, node_list):
 						if ( len(line) > 1 ):
 							entry_list.append(line[1].strip('"'))
 				found = False
-				for list in history:
+				for name,list in history.iteritems():
 					if(list == entry_list):
 					   found = True
 				if(not found):
