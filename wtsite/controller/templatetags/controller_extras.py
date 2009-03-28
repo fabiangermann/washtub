@@ -4,7 +4,7 @@ import string
 
 register = template.Library()
 
-@register.filter()
+@register.filter("replacedot")
 @stringfilter
 def replacedot(value):
 	return value.replace('(dot)', '.')
