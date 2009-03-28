@@ -274,7 +274,7 @@ def stream_skip(request, host_name, stream):
 			raise Http404
 	else:
 		raise Http404
-	return display_status(request, host_name)
+	return HttpResponseRedirect('/washtub/control/'+'host_name')
 	
 	
 	
