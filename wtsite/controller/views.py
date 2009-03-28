@@ -146,8 +146,7 @@ def parse_history(host, settings, node_list):
 					   history[new_name] = entry_list
 					   del history[name]
 				if(not found):
-					node.replace('(dot)', '.')
-					assert False
+					node = node.replace('(dot)', '.')
 					history[node] = entry_list
 	return history
 
