@@ -707,4 +707,7 @@ table.tablesorter th.status {
 	width: 75px;
 }
 
+.ui-tabs {
+	min-height: 700px;
+}
 /*** End of file ***/
