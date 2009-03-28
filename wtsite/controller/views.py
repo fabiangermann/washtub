@@ -138,8 +138,12 @@ def parse_history(host, settings, node_list):
 					if( 'rid' in line):
 						if ( len(line) > 1 ):
 							entry_list.append(line[1].strip('"'))
-				if(entry_list not in history):
-					history[node] = entry_list
+				found = False
+				for list in history:
+					if(list == entry_list):
+					   found = True
+				if(not found):
+				    history[node] = entry_list
 	return history
 
 def parse_queue_dict(host, settings):
