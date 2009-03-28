@@ -115,7 +115,7 @@ def parse_rid_list(host, settings, command):
 		 entry_list.append(e)
 	return entry_list
 
-def parse_output_streams(host, settings, node_ list):
+def parse_output_streams(host, settings, node_list):
 	port = None
 	for p in settings:
 		if p.value == 'port':
