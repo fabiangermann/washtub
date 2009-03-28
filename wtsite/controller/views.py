@@ -263,7 +263,7 @@ def stream_skip(request, host_name, stream):
 		#default port number (for telnet)
 		if not port:
 			port = '1234'
-		tn = telnetlib.Telnet(hostname)
+		tn = telnetlib.Telnet(str(host.ip_address), port)
 		response = tn.write('%s.next\n')
 		response = response.splitlines()
 		if('Done' in response):
