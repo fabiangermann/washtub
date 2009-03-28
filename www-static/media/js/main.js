@@ -66,6 +66,16 @@ $(function(){
 	});
 	
 	//Call Table Sorter
+	$("#historyTable0").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#historyTable1").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
 	$("#onAirTable").tablesorter({
 		widgets: ['zebra']
 	});
