@@ -284,7 +284,7 @@ width: 542px;
 #rightside{
 text-align:left;
 float:right;
-margin:0px;
+margin:0px 0px 0px 10px;
 width:275px;
 display:block;
 }
