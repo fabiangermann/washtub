@@ -115,6 +115,21 @@ def parse_rid_list(host, settings, command):
 		 entry_list.append(e)
 	return entry_list
 
+def parse_output_streams(host, settings, node_ list):
+	port = None
+	for p in settings:
+		if p.value == 'port':
+			port = str(p.data)
+	#default port number (for telnet)
+	if not port:
+		port = '1234'
+	streams = []
+	for node,type in node_list.iteritems():
+		temp = type.split('.')
+		if ('output' in temp):
+			streams.append{type)
+	return streams
+							
 def parse_history(host, settings, node_list):
 	port = None
 	for p in settings:
@@ -196,6 +211,8 @@ def display_status(request, host_name):
 	status = build_status_list(host, settings, help)
 	node_list = parse_node_list(host, settings)
 	
+	streams = parse_output_streams(host, settings, node_list)
+	
 	metadata_storage = {}
 	history = parse_history(host, settings, node_list)
 	metadata_storage = parse_queue_metadata(host, settings, history, metadata_storage)
@@ -218,6 +235,7 @@ def display_status(request, host_name):
 	active_host = host
 	return render_to_response('controller/status.html', {'metadata_storage': metadata_storage,
 														 'history': history,
+														 'streams': streams,
 														 'alive_queue': alive_queue,
 														 'air_queue': air_queue, 
 														 'queue': queue, 
