@@ -191,7 +191,7 @@
 				</div>
 			    <div id="tabs-3">
 					  {% for name, entries in history.items %}
-					  	<b>History Detail({{ name }}):</b><br/>
+					  	<b>History Detail({{ name|replacedot }}):</b><br/>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
 						<tr> 
