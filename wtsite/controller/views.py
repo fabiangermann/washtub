@@ -146,7 +146,7 @@ def parse_history(host, settings, node_list):
 					   history[new_name] = entry_list
 					   del history[name]
 				if(not found):
-				    history[node] = entry_list
+				    history[replace(node, '(dot)', '.')] = entry_list
 	return history
 
 def parse_queue_dict(host, settings):
