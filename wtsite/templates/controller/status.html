@@ -31,11 +31,12 @@
 			    	  	</thead>
 			    	  	<tbody>
 			    	  	{% for item, info in status.items %}
-			    	  	{{name|cat:".status"}} == {{ item }} : {{ info }}<br/>
-			    	  		{% ifequal name|cat:".status" item %}
+			    	  		{% with name|cat:".status" as info_command %}
+			    	  		{% ifequal info_command item %}
 			    	  			<tr><td>Status : {{ info }}</td></tr>
 			    	  		{% endifequal %}
-			    	  		{% ifequal name|cat:".remaining" item %}
+			    	  		{% with name|cat:".remaining" as info_command %}
+			    	  		{% ifequal info_command item %}
 			    	  			<tr><td>Remaining : {{ info }}</td></tr>
 			    	  		{% endifequal %}
 			    	  	{% endfor %}
