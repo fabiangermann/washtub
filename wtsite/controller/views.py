@@ -213,7 +213,7 @@ def stream_stop(request, host_name, stream):
 	if(stream in node_list):
 		response = parse_command(host, settings, '%s.stop\n' % (str(stream)))
 		response = response.splitlines()
-		if('Done' in response):
+		if('' in response):
 			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
 			return HttpResponse(status=500)
@@ -226,7 +226,7 @@ def stream_start(request, host_name, stream):
 	if(stream in node_list):
 		response = parse_command(host, settings, '%s.start\n' % (str(stream)))
 		response = response.splitlines()
-		if('Done' in response):
+		if('' in response):
 			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
 			HttpResponse(status=500)
