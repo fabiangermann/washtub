@@ -33,12 +33,14 @@
 			    	  	{% for item, info in status.items %}
 			    	  		{% with name|cat:".status" as info_command %}
 			    	  		{% ifequal info_command item %}
-			    	  			<tr><td colspan="3">Status : {{ info }}</td></tr>
+			    	  			<tr><td colspan="3">Status: {{ info }}</td></tr>
 			    	  		{% endifequal %}
 			    	  		{% endwith %}
+			    	  	{% endfor %}
+			    	  	{% for item, info in status.items %}
 			    	  		{% with name|cat:".remaining" as info_command %}
 			    	  		{% ifequal info_command item %}
-			    	  			<tr><td colspan="3">Remaining : {{ info }}</td></tr>
+			    	  			<tr><td colspan="3">Remaining: {{ info }}</td></tr>
 			    	  		{% endifequal %}
 			    	  		{% endwith %}
 			    	  	{% endfor %}
