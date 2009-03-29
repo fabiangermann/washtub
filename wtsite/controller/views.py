@@ -216,7 +216,7 @@ def stream_stop(request, host_name, stream):
 		if('Done' in response):
 			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
-			return HttpResponse(status=404)
+			return HttpResponseServerError
 
 @login_required
 def stream_start(request, host_name, stream):
@@ -229,7 +229,7 @@ def stream_start(request, host_name, stream):
 		if('Done' in response):
 			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
-			return HttpResponse(status=404)
+			return HttpResponseServerError
 	
 	
 	
