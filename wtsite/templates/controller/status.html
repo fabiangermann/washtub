@@ -31,8 +31,7 @@
 			    	  	</thead>
 			    	  	<tbody>
 			    	  	{% for item, info in status.items %}
-			    	  	{{name|cat:".status"}}
-			    	  	{{ item }}
+			    	  	{{name|cat:".status"}} == {{ item }} <br/>
 			    	  		{% ifequal name|cat:".status" item %}
 			    	  			<tr><td>Status : {{ info }}</td></tr>
 			    	  		{% endifequal %}
