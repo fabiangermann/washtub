@@ -27,7 +27,7 @@
 					  {% for name in streams %}
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
-			    	  	{% with status.base_url|cat:name|replacedot as stream_url %}
+			    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
 			    	  	<tr><td>Control(<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a>):</td></tr>
 			    	  	{% endwith %}
 			    	  	</thead>
