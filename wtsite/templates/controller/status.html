@@ -33,7 +33,17 @@
 			    	  	{% for item, info in status.items %}
 			    	  		{% with name|cat:".status" as info_command %}
 			    	  		{% ifequal info_command item %}
-			    	  			<tr><td>Status:</td><td colspan="2">{{ info }}</td></tr>
+			    	  			<tr><td>Status:</td>
+			    	  			{% ifequal info "on" %}
+			    	  			<td class="statuson" colspan="2">
+			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			</td>
+			    	  			{% else %}
+			    	  			<td class="statusoff" colspan="2">
+			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			</td>
+			    	  			{% endifequal %}
+			    	  			</tr>
 			    	  		{% endifequal %}
 			    	  		{% endwith %}
 			    	  	{% endfor %}
