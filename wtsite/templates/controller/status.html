@@ -27,7 +27,9 @@
 					  {% for name in streams %}
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
-			    	  	<tr><td>Control({{ name|replacedot }}):</td></tr>
+			    	  	{% with status.base_url|cat:name|replacedot as stream_url %}
+			    	  	<tr><td>Control({{ stream_url|urlize }}):</td></tr>
+			    	  	{% endwith %}
 			    	  	</thead>
 			    	  	<tbody>
 			    	  	{% for item, info in status.items %}
