@@ -30,7 +30,7 @@
 			    	  	<tr><td>Control({{ name|replacedot }}):</td></tr>
 			    	  	</thead>
 			    	  	<tbody>
-			    	  	{% for item, info in status.items reversed %}
+			    	  	{% for item, info in status.items %}
 			    	  		{% with name|cat:".status" as info_command %}
 			    	  		{% ifequal info_command item %}
 			    	  			<tr><td colspan="3">Status : {{ info }}</td></tr>
