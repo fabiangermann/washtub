@@ -133,13 +133,13 @@ def build_status_list(host, settings, streams, available_commands):
 		command_list.append(name+".status")
 		command_list.append(name+".remaining")
 	for command in sorted(command_list):
-		assert False
 		if command in available_commands:
 			response = parse_command(host, settings, command)
 			response = response.splitlines()
 			if(len(response) > 0):
 				response = response[0]
 				status[command] = response
+	assert False
 	return status
 
 def get_host_list():
