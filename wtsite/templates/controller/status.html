@@ -28,7 +28,7 @@
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
 			    	  	{% with status.base_url|cat:name|replacedot as stream_url %}
-			    	  	<tr><td>Control({{ stream_url|urlize }}):</td></tr>
+			    	  	<tr><td>Control(<a href="{{ stream_url }}" alt="Listen to the {{ name|replacedot }} stream now">{{ name|replacedot }}</a>):</td></tr>
 			    	  	{% endwith %}
 			    	  	</thead>
 			    	  	<tbody>
