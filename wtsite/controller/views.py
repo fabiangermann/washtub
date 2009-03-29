@@ -139,7 +139,6 @@ def build_status_list(host, settings, streams, available_commands):
 			if(len(response) > 0):
 				response = response[0]
 				status[command] = response
-	assert False
 	return status
 
 def get_host_list():
