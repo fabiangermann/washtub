@@ -130,8 +130,8 @@ def build_status_list(host, settings, streams, available_commands):
 	status['ip address'] = str(host.ip_address)
 	command_list = ['version', 'uptime']
 	for name in streams:
-		command_list.append(name+".remaining")
 		command_list.append(name+".status")
+		command_list.append(name+".remaining")
 	for command in command_list:
 		if command in available_commands:
 			response = parse_command(host, settings, command)
