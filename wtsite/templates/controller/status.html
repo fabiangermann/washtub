@@ -76,9 +76,9 @@
 			    	  {% endfor %}
 			    	  	</div>
 			    	  <div id="leftside">
-					  {% for item, info in status.items %}
-					  <b>{{ item|title }}:</b>&nbsp;{{info}}<br/>
-					  {% endfor %}
+					  {% if status %}
+					  <b>Uptime:</b>&nbsp;{{ status.uptime|title }}<br/>
+					  {% endif %}
 					  </div>
 			    	  <div class="clearingdiv">&nbsp;</div>
 					  {% for name, entries in air_queue.items %}
