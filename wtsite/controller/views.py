@@ -98,16 +98,12 @@ def parse_history(host, settings, node_list):
 						if ( len(line) > 1 ):
 							entry_list.append(line[1].strip('"'))
 				found = False
-				temp_history = {}
 				for name,list in history.copy().iteritems():
 					if(list == entry_list):
 					   found = True
 					   new_name = name+', '+node
-					   temp_history[new_name] = entry_list
+					   history[new_name] = entry_list
 					   del history[name]
-				if(found):
-					for name,list in temp_history.iteritems():
-						history[name] = temp_history[name]
 				if(not found):
 					history[node] = entry_list
 	return history
