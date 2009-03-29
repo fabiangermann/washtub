@@ -19,5 +19,5 @@ def tominutes(value):
 	value = float(value)
 	minutes = int(value/60)
 	seconds = int(value%60)
-	return ('%s:%s:2i' % (minutes,seconds))
+	return ('%s:%s.2d' % (minutes,seconds))
 
