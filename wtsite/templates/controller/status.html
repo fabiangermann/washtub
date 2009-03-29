@@ -18,7 +18,7 @@
 			    	  </thead>
 			    	  <tbody>
 			    	  {% for item,type in node_list.items %}
-			    	  <tr><td>{{ item }}</td><td>{{ type }}</td></tr>
+			    	  <tr><td>{{ item|replacedot }}</td><td>{{ type }}</td></tr>
 			    	  {% endfor %}
 			    	  </tbody>
 			    	  </table>
@@ -27,7 +27,7 @@
 					  {% for name in streams %}
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
-			    	  	<tr><td>Stream Control({{ name|replacedot }}):</td></tr>
+			    	  	<tr><td>Control({{ name|replacedot }}):</td></tr>
 			    	  	</thead>
 			    	  	<tbody>
 			    	  	<tr>
