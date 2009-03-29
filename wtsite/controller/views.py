@@ -210,6 +210,7 @@ def stream_stop(request, host_name, stream):
 	host = get_object_or_404(Host, name=host_name)
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
+	assert False
 	if(stream in node_list):
 		response = parse_command(host, settings, '%s.stop\n' % (str(stream)))
 		response = response.splitlines()
