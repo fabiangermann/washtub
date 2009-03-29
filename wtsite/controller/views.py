@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.conf import settings
 from wtsite.controller.models import *
 
-import telnetlib, string
+import telnetlib, string, time
 
 # Create your views here.
 def parse_command(host, settings, command):
@@ -214,6 +214,7 @@ def stream_stop(request, host_name, stream):
 		response = parse_command(host, settings, '%s.stop\n' % (str(stream)))
 		response = response.splitlines()
 		if('' in response):
+			time.sleep(0.5)
 			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
 			return HttpResponse(status=500)
@@ -228,6 +229,7 @@ def stream_start(request, host_name, stream):
 		response = parse_command(host, settings, '%s.start\n' % (str(stream)))
 		response = response.splitlines()
 		if('' in response):
+			time.sleep(0.5)
 			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
 			HttpResponse(status=500)
