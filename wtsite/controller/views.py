@@ -90,9 +90,9 @@ def parse_history(host, settings, node_list):
 		if (len(type) > 0):
 			if ('output' in type):
 				entry_list = []
-				output = parse_command(host, settings, '%s.metadata\n' % (node))
-				output = output.splitlines()
-				for line in output:
+				meta = parse_command(host, settings, '%s.metadata\n' % (node))
+				meta = meta.splitlines()
+				for line in meta:
 					line = line.split('=')
 					if( 'rid' in line):
 						if ( len(line) > 1 ):
