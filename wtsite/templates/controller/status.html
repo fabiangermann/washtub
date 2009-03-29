@@ -35,10 +35,12 @@
 			    	  		{% ifequal info_command item %}
 			    	  			<tr><td>Status : {{ info }}</td></tr>
 			    	  		{% endifequal %}
+			    	  		{% endwith %}
 			    	  		{% with name|cat:".remaining" as info_command %}
 			    	  		{% ifequal info_command item %}
 			    	  			<tr><td>Remaining : {{ info }}</td></tr>
 			    	  		{% endifequal %}
+			    	  		{% endwith %}
 			    	  	{% endfor %}
 			    	  	<tr>
 			    	  	<td class="play">
