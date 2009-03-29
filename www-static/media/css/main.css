@@ -53,6 +53,7 @@ div.status{
 
 a #controlspan {
 	display:block;
+	width:100%;
 }
 
 a.menu {
