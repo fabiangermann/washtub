@@ -28,7 +28,7 @@
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
 			    	  	{% with status.base_url|cat:name|replacedot as stream_url %}
-			    	  	<tr><td>Control(<a href="{{ stream_url }}" title="Listen to the {{ name|replacedot }} stream now">{{ name|replacedot }}</a>):</td></tr>
+			    	  	<tr><td>Control(<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a>):</td></tr>
 			    	  	{% endwith %}
 			    	  	</thead>
 			    	  	<tbody>
@@ -38,11 +38,11 @@
 			    	  			<tr><td>Status:</td>
 			    	  			{% ifequal info "on" %}
 			    	  			<td class="statuson" colspan="2">
-			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			<span id="controlspan" title="{{ name|replacedot|title }} is playing.">&nbsp;</span>
 			    	  			</td>
 			    	  			{% else %}
 			    	  			<td class="statusoff" colspan="2">
-			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			<span id="controlspan" title="{{ name|replacedot|title }} is stopped.">&nbsp;</span>
 			    	  			</td>
 			    	  			{% endifequal %}
 			    	  			</tr>
@@ -58,17 +58,17 @@
 			    	  	{% endfor %}
 			    	  	<tr>
 			    	  	<td class="play">
-			    	  	<a href="/washtub/control/start/{{ active_host }}/{{ name }}">
+			    	  	<a href="/washtub/control/start/{{ active_host }}/{{ name }}" title="Play">
 			    	  	<span id="controlspan">&nbsp;</span>
 			    	  	</a>
 			    	  	</td>
 			    	  	<td class="stop">
-			    	  	<a href="/washtub/control/stop/{{ active_host }}/{{ name }}">
+			    	  	<a href="/washtub/control/stop/{{ active_host }}/{{ name }}" title="Stop">
 			    	  	<span id="controlspan">&nbsp;</span> 
 			    	  	</a>
 			    	  	</td>
 			    	  	<td class="skip">
-			    	  	<a href="/washtub/control/skip/{{ active_host }}/{{ name }}">
+			    	  	<a href="/washtub/control/skip/{{ active_host }}/{{ name }} title="Skip"">
 			    	  	<span id="controlspan">&nbsp;</span>
 			    	  	</a>
 			    	  	</td>
