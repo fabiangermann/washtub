@@ -132,7 +132,7 @@ def build_status_list(host, settings, streams, available_commands):
 	for name in streams:
 		command_list.append(name+".status")
 		command_list.append(name+".remaining")
-	for command in sorted(command_list):
+	for command in command_list:
 		if command in available_commands:
 			response = parse_command(host, settings, command)
 			response = response.splitlines()
