@@ -174,7 +174,6 @@ def display_status(request, host_name):
 	
 	hosts = get_host_list()
 	active_host = host
-	assert False
 	return render_to_response('controller/status.html', {'metadata_storage': metadata_storage,
 														 'history': history,
 														 'streams': streams,
