@@ -18,6 +18,6 @@ def cat(value, string):
 def tominutes(value):
 	value = float(value)
 	minutes = int(value/60)
-	seconds = value % 60
-	return ('%s:%s' % (minutes,seconds))
+	seconds = int(value%60)
+	return ('%s:%s:2i' % (minutes,seconds))
 
