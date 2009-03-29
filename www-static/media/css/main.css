@@ -51,9 +51,12 @@ div.status{
 	height:1.2em;
 }
 
-a #controlspan {
+table a #controlspan {
 	display:block;
 	width:100%;
+	height:100%;
+	cursor:pointer;
+	text-decoration:none;
 }
 
 a.menu {
