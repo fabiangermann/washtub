@@ -1,1 +1,24 @@
-Page Not Found
+{% extends "base.html" %}
+
+{% block title %} Washtub Liquidsoap Controller - Page Not Found {% endblock title %}
+
+{% block content %}
+
+<div id="accordion">
+	<div>
+	<h3><a href="#">Page Not Found...</a></h3>
+	<div>
+    {% block errormessage %}
+	 <div class="ui-widget">
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+			<strong>Alert:</strong> Error 404 - Page Not Found</p>
+		</div>
+	 </div>
+    {% endblock errormessage %}
+    </div>
+	</div>
+</div>
+
+
+{% endblock content %}
