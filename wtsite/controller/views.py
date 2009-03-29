@@ -201,6 +201,7 @@ def stream_skip(request, host_name, stream):
 		response = parse_command(host, settings, '%s.skip\n' % (str(stream)))
 		response = response.splitlines()
 		if('Done' in response):
+			time.sleep(1.5)
 			return HttpResponseRedirect('/washtub/control/'+host_name)
 		else:
 			return HttpResponse(status=404)
