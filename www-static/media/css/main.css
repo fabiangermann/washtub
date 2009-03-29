@@ -734,11 +734,15 @@ table.tablesorter td.skip {
 }
 table.tablesorter td.statuson {
 	background: #FFF url(../images/tango/16x16/status/audio-volume-high.png) no-repeat center;
-	width:20%;
+	width:40%;
 }
 table.tablesorter td.statusoff {
 	background: #FFF url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat center;
-	width:20%;
+	width:40%;
+}
+table.tablesorter td.remaining {
+	width:40%;
+	text-align:center;
 }
 
 .ui-tabs {
