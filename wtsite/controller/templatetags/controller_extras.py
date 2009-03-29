@@ -16,7 +16,7 @@ def cat(value, string):
 
 @register.filter("tominutes")
 def tominutes(value):
-	float(value)):
+	value = float(value)
 	minutes = round(value/60)
 	seconds = value % 60
 	return ('%s:%s' % (minutes,seconds))
