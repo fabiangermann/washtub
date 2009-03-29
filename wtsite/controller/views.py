@@ -98,7 +98,8 @@ def parse_history(host, settings, node_list):
 						if ( len(line) > 1 ):
 							entry_list.append(line[1].strip('"'))
 				found = False
-				for name,list in history.iteritems():
+				temp_history = history
+				for name,list in temp_history.iteritems():
 					if(list == entry_list):
 					   found = True
 					   new_name = name+', '+node
