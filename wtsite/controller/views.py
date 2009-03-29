@@ -104,7 +104,7 @@ def parse_history(host, settings, node_list):
 					   found = True
 					   new_name = name+', '+node
 					   temp_history[new_name] = entry_list
-					   del history[name]
+					   #del history[name]
 				if(found):
 					for name,list in temp_history.iteritems():
 						history[name] = temp_history[name]
