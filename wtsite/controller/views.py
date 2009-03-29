@@ -127,7 +127,7 @@ def parse_queue_dict(host, settings):
 def build_status_list(host, settings, streams, available_commands):
 	status = {}
 	status['host'] = str(host)
-	status['ip address'] = str(host.ip_address)
+	status['ip_address'] = str(host.ip_address)
 	command_list = ['version', 'uptime']
 	for name in streams:
 		command_list.append(name+".status")
