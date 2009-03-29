@@ -8,3 +8,8 @@ register = template.Library()
 @stringfilter
 def replacedot(value):
 	return value.replace('(dot)', '.')
+
+@register.filter("cat")
+@stringfilter
+def cat(value, string):
+	return value+string
