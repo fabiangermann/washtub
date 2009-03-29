@@ -733,11 +733,11 @@ table.tablesorter td.skip {
 	width:20%;
 }
 table.tablesorter td.statuson {
-	background: #FFF url(../images/tango/16x16/status/audio-volume-high.png) no-repeat center;
+	background: #77ff66 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat center;
 	width:40%;
 }
 table.tablesorter td.statusoff {
-	background: #FFF url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat center;
+	background: #ff8888 url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat center;
 	width:40%;
 }
 table.tablesorter td.remaining {
