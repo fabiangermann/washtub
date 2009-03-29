@@ -152,6 +152,7 @@ def display_status(request, host_name):
 	help = parse_help(host, settings)
 	node_list = parse_node_list(host, settings)
 	streams = parse_output_streams(host, settings, node_list)
+	streams = sorted(streams)
 	status = build_status_list(host, settings, streams, help)
 	
 	metadata_storage = {}
