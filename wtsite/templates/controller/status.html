@@ -38,7 +38,9 @@
 			    	  			<tr><td>Status:</td>
 			    	  			{% ifequal info "on" %}
 			    	  			<td class="statuson" colspan="2">
-			    	  			<span id="controlspan" title="{{ name|replacedot|title }} is playing.">&nbsp;</span>
+			    	  			<div title="{{ name|replacedot|title }} is playing.">
+			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			</div>
 			    	  			</td>
 			    	  			{% else %}
 			    	  			<td class="statusoff" colspan="2">
