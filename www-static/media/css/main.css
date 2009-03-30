@@ -737,11 +737,11 @@ table.tablesorter td.skip {
 	width:20%;
 }
 table.tablesorter td.statuson {
-	background: #77ff66 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat center;
+	background: #abee87 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat center;
 	width:40%;
 }
 table.tablesorter td.statusoff {
-	background: #ff8888 url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat center;
+	background: #ee8a7c url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat center;
 	width:40%;
 }
 table.tablesorter td.remaining {
