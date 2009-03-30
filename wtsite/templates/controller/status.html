@@ -44,7 +44,9 @@
 			    	  			</td>
 			    	  			{% else %}
 			    	  			<td class="statusoff" colspan="2">
-			    	  			<span id="controlspan" title="{{ name|replacedot }} is currently stopped.">&nbsp;</span>
+			    	  			<div title="{{ name|replacedot }} is currently stopped."> 
+			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			</div>
 			    	  			</td>
 			    	  			{% endifequal %}
 			    	  			</tr>
