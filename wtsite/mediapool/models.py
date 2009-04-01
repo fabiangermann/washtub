@@ -13,6 +13,8 @@ class Artist(models.Model):
     name = models.CharField(max_length=765)
     class Meta:
         db_table = u'music_artists'
+    def __unicode__(self):
+        return self.name
 
 class Album(models.Model):
     artist = models.ForeignKey(Artist)
@@ -21,11 +23,15 @@ class Album(models.Model):
     compilation = models.IntegerField(null=True)
     class Meta:
         db_table = u'music_albums'
+    def __unicode__(self):
+        return self.name
 
 class Genre(models.Model):
     name = models.CharField(max_length=765)
     class Meta:
         db_table = u'music_genres'
+    def __unicode__(self):
+        return self.name
 
 class Song(models.Model):
     filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
@@ -58,6 +64,8 @@ class Song(models.Model):
     
     class Meta:
         db_table = u'music_songs'
+    def __unicode__(self):
+        return self.name
         
     def save(self, force_insert=False, force_update=False):
         if not ( access(self.filename, (F_OK or R_OK))):
@@ -89,9 +97,9 @@ class Song(models.Model):
         # now take care of ForeignKeys
         a, created = Artist.objects.get_or_create(name=tags.artist)
         if(created):
-            self.artist = a
+            self.artist = a.name
         else:
-            self.artist = a
+            self.artist = a.name
 
         a, created = Album.objects.get_or_create(name=tags.album, artist=a)
         if(created):
