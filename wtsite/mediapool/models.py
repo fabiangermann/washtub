@@ -23,7 +23,7 @@ class Album(models.Model):
         db_table = u'music_albums'
 
 class Genre(models.Model):
-    genre = models.CharField(max_length=765)
+    name = models.CharField(max_length=765)
     class Meta:
         db_table = u'music_genres'
 
