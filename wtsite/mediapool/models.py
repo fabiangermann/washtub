@@ -104,7 +104,7 @@ class Song(models.Model):
             self.genre = a
         else:
             self.genre = a
-        super(Blog, self).save(force_insert, force_update)
+        super(Song, self).save(force_insert, force_update)
         
 
 class Albumart(models.Model):
