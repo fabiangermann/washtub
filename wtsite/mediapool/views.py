@@ -32,19 +32,19 @@ def file_scanner(request):
     
     #setup queryset for Genres
     genres = Genre.objects.all()
-    queries['genres'] = dirs
+    queries['genres'] = genres
     
     #setup queryset for Artists
     artists = Artist.objects.all()
-    queries['artists'] = dirs
+    queries['artists'] = artists
     
     #setup queryset for Albums
     albums = Album.objects.all()
-    queries['albums'] = dirs
+    queries['albums'] = albums
     
     #setup queryset for Songs
     songs = Song.objects.all()
-    queries['songs'] = dirs
+    queries['songs'] = songs
     
     if(settings.MEDIAPOOL_PATH):
         directory = settings.MEDIAPOOL_PATH
