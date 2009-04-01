@@ -9,7 +9,7 @@ def build_file_list(dir, queries, parent_id):
     list = walk(dir,topdown=True)
     assert False
 
-def file_scanner():
+def file_scanner(request):
     queries = {}
 
     #setup queryset for Directories
