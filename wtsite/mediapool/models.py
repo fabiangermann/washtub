@@ -93,7 +93,7 @@ class Song(models.Model):
         else:
             self.artist = a
 
-        a, created = Album.objects.get_or_create(name=tags.album)
+        a, created = Album.objects.get_or_create(name=tags.album, artist=a)
         if(created):
             self.album = a
         else:
