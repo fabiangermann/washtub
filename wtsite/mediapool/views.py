@@ -7,8 +7,9 @@ import tagpy
 # Create your views here.
 def add_file(filename):
     ref = tagpy.FileRef(filename)
-    tags = f.tag()
+    tags = ref.tag()
     assert False
+
 def build_file_list(dir, queries, parent_id):
     if not (access(dir, (F_OK or R_OK))):
         return
