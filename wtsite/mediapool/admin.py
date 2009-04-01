@@ -16,9 +16,4 @@ class SongAdmin(admin.ModelAdmin):
         ArtistInline,
     ]
 
-class SettingAdmin(admin.ModelAdmin):
-    list_filter = ['hostname']
-    list_display = ('value', 'data', 'hostname')
-
-admin.site.register(Host, HostAdmin)
-admin.site.register(Setting, SettingAdmin)
+admin.site.register(Song, SongAdmin)
