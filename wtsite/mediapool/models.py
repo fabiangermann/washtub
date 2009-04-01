@@ -1,6 +1,34 @@
 from django.db import models
 from django.conf import settings    
 
+class Directory(models.Model):
+    path = models.TextField()
+    parent_id = models.IntegerField()
+    class Meta:
+        db_table = u'music_directories'
+
+class Albumart(models.Model):
+    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
+    directory = models.ForeignKey(Directory)
+    imagetype = models.IntegerField()
+    song_id = models.IntegerField()
+    embedded = models.IntegerField()
+    class Meta:
+        db_table = u'music_albumart'
+
+class Album(models.Model):
+    artist = models.ForeignKey(Artist)
+    name = models.CharField(max_length=765)
+    year = models.IntegerField()
+    compilation = models.IntegerField()
+    class Meta:
+        db_table = u'music_albums'
+
+class Artist(models.Model):
+    name = models.CharField(max_length=765)
+    class Meta:
+        db_table = u'music_artists'
+
 class Song(models.Model):
     filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
     name = models.CharField(max_length=765)
@@ -33,35 +61,7 @@ class Song(models.Model):
     directory = models.ForeignKey(Directory)
     
     class Meta:
-    	db_table = u'music_songs'
-
-class Albumart(models.Model):
-    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
-    directory = models.ForeignKey(Directory)
-    imagetype = models.IntegerField()
-    song_id = models.IntegerField()
-    embedded = models.IntegerField()
-    class Meta:
-        db_table = u'music_albumart'
-
-class Album(models.Model):
-    artist = models.ForeignKey(Artist)
-    name = models.CharField(max_length=765)
-    year = models.IntegerField()
-    compilation = models.IntegerField()
-    class Meta:
-        db_table = u'music_albums'
-
-class Artist(models.Model):
-    name = models.CharField(max_length=765)
-    class Meta:
-        db_table = u'music_artists'
-
-class Directory(models.Model):
-    path = models.TextField()
-    parent_id = models.IntegerField()
-    class Meta:
-        db_table = u'music_directories'
+        db_table = u'music_songs'
 
 class Genre(models.Model):
     genre = models.CharField(max_length=765)
