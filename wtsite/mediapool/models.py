@@ -37,7 +37,7 @@ class Song(models.Model):
     year = models.IntegerField()
     length = models.IntegerField()
     numplays = models.IntegerField(default=0)
-    rating = models.IntegerField(defaul=1)
+    rating = models.IntegerField(default=1)
     lastplay = models.DateTimeField(null=True, blank=True)
     date_entered = models.DateTimeField(null=True, blank=True)
     date_modified = models.DateTimeField(null=True, blank=True)
