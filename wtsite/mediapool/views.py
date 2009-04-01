@@ -37,7 +37,7 @@ def file_scanner(request):
     else:
         return
     
-    build_file_list(directory, queries, parent_id)
+    build_file_list(directory, queries, 0)
     
     return
 
