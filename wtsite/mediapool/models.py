@@ -87,12 +87,11 @@ class Song(models.Model):
             self.format = ext[len(ext)-1]
         
         # now take care of ForeignKeys
-        if not (self.artist):
-            a, created = Artist.objects.get_or_create(name=tags.artist)
-            if(created):
-                self.artist = a
-            else:
-                assert False
+        a, created = Artist.objects.get_or_create(name=tags.artist)
+        if(created):
+            self.artist = a
+        else:
+            assert False
         assert False
         if not (self.album):
             a = Album.objects.get(name=tags.album)
