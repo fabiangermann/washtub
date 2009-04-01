@@ -64,6 +64,7 @@ class Song(models.Model):
             return
         ref = tagpy.FileRef(self.filename)
         tags = ref.tag()
+        
         #take care of the non-relational field first
         if not (self.title):
             self.title = tags.title
@@ -75,7 +76,7 @@ class Song(models.Model):
             else:
                 self.track = tags.track
         if not (self.length):
-            self.length = tags.length
+            self.length = tags.AudioProperties.length
         if not (self.sample_rate):
             self.sample_rate = tags.sampleRate
         if not (self.bitrate):
