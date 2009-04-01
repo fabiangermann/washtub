@@ -84,7 +84,7 @@ class Song(models.Model):
             self.bitrate = props.bitrate
         if not (self.format):
             ext = path.splitext(self.filename)
-            self.format = ext.pop()
+            self.format = ext[len(ext)-1]
         
         # now take care of ForeignKeys
         if not (self.artist):
