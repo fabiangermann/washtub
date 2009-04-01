@@ -98,13 +98,14 @@ class Song(models.Model):
             self.album = a
         else:
             self.album = a
-
+        
+        t = tags.genre
+        assert False
         a, created = Genre.objects.get_or_create(name=tags.genre)
         if(created):
             self.genre = a
         else:
             self.genre = a
-            
         super(Blog, self).save(force_insert, force_update)
         
 
