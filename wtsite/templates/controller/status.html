@@ -111,9 +111,9 @@
 					  			{% ifequal e rid %}
 					  				<tr>
 					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-					  					<td>{{ listing.title|truncatewords:6 }}</td>
+					  					<td>{{ listing.title|truncatewords:8 }}</td>
 					  					<td>{{ listing.artist }}</td>
-					  					<td>{{ listing.album }}</td>
+					  					<td>{{ listing.album|truncatewords:8 }}</td>
 					  					<td>{{ listing.status }}</td>
 					  					{% if listing.on_air %}
 					  						<td>{{ listing.on_air }} {% now "T" %}</td>
@@ -150,9 +150,9 @@
 					  			{% ifequal e rid %}
 					  				<tr>
 					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-					  					<td>{{ listing.title|truncatewords:6 }}</td>
+					  					<td>{{ listing.title|truncatewords:8 }}</td>
 					  					<td>{{ listing.artist }}</td>
-					  					<td>{{ listing.album }}</td>
+					  					<td>{{ listing.album|truncatewords:8 }}</td>
 					  					<td>{{ listing.status }}</td>
 					  					{% if listing.on_air %}
 					  						<td>{{ listing.on_air }} {% now "T" %}</td>
@@ -193,9 +193,9 @@
 					  			{% ifequal e rid %}
 					  				<tr>
 					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-					  					<td>{{ listing.title|truncatewords:6 }}</td>
+					  					<td>{{ listing.title|truncatewords:8 }}</td>
 					  					<td>{{ listing.artist }}</td>
-					  					<td>{{ listing.album }}</td>
+					  					<td>{{ listing.album|truncatewords:8 }}</td>
 					  					<td>{{ listing.status }}</td>
 					  					{% if listing.on_air %}
 					  						<td>{{ listing.on_air }}{% now "T" %}</td>
@@ -244,9 +244,9 @@
 					  			{% ifequal e rid %}
 					  				<tr>
 					  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-					  					<td>{{ listing.title|truncatewords:6 }}</td>
+					  					<td>{{ listing.title|truncatewords:8 }}</td>
 					  					<td>{{ listing.artist }}</td>
-					  					<td>{{ listing.album }}</td>
+					  					<td>{{ listing.album|truncatewords:8 }}</td>
 					  					<td>{{ listing.status }}</td>
 					  					{% if listing.on_air %}
 					  						<td>{{ listing.on_air }} {% now "T" %}</td>
