@@ -8,6 +8,10 @@ import tagpy
 def add_file(filename):
     ref = tagpy.FileRef(filename)
     tags = ref.tag()
+    artist = tags.artist
+    album = tags.album
+    title = tags.title
+    genre = tags.genre
     assert False
 
 def build_file_list(dir, queries, parent_id):
