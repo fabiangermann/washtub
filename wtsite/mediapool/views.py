@@ -7,30 +7,31 @@ def build_file_list(dir, queries, parent_id):
     if not (access(dir, (F_OK or R_OK))):
         return
     list = walk(dir,topdown=True)
-    assert False
+    for root, dirs, files in list:
+        assert False
 
 def file_scanner(request):
     queries = {}
 
     #setup queryset for Directories
     dirs = Directory.objects.all()
-    queries[dirs] = dirs
+    queries['dirs'] = dirs
     
     #setup queryset for Genres
     genres = Genre.objects.all()
-    queries[genres] = dirs
+    queries['genres'] = dirs
     
     #setup queryset for Artists
     artists = Artist.objects.all()
-    queries[artists] = dirs
+    queries['artists'] = dirs
     
     #setup queryset for Albums
     albums = Album.objects.all()
-    queries[albums] = dirs
+    queries['albums'] = dirs
     
     #setup queryset for Songs
     songs = Song.objects.all()
-    queries[songs] = dirs
+    queries['songs'] = dirs
     
     if(settings.MEDIAPOOL_PATH):
         directory = settings.MEDIAPOOL_PATH
