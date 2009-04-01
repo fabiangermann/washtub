@@ -1,4 +1,4 @@
-from wtsite.controller.models import *
+from wtsite.mediapool.models import *
 from django.contrib import admin
 
 class ArtistInline(admin.StackedInline):
@@ -13,7 +13,7 @@ class GenreInline(admin.StackedInline):
 class SongAdmin(admin.ModelAdmin):
     list_display = ('name', 'artist', 'album', 'genre')
     inlines = [
-        ArtistInline,
+        ArtistInline, AlbumInline, GenreInline
     ]
 
 admin.site.register(Song, SongAdmin)
