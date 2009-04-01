@@ -17,8 +17,8 @@ class Artist(models.Model):
 class Album(models.Model):
     artist = models.ForeignKey(Artist)
     name = models.CharField(max_length=765)
-    year = models.IntegerField()
-    compilation = models.IntegerField()
+    year = models.IntegerField(null=True)
+    compilation = models.IntegerField(null=True)
     class Meta:
         db_table = u'music_albums'
 
@@ -93,7 +93,7 @@ class Song(models.Model):
         else:
             self.artist = a
 
-        a, created = Album.objects.get_or_create(name=tags.album, artist=a, year=tags.year)
+        a, created = Album.objects.get_or_create(name=tags.album, artist=a)
         if(created):
             self.album = a
         else:
