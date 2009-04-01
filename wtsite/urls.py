@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     # Example:
     # (r'^wtsite/', include('wtsite.foo.urls')),
     (r'^washtub/', include('wtsite.controller.urls')),
+    (r'^washtub/', include('wtsite.mediapool.urls')),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
