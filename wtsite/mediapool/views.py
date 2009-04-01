@@ -15,13 +15,15 @@ def build_file_list(dir, queries, parent_id):
     list = walk(dir,topdown=True)
     for root, dirs, files in list:
         for f in files:
-            full_path = path.join(root,f)
-            if (f in queries['songs'].filter(filename=full_path)):
-                #check update time and compare against database.
-                pass
-            else:
-                #add it into the database
-                add_file(full_path)
+            ext = path.splitext(f)
+            if ext in ('.mp3', 'flac'):
+                full_path = path.join(root,f)
+                if (f in queries['songs'].filter(filename=full_path)):
+                    #check update time and compare against database.
+                    pass
+                else:
+                    #add it into the database
+                    add_file(full_path)
 
 def file_scanner(request):
     queries = {}
