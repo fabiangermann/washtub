@@ -91,19 +91,19 @@ class Song(models.Model):
         if(created):
             self.artist = a
         else:
-            assert False
-        assert False
-        if not (self.album):
-            a = Album.objects.get(name=tags.album)
-            if not (a):
-                a = Album.objects.create(name=tags.album)
+            self.artist = a
+
+        a, created = Album.objects.get_or_create(name=tags.album)
+        if(created):
             self.album = a
-        if not (self.genre):
-            a = Genre.object.get(name=tags.genre)
-            if not (a):
-                a = Genre.objects.create(name=tags.genre)
+        else:
+            self.album = a
+
+        a, created = Genre.objects.get_or_create(name=tags.genre)
+        if(created):
             self.genre = a
-             
+        else:
+            self.genre = a
             
         super(Blog, self).save(force_insert, force_update)
         
