@@ -14,6 +14,6 @@ class GenreAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Song, SongAdmin)
-admin.site.register(Song, AlbumAdmin)
-admin.site.register(Song, ArtistAdmin)
-admin.site.register(Song, GenreAdmin)
+admin.site.register(Album, AlbumAdmin)
+admin.site.register(Artist, ArtistAdmin)
+admin.site.register(Genre, GenreAdmin)
