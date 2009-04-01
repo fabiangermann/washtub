@@ -107,7 +107,7 @@ class Song(models.Model):
 
 class Albumart(models.Model):
     filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
-    directory = models.ForeignKey(Directory)
+    #directory = models.ForeignKey(Directory)
     imagetype = models.IntegerField()
     song = models.ForeignKey(Song)
     embedded = models.IntegerField()
