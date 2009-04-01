@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings    
 
 class Song(models.Model):
-    filename = models.FilePathField(path=default_path(), recursive=True, max_length=765)
+    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
     name = models.CharField(max_length=765)
     track = models.IntegerField()
     artist = models.ForeignKey(Artist)
@@ -34,27 +34,15 @@ class Song(models.Model):
     
     class Meta:
     	db_table = u'music_songs'
-        
-    def default_path(self):
-        if(settings.MEDIAPOOL_PATH):
-            return MEDIAPOOL_PATH
-        else:
-            return None
 
 class Albumart(models.Model):
-    filename = models.FilePathField(path=default_path(), recursive=True, max_length=765)
+    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
     directory = models.ForeignKey(Directory)
     imagetype = models.IntegerField()
     song_id = models.IntegerField()
     embedded = models.IntegerField()
     class Meta:
         db_table = u'music_albumart'
-        
-    def default_path(self):
-        if(settings.MEDIAPOOL_PATH):
-            return MEDIAPOOL_PATH
-        else:
-            return None
 
 class Album(models.Model):
     artist = models.ForeignKey(Artist)
