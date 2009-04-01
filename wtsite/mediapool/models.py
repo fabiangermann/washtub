@@ -88,11 +88,11 @@ class Song(models.Model):
         
         # now take care of ForeignKeys
         if not (self.artist):
-            try:
-                a = Artist.objects.get(name=tags.artist)
-            except Artist.DoesNotExist:
-                a = Artist.objects.create(name=tags.artist)
-            self.artist = a
+            a, created = Artist.objects.get_or_create(name=tags.artist)
+            if(created):
+                self.artist = a
+            else:
+                assert False
         if not (self.album):
             a = Album.objects.get(name=tags.album)
             if not (a):
