@@ -15,7 +15,7 @@ def build_file_list(dir, queries, parent_id):
     list = walk(dir,topdown=True)
     for root, dirs, files in list:
         for f in files:
-            full_path = path.join(root,name)
+            full_path = path.join(root,f)
             if (f in queries['songs'].filter(filename=full_path)):
                 #check update time and compare against database.
                 pass
