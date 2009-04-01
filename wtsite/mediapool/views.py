@@ -4,7 +4,7 @@ from os import path, access, stat, walk, F_OK, R_OK
 
 # Create your views here.
 def build_file_list(dir, queries, parent_id):
-    if not (access(dir, F_OK, R_OK)):
+    if not (access(dir, (F_OK or R_OK))):
         return
     list = walk(dir,topdown=True)
     assert False
