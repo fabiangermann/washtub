@@ -79,9 +79,9 @@ class Song(models.Model):
         if not (self.length):
             self.length = props.length
         if not (self.sample_rate):
-            self.sample_rate = tags.sampleRate
+            self.sample_rate = props.sampleRate
         if not (self.bitrate):
-            self.bitrate = tags.bitrate
+            self.bitrate = props.bitrate
         if not (self.format):
             ext = path.splitext(self.filename)
             ext = ext(len(ext)-1)
