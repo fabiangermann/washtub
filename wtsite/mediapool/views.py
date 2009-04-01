@@ -5,14 +5,9 @@ from os.path import join, getsize
 import tagpy
 
 # Create your views here.
-def add_file(filename):
-    ref = tagpy.FileRef(filename)
-    tags = ref.tag()
-    artist = tags.artist
-    album = tags.album
-    title = tags.title
-    genre = tags.genre
-    assert False
+def add_file(file):
+    s = Song(filename=file)
+    s.save()
 
 def build_file_list(dir, queries, parent_id):
     if not (access(dir, (F_OK or R_OK))):
