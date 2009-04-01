@@ -21,7 +21,7 @@ def file_scanner(request):
     queries[genres] = dirs
     
     #setup queryset for Artists
-    artists = Artist..objects.all()
+    artists = Artist.objects.all()
     queries[artists] = dirs
     
     #setup queryset for Albums
