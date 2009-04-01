@@ -1,6 +1,6 @@
 from django.conf import settings
 from wtsite.mediapool.models import *
-from os import path, access, stat, walk
+from os import path, access, stat, walk, F_OK, R_OK
 
 # Create your views here.
 def build_file_list(dir, queries, parent_id):
