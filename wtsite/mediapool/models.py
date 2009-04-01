@@ -7,14 +7,10 @@ class Directory(models.Model):
     class Meta:
         db_table = u'music_directories'
 
-class Albumart(models.Model):
-    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
-    directory = models.ForeignKey(Directory)
-    imagetype = models.IntegerField()
-    song_id = models.IntegerField()
-    embedded = models.IntegerField()
+class Artist(models.Model):
+    name = models.CharField(max_length=765)
     class Meta:
-        db_table = u'music_albumart'
+        db_table = u'music_artists'
 
 class Album(models.Model):
     artist = models.ForeignKey(Artist)
@@ -24,10 +20,10 @@ class Album(models.Model):
     class Meta:
         db_table = u'music_albums'
 
-class Artist(models.Model):
-    name = models.CharField(max_length=765)
+class Genre(models.Model):
+    genre = models.CharField(max_length=765)
     class Meta:
-        db_table = u'music_artists'
+        db_table = u'music_genres'
 
 class Song(models.Model):
     filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
@@ -63,10 +59,14 @@ class Song(models.Model):
     class Meta:
         db_table = u'music_songs'
 
-class Genre(models.Model):
-    genre = models.CharField(max_length=765)
+class Albumart(models.Model):
+    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, max_length=765)
+    directory = models.ForeignKey(Directory)
+    imagetype = models.IntegerField()
+    song = models.ForeignKey(Song)
+    embedded = models.IntegerField()
     class Meta:
-        db_table = u'music_genres'
+        db_table = u'music_albumart'
 
 class Playlists(models.Model):
     name = models.CharField(max_length=765)
