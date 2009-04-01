@@ -93,6 +93,7 @@ class Song(models.Model):
                 self.artist = a
             else:
                 assert False
+        assert False
         if not (self.album):
             a = Album.objects.get(name=tags.album)
             if not (a):
