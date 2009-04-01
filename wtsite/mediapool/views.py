@@ -2,14 +2,26 @@ from django.conf import settings
 from wtsite.mediapool.models import *
 from os import path, access, stat, walk, F_OK, R_OK
 from os.path import join, getsize
+import tagpy
 
 # Create your views here.
+def add_file(filename):
+    ref = tagpy.FileRef(filename)
+    tags = f.tag()
+    assert False
 def build_file_list(dir, queries, parent_id):
     if not (access(dir, (F_OK or R_OK))):
         return
     list = walk(dir,topdown=True)
     for root, dirs, files in list:
-        assert False
+        for f in files:
+            full_path = path.join(root,name)
+            if (f in queries['songs'].filter(filename=full_path)):
+                #check update time and compare against database.
+                pass
+            else:
+                #add it into the database
+                add_file(full_path)
 
 def file_scanner(request):
     queries = {}
