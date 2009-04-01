@@ -27,8 +27,8 @@ def file_scanner(request):
     queries = {}
 
     #setup queryset for Directories
-    dirs = Directory.objects.all()
-    queries['dirs'] = dirs
+    #dirs = Directory.objects.all()
+    #queries['dirs'] = dirs
     
     #setup queryset for Genres
     genres = Genre.objects.all()
