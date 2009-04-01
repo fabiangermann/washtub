@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 from os import path, access, stat, F_OK, R_OK
-from path import splitext
 import tagpy  
 
 #class Directory(models.Model):
@@ -82,7 +81,7 @@ class Song(models.Model):
         if not (self.bitrate):
             self.bitrate = tags.bitrate
         if not (self.format):
-            ext = splitext(self.filename)
+            ext = path.splitext(self.filename)
             ext = ext(len(ext)-1)
         
         # now take care of ForeignKeys
