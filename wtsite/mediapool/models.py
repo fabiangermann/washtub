@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings    
 
 class Song(models.Model):
     filename = models.FilePathField(path=default_path(), recursive=True, max_length=765)
@@ -15,7 +16,7 @@ class Song(models.Model):
     date_entered = models.DateTimeField(null=True, blank=True)
     date_modified = models.DateTimeField(null=True, blank=True)
     format = models.CharField(max_length=12)
-    mythdigest = models.CharField(max_length=765, blank=True)x
+    mythdigest = models.CharField(max_length=765, blank=True)
     size = models.IntegerField(null=True, blank=True)
     description = models.CharField(max_length=765, blank=True)
     comment = models.CharField(max_length=765, blank=True)
@@ -30,8 +31,15 @@ class Song(models.Model):
     bitrate = models.IntegerField(null=True, blank=True)
     bpm = models.IntegerField(null=True, blank=True)
     directory = models.ForeignKey(Directory)
+    
     class Meta:
     	db_table = u'music_songs'
+        
+    def default_path(self):
+        if(settings.MEDIAPOOL_PATH):
+            return MEDIAPOOL_PATH
+        else:
+            return None
 
 class Albumart(models.Model):
     filename = models.FilePathField(path=default_path(), recursive=True, max_length=765)
@@ -41,6 +49,12 @@ class Albumart(models.Model):
     embedded = models.IntegerField()
     class Meta:
         db_table = u'music_albumart'
+        
+    def default_path(self):
+        if(settings.MEDIAPOOL_PATH):
+            return MEDIAPOOL_PATH
+        else:
+            return None
 
 class Album(models.Model):
     artist = models.ForeignKey(Artist)
