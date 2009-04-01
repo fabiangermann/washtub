@@ -15,7 +15,7 @@ def build_file_list(dir, queries, parent_id):
     list = walk(dir,topdown=True)
     for root, dirs, files in list:
         for f in files:
-            ext = path.splitext(f)
+            ext = path.splitext(f)[1]
             assert False
             if ext in ('.mp3', 'flac'):
                 full_path = path.join(root,f)
