@@ -16,6 +16,7 @@ def build_file_list(dir, queries, parent_id):
     for root, dirs, files in list:
         for f in files:
             ext = path.splitext(f)
+            assert False
             if ext in ('.mp3', 'flac'):
                 full_path = path.join(root,f)
                 if (f in queries['songs'].filter(filename=full_path)):
