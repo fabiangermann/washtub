@@ -1,5 +1,5 @@
 from django.conf import settings
-from wtsite.mediapool import models
+from wtsite.mediapool.models import *
 from os import path, access, stat, walk
 
 # Create your views here.
