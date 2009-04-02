@@ -17,7 +17,7 @@ class Artist(models.Model):
         return self.name
 
 class Album(models.Model):
-    artist = models.ForeignKey(Artist)
+    artist = models.ManyToManyField(Artist)
     name = models.CharField(max_length=765)
     year = models.IntegerField(null=True)
     compilation = models.IntegerField(null=True)
@@ -103,9 +103,9 @@ class Song(models.Model):
 
         a, created = Album.objects.get_or_create(name=tags.album, artist=a)
         if(created):
-            self.album = a
+            self.album.add(a)
         else:
-            self.album = a
+            self.album.add(a)
         
         a, created = Genre.objects.get_or_create(name=tags.genre)
         if(created):
