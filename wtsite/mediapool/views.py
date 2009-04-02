@@ -37,7 +37,6 @@ def clean_db(list, songs):
     for s in songs:
         found = False
         for root, dirs, files in list:
-            assert False
             for f in files:
                 ext = path.splitext(f)[1]
                 if ext in ('.mp3', '.flac'):
@@ -60,7 +59,7 @@ def file_scanner(request):
         return
     
     list = build_file_list(directory)
-    
+    assert False
     songs = Song.objects.all()
     clean_db(list, songs)
     
