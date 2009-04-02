@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from wtsite.mediapool.models import *
 from os import access, stat, path, walk, F_OK, R_OK
 from os.path import join, getsize
@@ -33,7 +33,7 @@ def build_file_list(dir, queries):
     
     return
 
-@login_required
+@login_required()
 def file_scanner(request):
     queries = {}
 
