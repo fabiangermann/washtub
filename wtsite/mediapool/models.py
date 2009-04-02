@@ -35,7 +35,7 @@ class Album(models.Model):
                 output = ', '+l.name+' ...'
             elif i > 0:
                 output = ', '+l.name
-            else:
+            elif i == 0:
                 output = l.name
         return output
 
