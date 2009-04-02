@@ -8,7 +8,7 @@ class SongAdmin(admin.ModelAdmin):
     list_display = ('title', 'artist', 'album', 'genre')
     fieldsets = (
         (None, {
-            'classes': ('wide'),
+            'classes': ('extrawide'),
             'fields': ('filename', 'title', 'artist', 'album', 'genre', )
         }),
         ('Extras', {
