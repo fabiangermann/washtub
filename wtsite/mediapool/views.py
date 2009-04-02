@@ -34,21 +34,20 @@ def build_file_list(dir):
     return list
 
 def clean_db(list, songs):
-    found = False
-    for root, dirs, files in list:
-        for f in files:
-            ext = path.splitext(f)[1]
-            if ext in ('.mp3', '.flac'):
-                full_path = path.join(root,f)
-                for s in songs:
+    for s in songs:
+        found = False
+        for root, dirs, files in list:
+            for f in files:
+                ext = path.splitext(f)[1]
+                if ext in ('.mp3', '.flac'):
+                    full_path = path.join(root,f)
                     test = smart_str(s.filename)
                     if(full_path == smart_str(s.filename)):
                         found = True
-                if not found:
-                    d = Song.objects.get(filename__exact=s.filename)
-                    assert False
-                    d.delete()
-                found = False
+        if not found:
+            d = Song.objects.get(filename__exact=s.filename)
+            assert False
+            d.delete()
     return  
 
 @login_required()
