@@ -21,12 +21,12 @@ def build_file_list(dir, queries):
                     #check update time and compare against database.
                     s = queries['songs'].filter(filename=full_path)
                     if(mod_time > s.date_modified):
-                        s = Song(filename=file, date_modified=mod_time)
+                        s = Song(filename=full_path, date_modified=mod_time)
                         s.save()
                 else:
                     #add it into the database
                     now = datetime.datetime.now().isoformat(' ')
-                    s = Song(filename=file, date_modified=mod_time, date_entered=now)
+                    s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                     s.save()
     
     return
