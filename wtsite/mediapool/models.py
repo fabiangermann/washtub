@@ -73,7 +73,7 @@ class Song(models.Model):
         
     def save(self, force_insert=False, force_update=False):
         poo = self.filename
-        junk = type(poo).__name__
+        junk = isinstance(poo, file)
         if type(self.filename).__name__=='file':
             if not ( access(self.filename, (F_OK or R_OK))):
                 return
