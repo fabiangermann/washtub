@@ -42,7 +42,7 @@ def clean_db(dir, songs):
         for root, dirs, files in list:
             if(found):
                 break
-            for f in files and not found:
+            for f in files:
                 if(found):
                     break
                 ext = path.splitext(f)[1]
