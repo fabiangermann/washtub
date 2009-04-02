@@ -36,7 +36,7 @@ class Album(models.Model):
             elif i > 0:
                 output += ', '+l.name
             elif i == 0:
-                output += l.name
+                output = l.name
         return output
 
 class Genre(models.Model):
