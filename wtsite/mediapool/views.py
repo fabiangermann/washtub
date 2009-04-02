@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from wtsite.mediapool.models import *
-from os import path, access, stat, walk, F_OK, R_OK
+import os
 from os.path import join, getsize
-from os.stat import ST_MTIME
+from stat import *
 import tagpy, datetime 
 
 def build_file_list(dir, queries, parent_id):
@@ -15,7 +15,7 @@ def build_file_list(dir, queries, parent_id):
             ext = path.splitext(f)[1]
             if ext in ('.mp3', 'flac'):
                 full_path = path.join(root,f)
-                mod_time = os.stat(full_path)[ST_MTIME]
+                mod_time = stat(full_path)[ST_MTIME]
                 if (f in queries['songs'].filter(filename=full_path)):
                     #check update time and compare against database.
                     s = queries['songs'].filter(filename=full_path)
