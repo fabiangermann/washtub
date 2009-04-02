@@ -12,6 +12,7 @@ import tagpy
 class Artist(models.Model):
     name = models.CharField(max_length=765)
     class Meta:
+        ordering = ['name']
         db_table = u'music_artists'
     def __unicode__(self):
         return self.name
@@ -22,6 +23,7 @@ class Album(models.Model):
     year = models.IntegerField(null=True)
     compilation = models.IntegerField(null=True)
     class Meta:
+        ordering = ['name']
         db_table = u'music_albums'
     def __unicode__(self):
         return self.name
@@ -29,6 +31,7 @@ class Album(models.Model):
 class Genre(models.Model):
     name = models.CharField(max_length=765)
     class Meta:
+        ordering = ['name']
         db_table = u'music_genres'
     def __unicode__(self):
         return self.name
@@ -63,6 +66,7 @@ class Song(models.Model):
     bpm = models.IntegerField(null=True, blank=True)
     
     class Meta:
+        ordering = ['title']
         db_table = u'music_songs'
     def __unicode__(self):
         return self.title
