@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from wtsite.mediapool.models import *
-import os
+from os import *
 from os.path import join, getsize
-from stat import *
+from stat import ST_MTIME
 import tagpy, datetime 
 
 def build_file_list(dir, queries, parent_id):
