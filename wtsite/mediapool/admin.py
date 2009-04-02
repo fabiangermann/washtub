@@ -11,7 +11,7 @@ class SongAdmin(admin.ModelAdmin):
             'classes': ('wide'),
             'fields': ('filename')
         }),
-        (None, {
+        ('Extras', {
             'fields': ('title', 'artist', 'album', 'genre', 'track', 'year', 'length', 'numplays'
                        'rating', 'lastplay', 'date_entered', 'date_modified', 'format', 'size', 
                        'description', 'comment', 'disc_count', 'disc_number', 'track_count', 'start_time',
