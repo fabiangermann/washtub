@@ -40,6 +40,7 @@ def clean_db(list, songs):
         for f in files:
             full_path = path.join(root,f)
             for s in songs:
+                assert False
                 if(full_path == smart_str(s.filename)):
                     found = True
             if not found:
