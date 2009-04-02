@@ -28,11 +28,10 @@ class Album(models.Model):
         db_table = u'music_albums'
     def __unicode__(self):
         return self.name
-    def get_artists(self):
+    def artist_list(self):
         list = self.artist.all()[:3]
-        for c,l in list.enumerate():
-            if c > 0:
-                output = l.name+', '
+        for l in list:
+            output = l.name+', '
         return output
 
 class Genre(models.Model):
