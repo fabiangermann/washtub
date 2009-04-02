@@ -10,7 +10,7 @@ import tagpy, datetime
 def build_file_list(dir, queries):
     if not (access(dir, (F_OK or R_OK))):
         return
-    list = walk(dir,topdown=True,followlinks=True)
+    list = walk(dir,topdown=True)
     for root, dirs, files in list:
         for f in files:
             ext = path.splitext(f)[1]
