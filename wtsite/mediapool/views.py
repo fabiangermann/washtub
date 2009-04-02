@@ -21,6 +21,7 @@ def build_file_list(dir, queries):
                     #check update time and compare against database.
                     s = Song.objects.get(filename=full_path)
                     time = s.date_modified
+                    assert False
                     if(mod_time > s.date_modified): 
                         s = Song(filename=full_path, date_modified=mod_time.isoformat(' '))
                         s.save()
