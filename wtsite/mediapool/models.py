@@ -31,10 +31,10 @@ class Album(models.Model):
     def artist_list(self):
         list = self.artist.all()[:3]
         for i,l in enumerate(list):
-            if i > 0:
-                output = ', '+l.name
-            elif i == 2:
+            if i == 2:
                 output = ', '+l.name+' ...'
+            elif i > 0:
+                output = ', '+l.name
             else:
                 output = l.name
         return output
