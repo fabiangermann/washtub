@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from os import path, access, stat, F_OK, R_OK
+from os import path, access, F_OK, R_OK
 import tagpy 
 
 #class Directory(models.Model):
@@ -72,62 +72,60 @@ class Song(models.Model):
         return self.title
         
     def save(self, force_insert=False, force_update=False):
-        poo = self.filename
-        assert False
-        if (self.filename):
+        if not type(d).__name__=='file':
             if not ( access(self.filename, (F_OK or R_OK))):
                 return
-        ref = tagpy.FileRef(self.filename)
-        tags = ref.tag()
-        props = ref.audioProperties()
+            ref = tagpy.FileRef(self.filename)
+            tags = ref.tag()
+            props = ref.audioProperties()
         
-        #take care of the non-relational field first
-        if not (self.title):
-            self.title = tags.title
-        if not (self.year):
-            self.year = tags.year
-        if not (self.track):
-            if not (tags.track):
-                self.track = 1
+            #take care of the non-relational field first
+            if not (self.title):
+                self.title = tags.title
+            if not (self.year):
+                self.year = tags.year
+            if not (self.track):
+                if not (tags.track):
+                    self.track = 1
+                else:
+                    self.track = tags.track
+            if not (self.length):
+                self.length = props.length
+            if not (self.sample_rate):
+                self.sample_rate = props.sampleRate
+            if not (self.bitrate):
+                self.bitrate = props.bitrate
+            if not (self.format):
+                ext = path.splitext(self.filename)
+                self.format = ext[len(ext)-1]
+        
+            # now take care of ForeignKeys
+            a, created = Artist.objects.get_or_create(name=tags.artist)
+            if(created):
+                self.artist = a
             else:
-                self.track = tags.track
-        if not (self.length):
-            self.length = props.length
-        if not (self.sample_rate):
-            self.sample_rate = props.sampleRate
-        if not (self.bitrate):
-            self.bitrate = props.bitrate
-        if not (self.format):
-            ext = path.splitext(self.filename)
-            self.format = ext[len(ext)-1]
-        
-        # now take care of ForeignKeys
-        a, created = Artist.objects.get_or_create(name=tags.artist)
-        if(created):
-            self.artist = a
-        else:
-            self.artist = a
-        
-        try:
-            b = Album.objects.get(name=tags.album, artist=a)
-            self.album = b
-        except Album.DoesNotExist:
+                self.artist = a
+            
             try:
-                b = Album.objects.get(name=tags.album)
-                b.artist.add(a)
-                b.save()
+                b = Album.objects.get(name=tags.album, artist=a)
+                self.album = b
             except Album.DoesNotExist:
-                b = Album.objects.create(name=tags.album)
-                b.artist.add(a)
-                b.save()
-        self.album = b
-        
-        created = False
-        a, created = Genre.objects.get_or_create(name=tags.genre)
-        if(created):
-            self.genre = a
-        else:
-            self.genre = a
+                try:
+                    b = Album.objects.get(name=tags.album)
+                    b.artist.add(a)
+                    b.save()
+                except Album.DoesNotExist:
+                    b = Album.objects.create(name=tags.album)
+                    b.artist.add(a)
+                    b.save()
+            self.album = b
+            
+            created = False
+            a, created = Genre.objects.get_or_create(name=tags.genre)
+            if(created):
+                self.genre = a
+            else:
+                self.genre = a
         super(Song, self).save(force_insert, force_update)
         
 
