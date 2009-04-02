@@ -16,7 +16,7 @@ def build_file_list(dir, queries):
             if ext in ('.mp3', 'flac'):
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
-                mod_time = datetime.datetime.fromtimestamp(mod_time).isoformat()
+                mod_time = datetime.datetime.fromtimestamp(mod_time).isoformat(' ')
                 if (f in queries['songs'].filter(filename=full_path)):
                     #check update time and compare against database.
                     s = queries['songs'].filter(filename=full_path)
@@ -25,7 +25,7 @@ def build_file_list(dir, queries):
                         s.save()
                 else:
                     #add it into the database
-                    now = datetime.datetime.now().isoformat()
+                    now = datetime.datetime.now().isoformat(' ')
                     s = Song(filename=file, date_modified=mod_time, date_entered=now)
                     s.save()
     
