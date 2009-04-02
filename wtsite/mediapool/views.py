@@ -17,10 +17,11 @@ def build_file_list(dir, queries):
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time).isoformat(' ')
+                assert False
                 if (f in queries['songs'].filter(filename=full_path)):
                     #check update time and compare against database.
                     s = queries['songs'].filter(filename=full_path)
-                    if(mod_time > s.date_modified):
+                    if(mod_time > s.date_modified): 
                         s = Song(filename=full_path, date_modified=mod_time)
                         s.save()
                 else:
