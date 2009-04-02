@@ -36,11 +36,11 @@ def build_file_list(dir):
 def clean_db(dir, songs):
     if not (access(dir, (F_OK or R_OK))):
         return
-    list = walk(dir,topdown=True)
     for s in songs:
         found = False
         db_filename = smart_str(s.filename)
-        for root, dirs, files in list.copy():
+        list = walk(dir,topdown=True)
+        for root, dirs, files in list:
             if(found):
                 continue
             for f in files:
@@ -53,7 +53,6 @@ def clean_db(dir, songs):
                         found = True
         if not found:
             d = Song.objects.get(filename__exact=s.filename)
-            assert False
             d.delete()
     return  
 
