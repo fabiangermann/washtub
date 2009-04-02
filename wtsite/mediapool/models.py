@@ -79,24 +79,17 @@ class Song(models.Model):
         props = ref.audioProperties()
     
         #take care of the non-relational field first
-        if not (self.title):
-            self.title = tags.title
-        if not (self.year):
-            self.year = tags.year
-        if not (self.track):
-            if not (tags.track):
-                self.track = 1
-            else:
-                self.track = tags.track
-        if not (self.length):
-            self.length = props.length
-        if not (self.sample_rate):
-            self.sample_rate = props.sampleRate
-        if not (self.bitrate):
-            self.bitrate = props.bitrate
-        if not (self.format):
-            ext = path.splitext(self.filename)
-            self.format = ext[len(ext)-1]
+        self.title = tags.title
+        self.year = tags.year
+        self.length = props.length
+        self.sample_rate = props.sampleRate
+        self.bitrate = props.bitrate
+        ext = path.splitext(self.filename)
+        self.format = ext[len(ext)-1]
+        if not (tags.track):
+            self.track = 1
+        else:
+            self.track = tags.track
     
         # now take care of ForeignKeys
         a, created = Artist.objects.get_or_create(name=tags.artist)
