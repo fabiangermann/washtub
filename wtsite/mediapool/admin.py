@@ -9,7 +9,7 @@ class SongAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'classes': ('wide'),
-            'fields': ('filename', 'title', 'artist', 'album', 'genre', )
+            'fields': ('title', 'artist', 'album', 'genre', )
         }),
         ('Extras', {
             'fields': ('track', 'year', 'length', 'numplays'
