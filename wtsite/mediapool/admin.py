@@ -2,9 +2,23 @@ from wtsite.mediapool.models import *
 from django.contrib import admin
 
 class SongAdmin(admin.ModelAdmin):
+    search_fields = ['title']
     list_per_page = 50  
     list_filter = ['artist']
     list_display = ('title', 'artist', 'album', 'genre')
+    fieldsets = (
+        (None, {
+            'classes': ('wide'),
+            'fields': ('filename')
+        }),
+        (None, {
+            'fields': ('title', 'artist', 'album', 'genre', 'track', 'year', 'length', 'numplays'
+                       'rating', 'lastplay', 'date_entered', 'date_modified', 'format', 'size', 
+                       'description', 'comment', 'disc_count', 'disc_number', 'track_count', 'start_time',
+                       'stop_time', 'eq_preset', 'relative_volume', 'sample_rate', 'bitrate', 'bpm')
+        }),
+    )
+
     
 class ArtistAdmin(admin.ModelAdmin):
     list_per_page = 50  
