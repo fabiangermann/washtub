@@ -39,16 +39,14 @@ def clean_db(dir, songs):
     list = walk(dir,topdown=True)
     for s in songs:
         found = False
-        for root, dirs, files in list:
-            for f in files:
+        for root, dirs, files in list and not found:
+            for f in files and not found:
                 ext = path.splitext(f)[1]
                 if ext in ('.mp3', '.flac'):
                     full_path = path.join(root,f)
                     db_filename = smart_str(s.filename)
                     if(full_path == db_filename):
                         found = True
-                        goto .exit
-        label .exit
         if not found:
             d = Song.objects.get(filename__exact=s.filename)
             assert False
