@@ -73,7 +73,9 @@ class Song(models.Model):
         return self.title
         
     def save(self, force_insert=False, force_update=False):
-        if not ( access(smart_str(self.filename), (F_OK or R_OK))):
+        if type(self.filename)).__name__=='unicode':
+            self.filename = smart_str(self.filename)
+        if not ( access(str(self.filename), (F_OK or R_OK))):
             return
         ref = tagpy.FileRef(self.filename)
         tags = ref.tag()
