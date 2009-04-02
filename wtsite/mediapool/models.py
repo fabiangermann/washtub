@@ -48,7 +48,7 @@ class Genre(models.Model):
         return self.name
 
 class Song(models.Model):
-    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, match="*(\.mp3|\.flac)$", max_length=765)
+    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=True, match="*\.mp3$|\.flac$", max_length=765)
     title = models.CharField(max_length=765)
     track = models.IntegerField()
     artist = models.ForeignKey(Artist)
