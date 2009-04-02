@@ -59,7 +59,6 @@ def file_scanner(request):
         return
     
     list = build_file_list(directory)
-    assert False
     songs = Song.objects.all()
     clean_db(list, songs)
     
