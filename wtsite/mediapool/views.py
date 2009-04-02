@@ -10,7 +10,7 @@ import tagpy, datetime
 
 def build_file_list(dir):
     if not (access(dir, (F_OK or R_OK))):
-        return None
+        return
     list = walk(dir,topdown=True)
     for root, dirs, files in list:
         for f in files:
@@ -25,15 +25,18 @@ def build_file_list(dir):
                     if(mod_time > s.date_modified): 
                         s.date_modified=mod_time.isoformat(' ')
                         s.save()
-                    return list
+                    return
                 except Song.DoesNotExist:
                     #add it into the database
                     now = datetime.datetime.now().isoformat(' ')
                     s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                     s.save()
-    return list
+    return
 
-def clean_db(list, songs):
+def clean_db(dir, songs):
+    if not (access(dir, (F_OK or R_OK))):
+        return
+    list = walk(dir,topdown=True)
     for s in songs:
         found = False
         for root, dirs, files in list:
@@ -60,7 +63,7 @@ def file_scanner(request):
     
     list = build_file_list(directory)
     songs = Song.objects.all()
-    clean_db(list, songs)
+    clean_db(dir, songs)
     
     return HttpResponseRedirect('/washtub/')
     
