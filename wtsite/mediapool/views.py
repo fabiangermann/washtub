@@ -63,7 +63,7 @@ def file_scanner(request):
     
     list = build_file_list(directory)
     songs = Song.objects.all()
-    clean_db(dir, songs)
+    clean_db(directory, songs)
     
     return HttpResponseRedirect('/washtub/')
     
