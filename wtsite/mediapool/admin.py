@@ -1,12 +1,18 @@
 from wtsite.mediapool.models import *
 from django.contrib import admin
 
+class SongInline(admin.TabularInline):
+    model = Song
+
 class SongAdmin(admin.ModelAdmin):
     list_filter = ['artist']
     list_display = ('title', 'artist', 'album', 'genre')
     
 class ArtistAdmin(admin.ModelAdmin):
-    pass    
+    inlines = [
+        SongInline,
+    ]
+
 
 class AlbumAdmin(admin.ModelAdmin):
     pass
