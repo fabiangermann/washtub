@@ -75,7 +75,7 @@ def file_scanner(request):
     else:
         return
     
-    list = build_file_list(directory, queries)
+    list = build_file_list(directory)
     
     songs = Song.objects.all()
     clean_db(list, songs)
