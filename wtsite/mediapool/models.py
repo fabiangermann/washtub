@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from os import path, access, stat, F_OK, R_OK
-import tagpy  
+import tagpy 
 
 #class Directory(models.Model):
 #    path = models.TextField()
