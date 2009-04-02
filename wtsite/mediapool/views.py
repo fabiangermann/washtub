@@ -40,16 +40,16 @@ def file_scanner(request):
     #queries['dirs'] = dirs
     
     #setup queryset for Genres
-    genres = Genre.objects.all()
-    queries['genres'] = genres
+#    genres = Genre.objects.all()
+#    queries['genres'] = genres
     
     #setup queryset for Artists
-    artists = Artist.objects.all()
-    queries['artists'] = artists
+#    artists = Artist.objects.all()
+#    queries['artists'] = artists
     
     #setup queryset for Albums
-    albums = Album.objects.all()
-    queries['albums'] = albums
+#    albums = Album.objects.all()
+#    queries['albums'] = albums
     
     #setup queryset for Songs
     songs = Song.objects.all()
