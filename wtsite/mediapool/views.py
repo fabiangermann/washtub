@@ -4,7 +4,6 @@ from wtsite.mediapool.models import *
 import os, tagpy, datetime
 from stat import *
 from path import *
- 
 
 def build_file_list(dir, queries, parent_id):
     if not (access(dir, (F_OK or R_OK))):
