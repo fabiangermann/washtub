@@ -72,7 +72,7 @@ class Song(models.Model):
         return self.title
         
     def save(self, force_insert=False, force_update=False):
-        if not type(d).__name__=='file':
+        if not type(self.filename).__name__=='file':
             if not ( access(self.filename, (F_OK or R_OK))):
                 return
             ref = tagpy.FileRef(self.filename)
