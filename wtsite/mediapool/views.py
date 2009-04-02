@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from wtsite.mediapool.models import *
-from os import path, access, stat, walk, F_OK, R_OK
-from os.path import join, getsize
-from os.stat import ST_MTIME
-import tagpy, datetime 
+import os, tagpy, datetime
+from stat import *
+from path import *
+ 
 
 def build_file_list(dir, queries, parent_id):
     if not (access(dir, (F_OK or R_OK))):
