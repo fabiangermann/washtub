@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from wtsite.mediapool.models import *
 from os import path, access, stat, walk, F_OK, R_OK
 from os.path import join, getsize
@@ -24,6 +25,8 @@ def build_file_list(dir, queries, parent_id):
                 else:
                     #add it into the database
                     add_file(full_path)
+    
+    return
 
 def file_scanner(request):
     queries = {}
@@ -55,8 +58,7 @@ def file_scanner(request):
     
     build_file_list(directory, queries, 0)
     
-    return
-
+    return HttpResponseRedirect('/washtub/control/'+host_name)
     
     
     
