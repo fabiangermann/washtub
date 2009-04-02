@@ -29,7 +29,11 @@ class Album(models.Model):
     def __unicode__(self):
         return self.name
     def get_artists(self):
-        return self.artist.all()[:3]
+        list = self.artist.all()[:3]
+        for c,l in list.enumerate():
+            if c > 0:
+                output = l.name+', '
+        return output
 
 class Genre(models.Model):
     name = models.CharField(max_length=765)
