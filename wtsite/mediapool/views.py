@@ -36,8 +36,8 @@ def build_file_list(dir):
 def clean_db(list, songs):
     for s in songs:
         found = False
+        assert False
         for root, dirs, files in list:
-            assert False
             for f in files:
                 ext = path.splitext(f)[1]
                 if ext in ('.mp3', '.flac'):
