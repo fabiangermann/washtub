@@ -1,5 +1,4 @@
 from django.db import models
-from django import forms
 from django.conf import settings
 from django.utils.encoding import smart_str, smart_unicode
 from os import path, access, F_OK, R_OK
@@ -49,7 +48,7 @@ class Genre(models.Model):
         return self.name
 
 class Song(models.Model):
-    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=False, match=".*(\.mp3|\.flac)$", max_length=765,widget=forms.TextInput)
+    filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=False, match=".*(\.mp3|\.flac)$", max_length=765)
     title = models.CharField(max_length=765)
     track = models.IntegerField()
     artist = models.ForeignKey(Artist)
