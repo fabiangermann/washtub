@@ -9,7 +9,7 @@ class ArtistAdmin(admin.ModelAdmin):
     pass
 
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('name', 'get_artists', 'year')
+    list_display = ('name', 'artist_list', 'year')
     
 class GenreAdmin(admin.ModelAdmin):
     pass
