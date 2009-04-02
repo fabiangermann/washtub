@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.contrib.auth import authenticate, login, logout
 from wtsite.mediapool.models import *
 from os import access, stat, path, walk, F_OK, R_OK
 from os.path import join, getsize
