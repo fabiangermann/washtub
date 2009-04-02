@@ -32,11 +32,11 @@ class Album(models.Model):
         list = self.artist.all()[:3]
         for i,l in enumerate(list):
             if i == 2:
-                output += ', '+l.name+' ...'
+                output += ', '+l+' ...'
             elif i > 0:
-                output += ', '+l.name
+                output += ', '+l
             elif i == 0:
-                output = l.name
+                output = l
         return output
 
 class Genre(models.Model):
