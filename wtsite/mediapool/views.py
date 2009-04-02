@@ -41,13 +41,13 @@ def clean_db(list, songs):
             full_path = path.join(root,f)
             for s in songs:
                 test = smart_str(s.filename)
-                assert False
                 if(full_path == smart_str(s.filename)):
                     found = True
             if not found:
                 d = Song.objects.get(filename__exact=full_path)
                 assert False
-                d.detele()
+                d.delete()
+            found = False
     return  
 
 @login_required()
