@@ -33,7 +33,7 @@ def build_file_list(dir, queries):
     
     return
 
-@login_required()
+@login_required
 def file_scanner(request):
     queries = {}
 
