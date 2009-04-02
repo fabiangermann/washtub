@@ -68,6 +68,8 @@ class Song(models.Model):
     class Meta:
         ordering = ['title']
         db_table = u'music_songs'
+    def __unicode__(self):
+        return self.filename
         
     def save(self, force_insert=False, force_update=False):
         if not ( access(self.filename, (F_OK or R_OK))):
