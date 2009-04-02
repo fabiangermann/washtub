@@ -24,7 +24,8 @@ def build_file_list(dir, queries):
                         s.save()
                 else:
                     #add it into the database
-                    s = Song(filename=file, date_modified=mod_time, date_entered= datetime.datetime.now())
+                    now = datetime.datetime.now().isoformat()
+                    s = Song(filename=file, date_modified=mod_time, date_entered=now)
                     s.save()
     
     return
