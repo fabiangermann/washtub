@@ -39,6 +39,7 @@ def clean_db(dir, songs):
     list = walk(dir,topdown=True)
     for s in songs:
         found = False
+        db_filename = smart_str(s.filename)
         for root, dirs, files in list:
             if(found):
                 continue
@@ -48,7 +49,6 @@ def clean_db(dir, songs):
                 ext = path.splitext(f)[1]
                 if ext in ('.mp3', '.flac'):
                     full_path = path.join(root,f)
-                    db_filename = smart_str(s.filename)
                     if(full_path == db_filename):
                         found = True
                         continue
