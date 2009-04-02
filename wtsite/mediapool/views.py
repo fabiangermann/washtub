@@ -58,7 +58,7 @@ def file_scanner(request):
     
     build_file_list(directory, queries, 0)
     
-    return HttpResponseRedirect('/washtub/control/'+host_name)
+    return HttpResponseRedirect('/washtub/control/')
     
     
     
