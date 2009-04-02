@@ -100,13 +100,15 @@ class Song(models.Model):
             self.artist = a
         else:
             self.artist = a
-
+        
+        created = False
         a, created = Album.objects.get_or_create(name=tags.album, artist=tags.artist)
         if(created):
             self.album.add(a)
         else:
             self.album.add(a)
         
+        created = False
         a, created = Genre.objects.get_or_create(name=tags.genre)
         if(created):
             self.genre = a
