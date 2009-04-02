@@ -105,10 +105,15 @@ class Song(models.Model):
             b = Album.objects.get(name=tags.album, artist=a)
             self.album = b
         except Album.DoesNotExist:
-            b = Album.objects.create(name=tags.album)
-            b.artist.add(a)
-            b.save()
-            self.album = b
+            try:
+                b = Album.objects.get(name=tags.album)
+                b.artist.add(a)
+                b.save()
+            except Album.DoesNotExist:
+                b = Album.objects.create(name=tags.album)
+                b.artist.add(a)
+                b.save()
+        self.album = b
         
         created = False
         a, created = Genre.objects.get_or_create(name=tags.genre)
