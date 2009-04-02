@@ -3,12 +3,8 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from wtsite.mediapool.models import *
 from os import path, access, stat, walk, F_OK, R_OK
 from os.path import join, getsize
-import tagpy
-
-# Create your views here.
-def add_file(file):
-    s = Song(filename=file)
-    s.save()
+from os.stat import ST_MTIME
+import tagpy, datetime 
 
 def build_file_list(dir, queries, parent_id):
     if not (access(dir, (F_OK or R_OK))):
@@ -19,12 +15,17 @@ def build_file_list(dir, queries, parent_id):
             ext = path.splitext(f)[1]
             if ext in ('.mp3', 'flac'):
                 full_path = path.join(root,f)
+                mod_time = stat(full_apath)[ST_MTIME]
                 if (f in queries['songs'].filter(filename=full_path)):
                     #check update time and compare against database.
-                    pass
+                    s = queries['songs'].filter(filename=full_path)
+                    if(mod_time > s.date_modified):
+                        s = Song(filename=file, date_modified=mod_time)
+                        s.save()
                 else:
                     #add it into the database
-                    add_file(full_path)
+                    s = Song(filename=file, date_modified=mod_time, date_entered= datetime.now)
+                    s.save()
     
     return
 
@@ -58,7 +59,7 @@ def file_scanner(request):
     
     build_file_list(directory, queries, 0)
     
-    return HttpResponseRedirect('/washtub/control/')
+    return HttpResponseRedirect('/washtub/')
     
     
     
