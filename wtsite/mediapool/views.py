@@ -17,6 +17,7 @@ def build_file_list(dir, queries):
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time).isoformat(' ')
+                s = queries['songs'].filter(filename=full_path)
                 assert False
                 if (f in queries['songs'].filter(filename=full_path)):
                     #check update time and compare against database.
