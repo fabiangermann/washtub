@@ -5,7 +5,7 @@ import os, tagpy, datetime
 from stat import *
 from path import *
 
-def build_file_list(dir, queries, parent_id):
+def build_file_list(dir, queries):
     if not (access(dir, (F_OK or R_OK))):
         return
     list = walk(dir,topdown=True)
@@ -56,9 +56,9 @@ def file_scanner(request):
     else:
         return
     
-    build_file_list(directory, queries, 0)
+    build_file_list(directory, queries)
     
-    return HttpResponseRedirect('/washtub/')
+    #return HttpResponseRedirect('/washtub/')
     
     
     
