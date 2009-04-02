@@ -46,6 +46,7 @@ def clean_db(dir, songs):
                     full_path = path.join(root,f)
                     db_filename = smart_str(s.filename)
                     if(full_path == db_filename):
+                        assert False
                         found = True
         if not found:
             d = Song.objects.get(filename__exact=s.filename)
