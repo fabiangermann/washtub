@@ -49,6 +49,8 @@ def clean_db(dir, songs):
                 ext = path.splitext(f)[1]
                 if ext in ('.mp3', '.flac'):
                     full_path = path.join(root,f)
+                    if(full_path == '/mnt/nfs/lx-gateway/data/audio/washtub/Aeroc/Viscous Solid/12-Another Mere Moment-Aeroc-Viscous Solid-320kbps.mp3'):
+                        assert False
                     if(full_path == db_filename):
                         found = True
                         continue
