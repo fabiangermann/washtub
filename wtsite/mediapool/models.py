@@ -74,6 +74,7 @@ class Song(models.Model):
     def save(self, force_insert=False, force_update=False):
         poo = self.filename
         junk = isinstance(poo, file)
+        assert False
         if type(self.filename).__name__=='file':
             if not ( access(self.filename, (F_OK or R_OK))):
                 return
