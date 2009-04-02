@@ -92,8 +92,8 @@ class Song(models.Model):
         tags = ref.tag()
         props = ref.audioProperties()
     
-        #take care of the non-relational field first
-        self.title = tags.title
+        #take care of the non-relational fields first
+        self.title = tags.title     
         self.year = tags.year
         self.length = props.length
         self.sample_rate = props.sampleRate
