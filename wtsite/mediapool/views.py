@@ -15,7 +15,8 @@ def build_file_list(dir, queries):
             ext = path.splitext(f)[1]
             if ext in ('.mp3', 'flac'):
                 full_path = path.join(root,f)
-                mod_time = datetime.fromtimestamp(stat(full_path)[ST_MTIME]).isoformat()
+                mod_time = stat(full_path)[ST_MTIME]
+                mod_time = datetime.datetime.fromtimestamp(mod_time).isoformat()
                 if (f in queries['songs'].filter(filename=full_path)):
                     #check update time and compare against database.
                     s = queries['songs'].filter(filename=full_path)
