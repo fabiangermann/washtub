@@ -89,5 +89,5 @@ INSTALLED_APPS = (
 
 
 # These Are Custom Settings for the MediaPool App
-MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/vinylcontrol'
+MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/washtub'
 
