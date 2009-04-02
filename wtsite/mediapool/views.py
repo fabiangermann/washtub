@@ -44,7 +44,7 @@ def clean_db(dir, songs):
                 ext = path.splitext(f)[1]
                 if ext in ('.mp3', '.flac'):
                     full_path = path.join(root,f)
-                    full_path_test = smart_str(s.filename)
+                    full_path_test = s.filename
                     assert False
                     if(full_path == smart_str(s.filename)):
                         found = True
