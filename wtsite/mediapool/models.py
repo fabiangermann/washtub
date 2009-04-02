@@ -28,6 +28,8 @@ class Album(models.Model):
         db_table = u'music_albums'
     def __unicode__(self):
         return self.name
+    def get_artists(self):
+        return self.artist.all()[:3]
 
 class Genre(models.Model):
     name = models.CharField(max_length=765)
