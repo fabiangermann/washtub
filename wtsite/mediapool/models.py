@@ -97,9 +97,9 @@ class Song(models.Model):
         # now take care of ForeignKeys
         a, created = Artist.objects.get_or_create(name=tags.artist)
         if(created):
-            self.artist = a.name
+            self.artist = a
         else:
-            self.artist = a.name
+            self.artist = a
 
         a, created = Album.objects.get_or_create(name=tags.album, artist=a)
         if(created):
