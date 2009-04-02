@@ -1,12 +1,12 @@
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from wtsite.mediapool.models import *
-from os import path, walk, F_OK, R_OK
+from os import access, path, walk, F_OK, R_OK
 from os.path import join, getsize
 from stat import ST_MTIME
 import tagpy, datetime 
 
-def build_file_list(dir, queries, parent_id):
+def build_file_list(dir, queries):
     if not (access(dir, (F_OK or R_OK))):
         return
     list = walk(dir,topdown=True)
@@ -57,7 +57,7 @@ def file_scanner(request):
     else:
         return
     
-    build_file_list(directory, queries, 0)
+    build_file_list(directory, queries)
     
     return HttpResponseRedirect('/washtub/')
     
