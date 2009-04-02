@@ -16,13 +16,13 @@ def build_file_list(dir, queries):
             if ext in ('.mp3', 'flac'):
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
-                mod_time = datetime.datetime.fromtimestamp(mod_time).isoformat(' ')
+                mod_time = datetime.datetime.fromtimestamp(mod_time)
                 try: 
                     #check update time and compare against database.
                     s = Song.objects.get(filename=full_path)
                     time = s.date_modified
                     if(mod_time > s.date_modified): 
-                        s = Song(filename=full_path, date_modified=mod_time)
+                        s = Song(filename=full_path, date_modified=mod_time.isoformat(' '))
                         s.save()
                     return
                 except Song.DoesNotExist:
