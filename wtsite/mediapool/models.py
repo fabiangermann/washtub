@@ -29,9 +29,9 @@ class Album(models.Model):
     def __unicode__(self):
         return self.name
     def artist_list(self):
-        list = self.artist.all()[:3]
+        list = self.artist.all()[:5]
         for i,l in enumerate(list):
-            if i == 2:
+            if i == 4:
                 output += ', '+l.name+' ...'
             elif i > 0:
                 output += ', '+l.name

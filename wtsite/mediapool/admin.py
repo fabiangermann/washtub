@@ -11,6 +11,7 @@ class ArtistAdmin(admin.ModelAdmin):
 
 class AlbumAdmin(admin.ModelAdmin):
     list_per_page = 50  
+    list_filter = ['artist']
     list_display = ('name', 'artist_list', 'year')
     
 class GenreAdmin(admin.ModelAdmin):
