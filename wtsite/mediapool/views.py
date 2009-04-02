@@ -50,25 +50,6 @@ def clean_db(list, songs):
 
 @login_required()
 def file_scanner(request):
-    queries = {}
-
-    #setup queryset for Directories
-    #dirs = Directory.objects.all()
-    #queries['dirs'] = dirs
-    
-    #setup queryset for Genres
-#    genres = Genre.objects.all()
-#    queries['genres'] = genres
-    
-    #setup queryset for Artists
-#    artists = Artist.objects.all()
-#    queries['artists'] = artists
-    
-    #setup queryset for Albums
-#    albums = Album.objects.all()
-#    queries['albums'] = albums
-    
-    #setup queryset for Songs
     
     if(settings.MEDIAPOOL_PATH):
         directory = settings.MEDIAPOOL_PATH
