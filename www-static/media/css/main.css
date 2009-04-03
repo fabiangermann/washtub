@@ -684,7 +684,7 @@ table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	font-size: 8pt;
 	padding: 4px;
 }
-table.tablesorter thead tfoot {
+table.tablesorter tfoot tr {
 	height:10px;
 }
 table.tablesorter thead tr .header {
