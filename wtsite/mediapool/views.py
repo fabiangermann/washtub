@@ -16,7 +16,6 @@ def build_file_list(dir):
         for f in files:
             ext = path.splitext(f)[1]
             if ext in ('.mp3', 'flac'):
-                assert False
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time)
@@ -26,7 +25,6 @@ def build_file_list(dir):
                     if(mod_time > s.date_modified): 
                         s.date_modified=mod_time.isoformat(' ')
                         s.save()
-                    return
                 except Song.DoesNotExist:
                     #add it into the database
                     now = datetime.datetime.now().isoformat(' ')
