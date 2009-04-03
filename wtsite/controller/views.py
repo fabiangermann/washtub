@@ -1,4 +1,4 @@
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -203,7 +203,7 @@ def display_status(request, host_name):
 	p = get_song_pager()
 	try:
 		single_page = p.page(1)
-	except EmptyPage:
+	except EmptyPage, InvalidPage:
 		raise Http404
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
