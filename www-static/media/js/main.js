@@ -6,7 +6,7 @@ $(function(){
 
 	// Tabs
 	$('#tabs').tabs();
-
+	$tabs.tabs('select', 2);
 
 	// Dialog			
 	$('#dialog').dialog({
