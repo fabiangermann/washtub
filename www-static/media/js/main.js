@@ -4,9 +4,8 @@
 		$("#accordion").accordion({ header: "h3" });
 		
 		//Tabs
-		{% block tabsetup %}
 		$('#tabs').tabs();
-		{% endblock tabsetup %}
+		
 		//Call Table Sorter
 		$("#metaTable0").tablesorter({
 			widgets: ['zebra']
