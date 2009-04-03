@@ -249,9 +249,9 @@ def stream_start(request, host_name, stream):
 			HttpResponse(status=500)
 	raise Http404
 
-def display_pool(request):
+def display_pool(request, host_name, type):
 	pass
-def display_pool_page()
+def display_pool_page(request, host_name, type, page):
 	pass
 	
 	
