@@ -263,11 +263,11 @@
 			      	  	<br/>
 			      	  	 <div class="pagination"> 
    							<span class="pagination-pre">
-   							{% if all_pages.has_previous %}&larr;<a href="/washtub/pool/{{active_host}}/songs/{{all_pages.previous_page_number}}">previous</a>{% endif %}
+   							{% if single_page.has_previous %}&larr;<a href="/washtub/pool/{{active_host}}/songs/{{single_page.previous_page_number}}">previous</a>{% endif %}
    							</span>
-   							<span class="pagination-count">page {{ all_pages.number }} of {{ all_page.num_pages }}</span>
+   							<span class="pagination-count">page {{ single_page.number }} of {{ all_page.num_pages }}</span>
 							<span class="pagination-next">
-							{% if all_pages.has_next %}<a href="/washtub/pool/{{active_host}}/songs/{{all_pages.next_page_number}}">next</a>&rarr;{% endif %}
+							{% if single_page.has_next %}<a href="/washtub/pool/{{active_host}}/songs/{{single_page.next_page_number}}">next</a>&rarr;{% endif %}
    							</span>
   						 </div>
 			      	  {% endblock pooltab %}
