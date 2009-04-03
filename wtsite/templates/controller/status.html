@@ -233,6 +233,7 @@
 					  	<table id="poolTable" class="tablesorter"> 
 						<thead> 
 						<tr> 
+						    <th class="track">#</th> 
 						    <th class="title">Title</th> 
 						    <th class="artist">Artist</th> 
 						    <th class="album">Album</th> 
@@ -244,6 +245,7 @@
 			      	  	<tbody>
 					    {% for entry in single_page.object_list %}
 					  	<tr>
+		  					<td>{{ entry.track }}</td>
 		  					<td>{{ entry.title|truncatewords:8 }}</td>
 		  					<td>{{ entry.artist }}</td>
 		  					<td>{{ entry.album|truncatewords:5 }}</td>
@@ -253,7 +255,7 @@
 		  					{% else %}
 		  						<td></td>
 		  					{% endif %}
-		  					<td class="ops">operations</td>
+		  					<td class="ops">ops</td>
 		  				</tr>
 			      	  	{% endfor %}
 			      	  	</tbody>
