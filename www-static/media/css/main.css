@@ -718,10 +718,10 @@ table.tablesorter th.title {
 table.tablesorter th.artist, th.album {
 	width: 150px;
 }
-table.tablesorter th.onair {
+table.tablesorter th.onair, th.lastplay {
 	width: 115px;
 }
-table.tablesorter th.status {
+table.tablesorter th.status, th.genre {
 	width: 75px;
 }
 table.tablesorter td.play {
