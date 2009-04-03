@@ -202,7 +202,7 @@ def display_status(request, host_name):
 	template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
 	try:
-		single_page = p.page(0)
+		single_page = p.page(1)
 	except EmptyPage:
 		raise Http404
 	template_dict['all_pages'] = p
