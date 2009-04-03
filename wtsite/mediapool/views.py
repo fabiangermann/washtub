@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.paginator import Paginator
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.utils.encoding import smart_str, smart_unicode
 from django.contrib.auth.decorators import login_required
@@ -84,5 +85,8 @@ def file_scanner(request):
     return HttpResponseRedirect('/washtub/')
     
     
-    
+def get_song_pager():
+	 pager = Paginator(Songs.objects.all(), 6)
+	 return pager
+
     

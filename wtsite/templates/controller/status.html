@@ -2,6 +2,9 @@
 {% block title %}
    Washtub Liquidsoap Controller - Status
 {% endblock title %}
+{% block extrahead %}
+$('.selector').accordion('option', 'active', 1);
+{% endblock extrahead %}
 {% load controller_extras %}
 {% block content %}<div id="tabs">
 			    <ul>
@@ -225,7 +228,9 @@
 				  {% endif %}
 				</div>
 			    <div id="tabs-3">
+			    	  {% block pooltab %}
 			      	  <b>Available Media:</b><br/>
+			      	  {% endblock %}
 				</div>
 			    <div id="tabs-4">
 					  {% for name, entries in history.items %}

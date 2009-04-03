@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.template import RequestContext
 from django.conf import settings
 from wtsite.controller.models import *
+from wtsite.mediapool.models import *
+from wtsite.mediapool.views import *
 
 import telnetlib, string, time
 
@@ -145,21 +147,27 @@ def get_host_list():
 	h = Host.objects.all()
 	return h   
 
-@login_required()
-def display_status(request, host_name):
+def get_realtime_status(host_name):
 	host = get_object_or_404(Host, name=host_name)
-	settings = get_list_or_404(Setting, hostname=host)	
+	settings = get_list_or_404(Setting, hostname=host)
+	
+	#Parse all available help commands (for reference)	
 	help = parse_help(host, settings)
+	
+	#Get active nodes for this host and this liquidsoap instance
 	node_list = parse_node_list(host, settings)
 	streams = parse_output_streams(host, settings, node_list)
 	streams = sorted(streams)
 	status = build_status_list(host, settings, streams, help)
 	
+	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
 	metadata_storage = {}
+	
+	#Get 'history' Listing and Grab Metadata for it.
 	history = parse_history(host, settings, node_list)
 	metadata_storage = parse_queue_metadata(host, settings, history, metadata_storage)
 
-	#Get Request Queue and Grab Metadata for it
+	#Get 'request' Queues and Grab Metadata for them
 	queue = parse_queue_dict(host, settings)
 	metadata_storage = parse_queue_metadata(host, settings, queue, metadata_storage)
 	
@@ -175,18 +183,23 @@ def display_status(request, host_name):
 	
 	hosts = get_host_list()
 	active_host = host
-	return render_to_response('controller/status.html', {'metadata_storage': metadata_storage,
-														 'history': history,
-														 'streams': streams,
-														 'alive_queue': alive_queue,
-														 'air_queue': air_queue, 
-														 'queue': queue, 
-														 'active_host': active_host, 
-														 'hosts': hosts, 
-														 'help': help, 
-														 'node_list': node_list,
-														 'status': status
-														 }, context_instance=RequestContext(request))
+	
+	return {'metadata_storage': metadata_storage,
+			'history': history,
+			'streams': streams,
+			'alive_queue': alive_queue,
+			'air_queue': air_queue, 
+			'queue': queue, 
+			'active_host': active_host, 
+			'hosts': hosts, 
+			'help': help, 
+			'node_list': node_list,
+			'status': status
+			}
+	
+def display_status(request, host_name):
+	template_dict = get_realtime_status(host_name):
+	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()
@@ -235,6 +248,10 @@ def stream_start(request, host_name, stream):
 		else:
 			HttpResponse(status=500)
 	raise Http404
+
+def display_pool(request):
+	
+def display_pool_page()
 	
 	
 	
