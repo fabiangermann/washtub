@@ -62,8 +62,7 @@ def clean_db(dir, songs):
     d = Album.objects.filter(song__title__isnull=True)
     d.delete()
     
-    d = Artist.objects.filter(album__title_isnull=True)
-    assert False
+    d = Artist.objects.filter(album__title__isnull=True)
     d.delete()
     
     return  
