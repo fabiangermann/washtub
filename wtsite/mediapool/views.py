@@ -36,6 +36,7 @@ def build_file_list(dir):
 def clean_db(dir, songs):
     if not (access(dir, (F_OK or R_OK))):
         return
+    # remove songs that aren't physically on the filesystem
     for s in songs:
         found = False
         db_filename = smart_str(s.filename)
@@ -54,6 +55,13 @@ def clean_db(dir, songs):
         if not found:
             d = Song.objects.get(filename__exact=s.filename)
             d.delete()
+    
+    # refresh list of songs (we may have just deletes some)
+    songs = Song.objects.all()
+    # remove albums that don't have corresponding songs
+    d = Album.objects.filter(song__album__isnull=True)
+    d.delete()
+    
     return  
 
 @login_required()
