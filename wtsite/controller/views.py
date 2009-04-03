@@ -270,7 +270,5 @@ def stream_start(request, host_name, stream):
 
 def display_pool(request, host_name, type):
 	pass
-def display_pool_page(request, host_name, type, page):
-	pass
 	
 	
