@@ -7,8 +7,9 @@
 			    <ul>
 			    	<li><a href="#tabs-1">Status</a></li>
 			    	<li><a href="#tabs-2">Queues</a></li>
-			    	<li><a href="#tabs-3">History</a></li>
-			    	<li><a href="#tabs-4">Help</a></li>
+			    	<li><a href="#tabs-3">Pool</a></li>
+			    	<li><a href="#tabs-4">History</a></li>
+			    	<li><a href="#tabs-5">Help</a></li>
 			    </ul>
 			    <div id="tabs-1">
 			    	  <div id="rightside">
@@ -224,6 +225,14 @@
 				  {% endif %}
 				</div>
 			    <div id="tabs-3">
+			      	  <b>Available Media:</b><br/>
+			      	  <div class="help">
+					  {% for item in help %}
+					    	{{item}}<br/>
+					  {% endfor %}
+					  </div>
+				</div>
+			    <div id="tabs-4">
 					  {% for name, entries in history.items %}
 					  	<b>History Detail({{ name|replacedot }}):</b><br/>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
@@ -263,7 +272,7 @@
 			      	  	<br/>
 					  {% endfor %}
 				</div>
-			    <div id="tabs-4">
+			    <div id="tabs-5">
 			      	  <b>Available Commands:</b><br/>
 			      	  <div class="help">
 					  {% for item in help %}
