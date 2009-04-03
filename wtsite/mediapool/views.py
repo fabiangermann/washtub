@@ -60,6 +60,9 @@ def clean_db(dir, songs):
     songs = Song.objects.all()
     # remove albums that don't have corresponding songs
     d = Album.objects.filter(song__title__isnull=True)
+    d.delete()
+    
+    d = Artist.objects.filter(album__title_isnull=True)
     assert False
     d.delete()
     
