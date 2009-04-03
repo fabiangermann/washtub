@@ -230,6 +230,35 @@
 			    <div id="tabs-3">
 			    	  {% block pooltab %}
 			      	  <b>Available Media:</b><br/>
+					  	<table id="poolTable{{ forloop.counter0 }}" class="tablesorter"> 
+						<thead> 
+						<tr> 
+						    <th class="title">Title</th> 
+						    <th class="artist">Artist</th> 
+						    <th class="album">Album</th> 
+						    <th class="genre">Genre</th>
+						    <th class="lastplay">Last Seen</th>
+						    <th class="ops">Ops</th> 
+						</tr>
+			      	  	</thead>
+					    {% for entry in single_page.object_list %}
+			      	  	<tbody>
+					  	<tr>
+		  					<td>{{ entry.title|truncatewords:8 }}</td>
+		  					<td>{{ entry.artist }}</td>
+		  					<td>{{ entry.album|truncatewords:5 }}</td>
+		  					<td>{{ entry.genre }}</td>
+		  					{% if entry.lastplay %}
+		  						<td>{{ listing.on_air }} {% now "T" %}</td>
+		  					{% else %}
+		  						<td></td>
+		  					{% endif %}
+		  					<td class="ops">operations</td>
+		  				</tr>
+			      	  	{% endfor %}
+			      	  	</tbody>
+			      	  	</table>
+			      	  	<br/>
 			      	  {% endblock %}
 				</div>
 			    <div id="tabs-4">
