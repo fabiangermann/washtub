@@ -208,6 +208,17 @@ def display_status(request, host_name):
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+	
+def display_pool_page(request, host_name, type, page):
+	template_dict = get_realtime_status(host_name)
+	p = get_song_pager()
+	try:
+		single_page = p.page(page)
+	except EmptyPage, InvalidPage:
+		contacts = paginator.page(paginator.num_pages)
+	template_dict['all_pages'] = p
+	template_dict['single_page'] = single_page
+	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()
