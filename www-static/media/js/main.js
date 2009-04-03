@@ -1,5 +1,4 @@
-
-	$(function(){
+$(function(){
 		// Accordion
 		$("#accordion").accordion({ header: "h3" });
 		
@@ -46,7 +45,8 @@
 			widgets: ['zebra']
 		});
 		
-	});
+});
+
 function GetHostStatus()
 {
 	var hostlist = document.getElementById("HostList");
