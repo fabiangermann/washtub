@@ -3,7 +3,10 @@
    Washtub Liquidsoap Controller - Status
 {% endblock title %}
 {% block extrahead %}
-$('.selector').accordion('option', 'active', 1);
+<script type="text/javascript">
+var $tabs = $('#tabs-1').tabs();
+var selected = $tabs.tabs('option', 'selected'); 
+</script>
 {% endblock extrahead %}
 {% load controller_extras %}
 {% block content %}<div id="tabs">

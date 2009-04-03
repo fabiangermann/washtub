@@ -1,7 +1,10 @@
 {% extends status.html %}
 
 {% block extrahead %}
-<script type="text/javascript">$('.selector').accordion('option', 'active', 3);</script>
+<script type="text/javascript">
+var $tabs = $('#tabs-1').tabs();
+var selected = $tabs.tabs('option', 'selected'); 
+</script>
 {% endblock extrahead %}
 
 {% block pooltab %}
