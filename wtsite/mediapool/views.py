@@ -86,7 +86,7 @@ def file_scanner(request):
     
     
 def get_song_pager():
-	 pager = Paginator(Song.objects.all(), 6)
+	 pager = Paginator(Song.objects.all(), 50)
 	 return pager
 
     
