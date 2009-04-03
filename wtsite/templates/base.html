@@ -18,7 +18,9 @@
 <script type="text/javascript" src="/washtub/media/js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript">
 $(function(){
-
+	// Accordion
+	$("#accordion").accordion({ header: "h3" });
+	
 	//Tabs
 	{% block tabsetup %}
 	$('#tabs').tabs();
