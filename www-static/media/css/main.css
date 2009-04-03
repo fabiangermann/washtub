@@ -708,7 +708,7 @@ table.tablesorter thead tr .headerSortDown {
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #8dbdd8;
 }
-table.tablesorter th.pos, td.pos, th.rid, td.rid, th.track, td.track, th.ops, td, ops {
+table.tablesorter th.pos, td.pos, th.rid, td.rid, th.track, td.track, th.ops, td.ops {
 	width: 30px;
 	text-align:center;
 }
