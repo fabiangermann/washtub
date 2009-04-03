@@ -215,10 +215,10 @@ def display_pool_page(request, host_name, type, page):
 	try:
 		single_page = p.page(page)
 	except EmptyPage, InvalidPage:
-		contacts = paginator.page(paginator.num_pages)
+		single_page = p.page(paginator.num_pages)
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
-	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
 def index (request):
 	hosts = get_host_list()
