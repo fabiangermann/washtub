@@ -250,8 +250,8 @@ def stream_start(request, host_name, stream):
 	raise Http404
 
 def display_pool(request):
-	
+	pass
 def display_pool_page()
-	
+	pass
 	
 	
