@@ -220,6 +220,13 @@ def display_pool_page(request, host_name, type, page):
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
+def display_pool(request, host_name, type):
+	template_dict = get_realtime_status(host_name)
+	p = get_song_pager()
+	template_dict['all_pages'] = p
+	template_dict['single_page'] = single_page
+	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
+
 def index (request):
 	hosts = get_host_list()
 	return render_to_response('index.html', {'hosts': hosts}, context_instance=RequestContext(request))
@@ -268,7 +275,5 @@ def stream_start(request, host_name, stream):
 			HttpResponse(status=500)
 	raise Http404
 
-def display_pool(request, host_name, type):
-	pass
 	
 	
