@@ -17,6 +17,49 @@
 <script type="text/javascript" src="/washtub/media/js/jquery-ui-1.7.custom.min.js"></script>
 <script type="text/javascript" src="/washtub/media/js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="/washtub/media/js/main.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	//Tabs
+	{% block tabsetup %}
+	$('#tabs').tabs('select', 1);
+	{% endblock tabsetup %}
+	//Call Table Sorter
+	$("#metaTable0").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#metaTable1").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#metaTable2").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#historyTable0").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#historyTable1").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#onAirTable").tablesorter({
+		widgets: ['zebra']
+	});
+	
+	//Call Table Sorter
+	$("#aliveTable").tablesorter({
+		widgets: ['zebra']
+	});
+	
+});
 
 {% block extrahead %}
 {% endblock extrahead %}
