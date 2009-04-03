@@ -198,7 +198,7 @@ def get_realtime_status(host_name):
 			}
 	
 def display_status(request, host_name):
-	template_dict = get_realtime_status(host_name):
+	template_dict = get_realtime_status(host_name)
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 def index (request):
