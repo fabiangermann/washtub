@@ -222,8 +222,8 @@ def display_pool_page(request, host_name, type, page):
 
 def display_pool(request, host_name, type):
 	template_dict = get_realtime_status(host_name)
-	p = get_song_pager()
-	template_dict['all_pages'] = p
+	single_page = get_song_pager()
+	template_dict['all_pages'] = single_page
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
