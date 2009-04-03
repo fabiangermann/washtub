@@ -5,8 +5,7 @@ $(function(){
 	$("#accordion").accordion({ header: "h3" });
 
 	// Tabs
-	$('#tabs').tabs();
-	$tabs.tabs('select', 2);
+	$('#tabs').tabs('select', 2);
 
 	// Dialog			
 	$('#dialog').dialog({
