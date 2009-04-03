@@ -2,11 +2,9 @@
 {% block title %}
    Washtub Liquidsoap Controller - Status
 {% endblock title %}
-{% block extrahead %}
-<script type="text/javascript">
-$tabs.tabs('select', 2);
-</script>
-{% endblock extrahead %}
+{% block tabsetup %}
+	$('#tabs').tabs('select', 1);
+{% endblock tabsetup %}
 {% load controller_extras %}
 {% block content %}<div id="tabs">
 			    <ul>

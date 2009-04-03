@@ -1,13 +1,10 @@
 {% extends status.html %}
 
-{% block extrahead %}
-<script type="text/javascript">
-var $tabs = $('#tabs-1').tabs();
-var selected = $tabs.tabs('option', 'selected'); 
-</script>
-{% endblock extrahead %}
+{% block tabsetup %}
+	$('#tabs').tabs('select', 3);
+{% endblock tabsetup %}
 
 {% block pooltab %}
 	<b>Available Media:</b>
 	
-{% endblock %}
+{% endblock pooltab%}
