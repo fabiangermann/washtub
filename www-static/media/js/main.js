@@ -3,7 +3,7 @@ $(function(){
 		$("#accordion").accordion({ header: "h3" });
 		
 		//Tabs
-		$('#tabs').tabs();
+		$('#tabs').tabs('select', 3);
 		
 		//Call Table Sorter
 		$("#metaTable0").tablesorter({
