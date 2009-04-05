@@ -256,7 +256,12 @@
 		  					{% else %}
 		  						<td></td>
 		  					{% endif %}
-		  					<td class="ops">ops</td>
+		  					<td class="ops">
+		  					<form name="queue_add" action"/washtub/queue/push/{{ active_host }}/request">
+		  					<input type="hidden" name="uri" value"{{ entry.id }}">
+		  					<input type="submit">add</input>
+		  					</form>
+		  					</td>
 		  				</tr>
 			      	  	{% endfor %}
 			      	  	</tbody>
