@@ -307,11 +307,11 @@ def queue_push(request, host_name, queue_name):
 		#Make sure that the queue we have is valid.  
 		#Check Database and liquidsoap instance
 		get_object_or_404(Settings, queue_id=queue_name)
-		queue_command = queue_name+'.push'
+		queue_command = queue_name+'.push' 
+		assert False
 		if queue_command in help:
 			#we are okay to continue processing the request
-			queue_command += ' '+s.filename 
-			assert False
+			queue_command += ' '+s.filename
 		else:
 			raise Http404
 		
