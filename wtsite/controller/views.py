@@ -306,6 +306,7 @@ def queue_push(request, host_name, queue_name):
 		
 		#Make sure that the queue we have is valid.  
 		#Check Database and liquidsoap instance
+		assert False
 		get_object_or_404(Setting, data=queue_name)
 		queue_command = queue_name+'.push' 
 		if queue_command in help:
