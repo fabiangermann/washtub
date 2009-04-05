@@ -269,7 +269,6 @@ def stream_stop(request, host_name, stream):
 			time.sleep(0.5)
 			display_status(request, host_name)
 		else:
-			assert False
 			return HttpResponse(status=500)
 	raise Http404
 
