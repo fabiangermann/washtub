@@ -253,7 +253,7 @@ def stream_skip(request, host_name, stream):
 		response = response.splitlines()
 		if('Done' in response):
 			time.sleep(1.5)
-			return HttpResponseRedirect('/washtub/control/'+host_name)
+			display_status(request, host_name)
 		else:
 			return HttpResponse(status=404)
 
@@ -267,7 +267,7 @@ def stream_stop(request, host_name, stream):
 		response = response.splitlines()
 		if('' in response):
 			time.sleep(0.5)
-			return HttpResponseRedirect('/washtub/control/'+host_name)
+			display_status(request, host_name)
 		else:
 			return HttpResponse(status=500)
 	raise Http404
@@ -282,7 +282,7 @@ def stream_start(request, host_name, stream):
 		response = response.splitlines()
 		if('' in response):
 			time.sleep(0.5)
-			return HttpResponseRedirect('/washtub/control/'+host_name)
+			display_status(request, host_name)
 		else:
 			HttpResponse(status=500)
 	raise Http404
