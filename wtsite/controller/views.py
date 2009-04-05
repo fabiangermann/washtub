@@ -316,7 +316,7 @@ def queue_push(request, host_name, queue_name):
 			raise Http404
 		
 		#commit the command
-		response = parse_command(host_name, settings, queue_command)
+		response = parse_command(host, settings, queue_command)
 		return HttpResponseRedirect('/washtub/status/'+host_name)		
 	else:
 		#return message about Get with bad parameters.
