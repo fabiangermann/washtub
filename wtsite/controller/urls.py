@@ -9,6 +9,6 @@ urlpatterns = patterns('wtsite.controller.views',
 	# group of media pool pages	     
 	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)/(?P<page>\d+)$', 'display_pool_page'),     
 	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)$', 'display_pool'),
-	(r'^queue/push/(?P<host_name>\S+)/(?P<queue_name>\d+)$', 'queue_push'),
+	(r'^queue/(?P<host_name>\S+)/(?P<queue_name>\d+)$', 'queue_push'),
 	(r'^$', 'index'),
 	)
