@@ -265,8 +265,7 @@ def stream_stop(request, host_name, stream):
 	if(stream in node_list):
 		response = parse_command(host, settings, '%s.stop' % (str(stream)))
 		response = response.splitlines()
-		assert False
-		if('' in response):
+		if '' in response:
 			time.sleep(0.5)
 			display_status(request, host_name)
 		else:
