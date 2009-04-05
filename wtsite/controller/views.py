@@ -319,6 +319,5 @@ def queue_push(request, host_name, queue_name):
 		return HttpResponseRedirect('/washtub/status/'+host_name)		
 	else:
 		#return message about Get with bad parameters.
-		assert False
 		message = 'Requests cannot be pushed via GET requests.'
 		return display_error(request, host_name, message)
