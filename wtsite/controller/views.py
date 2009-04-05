@@ -208,6 +208,18 @@ def display_status(request, host_name):
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+
+def display_error(request, host_name, msg):
+	template_dict = get_realtime_status(host_name)
+	p = get_song_pager()
+	try:
+		single_page = p.page(1)
+	except EmptyPage, InvalidPage:
+		raise Http404
+	template_dict['all_pages'] = p
+	template_dict['single_page'] = single_page
+	template_dict['error'] = msg
+	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 	
 def display_pool_page(request, host_name, type, page):
 	template_dict = get_realtime_status(host_name)
@@ -275,5 +287,32 @@ def stream_start(request, host_name, stream):
 			HttpResponse(status=500)
 	raise Http404
 
-	
-	
+@login_required
+def queue_push(request, host_name, queue_name):
+	if request.method == 'POST':
+		uri_id = request.POST['uri']
+		s = get_object_or_404(pk=uri_id)
+		
+		#if the uri exists, then process the request
+		host = get_object_or_404(Host, name=host_name)
+		settings = get_list_or_404(Setting, hostname=host)
+		
+		#Parse all available help commands (for reference)	
+		help = parse_help(host, settings)
+		
+		#Make sure that the queue we have is valid.  
+		#Check Database and liquidsoap instance
+		get_object_or_404(Settings, queue_id=queue_name)
+		queue_command = queue_name+'.push'
+		if queue_command in help:
+			#we are good to continue processing the request
+			pass
+		else:
+			raise Http404
+		
+		parse_command(host_name, settings, queue_command)
+		display_status(request, host_name)		
+	else:
+		#return message about Get with bad parameters.
+		message = 'Requests cannot be pushed via GET requests.'
+		display_error(request, host_name, message)

@@ -16,58 +16,6 @@
 <script type="text/javascript" src="/washtub/media/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="/washtub/media/js/jquery-ui-1.7.custom.min.js"></script>
 <script type="text/javascript" src="/washtub/media/js/jquery.tablesorter.min.js"></script>
-<script type="text/javascript">
-$(function(){
-		// Accordion
-		$("#accordion").accordion({ header: "h3" });
-		
-		//Tabs
-		$('#tabs').tabs();
-		{% block tabselect %}
-		{% endblock tabselect %}
-		
-		//Call Table Sorter
-		$("#metaTable0").tablesorter({
-			widgets: ['zebra']
-		});
-		
-		//Call Table Sorter
-		$("#metaTable1").tablesorter({
-			widgets: ['zebra']
-		});
-		
-		//Call Table Sorter
-		$("#metaTable2").tablesorter({
-			widgets: ['zebra']
-		});
-		
-		//Call Table Sorter
-		$("#historyTable0").tablesorter({
-			widgets: ['zebra']
-		});
-		
-		//Call Table Sorter
-		$("#historyTable1").tablesorter({
-			widgets: ['zebra']
-		});
-		
-		//Call Table Sorter
-		$("#onAirTable").tablesorter({
-			widgets: ['zebra']
-		});
-		
-		//Call Table Sorter
-		$("#aliveTable").tablesorter({
-			widgets: ['zebra']
-		});
-		
-		//Call Table Sorter
-		$("#poolTable").tablesorter({
-			widgets: ['zebra']
-		});
-		
-});
-</script>
 <script type="text/javascript" src="/washtub/media/js/main.js"></script>
 {% block extrahead %}
 {% endblock extrahead %}
@@ -99,8 +47,16 @@ $(function(){
 </div>
 
 {% block content %}
-{% block errormessage %}
-{% endblock errormessage %}
+    {% block errormessage %}
+    {% if error %}
+	 <div class="ui-widget">
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+			<strong>Alert:</strong>{{ error }}</p>
+		</div>
+	 </div>
+    {% endif %}
+    {% endblock errormessage %}
 {% endblock content %}
 </body>
 </html>

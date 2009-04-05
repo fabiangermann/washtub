@@ -1,3 +1,53 @@
+$(function(){
+		// Accordion
+		$("#accordion").accordion({ header: "h3" });
+		
+		//Tabs
+		$('#tabs').tabs();
+		{% block tabselect %}
+		{% endblock tabselect %}
+		
+		//Call Table Sorter
+		$("#metaTable0").tablesorter({
+			widgets: ['zebra']
+		});
+		
+		//Call Table Sorter
+		$("#metaTable1").tablesorter({
+			widgets: ['zebra']
+		});
+		
+		//Call Table Sorter
+		$("#metaTable2").tablesorter({
+			widgets: ['zebra']
+		});
+		
+		//Call Table Sorter
+		$("#historyTable0").tablesorter({
+			widgets: ['zebra']
+		});
+		
+		//Call Table Sorter
+		$("#historyTable1").tablesorter({
+			widgets: ['zebra']
+		});
+		
+		//Call Table Sorter
+		$("#onAirTable").tablesorter({
+			widgets: ['zebra']
+		});
+		
+		//Call Table Sorter
+		$("#aliveTable").tablesorter({
+			widgets: ['zebra']
+		});
+		
+		//Call Table Sorter
+		$("#poolTable").tablesorter({
+			widgets: ['zebra']
+		});
+		
+});
 function GetHostStatus()
 {
 	var hostlist = document.getElementById("HostList");
@@ -8,7 +58,7 @@ function GetHostStatus()
 	}
 	else
 	{
-		window.location="/washtub/control/"+myhost;
+		window.location="/washtub/status/"+myhost;
 	}
 } 
 

@@ -15,9 +15,9 @@ class Host(models.Model):
     
 class Setting(models.Model):
     SETTINGS_CHOICES = (
-    	('port', 'Port'),
-    	('protocol', 'Protocol'),
-        ('queue_id', 'Queue ID'),
+    	('port', 'port'),
+    	('protocol', 'protocol'),
+        ('queue_id', 'queue_id'),
     	)
 
     value = models.CharField(max_length=128, choices=SETTINGS_CHOICES)
