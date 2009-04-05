@@ -201,6 +201,7 @@ def get_realtime_status(host_name):
 def display_status(request, host_name):
 	template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
+	assert False
 	try:
 		single_page = p.page(1)
 	except EmptyPage, InvalidPage:
