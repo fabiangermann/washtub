@@ -308,7 +308,8 @@ def queue_push(request, host_name, queue_name):
 		#Check Database and liquidsoap instance
 		get_object_or_404(Setting, data=queue_name)
 		queue_command = queue_name+'.push' 
-		if queue_command+' <rid>' in help:
+		check_command = queue_command+' <rid>'
+		if check_command in help:
 			#we are okay to continue processing the request
 			queue_command += ' '+s.filename
 		else:
