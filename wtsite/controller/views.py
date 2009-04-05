@@ -253,9 +253,11 @@ def stream_skip(request, host_name, stream):
 		response = response.splitlines()
 		if('Done' in response):
 			time.sleep(1.5)
-			display_status(request, host_name)
+			return display_status(request, host_name)
 		else:
 			return HttpResponse(status=404)
+	else:
+		raise Http404
 
 @login_required
 def stream_stop(request, host_name, stream):
@@ -266,11 +268,12 @@ def stream_stop(request, host_name, stream):
 		response = parse_command(host, settings, '%s.stop' % (str(stream)))
 		response = response.splitlines()
 		if '' in response:
-			time.sleep(0.5)
-			return HttpResponseRedirect('/washtub/status/'+host_name)
+			time.sleep(0.2)
+			return display_status(request, host_name)
 		else:
 			return HttpResponse(status=500)
-	raise Http404
+	else:
+		raise Http404
 
 @login_required
 def stream_start(request, host_name, stream):
@@ -281,11 +284,12 @@ def stream_start(request, host_name, stream):
 		response = parse_command(host, settings, '%s.start' % (str(stream)))
 		response = response.splitlines()
 		if('' in response):
-			time.sleep(0.5)
-			display_status(request, host_name)
+			time.sleep(0.2)
+			return display_status(request, host_name)
 		else:
-			HttpResponse(status=500)
-	raise Http404
+			return HttpResponse(status=500)
+	else:
+		raise Http404
 
 @login_required
 def queue_push(request, host_name, queue_name):
