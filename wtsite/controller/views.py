@@ -295,7 +295,7 @@ def stream_start(request, host_name, stream):
 def queue_push(request, host_name, queue_name):
 	if request.method == 'POST':
 		uri_id = request.POST['uri']
-		s = get_object_or_404(pk=uri_id)
+		s = get_object_or_404(Song, pk=uri_id)
 		
 		#if the uri exists, then process the request
 		host = get_object_or_404(Host, name=host_name)
@@ -306,7 +306,7 @@ def queue_push(request, host_name, queue_name):
 		
 		#Make sure that the queue we have is valid.  
 		#Check Database and liquidsoap instance
-		get_object_or_404(Settings, queue_id=queue_name)
+		get_object_or_404(Setting, queue_id=queue_name)
 		queue_command = queue_name+'.push' 
 		if queue_command in help:
 			#we are okay to continue processing the request
