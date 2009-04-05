@@ -204,6 +204,7 @@ def display_status(request, host_name):
 	try:
 		single_page = p.page(1)
 	except EmptyPage, InvalidPage:
+		assert False
 		raise Http404
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
