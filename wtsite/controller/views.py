@@ -253,7 +253,7 @@ def stream_skip(request, host_name, stream):
 		response = response.splitlines()
 		if('Done' in response):
 			time.sleep(1.5)
-			return display_status(request, host_name)
+			return HttpResponseRedirect('/washtub/status/'+host_name)
 		else:
 			return HttpResponse(status=404)
 	else:
@@ -269,7 +269,7 @@ def stream_stop(request, host_name, stream):
 		response = response.splitlines()
 		if '' in response:
 			time.sleep(0.2)
-			return display_status(request, host_name)
+			return HttpResponseRedirect('/washtub/status/'+host_name)
 		else:
 			return HttpResponse(status=500)
 	else:
@@ -285,7 +285,7 @@ def stream_start(request, host_name, stream):
 		response = response.splitlines()
 		if('' in response):
 			time.sleep(0.2)
-			return display_status(request, host_name)
+			return HttpResponseRedirect('/washtub/status/'+host_name)
 		else:
 			return HttpResponse(status=500)
 	else:
@@ -316,8 +316,9 @@ def queue_push(request, host_name, queue_name):
 		
 		#commit the command
 		parse_command(host_name, settings, queue_command)
-		return display_status(request, host_name)		
+		return HttpResponseRedirect('/washtub/status/'+host_name)		
 	else:
 		#return message about Get with bad parameters.
+		assert False
 		message = 'Requests cannot be pushed via GET requests.'
 		return display_error(request, host_name, message)
