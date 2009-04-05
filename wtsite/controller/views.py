@@ -204,8 +204,7 @@ def display_status(request, host_name):
 	try:
 		single_page = p.page(1)
 	except EmptyPage, InvalidPage:
-		#raise Http404
-		pass
+		raise Http404
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
@@ -268,7 +267,7 @@ def stream_stop(request, host_name, stream):
 		response = response.splitlines()
 		if '' in response:
 			time.sleep(0.5)
-			display_status(request, host_name)
+			return HttpResponseRedirect('/washtub/status/'+host_name)
 		else:
 			return HttpResponse(status=500)
 	raise Http404
