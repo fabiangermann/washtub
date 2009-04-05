@@ -7,7 +7,7 @@ urlpatterns = patterns('wtsite.controller.views',
 	(r'^status/(?P<host_name>\S+)$', 'display_status'),
 	
 	# queue management urls
-	(r'^queue/(?P<host_name>\S+)/push/(?P<queue_name>\d+)$', 'queue_push'),
+	(r'^queue/push/(?P<host_name>\S+)/(?P<queue_name>\d+)$', 'queue_push'),
 	
 	# group of media pool pages	     
 	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)/(?P<page>\d+)$', 'display_pool_page'),     
