@@ -305,11 +305,12 @@ def queue_push(request, host_name, queue_name):
 		get_object_or_404(Settings, queue_id=queue_name)
 		queue_command = queue_name+'.push'
 		if queue_command in help:
-			#we are good to continue processing the request
-			pass
+			#we are okay to continue processing the request
+			queue_command += ' '+s.filename 
 		else:
 			raise Http404
 		
+		#commit the command
 		parse_command(host_name, settings, queue_command)
 		display_status(request, host_name)		
 	else:
