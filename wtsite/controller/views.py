@@ -311,6 +311,7 @@ def queue_push(request, host_name, queue_name):
 		if queue_command in help:
 			#we are okay to continue processing the request
 			queue_command += ' '+s.filename 
+			assert False
 		else:
 			raise Http404
 		
