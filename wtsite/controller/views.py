@@ -316,8 +316,8 @@ def queue_push(request, host_name, queue_name):
 		
 		#commit the command
 		parse_command(host_name, settings, queue_command)
-		display_status(request, host_name)		
+		return display_status(request, host_name)		
 	else:
 		#return message about Get with bad parameters.
 		message = 'Requests cannot be pushed via GET requests.'
-		display_error(request, host_name, message)
+		return display_error(request, host_name, message)
