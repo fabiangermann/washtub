@@ -249,7 +249,7 @@ def stream_skip(request, host_name, stream):
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
 	if(stream in node_list):
-		response = parse_command(host, settings, '%s.skip\n' % (str(stream)))
+		response = parse_command(host, settings, '%s.skip' % (str(stream)))
 		response = response.splitlines()
 		if('Done' in response):
 			time.sleep(1.5)
@@ -263,8 +263,9 @@ def stream_stop(request, host_name, stream):
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
 	if(stream in node_list):
-		response = parse_command(host, settings, '%s.stop\n' % (str(stream)))
+		response = parse_command(host, settings, '%s.stop' % (str(stream)))
 		response = response.splitlines()
+		assert False
 		if('' in response):
 			time.sleep(0.5)
 			display_status(request, host_name)
@@ -278,7 +279,7 @@ def stream_start(request, host_name, stream):
 	settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, settings)
 	if(stream in node_list):
-		response = parse_command(host, settings, '%s.start\n' % (str(stream)))
+		response = parse_command(host, settings, '%s.start' % (str(stream)))
 		response = response.splitlines()
 		if('' in response):
 			time.sleep(0.5)
