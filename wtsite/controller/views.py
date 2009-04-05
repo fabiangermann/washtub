@@ -204,8 +204,8 @@ def display_status(request, host_name):
 	try:
 		single_page = p.page(1)
 	except EmptyPage, InvalidPage:
-		raise Http404
-	
+		#raise Http404
+		pass
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
