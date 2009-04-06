@@ -292,7 +292,7 @@ def stream_start(request, host_name, stream):
 		raise Http404
 
 @login_required
-def queue_push(request, host_name, queue_name):
+def queue_push(request, host_name):
 	if request.method == 'POST':
 		uri_id = request.POST['uri']
 		s = get_object_or_404(Song, pk=uri_id)
@@ -306,6 +306,7 @@ def queue_push(request, host_name, queue_name):
 		
 		#Make sure that the queue we have is valid.  
 		#Check Database and liquidsoap instance
+		queue_name = request.POST['queue']
 		get_object_or_404(Setting, data=queue_name)
 		queue_command = queue_name+'.push' 
 		check_command = smart_str(queue_command+' <uri>')
