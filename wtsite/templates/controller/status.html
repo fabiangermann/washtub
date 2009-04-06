@@ -260,7 +260,7 @@
 		  					<select id="uriInstance" onchange="PutQueueRequest({{ entry.id }})">
 		  					<option>&lt;add to queue&gt;</option>
 		  					{% for item, type in node_list.items %}
-		  						{% ifequal type "request" %}
+		  						{% ifequal type "queue" %}
 		  						<option>{{ item }}</option>
 		  						{% endifequal %}
 		  						{% ifequal type "editable" %}
