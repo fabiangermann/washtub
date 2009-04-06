@@ -258,14 +258,14 @@
 		  					{% endif %}
 		  					<td class="ops">
 		  					<form name="queue_add_{{ entry.id }}" action="/washtub/queue/push/{{ active_host }}" method="POST">
-		  					<select onchange="this.form.submit();">
+		  					<select name="queue" onchange="this.form.submit();">
 		  					<option>&lt;add to queue&gt;</option>
 		  					{% for item, type in node_list.items %}
 		  						{% ifequal type "queue" %}
-		  						<option name="queue" value="{{ item }}">{{ item }}</option>
+		  						<option value="{{ item }}">{{ item }}</option>
 		  						{% endifequal %}
 		  						{% ifequal type "editable" %}
-		  						<option name="queue" value="{{ item }}">{{ item }}</option>
+		  						<option value="{{ item }}">{{ item }}</option>
 		  						{% endifequal %}
 		  					{% endfor %}
 		  					</select>
