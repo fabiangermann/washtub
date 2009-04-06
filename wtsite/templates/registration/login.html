@@ -16,22 +16,23 @@
 	{% endif %}
 {% endblock userstatus %}
 
+{% block errormessage %}
+{% if form.errors %}
+	<div class="ui-widget">
+	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+		<strong>Alert:</strong> There was a problem with Authentication.</p>
+	</div>
+	</div>
+{% endif %}
+{% endblock errormessage %}
+  
 {% block content %}
 
 <div id="accordion">
 	<div>
 	<h3><a href="#">Please login to continue...</a></h3>
 	<div>
-    {% block errormessage %}
-    {% if form.errors %}
-	 <div class="ui-widget">
-		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
-			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
-			<strong>Alert:</strong> There was a problem with Authentication.</p>
-		</div>
-	 </div>
-    {% endif %}
-    {% endblock errormessage %}
     <ul>
 	{% if form.errors %}
 	<li>You may have entered the wrong password.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
