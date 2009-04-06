@@ -262,10 +262,10 @@
 		  						<option><add to queue></option>
 		  						{% ifequal type "request" %}
 		  						<option>{{ item }}</option>
-		  						{% endif %}
+		  						{% endifequal %}
 		  						{% ifequal type "editable" %}
 		  						<option>{{ item }}</option>
-		  						{% endif %}
+		  						{% endifequal %}
 		  					{% endfor %}
 		  					</select>
 		  					<form name="queue_add" action="/washtub/queue/push/{{ active_host }}/request" method="POST">
