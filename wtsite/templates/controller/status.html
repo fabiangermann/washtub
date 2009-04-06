@@ -258,8 +258,8 @@
 		  					{% endif %}
 		  					<td class="ops">
 		  					<select id="uriInstance" onchange="PutQueueRequest({{ entry.id }})">
+		  					<option>&lt;add to queue&rt;</option>
 		  					{% for item, type in node_list.items %}
-		  						<option><add to queue></option>
 		  						{% ifequal type "request" %}
 		  						<option>{{ item }}</option>
 		  						{% endifequal %}
