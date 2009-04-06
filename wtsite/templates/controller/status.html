@@ -262,10 +262,10 @@
 		  					<option>&lt;add to queue&gt;</option>
 		  					{% for item, type in node_list.items %}
 		  						{% ifequal type "queue" %}
-		  						<option name="queue">{{ item }}</option>
+		  						<option name="queue" value="{{ entry.id }}">{{ item }}</option>
 		  						{% endifequal %}
 		  						{% ifequal type "editable" %}
-		  						<option name="queue">{{ item }}</option>
+		  						<option name="queue" value="{{ entry.id }}">{{ item }}</option>
 		  						{% endifequal %}
 		  					{% endfor %}
 		  					</select>
