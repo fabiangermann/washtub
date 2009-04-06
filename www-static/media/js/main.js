@@ -12,14 +12,14 @@ function GetHostStatus()
 	}
 }
 
-function PostQueueRequest()
+function PostQueueRequest(uri)
 {
-	var uri_list = document.getElementById("uriInstance");
-	var uri = uri_list.options[uri_list.selectedIndex].text;
+	var request_list = document.getElementById("uriInstance");
+	var request = request_list.options[request_list.selectedIndex].text;
 	
 	var hostlist = document.getElementById("HostList");
 	var myhost = hostlist.options[hostlist.selectedIndex].text;
 	
-	window.location="/washtub/queue/push/"+myhost+"&uri="+uri;
+	window.location="/washtub/queue/push/"+myhost+"/"+request+"&uri="+uri;
 } 
 
