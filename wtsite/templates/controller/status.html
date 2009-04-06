@@ -257,6 +257,9 @@
 		  						<td></td>
 		  					{% endif %}
 		  					<td class="ops">
+		  					<script language=javascript>
+							function PostQueueRequest{{ entry.id }}(){ document.queue_add_{{ item }}.submit();}</script>
+		  					<form name="queue_add_{{ item }}" action="/washtub/queue/push/{{ active_host }}/{{ item }}" method="POST">
 		  					<select id="uriInstance" onchange="PutQueueRequest({{ entry.id }})">
 		  					<option>&lt;add to queue&gt;</option>
 		  					{% for item, type in node_list.items %}
@@ -268,9 +271,7 @@
 		  						{% endifequal %}
 		  					{% endfor %}
 		  					</select>
-		  					<form name="queue_add" action="/washtub/queue/push/{{ active_host }}/request" method="POST">
 		  					<input type="hidden" name="uri" value="{{ entry.id }}">
-		  					<input type="submit" value="add"></input>
 		  					</form>
 		  					</td>
 		  				</tr>
