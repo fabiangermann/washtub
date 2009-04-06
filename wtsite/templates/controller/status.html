@@ -260,7 +260,7 @@
 		  					<script language="text/javascript">
 							function PostQueueRequest{{ entry.id }}(){ document.queue_add_{{ entry.id }}.submit();}</script>
 		  					<form name="queue_add_{{ entry.id }}" action="/washtub/queue/push/{{ active_host }}" method="POST">
-		  					<select id="uriInstance" onchange="PutQueueRequest({{ entry.id }})">
+		  					<select id="uriInstance" onchange="PostQueueRequest({{ entry.id }})">
 		  					<option>&lt;add to queue&gt;</option>
 		  					{% for item, type in node_list.items %}
 		  						{% ifequal type "queue" %}
