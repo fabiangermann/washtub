@@ -257,6 +257,17 @@
 		  						<td></td>
 		  					{% endif %}
 		  					<td class="ops">
+		  					<select id="uriInstance" onchange="PutQueueRequest({{ entry.id }})">
+		  					{% for item, type in node_list.items %}
+		  						<option><add to queue></option>
+		  						{% ifequal type "request" %}
+		  						<option>{{ item }}</option>
+		  						{% endif %}
+		  						{% ifequal type "editable" %}
+		  						<option>{{ item }}</option>
+		  						{% endif %}
+		  					{% endfor %}
+		  					</select>
 		  					<form name="queue_add" action="/washtub/queue/push/{{ active_host }}/request" method="POST">
 		  					<input type="hidden" name="uri" value="{{ entry.id }}">
 		  					<input type="submit" value="add"></input>
