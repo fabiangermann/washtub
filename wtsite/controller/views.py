@@ -197,7 +197,8 @@ def get_realtime_status(host_name):
 			'node_list': node_list,
 			'status': status
 			}
-	
+
+@login_required	
 def display_status(request, host_name):
 	template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
@@ -246,10 +247,14 @@ def display_pool(request, host_name, type):
 @login_required
 def search_pool(request, host_name):
 	if request.method == 'GET':
-		cat = request.GET['search_type']
-		str = request.GET['search_str']
-		results = get_list_or_404(Song, title__contains=str)
-		
+		cat = request.GET['search']
+		str = request.GET['type']
+		try:
+			results = Song.get.objects.filter(title__contains=str)
+		except SongDoesNotExist:
+			message = 'Search did not find any results.'
+			return display_error(request, host_name, message)
+				
 		#we have results, so grab the status, while we are here.
 		template_dict = get_realtime_status(host_name)
 
@@ -259,7 +264,7 @@ def search_pool(request, host_name):
 		template_dict['single_page'] = all_pages
 		return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 	else:
-		#return message about Get with bad parameters.
+		#return message about Post with bad parameters.
 		message = 'Search cannot be executed via POST requests.'
 		return display_error(request, host_name, message)
 
