@@ -250,7 +250,7 @@ def search_pool(request, host_name):
 		cat = request.GET['search']
 		str = request.GET['type']
 		try:
-			results = Song.objects.filter(title__contains=str)
+			results = Song.objects.filter(title__icontains=str)
 		except Song.DoesNotExist:
 			message = 'Search did not find any results.'
 			return display_error(request, host_name, message)
