@@ -532,7 +532,7 @@ margin:0 0 10px 10px;
 padding:5px;
 }
 
-.searchform {margin:0;}
+.searchform {margin:0;float:right}
 
 .searchbox {
 background:#f0f0f0;
