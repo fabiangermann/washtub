@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Chris Everest', 'chris@vinylproject.com'),
+    ('Admin Name', 'admin@yourdomain.com'),
 )
 
 MANAGERS = ADMINS
