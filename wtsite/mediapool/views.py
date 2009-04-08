@@ -89,4 +89,9 @@ def get_song_pager():
 	 pager = Paginator(Song.objects.all(), 15)
 	 return pager
 
+def get_song_search_pager(queryset):
+     pager = Paginator(queryset, 15)
+     return pager
+    
+
     

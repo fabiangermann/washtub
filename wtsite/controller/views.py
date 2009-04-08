@@ -220,7 +220,8 @@ def display_error(request, host_name, msg):
 	template_dict['single_page'] = single_page
 	template_dict['error'] = msg
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
-	
+
+@login_required	
 def display_pool_page(request, host_name, type, page):
 	template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
@@ -232,12 +233,35 @@ def display_pool_page(request, host_name, type, page):
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
+@login_required
 def display_pool(request, host_name, type):
 	template_dict = get_realtime_status(host_name)
-	single_page = get_song_pager()
-	template_dict['all_pages'] = single_page
-	template_dict['single_page'] = single_page
+	
+	#populate both dictionaries to avoid template errors.
+	all_pages = get_song_pager()
+	template_dict['all_pages'] = all_pages
+	template_dict['single_page'] = all_pages
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
+
+@login_required
+def search_pool(request, host_name):
+	if request.method == 'GET':
+		cat = request.GET['search_type']
+		str = request.GET['search_str']
+		results = get_list_or_404(Song, title__contains=str)
+		
+		#we have results, so grab the status, while we are here.
+		template_dict = get_realtime_status(host_name)
+
+		#populate both dictionaries to avoid template errors.		
+		all_pages = get_song_search_pager(results)
+		template_dict['all_pages'] = all_pages
+		template_dict['single_page'] = all_pages
+		return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
+	else:
+		#return message about Get with bad parameters.
+		message = 'Search cannot be executed via POST requests.'
+		return display_error(request, host_name, message)
 
 def index (request):
 	hosts = get_host_list()
