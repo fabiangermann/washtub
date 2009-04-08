@@ -247,8 +247,8 @@ def display_pool(request, host_name, type):
 @login_required
 def search_pool(request, host_name):
 	if request.method == 'GET':
-		cat = request.GET['search']
-		str = request.GET['type']
+		cat = request.GET['type']
+		str = request.GET['search']
 		try:
 			results = Song.objects.filter(title__icontains=str)
 		except Song.DoesNotExist:
