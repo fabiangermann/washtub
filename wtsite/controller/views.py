@@ -220,7 +220,7 @@ def display_error(request, host_name, msg):
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	template_dict['error'] = msg
-	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
 @login_required	
 def display_pool_page(request, host_name, type, page):
