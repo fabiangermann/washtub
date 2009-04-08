@@ -249,9 +249,8 @@ def search_pool(request, host_name):
 	if request.method == 'GET':
 		cat = request.GET['type']
 		str = request.GET['search']
-		try:
-			results = Song.objects.filter(title__icontains=str)
-		except Song.DoesNotExist:
+		results = Song.objects.filter(title__icontains=str)
+		if results is None:
 			message = 'Search did not find any results.'
 			return display_error(request, host_name, message)
 				
