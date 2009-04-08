@@ -250,9 +250,8 @@ def search_pool(request, host_name):
 		cat = request.GET['type']
 		str = request.GET['search']
 		results = Song.objects.filter(title__icontains=str)
-		if results == {}:
-			message = 'Search did not find any results.'
-			return display_error(request, host_name, message)
+		message = 'Search did not find any results.'
+		return display_error(request, host_name, message)
 				
 		#we have results, so grab the status, while we are here.
 		template_dict = get_realtime_status(host_name)
