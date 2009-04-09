@@ -30,7 +30,7 @@
 			    	  </div>	
 					  {% for name in streams %}
 					  	{% if forloop.counter0|divisibleby:2 %}
-					  		{% if not forloop.counter0|first %}
+					  		{% if not forloop.first %}
 					  		<div class="clearingdiv">&nbsp;</div>
 					  		{% endif %}
 					  	{% endif %}
