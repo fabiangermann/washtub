@@ -29,8 +29,10 @@
 			    	  </table>
 			    	  </div>	
 					  {% for name in streams %}
-					  	{% if forloop.counter|divisibleby:2 %}
+					  	{% if forloop.counter0|divisibleby:2 %}
+					  		{% if not forloop.counter0|first %}
 					  		<div class="clearingdiv">&nbsp;</div>
+					  		{% endif %}
 					  	{% endif %}
 			    	  	<div id="controls">
 			    	  	<table id="streamTable" class="tablesorter">

@@ -612,7 +612,7 @@ padding-left:3px;
 }
 
 .clearingdiv {
-clear:both;
+clear:left;
 height:1px;
 width:1px;
 }
