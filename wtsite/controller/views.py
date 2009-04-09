@@ -22,14 +22,12 @@ def parse_command(host, settings, command):
 	if not port:
 		port = '1234' 
 	command+='\n'
-	try:
-		tn = telnetlib.Telnet(str(host.ip_address), port)
-		tn.write(command)
-		response = tn.read_until("END")
-		tn.close()
-		return response
-	except:
-		return
+	tn = telnetlib.Telnet(str(host.ip_address), port)
+	tn.write(command)
+	response = tn.read_until("END")
+	tn.close()
+	return response
+
 
 def parse_metadata(host, settings, rid):
 	meta_list = parse_command(host, settings, 'metadata %s\n' % rid)
