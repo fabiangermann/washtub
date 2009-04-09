@@ -258,7 +258,10 @@ def display_pool(request, host_name, type):
 
 @login_required
 def search_pool(request, host_name):
-	if request.method == 'GET':
+	if request.method == 'GET':	
+		#we will at least get empty results, so grab the status, while we are here.
+		template_dict = get_realtime_status(host_name)
+		
 		cat = request.GET['type']
 		str = request.GET['search']
 		results = Song.objects.filter(title__icontains=str)
@@ -266,16 +269,16 @@ def search_pool(request, host_name):
 		results = results | Song.objects.filter(album__name__icontains=str)
 		results = results | Song.objects.filter(genre__name__icontains=str)
 		if not results:
-			message = 'Search did not yield any results.'
-			return display_alert(request, host_name, 'controller/pool.html', message)
-				
-		#we have results, so grab the status, while we are here.
-		template_dict = get_realtime_status(host_name)
+			template_dict['alert'] = 'Search did not yield any results.'
 
 		#populate both dictionaries to avoid template errors.		
-		all_pages = get_song_search_pager(results)
+		p = get_song_search_pager(results)
+		try:
+			single_page = p.page(1)
+		except EmptyPage, InvalidPage:
+			single_page = p.page(p.num_pages)
 		template_dict['all_pages'] = all_pages
-		template_dict['single_page'] = all_pages
+		template_dict['single_page'] = single_pages
 		return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 	else:
 		#return message about Post with bad parameters.
