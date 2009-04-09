@@ -216,6 +216,7 @@ def display_status(request, host_name):
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 def display_error(host_name, template, msg):
+	template_dict = {}
 	#template_dict = get_realtime_status(host_name)
 	#p = get_song_pager()
 	#try:
