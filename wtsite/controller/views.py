@@ -28,7 +28,7 @@ def parse_command(host, settings, command):
 		response = tn.read_until("END")
 		tn.close()
 		return response
-	except error:
+	except Error:
 		msg = "Could not connect to host:"+host.name+"."
 		return display_error(host.name, template, msg)
 
