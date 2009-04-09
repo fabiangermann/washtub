@@ -182,7 +182,7 @@
 				</div>
 			    <div id="tabs-2">
 				  {% for name, entries in queue.items %}
-				  	<b>Queue(</b><i></i>{{ name }}</i><b>):</b><br/>
+				  	<b>Queue(</b><i>{{ name }}</i><b>):</b><br/>
 				  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
 					<thead> 
 					<tr> 
@@ -231,7 +231,7 @@
 							<input type="hidden" name="type" value="song"></input>
 							<input class="searchbutton" type="submit" value="submit"></submit>
 						 </form>
-					   	  <b>Available Media(</b><i>{{ all_pages.count }} items found<b>):</b><br/>
+					   	  <b>Available Media(</b><i>{{ all_pages.count }} items found</i><b>):</b><br/>
 					 		<table id="poolTable" class="tablesorter"> 
 							<thead> 
 							<tr> 
