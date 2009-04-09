@@ -60,13 +60,13 @@
      	  	<br/>
      	  	 <div class="pagination"> 
 						<span class="pagination-pre">
-						{% if single_page.has_previous %}&larr;<a href="/washtub/pool/search/{{active_host}}/{{single_page.previous_page_number}}&amp;{{ query_string }}">previous</a>{% endif %}
+						{% if single_page.has_previous %}&larr;<a href="/washtub/pool/search/{{active_host}}/{{single_page.previous_page_number}}?{{ query_string }}">previous</a>{% endif %}
 						</span>
 						{% if single_page.number %}
 						<span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
 						{% endif %}
 			<span class="pagination-next">
-			{% if single_page.has_next %}<a href="/washtub/pool/search/{{active_host}}/{{single_page.next_page_number}}&amp;{{query_string}}">next</a>&rarr;{% endif %}
+			{% if single_page.has_next %}<a href="/washtub/pool/search/{{active_host}}/{{single_page.next_page_number}}?{{query_string}}">next</a>&rarr;{% endif %}
 						</span>
 				 </div>
      	  {% endblock pooltab %}
