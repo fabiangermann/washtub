@@ -30,6 +30,11 @@
 			    	  </div>	
 			    	  <div id="controls">
 					  {% for name in streams %}
+			    	  	{% if forloop.counter0|divisibleby:2 %}
+			    	  		{% if not forloop.first %}
+			    	  		</div><div id="controls">
+			    	  		{% endif %}
+			    	  	{% endif %}
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
 			    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
@@ -83,12 +88,7 @@
 			    	  	</td>
 			    	  	</tr>
 			    	  	</tbody>
-			    	  	</table>
-			    	  	{% if forloop.counter0|divisibleby:2 %}
-			    	  		{% if not forloop.first %}
-			    	  		</div><div id="controls">
-			    	  		{% endif %}
-			    	  	{% endif %} 
+			    	  	</table> 
 			    	  {% endfor %}
 			    	  </div>
 			    	  <div id="leftside">
