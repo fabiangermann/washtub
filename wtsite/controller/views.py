@@ -277,8 +277,8 @@ def search_pool(request, host_name):
 			single_page = p.page(1)
 		except EmptyPage, InvalidPage:
 			single_page = p.page(p.num_pages)
-		template_dict['all_pages'] = all_pages
-		template_dict['single_page'] = single_pages
+		template_dict['all_pages'] = p
+		template_dict['single_page'] = single_page
 		return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 	else:
 		#return message about Post with bad parameters.
