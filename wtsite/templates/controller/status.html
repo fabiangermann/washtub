@@ -28,8 +28,8 @@
 			    	  </tbody>
 			    	  </table>
 			    	  </div>	
+			    	  <div id="controls">
 					  {% for name in streams %}
-			    	  	<div id="controls">
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
 			    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
@@ -84,8 +84,8 @@
 			    	  	</tr>
 			    	  	</tbody>
 			    	  	</table>
-			    	  	</div>
 			    	  {% endfor %}
+			    	  </div>
 			    	  <div id="leftside">
 					  {% if status %}
 					  <b>Host:</b>&nbsp;{{ status.host }}<br/>
