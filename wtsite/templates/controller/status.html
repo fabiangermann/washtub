@@ -177,7 +177,7 @@
 				</div>
 			    <div id="tabs-2">
 				  {% for name, entries in queue.items %}
-				  	<b>Queue({{ name }}):</b><br/>
+				  	<b>Queue(</b><i></i>{{ name }}</i><b>):</b><br/>
 				  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
 					<thead> 
 					<tr> 
@@ -288,7 +288,7 @@
 				</div>
 			    <div id="tabs-4">
 					  {% for name, entries in history.items %}
-					  	<b>History Detail({{ name|replacedot }}):</b><br/>
+					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
 						<tr> 
