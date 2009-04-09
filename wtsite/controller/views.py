@@ -30,7 +30,7 @@ def parse_command(host, settings, command):
 		return response
 	except:
 		msg = "Could not connect to host:"+host.name+"."
-		return display_error(host.name, template, msg)
+		return display_error(host.name, 'controller/status.html', msg)
 
 def parse_metadata(host, settings, rid):
 	meta_list = parse_command(host, settings, 'metadata %s\n' % rid)
