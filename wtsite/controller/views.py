@@ -222,7 +222,7 @@ def display_error(request, host_name, template, msg):
 	template_dict['error'] = msg
 	return render_to_response(template, template_dict, context_instance=RequestContext(request))
 
-def display_alert(request, host_name, tamplate, msg):
+def display_alert(request, host_name, template, msg):
 	template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
 	try:
