@@ -28,9 +28,8 @@ def parse_command(host, settings, command):
 		response = tn.read_until("END")
 		tn.close()
 		return response
-	except:
-		msg = "Could not connect to host:"+host.name+"."
-		return display_error(host.name, 'controller/status.html', msg)
+	except error:
+		raise Http500
 
 def parse_metadata(host, settings, rid):
 	meta_list = parse_command(host, settings, 'metadata %s\n' % rid)
@@ -215,20 +214,19 @@ def display_status(request, host_name):
 	template_dict['single_page'] = single_page
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
-def display_error(host_name, template, msg):
-	template_dict = {}
-	#template_dict = get_realtime_status(host_name)
-	#p = get_song_pager()
-	#try:
-	#	single_page = p.page(1)
-	#except EmptyPage, InvalidPage:
-	#	raise Http404
-	#template_dict['all_pages'] = p
-	#template_dict['single_page'] = single_page
+def display_error(request, host_name, template, msg):
+	template_dict = get_realtime_status(host_name)
+	p = get_song_pager()
+	try:
+		single_page = p.page(1)
+	except EmptyPage, InvalidPage:
+		raise Http404
+	template_dict['all_pages'] = p
+	template_dict['single_page'] = single_page
 	template_dict['error'] = msg
 	return render_to_response(template, template_dict, context_instance=RequestContext(request))
 
-def display_alert(host_name, template, msg):
+def display_alert(request, host_name, template, msg):
 	template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
 	try:
@@ -285,7 +283,7 @@ def search_pool(request, host_name):
 	else:
 		#return message about Post with bad parameters.
 		message = 'Search cannot be executed via POST requests.'
-		return display_error(host_name, 'controller/pool.html', message)
+		return display_error(request, host_name, 'controller/pool.html', message)
 
 	
 @login_required
@@ -316,7 +314,7 @@ def search_pool_page(request, host_name, page):
 	else:
 		#return message about Post with bad parameters.
 		message = 'Search cannot be executed via POST requests.'
-		return display_error(host_name, 'controller/pool.html', message)
+		return display_error(request, host_name, 'controller/pool.html', message)
 
 def index (request):
 	hosts = get_host_list()
@@ -402,4 +400,4 @@ def queue_push(request, host_name):
 	else:
 		#return message about Get with bad parameters.
 		message = 'Requests cannot be pushed via GET requests.'
-		return display_error(host_name, 'controller/pool.html', message)
+		return display_error(request, host_name, 'controller/pool.html', message)
