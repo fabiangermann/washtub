@@ -264,10 +264,10 @@ def search_pool(request, host_name):
 		
 		cat = request.GET['type']
 		str = request.GET['search']
-		results = Song.objects.filter(title__icontains=str)
-		results = results | Song.objects.filter(artist__name__icontains=str)
-		results = results | Song.objects.filter(album__name__icontains=str)
-		results = results | Song.objects.filter(genre__name__icontains=str)
+		results = Song.objects.filter(Q(title__icontains=str) |
+									  Q(artist__name__icontains=str) |
+									  Q(album__name__icontains=str) |
+									  Q(genre__name__icontains=str)).distinct()
 		if not results:
 			template_dict['alert'] = 'Search did not yield any results.'
 
