@@ -27,7 +27,8 @@
 			    	  <tfoot colspan="2"><tr><td></td></tr></tfoot>
 			    	  </tbody>
 			    	  </table>
-			    	  </div>
+			    	  </div>	
+					  {% for name in streams %}
 			    	  	<div id="controls">
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
@@ -83,8 +84,7 @@
 			    	  	</tr>
 			    	  	</tbody>
 			    	  	</table>
-			    	  	</div>	
-					  {% for name in streams %}
+			    	  	</div>
 					  	{% if forloop.counter0|divisibleby:2 %}
 					  		{% if not forloop.first %}
 					  		<div class="clearingdiv">&nbsp;</div>
