@@ -2,7 +2,7 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import Http404, Http500, HttpResponseRedirect, HttpResponse
 from django.db.models import Q
 from django.template import RequestContext
 from django.conf import settings
