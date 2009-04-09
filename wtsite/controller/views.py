@@ -286,31 +286,31 @@ def search_pool(request, host_name):
 		return display_error(request, host_name, 'controller/pool.html', message)
 
 	
-	@login_required
-	def search_pool_page(request, host_name, page):
-		if request.method == 'GET':	
-			#we will at least get empty results, so grab the status, while we are here.
-			template_dict = get_realtime_status(host_name)
-			template_dict['query_string'] = request.META['QUERY_STRING']
-			
-			cat = request.GET['type']
-			str = request.GET['search']
-			results = Song.objects.filter(title__icontains=str)
-			results = results | Song.objects.filter(artist__name__icontains=str)
-			results = results | Song.objects.filter(album__name__icontains=str)
-			results = results | Song.objects.filter(genre__name__icontains=str)
-			if not results:
-				template_dict['alert'] = 'Search did not yield any results.'
-	
-			#populate both dictionaries to avoid template errors.		
-			p = get_song_search_pager(results)
-			try:
-				single_page = p.page(page)
-			except EmptyPage, InvalidPage:
-				single_page = p.page(p.num_pages)
-			template_dict['all_pages'] = p
-			template_dict['single_page'] = single_page
-			return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
+@login_required
+def search_pool_page(request, host_name, page):
+	if request.method == 'GET':	
+		#we will at least get empty results, so grab the status, while we are here.
+		template_dict = get_realtime_status(host_name)
+		template_dict['query_string'] = request.META['QUERY_STRING']
+		
+		cat = request.GET['type']
+		str = request.GET['search']
+		results = Song.objects.filter(title__icontains=str)
+		results = results | Song.objects.filter(artist__name__icontains=str)
+		results = results | Song.objects.filter(album__name__icontains=str)
+		results = results | Song.objects.filter(genre__name__icontains=str)
+		if not results:
+			template_dict['alert'] = 'Search did not yield any results.'
+
+		#populate both dictionaries to avoid template errors.		
+		p = get_song_search_pager(results)
+		try:
+			single_page = p.page(page)
+		except EmptyPage, InvalidPage:
+			single_page = p.page(p.num_pages)
+		template_dict['all_pages'] = p
+		template_dict['single_page'] = single_page
+		return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
 	else:
 		#return message about Post with bad parameters.
 		message = 'Search cannot be executed via POST requests.'
