@@ -28,7 +28,7 @@ def parse_command(host, settings, command):
 		response = tn.read_until("END")
 		tn.close()
 		return response
-	except error:
+	except:
 		raise Http500
 
 def parse_metadata(host, settings, rid):
