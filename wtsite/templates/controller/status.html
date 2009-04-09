@@ -84,6 +84,11 @@
 			    	  	</tr>
 			    	  	</tbody>
 			    	  	</table>
+			    	  	{% if forloop.counter0|divisibleby:2 %}
+			    	  		{% if not forloop.counter.first %}
+			    	  		</div><div class="controls">
+			    	  		{% endif %}
+			    	  	{% endif %} 
 			    	  {% endfor %}
 			    	  </div>
 			    	  <div id="leftside">
