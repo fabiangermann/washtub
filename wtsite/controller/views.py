@@ -29,7 +29,7 @@ def parse_command(host, settings, command):
 		tn.close()
 		return response
 	except:
-		return HttpResponseServerError
+		return
 
 def parse_metadata(host, settings, rid):
 	meta_list = parse_command(host, settings, 'metadata %s\n' % rid)
