@@ -93,7 +93,7 @@ $(function(){
     {% if active_host %}
     	<a class="menu" href="/washtub/status/{{active_host}}">Home</a>
     {% else %}
-    	<a class="menu" href="/washtub">Home</a>
+    	&nbsp;<a class="menu" href="/washtub">Home</a>
     {% endif %}
     {% if user.is_staff %}
     <b>{% filter force_escape %}::{% endfilter %}</b> 
