@@ -2,13 +2,21 @@
 
 {% block title %} Washtub Liquidsoap Controller - Server Error {% endblock title %}
 
+{% block errormessage %}
+ <div class="ui-widget">
+	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+		<strong>Alert:</strong> The server encountered an error while processing the request.</p>
+	</div>
+ </div>
+{% endblock errormessage %}
+
 {% block content %}
 
 <div id="accordion">
 	<div>
-	<h3><a href="#">Server Error</a></h3>
+	<h3><a href="#">Server Error 500</a></h3>
 	<div>
-	The server encountered an error while processing the request.
     </div>
 	</div>
 </div>
