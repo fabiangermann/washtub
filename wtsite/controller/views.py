@@ -224,8 +224,8 @@ def display_error(host_name, template, msg):
 	#	raise Http404
 	#template_dict['all_pages'] = p
 	#template_dict['single_page'] = single_page
-	#template_dict['error'] = msg
-	return render_to_response(template, {}, context_instance=RequestContext(request))
+	template_dict['error'] = msg
+	return render_to_response(template, template_dict, context_instance=RequestContext(request))
 
 def display_alert(host_name, template, msg):
 	template_dict = get_realtime_status(host_name)
