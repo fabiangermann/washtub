@@ -90,7 +90,9 @@ $(function(){
     {% for name in hosts %}{% ifequal name active_host %}<option selected="yes">{% else %}<option>{% endifequal %}{{ name }}</option>{% endfor %}
     {% endif %}
     </select>
+    <a class="menu" href="/washtub/status/{{active_host}}">Home</a>
     {% if user.is_staff %}
+    <b>{% filter force_escape %}::{% endfilter %}</b> 
     <a class="menu" href="/washtub/admin">Administration Panel</a>
     <b>{% filter force_escape %}::{% endfilter %}</b> 
     <a class="menu" href="/washtub/mediapool/scan">Scan Media</a>
