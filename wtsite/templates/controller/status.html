@@ -27,9 +27,12 @@
 			    	  <tfoot colspan="2"><tr><td></td></tr></tfoot>
 			    	  </tbody>
 			    	  </table>
-			    	  </div>
-			    	  	<div id="controls">
+			    	  </div>	
 					  {% for name in streams %}
+					  	{% if forloop.counter0|diviisibleby:2 %}
+					  		<div class="clearingdiv">&nbsp;</div>
+					  	{% endif %}
+			    	  	<div id="controls">
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
 			    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
@@ -84,8 +87,8 @@
 			    	  	</tr>
 			    	  	</tbody>
 			    	  	</table>
-			    	  {% endfor %}
 			    	  	</div>
+			    	  {% endfor %}
 			    	  <div id="leftside">
 					  {% if status %}
 					  <b>Host:</b>&nbsp;{{ status.host }}<br/>
