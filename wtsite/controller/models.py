@@ -5,7 +5,7 @@ from django.utils.encoding import *
 class Host(models.Model):
     name = models.CharField(max_length=128)
     ip_address = models.IPAddressField('Server IP Address')
-    base_url = models.URLField()
+    base_url = models.URLField(verify_exists=False)
     description = models.TextField('Description', blank=True)
     admin_group = models.ManyToManyField(Group, related_name='host_admin_group', blank=True)
     admin = models.ForeignKey(User, related_name='host_admin', default=1)
