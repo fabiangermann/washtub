@@ -1,0 +1,72 @@
+{% extends "controller/status.html" %}
+
+{% block tabselect %}
+	$('#tabs').tabs('select', 2);
+{% endblock tabselect %}
+
+
+  {% block pooltab %}
+ 	  <form class="searchform" action="/washtub/pool/search/{{ active_host }}" method="GET">
+ 	  	<input class="searchbox" type="text" name="search"></input>
+ 	  	<input type="hidden" name="type" value="song"></input>
+ 	  	<input class="searchbutton" type="submit" value="submit"></submit>
+ 	  </form>
+ 	  <b>Available Media(</b><i>{{ all_pages.count }} items found<b>):</b><br/>
+		<table id="poolTable" class="tablesorter"> 
+		<thead> 
+		<tr> 
+		    <th class="track">#</th> 
+		    <th class="title">Title</th> 
+		    <th class="artist">Artist</th> 
+		    <th class="album">Album</th> 
+		    <th class="genre">Genre</th>
+		    <th class="lastplay">Last Played</th>
+		    <th class="ops">Ops</th> 
+		</tr>
+     	  	</thead>
+     	  	<tbody>
+	    {% for entry in single_page.object_list %}
+	  	<tr>
+					<td>{{ entry.track }}</td>
+					<td>{{ entry.title|truncatewords:8 }}</td>
+					<td>{{ entry.artist }}</td>
+					<td>{{ entry.album|truncatewords:5 }}</td>
+					<td>{{ entry.genre }}</td>
+					{% if entry.lastplay %}
+						<td>{{ listing.on_air }} {% now "T" %}</td>
+					{% else %}
+						<td></td>
+					{% endif %}
+					<td class="ops">
+					<form name="queue_add_{{ entry.id }}" action="/washtub/queue/push/{{ active_host }}" method="POST">
+					<select name="queue" onchange="this.form.submit();">
+					<option>&lt;add to queue&gt;</option>
+					{% for item, type in node_list.items %}
+						{% ifequal type "queue" %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endifequal %}
+						{% ifequal type "editable" %}
+						<option value="{{ item }}">{{ item }}</option>
+						{% endifequal %}
+					{% endfor %}
+					</select>
+					<input type="hidden" name="uri" value="{{ entry.id }}">
+					</form>
+					</td>
+				</tr>
+     	  	{% endfor %}
+     	  	</tbody>
+     	  	</table>
+     	  	<br/>
+     	  	 <div class="pagination"> 
+						<span class="pagination-pre">
+						{% if single_page.has_previous %}&larr;<a href="/washtub/pool/search/{{active_host}}/{{single_page.previous_page_number}}{{ query_string }}">previous</a>{% endif %}
+						</span>
+						{% if single_page.number %}
+						<span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
+						{% endif %}
+			<span class="pagination-next">
+			{% if single_page.has_next %}<a href="/washtub/pool/search/{{active_host}}/{{single_page.next_page_number}}{{query_string}}">next</a>&rarr;{% endif %}
+						</span>
+				 </div>
+     	  {% endblock pooltab %}
