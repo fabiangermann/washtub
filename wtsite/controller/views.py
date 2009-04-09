@@ -263,7 +263,7 @@ def search_pool(request, host_name):
 		str = request.GET['search']
 		results = Song.objects.filter(title__icontains=str)
 		if not results:
-			message = 'Search did not find any results.'
+			message = 'Search did not yield any results.'
 			return display_alert(request, host_name, 'controller/pool.html', message)
 				
 		#we have results, so grab the status, while we are here.
