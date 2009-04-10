@@ -3,6 +3,23 @@
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+# Specify the server name
+# *No trailing slash
+SERVER_NAME = 'http://home.vinylproject.com'
+
+# Base URL String for making Washtub Portable
+# *Must have a starting slash
+# *No trailing slash
+PROJECT_PATH = '/usr/share/washtub'
+BASE_URL = '/washtub'
+
+# Specify the Project Path
+# *Must have a starting slash
+# *No trailing slash
+
+# These Are Custom Settings for the MediaPool App
+MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/washtub'
+
 ADMINS = (
     ('Chris Everest', 'chris@vinylproject.com'),
 )
@@ -35,21 +52,23 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/usr/share/washtub/www-static/media'
+MEDIA_ROOT = PROJECT_PATH+'/www-static/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://home.vinylproject.com/washtub/media/'
+MEDIA_URL = SERVER_NAME+BASE_URL+'/media/'
 
 # Provide the URL for access denied redirects.
-LOGIN_URL = '/washtub/login'
-LOGIN_REDIRECT_URL = '/washtub'
+LOGIN_URL = BASE_URL+'/login'
+LOGIN_REDIRECT_URL = BASE_URL
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/washtub/admin-media/'
+# This URL path must point/link to the contrib admin media directory provided by Django
+# i.e. ln -s /<your_project_path>/admin-media/ /<your_python_path>/django/contrib/admin/media
+ADMIN_MEDIA_PREFIX = BASE_URL+'/admin-media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '&)*b)wj5u$y+&qjo!@-4e*r!&zuixt*%g8%b1xm#jtcs$r*($-'
@@ -73,8 +92,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/usr/share/washtub/wtsite/templates",
-    "/usr/share/python-support/python-django/django/contrib/admin/templates"
+    '/usr/share/python-support/python-django/django/contrib/admin/templates',
+    PROJECT_PATH+'/wtsite/templates',
 )
 
 INSTALLED_APPS = (
@@ -86,8 +105,4 @@ INSTALLED_APPS = (
     'wtsite.controller',
     'wtsite.mediapool'
 )
-
-
-# These Are Custom Settings for the MediaPool App
-MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/washtub'
 
