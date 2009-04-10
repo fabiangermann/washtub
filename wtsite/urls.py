@@ -12,7 +12,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Example:
     # (r'^wtsite/', include('wtsite.foo.urls')),
-    (r'^%s/' % settings.BASE_URL, include('wtsite.controller.urls')),
+    (r'^%s' % settings.BASE_URL, include('wtsite.controller.urls')),
     (r'^%s/mediapool/' % settings.BASE_URL, include('wtsite.mediapool.urls')),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
