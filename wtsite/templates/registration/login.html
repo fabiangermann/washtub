@@ -2,7 +2,6 @@
 
 {% block title %} Washtub Liquidsoap Controller - Please Login {% endblock title %}
 
- 
 {% block userstatus %}
 	{% if user.is_authenticated %}
 		Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a>
@@ -27,12 +26,13 @@
 {% endif %}
 {% endblock errormessage %}
   
-{% block content %}
 
-<div id="accordion">
-	<div>
-	<h3><a href="#">Please login to continue...</a></h3>
-	<div>
+{% block content %}
+<div id="tabs">
+    <ul>
+    	<li><a href="#tabs-1">Please Login</a></li>
+    </ul>
+    <div id="tabs-1">
     <ul>
 	{% if form.errors %}
 	<li>You may have entered the wrong password.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
@@ -41,7 +41,7 @@
 	<li>This is the <b>{{ site_name }}</b> login page.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
 	<li>Login to access or contact the administrator to gain access.</li>
 	 {% endif %}
-	</ul></div>
+	</ul>
 	</div>
 </div>
 

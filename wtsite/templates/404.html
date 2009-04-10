@@ -2,23 +2,34 @@
 
 {% block title %} Washtub Liquidsoap Controller - Page Not Found {% endblock title %}
 
-{% block content %}
+{% block userstatus %}
+	{% if user.is_authenticated %}
+		Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a>
+	{% else %}
+		<form method="post" action=".">
+		{{ form.username.label_tag }}:&nbsp;{{ form.username }}&nbsp;&nbsp;
+		{{ form.password.label_tag }}:&nbsp;{{ form.password }}
+		<input type="submit" value="login" />
+		<input type="hidden" name="next" value="{{ next }}" />
+		</form>
+	{% endif %}
+{% endblock userstatus %}
 
-<div id="accordion">
-	<div>
-	<h3><a href="#">Page Not Found...</a></h3>
-	<div>
-    {% block errormessage %}
-	 <div class="ui-widget">
-		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
-			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
-			<strong>Alert:</strong> Error 404 - Page Not Found</p>
-		</div>
-	 </div>
-    {% endblock errormessage %}
-    </div>
+{% block errormessage %}
+<div class="ui-widget">
+	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+		<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+		<strong>Alert:</strong> Error 404 - Page Not Found</p>
 	</div>
 </div>
+{% endblock errormessage %}
 
-
+{% block content %}
+<div id="tabs">
+    <ul>
+    	<li><a href="#tabs-1">Page Not Found</a></li>
+    </ul>
+    <div id="tabs-1">
+	</div>
+</div>
 {% endblock content %}
