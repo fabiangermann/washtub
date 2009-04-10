@@ -5,7 +5,7 @@ TEMPLATE_DEBUG = DEBUG
 
 # Specify the server name
 # *No trailing slash
-SERVER_NAME = 'http://home.vinylproject.com'
+SERVER_NAME = 'http://home.vinylproject.com/'
 
 # Path configs for making Washtub Portable
 # *Must have a starting slash
@@ -59,8 +59,8 @@ MEDIA_ROOT = PROJECT_PATH+'/www-static/media'
 MEDIA_URL = SERVER_NAME+BASE_URL+'/media/'
 
 # Provide the URL for access denied redirects.
-LOGIN_URL = BASE_URL+'/login'
-LOGIN_REDIRECT_URL = BASE_URL
+LOGIN_URL = '/'+BASE_URL+'/login'
+LOGIN_REDIRECT_URL = '/'+BASE_URL
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
