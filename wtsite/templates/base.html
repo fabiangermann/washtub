@@ -31,6 +31,27 @@ $(function(){
 	$('#tabs').tabs();
 	{% block tabselect %}
 	{% endblock tabselect %}
+
+	// Dialog			
+	$('#dialog_scan').dialog({
+		autoOpen: false,
+		width: 350,
+		buttons: {
+			"Ok": function() { 
+				$(this).dialog("close"); 
+			}, 
+			"Cancel": function() { 
+				$(this).dialog("close"); 
+			} 
+		}
+	});
+	
+	// Dialog Link
+	$('#dialog_scan_link').click(function(){
+		$('#dialog').dialog('open');
+		return false;
+	});
+
 	
 	//Call Table Sorter
 	$("#metaTable0").tablesorter({
@@ -105,7 +126,7 @@ $(function(){
     <b>{% filter force_escape %}::{% endfilter %}</b> 
     <a class="menu" href="/washtub/admin">Administration Panel</a>
     <b>{% filter force_escape %}::{% endfilter %}</b> 
-    <a class="menu" href="/washtub/mediapool/scan">Scan Media</a>
+    <a class="menu" id="dialog_scan_link" href="#">Scan Media</a>
     {% endif %}
   </div>  
 </div>
@@ -135,5 +156,11 @@ $(function(){
  
 {% block content %}
 {% endblock content %}
+
+<!-- ui-dialog -->
+		<div id="dialog_scan" title="Scan Media Pool">
+			<p>Please confirm before scanning the Media Pool.</p>
+		</div>
+
 </body>
 </html>
