@@ -1,21 +1,17 @@
 # Django settings for wtsite project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # Specify the server name
 # *No trailing slash
 SERVER_NAME = 'http://home.vinylproject.com'
 
-# Base URL String for making Washtub Portable
+# Path configs for making Washtub Portable
 # *Must have a starting slash
 # *No trailing slash
 PROJECT_PATH = '/usr/share/washtub'
 BASE_URL = '/washtub'
-
-# Specify the Project Path
-# *Must have a starting slash
-# *No trailing slash
 
 # These Are Custom Settings for the MediaPool App
 MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/washtub'
