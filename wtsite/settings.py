@@ -11,7 +11,10 @@ SERVER_NAME = 'http://home.vinylproject.com'
 # *Must have a starting slash
 # *No trailing slash
 PROJECT_PATH = '/usr/share/washtub'
-BASE_URL = '/washtub'
+
+# *No starting slash
+# *No trailing slash
+BASE_URL = 'washtub'
 
 # These Are Custom Settings for the MediaPool App
 MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/washtub'
