@@ -9,7 +9,6 @@ from django.conf import settings
 # admin.autodiscover()
 
 admin.autodiscover()
-assert False
 urlpatterns = patterns('',
     # Example:
     # (r'^wtsite/', include('wtsite.foo.urls')),
