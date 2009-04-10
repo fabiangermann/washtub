@@ -38,7 +38,8 @@ $(function(){
 		width: 350,
 		buttons: {
 			"Ok": function() { 
-				$(this).dialog("close"); 
+				$(this).dialog("close");
+				window.location="{% url mediapool.views.file_scanner %}";
 			}, 
 			"Cancel": function() { 
 				$(this).dialog("close"); 
@@ -161,7 +162,7 @@ $(function(){
 		<div id="dialog_scan" title="Scan Media Pool?">
 			<p><b>Please confirm before scanning the Media Pool.</b>  The media scanning 
 			process can be slow.  Do not refresh the page or initiate scanning repeatedly.  
-			There is nothing preventing the scan process from trailing off into neverland.</p>
+			There is nothing preventing the scan process(es) from trailing off into neverland.</p>
 		</div>
 
 </body>
