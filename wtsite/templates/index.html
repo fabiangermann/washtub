@@ -4,11 +4,14 @@
 </title>
 
 {% block content %}
-		<div id="accordion">
-			<div>
-				<h3><a href="#">Washtub - The Liquidsoap Controller</a></h3>
-				<div>Welcome to washtub, the liquidsoap controller.</div>
-			</div>
-		</div>
+{% block content %}
+<div id="tabs">
+    <ul>
+    	<li><a href="#tabs-1">Dashboard</a></li>
+    </ul>
+    <div id="tabs-1">
+	<div>Welcome to Washtub, the liquidsoap controller.</div>
+	</div>
+</div>
 
 {% endblock content %}
