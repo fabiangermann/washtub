@@ -15,9 +15,9 @@ def replacedot(value):
 def cat(value, string):
 	return value+string
 
-@register.filter("prefixmedia")
+@register.filter("baseurl")
 @stringfilter
-def prefixmedia(value):
+def baseurl(value):
 	return '/'+settings.BASE_URL+value
 
 
