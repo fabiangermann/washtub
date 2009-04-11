@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # Specify the server name
-# *No trailing slash
+# *Required trailing slash
 SERVER_NAME = 'http://home.vinylproject.com/'
 
 # Path configs for making Washtub Portable
@@ -13,8 +13,8 @@ SERVER_NAME = 'http://home.vinylproject.com/'
 PROJECT_PATH = '/usr/share/washtub'
 
 # *No starting slash
-# *No trailing slash
-BASE_URL = 'washtub'
+# *Required trailing slash
+BASE_URL = 'washtub/'
 
 # These Are Custom Settings for the MediaPool App
 MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/washtub'
@@ -51,15 +51,15 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = PROJECT_PATH+'/www-static/media'
+MEDIA_ROOT = PROJECT_PATH+'/www-static/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = SERVER_NAME+BASE_URL+'/media/'
+MEDIA_URL = SERVER_NAME+BASE_URL+'media/'
 
 # Provide the URL for access denied redirects.
-LOGIN_URL = '/'+BASE_URL+'/login'
+LOGIN_URL = '/'+BASE_URL+'login'
 LOGIN_REDIRECT_URL = '/'+BASE_URL
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
@@ -67,7 +67,7 @@ LOGIN_REDIRECT_URL = '/'+BASE_URL
 # Examples: "http://foo.com/media/", "/media/".
 # This URL path must point/link to the contrib admin media directory provided by Django
 # i.e. ln -s /<your_project_path>/admin-media/ /<your_python_path>/django/contrib/admin/media
-ADMIN_MEDIA_PREFIX = BASE_URL+'/admin-media/'
+ADMIN_MEDIA_PREFIX = '/'+BASE_URL+'admin-media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '&)*b)wj5u$y+&qjo!@-4e*r!&zuixt*%g8%b1xm#jtcs$r*($-'
