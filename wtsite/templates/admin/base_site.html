@@ -4,7 +4,7 @@
 {% block title %}{{ title|escape }} | {% trans 'Washtub' %} {% endblock %}
 {% block branding %}
 <h1 id="site-name">{% trans 'Washtub Site Administration' %}</h1>
-<h2><a href="/washtub/">Main Site</a></h2>
+<h2><a href="{{ ""|baseurl }}">Main Site</a></h2>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

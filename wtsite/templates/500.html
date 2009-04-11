@@ -2,19 +2,6 @@
 
 {% block title %} Washtub Liquidsoap Controller - Server Error {% endblock title %}
 
-{% block userstatus %}
-	{% if user.is_authenticated %}
-		Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a>
-	{% else %}
-		<form method="post" action=".">
-		{{ form.username.label_tag }}:&nbsp;{{ form.username }}&nbsp;&nbsp;
-		{{ form.password.label_tag }}:&nbsp;{{ form.password }}
-		<input type="submit" value="login" />
-		<input type="hidden" name="next" value="{{ next }}" />
-		</form>
-	{% endif %}
-{% endblock userstatus %}
-
 {% block errormessage %}
  <div class="ui-widget">
 	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 

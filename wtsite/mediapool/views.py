@@ -82,7 +82,7 @@ def file_scanner(request):
     songs = Song.objects.all()
     clean_db(directory, songs)
     
-    return HttpResponseRedirect('/washtub/')
+    return HttpResponseRedirect('/'+settings.BASE_URL)
     
     
 def get_song_pager():

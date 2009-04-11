@@ -4,7 +4,7 @@
 
 {% block userstatus %}
 	{% if user.is_authenticated %}
-		Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a>
+		Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a>
 	{% else %}
 		<form method="post" action=".">
 		{{ form.username.label_tag }}:&nbsp;{{ form.username }}&nbsp;&nbsp;
@@ -35,10 +35,10 @@
     <div id="tabs-1">
     <ul>
 	{% if form.errors %}
-	<li>You may have entered the wrong password.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
+	<li>You may have entered the wrong password.  Retrieve your password <a href="{% url django.contrib.auth.views.password_reset %}">here</a>.</li>
 	<li>You attempted to access a private area of <b>{{ site_name }}</b>.  Login to access or contact the administrator to gain access.</li>
 	{% else %}
-	<li>This is the <b>{{ site_name }}</b> login page.  Retrieve your password <a href="/washtub/password_reset/">here</a>.</li>
+	<li>This is the <b>{{ site_name }}</b> login page.  Retrieve your password <a href="{% url django.contrib.auth.views.password_reset %}">here</a>.</li>
 	<li>Login to access or contact the administrator to gain access.</li>
 	 {% endif %}
 	</ul>
