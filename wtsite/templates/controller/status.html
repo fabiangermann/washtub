@@ -74,17 +74,17 @@
 			    	  	{% endfor %}
 			    	  	<tr>
 			    	  	<td class="play">
-			    	  	<a href="/washtub/control/start/{{ active_host }}/{{ name }}" title="Play">
+			    	  	<a href="{% url controller.views.stream_start active_host name %}" title="Play">
 			    	  	<span id="controlspan">&nbsp;</span>
 			    	  	</a>
 			    	  	</td>
 			    	  	<td class="stop">
-			    	  	<a href="/washtub/control/stop/{{ active_host }}/{{ name }}" title="Stop">
+			    	  	<a href="{% url controller.views.stream_stop active_host name %}" title="Stop">
 			    	  	<span id="controlspan">&nbsp;</span> 
 			    	  	</a>
 			    	  	</td>
 			    	  	<td class="skip">
-			    	  	<a href="/washtub/control/skip/{{ active_host }}/{{ name }}" title="Skip">
+			    	  	<a href="{% url controller.views.stream_skip active_host name %}" title="Skip">
 			    	  	<span id="controlspan">&nbsp;</span>
 			    	  	</a>
 			    	  	</td>
@@ -228,7 +228,7 @@
 				</div>
 			    <div id="tabs-3">
 			    	  {% block pooltab %}
-				    	  <form class="searchform" action="/washtub/pool/search/{{ active_host }}/1" method="GET">
+				    	  <form class="searchform" action="{% url controller.views.search_pool_page active_host 1 %}" method="GET">
 							<input class="searchbox" type="text" name="search"></input>
 							<input type="hidden" name="type" value="song"></input>
 							<input class="searchbutton" type="submit" value="submit"></submit>
@@ -260,7 +260,7 @@
 										<td></td>
 									{% endif %}
 									<td class="ops">
-									<form name="queue_add_{{ entry.id }}" action="/washtub/queue/push/{{ active_host }}" method="POST">
+									<form name="queue_add_{{ entry.id }}" action="{% url controller.views.queue_push active_host %}" method="POST">
 									<select name="queue" onchange="this.form.submit();">
 									<option>&lt;add to queue&gt;</option>
 									{% for item, type in node_list.items %}
@@ -283,13 +283,13 @@
 					   	  	{% block pagination %}
 					   	  	<div class="pagination"> 
 								<span class="pagination-pre">
-								{% if single_page.has_previous %}&larr;<a href="/washtub/pool/{{active_host}}/songs/{{single_page.previous_page_number}}">previous</a>{% endif %}
+								{% if single_page.has_previous %}&larr;<a href="{% url controller.views.display_pool_page active_host "songs" single_page.previous_page_number %}">previous</a>{% endif %}
 								</span>
 								{% if single_page.number %}
 								<span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
 								{% endif %}
 								<span class="pagination-next">
-								{% if single_page.has_next %}<a href="/washtub/pool/{{active_host}}/songs/{{single_page.next_page_number}}">next</a>&rarr;{% endif %}
+								{% if single_page.has_next %}<a href="{% url controller.views.display_pool_page active_host "songs" single_page.next_page_number %}">next</a>&rarr;{% endif %}
 								</span>
 							</div>
 							{% endblock pagination %}
