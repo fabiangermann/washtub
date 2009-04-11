@@ -91,8 +91,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    PROJECT_PATH+'/wtsite/templates', #this custom path must come first, to override the next
     '/usr/share/python-support/python-django/django/contrib/admin/templates',
-    PROJECT_PATH+'/wtsite/templates',
 )
 
 INSTALLED_APPS = (
