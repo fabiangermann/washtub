@@ -133,7 +133,7 @@ function GetHostStatus()
     {% endif %}
     </select>
     {% if active_host %}
-    	<a class="menu" href="{% url controller.display active_host %}">Home</a>
+    	<a class="menu" href="{% url controller.display_status active_host %}">Home</a>
     {% else %}
     	&nbsp;<a class="menu" href="{{ ""|baseurl }}">Home</a>
     {% endif %}
