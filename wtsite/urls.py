@@ -12,22 +12,22 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Example:
     # (r'^wtsite/', include('wtsite.foo.urls')),
-    (r'^%s/' % settings.BASE_URL, include('wtsite.controller.urls')),
-    (r'^%s/mediapool/' % settings.BASE_URL, include('wtsite.mediapool.urls')),
+    (r'^%s' % settings.BASE_URL, include('wtsite.controller.urls')),
+    (r'^%smediapool/' % settings.BASE_URL, include('wtsite.mediapool.urls')),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
-    (r'^%s/admin/doc/' % settings.BASE_URL, include('django.contrib.admindocs.urls')),
+    (r'^%sadmin/doc/' % settings.BASE_URL, include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^%s/admin/(.*)' % settings.BASE_URL, admin.site.root),
+    (r'^%sadmin/(.*)' % settings.BASE_URL, admin.site.root),
     
     # Add Login URLS
-    (r'^%s/login/$' % settings.BASE_URL, 'django.contrib.auth.views.login'),
-    (r'^%s/logout/$' % settings.BASE_URL, 'django.contrib.auth.views.logout_then_login'),
+    (r'^%slogin/$' % settings.BASE_URL, 'django.contrib.auth.views.login'),
+    (r'^%slogout/$' % settings.BASE_URL, 'django.contrib.auth.views.logout_then_login'),
     #Provide password reset 
-    (r'^%s/password_reset/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset'),
-    (r'^%s/password_reset/done/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset_done'),
-    (r'^%s/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset_confirm'),
-    (r'^%s/reset/done/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset_complete'),
+    (r'^%spassword_reset/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset'),
+    (r'^%spassword_reset/done/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset_done'),
+    (r'^%sreset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset_confirm'),
+    (r'^%sreset/done/$' % settings.BASE_URL, 'django.contrib.auth.views.password_reset_complete'),
 )
