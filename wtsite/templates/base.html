@@ -108,7 +108,7 @@ $(function(){
       {% if user.is_authenticated %}
         Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a> 
       {% else %}
-        Please <a href="/washtub/login" >log-in</a> to continue....<a class="action" href="/washtub/password_reset">Retrieve Password</a>
+        Please <a href="/washtub/login" >log-in</a> to continue....<a class="action" href="{% url django.contrib.auth.views.password_reset %}">Retrieve Password</a>
       {% endif %}
     {% endblock userstatus %}
   </div>
