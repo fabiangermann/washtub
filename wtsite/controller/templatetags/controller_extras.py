@@ -1,4 +1,5 @@
 from django.template.defaultfilters import stringfilter
+from django.conf import settings
 from django import template
 import string
 
@@ -13,6 +14,11 @@ def replacedot(value):
 @stringfilter
 def cat(value, string):
 	return value+string
+
+@stringfilter
+def prefixmedia(value):
+	return '/'+settings.BASE_URL+value
+
 
 @register.filter("tominutes")
 def tominutes(value):
