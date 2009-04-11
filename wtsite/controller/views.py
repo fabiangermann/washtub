@@ -13,9 +13,9 @@ from wtsite.mediapool.views import *
 import telnetlib, string, time
 
 # Create your views here.
-def parse_command(host, settings, command):
+def parse_command(host, host_settings, command):
 	port = None
-	for p in settings:
+	for p in host_settings:
 	   if p.value == 'port':
 	       port = str(p.data)
 	#default port number (for telnet)
@@ -29,8 +29,8 @@ def parse_command(host, settings, command):
 	return response
 
 
-def parse_metadata(host, settings, rid):
-	meta_list = parse_command(host, settings, 'metadata %s\n' % rid)
+def parse_metadata(host, host_settings, rid):
+	meta_list = parse_command(host, host_settings, 'metadata %s\n' % rid)
 	meta_list = meta_list.splitlines()
 	metadata = {}
 	for m in meta_list:
@@ -40,18 +40,18 @@ def parse_metadata(host, settings, rid):
 				metadata[m[0]] = m[1].strip('"')
 	return metadata
 
-def parse_queue_metadata(host, settings, queue, storage):
+def parse_queue_metadata(host, host_settings, queue, storage):
 	if not storage:
 	   storage = {}
 	if queue:
 		for name,entries in queue.iteritems():
 			for rid in entries:
 				if rid not in storage:
-					storage[rid]= parse_metadata(host, settings, rid)
+					storage[rid]= parse_metadata(host, host_settings, rid)
 	return storage
 
-def parse_node_list(host, settings):
-	list = parse_command(host, settings, "list")
+def parse_node_list(host, host_settings):
+	list = parse_command(host, host_settings, "list")
 	list = list.splitlines()
 	out = {}
 	for item in list:
@@ -60,8 +60,8 @@ def parse_node_list(host, settings):
 			out[item[0]]=item[1]
 	return out
 
-def parse_help(host, settings):
-	list = parse_command(host, settings, "help")
+def parse_help(host, host_settings):
+	list = parse_command(host, host_settings, "help")
 	list = list.splitlines()
 	out = []
 	for item in list:
@@ -71,8 +71,8 @@ def parse_help(host, settings):
 	list = out
 	return list
 
-def parse_rid_list(host, settings, command):
-	entry = parse_command(host, settings, command)
+def parse_rid_list(host, host_settings, command):
+	entry = parse_command(host, host_settings, command)
 	entry = entry.split()
 	entry_list = []
 	for e in entry:
@@ -80,7 +80,7 @@ def parse_rid_list(host, settings, command):
 		 entry_list.append(e)
 	return entry_list
 
-def parse_output_streams(host, settings, node_list):
+def parse_output_streams(host, host_settings, node_list):
 	streams = []
 	for node,type in node_list.iteritems():
 		temp = type.split('.')
@@ -88,14 +88,14 @@ def parse_output_streams(host, settings, node_list):
 			streams.append(node)
 	return streams
 							
-def parse_history(host, settings, node_list):
+def parse_history(host, host_settings, node_list):
 	history = {}
 	for node,type in node_list.iteritems():
 		type = type.split('.')
 		if (len(type) > 0):
 			if ('output' in type):
 				entry_list = []
-				meta = parse_command(host, settings, '%s.metadata\n' % (node))
+				meta = parse_command(host, host_settings, '%s.metadata\n' % (node))
 				meta = meta.splitlines()
 				for line in meta:
 					line = line.split('=')
@@ -113,9 +113,9 @@ def parse_history(host, settings, node_list):
 					history[node] = entry_list
 	return history
 
-def parse_queue_dict(host, settings):
+def parse_queue_dict(host, host_settings):
 	queue_list = []
-	for p in settings:
+	for p in host_settings:
 	   if p.value == 'queue_id':
 	   	queue_list.append(str(p.data))
 	#default port number (for telnet)
@@ -123,12 +123,12 @@ def parse_queue_dict(host, settings):
 		return None
 	request_list = {}
 	for q in queue_list:
-		request_list[q] = parse_rid_list(host, settings, "%s.queue" % (q))
+		request_list[q] = parse_rid_list(host, host_settings, "%s.queue" % (q))
 	if request_list == []:
 		return None
 	return request_list;
 	
-def build_status_list(host, settings, streams, available_commands):
+def build_status_list(host, host_settings, streams, available_commands):
 	status = {}
 	status['host'] = str(host)
 	status['ip_address'] = str(host.ip_address)
@@ -139,7 +139,7 @@ def build_status_list(host, settings, streams, available_commands):
 		command_list.append(name+".remaining")
 	for command in command_list:
 		if command in available_commands:
-			response = parse_command(host, settings, command)
+			response = parse_command(host, host_settings, command)
 			response = response.splitlines()
 			if(len(response) > 0):
 				response = response[0]
@@ -152,37 +152,37 @@ def get_host_list():
 
 def get_realtime_status(host_name):
 	host = get_object_or_404(Host, name=host_name)
-	settings = get_list_or_404(Setting, hostname=host)
+	host_settings = get_list_or_404(Setting, hostname=host)
 	
 	#Parse all available help commands (for reference)	
-	help = parse_help(host, settings)
+	help = parse_help(host, host_settings)
 	
 	#Get active nodes for this host and this liquidsoap instance
-	node_list = parse_node_list(host, settings)
-	streams = parse_output_streams(host, settings, node_list)
+	node_list = parse_node_list(host, host_settings)
+	streams = parse_output_streams(host, host_settings, node_list)
 	streams = sorted(streams)
-	status = build_status_list(host, settings, streams, help)
+	status = build_status_list(host, host_settings, streams, help)
 	
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
 	metadata_storage = {}
 	
 	#Get 'history' Listing and Grab Metadata for it.
-	history = parse_history(host, settings, node_list)
-	metadata_storage = parse_queue_metadata(host, settings, history, metadata_storage)
+	history = parse_history(host, host_settings, node_list)
+	metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
 
 	#Get 'request' Queues and Grab Metadata for them
-	queue = parse_queue_dict(host, settings)
-	metadata_storage = parse_queue_metadata(host, settings, queue, metadata_storage)
+	queue = parse_queue_dict(host, host_settings)
+	metadata_storage = parse_queue_metadata(host, host_settings, queue, metadata_storage)
 	
 	#Get 'on_air' Queue and Grab Metadata for it
 	air_queue = {}
-	air_queue['on_air'] = parse_rid_list(host, settings, "on_air")
-	metadata_storage = parse_queue_metadata(host, settings, air_queue, metadata_storage)
+	air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+	metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 	
 	#Get 'alive' Queue and Grab Metadata for it
 	alive_queue = {}
-	alive_queue['alive'] = parse_rid_list(host, settings, "alive")
-	metadata_storage = parse_queue_metadata(host, settings, alive_queue, metadata_storage)
+	alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
+	metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
 	
 	hosts = get_host_list()
 	active_host = host
@@ -321,10 +321,10 @@ def index (request):
 @login_required
 def stream_skip(request, host_name, stream):
 	host = get_object_or_404(Host, name=host_name)
-	settings = get_list_or_404(Setting, hostname=host)
-	node_list = parse_node_list(host, settings)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	node_list = parse_node_list(host, host_settings)
 	if(stream in node_list):
-		response = parse_command(host, settings, '%s.skip' % (str(stream)))
+		response = parse_command(host, host_settings, '%s.skip' % (str(stream)))
 		response = response.splitlines()
 		if('Done' in response):
 			time.sleep(1.5)
@@ -337,10 +337,10 @@ def stream_skip(request, host_name, stream):
 @login_required
 def stream_stop(request, host_name, stream):
 	host = get_object_or_404(Host, name=host_name)
-	settings = get_list_or_404(Setting, hostname=host)
-	node_list = parse_node_list(host, settings)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	node_list = parse_node_list(host, host_settings)
 	if(stream in node_list):
-		response = parse_command(host, settings, '%s.stop' % (str(stream)))
+		response = parse_command(host, host_settings, '%s.stop' % (str(stream)))
 		response = response.splitlines()
 		if '' in response:
 			time.sleep(0.2)
@@ -353,10 +353,10 @@ def stream_stop(request, host_name, stream):
 @login_required
 def stream_start(request, host_name, stream):
 	host = get_object_or_404(Host, name=host_name)
-	settings = get_list_or_404(Setting, hostname=host)
-	node_list = parse_node_list(host, settings)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	node_list = parse_node_list(host, host_settings)
 	if(stream in node_list):
-		response = parse_command(host, settings, '%s.start' % (str(stream)))
+		response = parse_command(host, host_settings, '%s.start' % (str(stream)))
 		response = response.splitlines()
 		if('' in response):
 			time.sleep(0.2)
@@ -374,10 +374,10 @@ def queue_push(request, host_name):
 		
 		#if the uri exists, then process the request
 		host = get_object_or_404(Host, name=host_name)
-		settings = get_list_or_404(Setting, hostname=host)
+		host_settings = get_list_or_404(Setting, hostname=host)
 		
 		#Parse all available help commands (for reference)	
-		help = parse_help(host, settings)
+		help = parse_help(host, host_settings)
 		
 		#Make sure that the queue we have is valid.  
 		#Check Database and liquidsoap instance
@@ -393,9 +393,8 @@ def queue_push(request, host_name):
 			raise Http404
 		
 		#commit the command
-		response = parse_command(host, settings, queue_command)
-		poo= settings.BASE_URL
-		return HttpResponseRedirect('/%sstatus/%s' % (settings.BASE_URL,host_name))		
+		response = parse_command(host, host_settings, queue_command)
+		return HttpResponseRedirect('/'+settings.BASE_URL+'status/'+host_name))		
 	else:
 		#return message about Get with bad parameters.
 		message = 'Requests cannot be pushed via GET requests.'
