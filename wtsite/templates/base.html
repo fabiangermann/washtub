@@ -96,6 +96,19 @@ $(function(){
 	});
 	
 });
+function GetHostStatus()
+{
+	var hostlist = document.getElementById("HostList");
+	var myhost = hostlist.options[hostlist.selectedIndex].text;
+	if (myhost == "----------")
+	{
+		window.location="{{ ""|prefixmedia }}";
+	}
+	else
+	{
+		window.location="{{ "status/"|prefixmedia }}"+myhost;
+	}
+}
 </script>
 <script type="text/javascript" src="{{ "media/js/main.js"|prefixmedia }}"></script>
 {% block extrahead %}
@@ -120,13 +133,13 @@ $(function(){
     {% endif %}
     </select>
     {% if active_host %}
-    	<a class="menu" href="/washtub/status/{{active_host}}">Home</a>
+    	<a class="menu" href="{% url controller.display active_host %}">Home</a>
     {% else %}
-    	&nbsp;<a class="menu" href="/washtub">Home</a>
+    	&nbsp;<a class="menu" href="{{ ""|prefixmedia }}">Home</a>
     {% endif %}
     {% if user.is_staff %}
     <b>{% filter force_escape %}::{% endfilter %}</b> 
-    <a class="menu" href="/washtub/admin">Administration Panel</a>
+    <a class="menu" href="{% url admin.site.root %}">Administration Panel</a>
     <b>{% filter force_escape %}::{% endfilter %}</b> 
     <a class="menu" id="dialog_scan_link" href="#">Scan Media</a>
     {% endif %}
