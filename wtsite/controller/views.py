@@ -394,7 +394,8 @@ def queue_push(request, host_name):
 		
 		#commit the command
 		response = parse_command(host, settings, queue_command)
-		redirect_path = '/'+settings.BASE_URL+'status/'+host_name
+		redirect_path = settings.BASE_URL
+		redirect_path = '/'+redirect_path+'status/'+host_name
 		return HttpResponseRedirect(redirect_path)		
 	else:
 		#return message about Get with bad parameters.
