@@ -14,9 +14,9 @@
 <link rel="stylesheet" type="text/css" href="{{ "media/css/main.css"|prefixmedia }}" />
 <base target="_top" />
 {% if active_host %}
-<link type="text/css" href="{{ "media/theme/"|cat:active_host|cat:"/css/custom-theme/jquery-ui-1.7.1.custom.css"|prefixmedia }}" rel="stylesheet" />	
+<link type="text/css" href="{{ "media/theme/"|cat:active_host.name|cat:"/css/custom-theme/jquery-ui-1.7.1.custom.css"|prefixmedia }}" rel="stylesheet" />	
 <script type="text/javascript" src="{{ "media/js/jquery-1.3.2.min.js"|prefixmedia }}"></script>
-<script type="text/javascript" src="{{ "media/theme/"|cat:active_host|cat:"/js/jquery-ui-1.7.1.custom.min.js"|prefixmedia }}"></script>
+<script type="text/javascript" src="{{ "media/theme/"|cat:active_host.name|cat:"/js/jquery-ui-1.7.1.custom.min.js"|prefixmedia }}"></script>
 {% else %}
 <link type="text/css" href="{{ "media/theme/default/css/custom-theme/jquery-ui-1.7.1.custom.css"|prefixmedia }}" rel="stylesheet" />	
 <script type="text/javascript" src="{{ "media/js/jquery-1.3.2.min.js"|prefixmedia }}"></script>
