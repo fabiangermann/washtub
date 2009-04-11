@@ -97,7 +97,7 @@ $(function(){
 	
 });
 </script>
-<script type="text/javascript" src="/washtub/media/js/main.js"></script>
+<script type="text/javascript" src="{{ "media/js/main.js"|prefixmedia }}"></script>
 {% block extrahead %}
 {% endblock extrahead %}
 </head>
@@ -106,7 +106,7 @@ $(function(){
   <div class="status"> 
     {% block userstatus %}
       {% if user.is_authenticated %}
-        Hello {{ user.first_name }}!&nbsp;<a class="action" href="/washtub/logout">Logout?</a> 
+        Hello {{ user.first_name }}!&nbsp;<a class="action" href="{{ url django.contrib.auth.views.logout_then_login	}}">Logout?</a> 
       {% else %}
         Please <a href="/washtub/login" >log-in</a> to continue....<a class="action" href="/washtub/password_reset">Retrieve Password</a>
       {% endif %}
