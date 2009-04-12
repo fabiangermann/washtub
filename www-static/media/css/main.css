@@ -743,7 +743,7 @@ table.tablesorter td.skip {
 	width:20%;
 }
 table.tablesorter td.statuson {
-	background: #abee87 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat 75% 5%;
+	background: #abee87 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat 75% 50%;
 	width:40%;
 }
 table.tablesorter td.statusoff {
