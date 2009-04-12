@@ -335,7 +335,7 @@ text-decoration:none;
 }
 
 #leftside h1 b {
-indent:2px;
+text-indent:2px;
 }
 
 h1 div.info {
