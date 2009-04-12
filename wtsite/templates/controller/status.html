@@ -40,7 +40,7 @@
 			    	  	<table id="streamTable" class="tablesorter">
 			    	  	<thead>
 			    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
-			    	  	<tr><td colspan="2">Stream:<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a></td></tr>
+			    	  	<tr><td colspan="2">Stream #{{forloop.counter}}(<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }})</a></td></tr>
 			    	  	{% endwith %}
 			    	  	</thead>
 			    	  	<tbody>
