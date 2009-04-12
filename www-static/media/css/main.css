@@ -334,6 +334,10 @@ margin:0 0 6px;
 text-decoration:none;
 }
 
+#leftside h1 b {
+indent:2px;
+}
+
 h1 div.info {
 display:inline;
 font-size:0.70em;
