@@ -97,9 +97,9 @@
 					  {% if status %}
 					  <h1>{{ status.host|upper }}</h1>
 					  <div>
-					  <b>IP Address:</b>&nbsp;{{ status.ip_address }}<br/>
-					  <b>Version:</b>&nbsp;{{ status.version }}<br/>
-					  <b>Uptime:</b>&nbsp;{{ status.uptime }}<br/>
+					  IP Address:&nbsp;{{ status.ip_address }}<br/>
+					  Version:&nbsp;{{ status.version }}<br/>
+					  Uptime:&nbsp;{{ status.uptime }}<br/>
 					  {{ status.base_url|urlize }}<br/>
 					  </div>
 					  {% endif %}
