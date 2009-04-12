@@ -53,7 +53,7 @@ div.status{
 
 table a #controlspan, table div #controlspan {
 	display:block;
-	text-indent:0.7em;
+	text-indent:0.85em;
 	width:100%;
 	height:100%;
 	cursor:pointer;
@@ -747,7 +747,7 @@ table.tablesorter td.statuson {
 	width:40%;
 }
 table.tablesorter td.statusoff {
-	background: #ee8a7c url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat right;
+	background: #ee8a7c url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat 75% 50%;
 	width:40%;
 }
 table.tablesorter td.remaining {
