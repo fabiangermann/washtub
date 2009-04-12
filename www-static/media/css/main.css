@@ -290,7 +290,7 @@ margin:10px 0 0 0;
 width: 542px;
 }
 #leftside{
-width:175px;
+width:auto;
 }
 #rightside, #controls{
 text-align:left;
