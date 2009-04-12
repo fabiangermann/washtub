@@ -51,13 +51,13 @@
 			    	  			{% ifequal info "on" %}
 			    	  			<td class="statuson" colspan="2">
 			    	  			<div title="{{ name|replacedot }} is currently playing.">
-			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			<span id="controlspan">ON</span>
 			    	  			</div>
 			    	  			</td>
 			    	  			{% else %}
 			    	  			<td class="statusoff" colspan="2">
 			    	  			<div title="{{ name|replacedot }} is currently stopped."> 
-			    	  			<span id="controlspan">&nbsp;</span>
+			    	  			<span id="controlspan">OFF</span>
 			    	  			</div>
 			    	  			</td>
 			    	  			{% endifequal %}
@@ -95,7 +95,7 @@
 			    	  </div>
 			    	  <div id="leftside">
 					  {% if status %}
-					  <h1>{{ status.host|upper }}</h1>
+					  <h1>{{ status.host|upper }}</h1>x
 					  <div>
 					  <b>IP Address:</b>&nbsp;{{ status.ip_address }}<br/>
 					  <b>Version:</b>&nbsp;{{ status.version }}<br/>
