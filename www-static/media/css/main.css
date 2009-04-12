@@ -318,10 +318,11 @@ font-weight:bold;
 
 #leftside h1,#rightside h1 {
 color:#505050;
-font-size:1.3em;
+font-size:1.7em;
 font-weight:bold;
+font-style:italic;
 letter-spacing:-1px;
-margin:0 0 6px;
+margin:0px;
 }
 
 #leftside h1 a {
