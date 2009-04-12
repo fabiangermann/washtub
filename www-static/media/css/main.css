@@ -319,11 +319,10 @@ font-weight:bold;
 
 #leftside h1,#rightside h1 {
 color:#505050;
-font-family:"courier new";
+font-family:serif;
 font-size:2.4em;
 font-weight:bold;
 font-style:italic;
-letter-spacing:0.1em;
 margin:0px;
 }
 
