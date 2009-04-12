@@ -334,10 +334,6 @@ margin:0 0 6px;
 text-decoration:none;
 }
 
-#leftside h1 b {
-text-indent:2px;
-}
-
 h1 div.info {
 display:inline;
 font-size:0.70em;
@@ -746,11 +742,11 @@ table.tablesorter td.skip {
 	width:20%;
 }
 table.tablesorter td.statuson {
-	background: #abee87 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat center;
+	background: #abee87 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat right;
 	width:40%;
 }
 table.tablesorter td.statusoff {
-	background: #ee8a7c url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat center;
+	background: #ee8a7c url(../images/tango/16x16/status/audio-volume-muted.png) no-repeat right;
 	width:40%;
 }
 table.tablesorter td.remaining {
