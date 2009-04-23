@@ -244,7 +244,7 @@ def display_nodes(request, host_name):
 	template_dict['alive_queue'] = alive_queue
 	template_dict['metadata_storage'] = metadata_storage
 
-	return render_to_response('controller/queues.html', template_dict, context_instance=RequestContext(request))
+	return render_to_response('controller/nodes.html', template_dict, context_instance=RequestContext(request))
 
 @login_required	
 def display_queues(request, host_name):
