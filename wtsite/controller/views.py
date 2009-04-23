@@ -246,6 +246,7 @@ def display_nodes(request, host_name):
 	template_dict['air_queue'] = air_queue
 	template_dict['alive_queue'] = alive_queue
 	template_dict['metadata_storage'] = metadata_storage
+	assert False
 
 	return render_to_response('controller/nodes.html', template_dict, context_instance=RequestContext(request))
 
