@@ -851,9 +851,7 @@
                   .end().filter(':odd')
                   .removeClass(table.config.widgetZebra.css[0]).addClass
 (table.config.widgetZebra.css[1]);
-                if(table.config.debug) { $.tablesorter.benchmark("Applying Zebra
-widget", time); }
-            } 
-
+                if(table.config.debug) { $.tablesorter.benchmark("Applying Zebra widget", time); } 
+		}
 	});	
 })(jQuery);
