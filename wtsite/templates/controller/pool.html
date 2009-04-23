@@ -4,7 +4,7 @@
 <script type="text/javascript">
 $('#tabs').tabs({
     load: function(event, ui) {
-        $('pagination-pre a', ui.panel).click(function() {
+        $('a', ui.panel).click(function() {
             $(ui.panel).load(this.href);
             return false;
         });
