@@ -33,7 +33,7 @@ $(function(){
 	$('#tabs').tabs({ cookie: { expires: 30 }, 
 			          ajaxOptions: { cache: false }
 	});
-	$('#tabs').bind('tabsload', function(event, ui) { $.trigger("appendCache") }
+	$('#tabs').bind('tabsload', function(event, ui) { $.trigger("appendCache") });
 		
 	{% block tabselect %}
 	{% endblock tabselect %}
