@@ -13,6 +13,6 @@ urlpatterns = patterns('wtsite.controller.views',
 	(r'^pool/search/(?P<host_name>\S+)/(?P<page>\d+)$', 'search_pool_page'),
 	(r'^pool/search/(?P<host_name>\S+)$', 'search_pool'),
 	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)/(?P<page>\d+)$', 'display_pool_page'),     
-	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)$', 'display_pool'),
+	#(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)$', 'display_pool'),
 	(r'^$', 'index'),
 	)
