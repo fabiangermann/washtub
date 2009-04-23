@@ -327,7 +327,8 @@ def display_alert(request, host_name, template, msg):
 
 @login_required	
 def display_pool_page(request, host_name, type, page):
-	template_dict = get_realtime_status(host_name)
+	host = get_object_or_404(Host, name=host_name)
+	template_dict = {}
 	p = get_song_pager()
 	try:
 		single_page = p.page(page)
@@ -335,12 +336,12 @@ def display_pool_page(request, host_name, type, page):
 		single_page = p.page(p.num_pages)
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
+	template_dict['active_host'] = host
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
 @login_required
 def display_pool(request, host_name, type):
 	host = get_object_or_404(Host, name=host_name)
-	
 	template_dict = {}
 	#populate both dictionaries to avoid template errors.
 	all_pages = get_song_pager()
@@ -351,9 +352,9 @@ def display_pool(request, host_name, type):
 
 @login_required
 def search_pool(request, host_name):
-	if request.method == 'GET':	
-		#we will at least get empty results, so grab the status, while we are here.
-		template_dict = get_realtime_status(host_name)
+	if request.method == 'GET':
+		host = get_object_or_404(Host, name=host_name)
+		template_dict = {}
 		
 		cat = request.GET['type']
 		str = request.GET['search']
