@@ -3,8 +3,8 @@
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 						<script type="text/javascript">
 							//Call Table Sorter
-							$(function(){
-							$('#historyTable{{ forloop.counter0 }}').tablesorter();
+							$('#tabs').bind('tabsload', function(event, ui) {
+								$('#historyTable{{ forloop.counter0 }}').tablesorter();
 							});
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
