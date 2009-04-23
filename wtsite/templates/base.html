@@ -34,7 +34,10 @@ $(function(){
 			          ajaxOptions: { cache: false }
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
-		$.trigger('applyWidgets')
+		var i;
+		for (i in visibleTableArray){
+			$(visibleTableArray[x]).trigger('applyWidgets');
+		}
 	});
 		
 	{% block tabselect %}
