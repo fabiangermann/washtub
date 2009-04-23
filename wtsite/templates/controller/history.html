@@ -5,7 +5,8 @@
 </script>
 					  {% for name, entries in history.items %}
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
-					  	<script type="text/javascript">
+					  	<script type="text/javascript">	//Call Table Sorter
+							$("#historyTable{{ forloop.counter0 }}").tablesorter();
 							visibleTableArray.push("#historyTable{{ forloop.counter0 }}");
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
