@@ -854,6 +854,6 @@
                 if(table.config.debug) { $.tablesorter.benchmark("Applying Zebra
 widget", time); }
             } 
-		}
+
 	});	
 })(jQuery);
