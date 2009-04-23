@@ -3,7 +3,11 @@
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 					  	<script type="text/javascript">
 							$('#historyTable{{ forloop.counter0 }}').tablesorter({widgets: ['zebra']});
-							$("#historyTable{{ forloop.counter0 }}").trigger("update"); 
+
+							$('table tr:even').css({background:'white'});
+
+							$('table tr:odd').css({background:'gray'}); 
+
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
