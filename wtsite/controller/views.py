@@ -226,6 +226,20 @@ def display_queues(request, host_name):
 	template_dict['queue'] = queue
 	return render_to_response('controller/queues.html', template_dict, context_instance=RequestContext(request))
 
+@login_required	
+def display_history(request, host_name):
+	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
+	template_dict = {}
+	metadata_storage = {}
+	
+	#Get 'history' Listing and Grab Metadata for it.
+	history = parse_history(host, host_settings, node_list)
+	template_dict['metadata_storage'] = parse_queue_metadata(host, host_settings, history, metadata_storage)
+	template_dict['history'] = history
+	return render_to_response('controller/history.html', template_dict, context_instance=RequestContext(request))
+
 def display_error(request, host_name, template, msg):
 	template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
