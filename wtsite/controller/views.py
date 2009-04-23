@@ -241,7 +241,7 @@ def display_nodes(request, host_name):
 	
 	template_dict = {}
 	template_dict['node_list'] = node_list
-	template_dict['streams'] = streams
+	#template_dict['streams'] = streams
 	template_dict['status'] = status
 	template_dict['air_queue'] = air_queue
 	template_dict['alive_queue'] = alive_queue
