@@ -34,7 +34,7 @@ $(function(){
 			          ajaxOptions: { cache: false }
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
-		$("#historyTable0").trigger("update");
+		$('#historyTable0').trigger('applyWidgets')
 	});
 		
 	{% block tabselect %}
@@ -75,16 +75,6 @@ $(function(){
 	
 	//Call Table Sorter
 	$("#metaTable2").tablesorter({
-		widgets: ['zebra']
-	});
-	
-	//Call Table Sorter
-	$("#onAirTable").tablesorter({
-		widgets: ['zebra']
-	});
-	
-	//Call Table Sorter
-	$("#aliveTable").tablesorter({
 		widgets: ['zebra']
 	});
 	
