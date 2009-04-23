@@ -6,7 +6,7 @@ class Theme(models.Model):
     name = models.CharField(max_length=64, unique=True)
     
     def __unicode__(self):
-        return self.value
+        return self.name
 
 class Host(models.Model):
     name = models.CharField(max_length=128)
