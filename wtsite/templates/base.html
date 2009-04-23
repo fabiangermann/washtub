@@ -36,10 +36,14 @@ $(function(){
 			          ajaxOptions: { cache: false }
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
-		var i;
-		for (i in visibleTableArray){
-			$(visibleTableArray[x]).trigger('applyWidgets');
-		}
+		$("#queueTable0").tablesorter();
+		$("#queueTable1").tablesorter();
+		$("#historyTable0").tablesorter();
+		$("#historyTable1").tablesorter();
+		$("#poolTable").tablesorter();
+		$("#poolTable").tablesorter();
+		$("#aliveTable").tablesorter();
+		$("#onAirTable").tablesorter();
 	});
 		
 	{% block tabselect %}
