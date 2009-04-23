@@ -36,14 +36,14 @@ $(function(){
 			          ajaxOptions: { cache: false }
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
-		$("#queueTable0").tablesorter();
-		$("#queueTable1").tablesorter();
-		$("#historyTable0").tablesorter();
-		$("#historyTable1").tablesorter();
-		$("#poolTable").tablesorter();
-		$("#poolTable").tablesorter();
-		$("#aliveTable").tablesorter();
-		$("#onAirTable").tablesorter();
+		$("#queueTable0").trigger('applyWidgets');
+		$("#queueTable1").trigger('applyWidgets');
+		$("#historyTable0").trigger('applyWidgets');
+		$("#historyTable1").trigger('applyWidgets');
+		$("#poolTable").trigger('applyWidgets');
+		$("#poolTable").trigger('applyWidgets');
+		$("#aliveTable").trigger('applyWidgets');
+		$("#onAirTable").trigger('applyWidgets');
 	});
 		
 	{% block tabselect %}
@@ -73,24 +73,13 @@ $(function(){
 	$.tablesorter.defaults.widgets = ['zebra']; 
 	
 	//Call Table Sorter
-	$("#metaTable0").tablesorter({
-		widgets: ['zebra']
-	});
-	
-	//Call Table Sorter
-	$("#metaTable1").tablesorter({
-		widgets: ['zebra']
-	});
-	
-	//Call Table Sorter
-	$("#metaTable2").tablesorter({
-		widgets: ['zebra']
-	});
-	
-	//Call Table Sorter
-	$("#poolTable").tablesorter({
-		widgets: ['zebra']
-	});
+	$("#aliveTable").tablesorter();
+	$("#onAirTable").tablesorter();
+	$("#queueTable0").tablesorter();
+	$("#queueTable1").tablesorter();
+	$("#historyTable0").tablesorter();
+	$("#historyTable1").tablesorter();
+	$("#poolTable").tablesorter();
 
 });
 function GetHostStatus()
