@@ -217,7 +217,7 @@ def display_status(request, host_name):
 	
 	template_dict['active_host'] = host
 	template_dict['hosts'] = get_host_list()
-	template_dict['theme'] = theme
+	template_dict['theme'] = theme.name
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 @login_required	
