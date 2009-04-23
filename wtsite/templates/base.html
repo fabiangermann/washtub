@@ -100,6 +100,7 @@ function GetPoolPage(host, page)
 <body>
 <div class="header">
   <div class="status"> 
+  <a onCLick="GetPoolPage('lx-web', 2)" href="#">page test</a>
     {% block userstatus %}
       {% if user.is_authenticated %}
         Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a> 
