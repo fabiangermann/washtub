@@ -246,6 +246,7 @@ def display_nodes(request, host_name):
 	metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
 	
 	template_dict = {}
+	template_dict['active_host'] = host
 	template_dict['node_list'] = node_list
 	template_dict['streams'] = streams
 	template_dict['status'] = status
