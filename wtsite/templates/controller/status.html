@@ -11,7 +11,7 @@
 {% block content %}<div id="tabs">
 			    <ul>
 			    	<li><a href="#tabs-1">Status</a></li>
-			    	<li><a href="#tabs-2">Queues</a></li>
+			    	<li><a href="{% url controller.views.display_queues active_host %}">Queues</a></li>
 			    	<li><a href="#tabs-3">Pool</a></li>
 			    	<li><a href="#tabs-4">History</a></li>
 			    	<li><a href="#tabs-5">Help</a></li>
@@ -185,48 +185,6 @@
 					  
 				</div>
 			    <div id="tabs-2">
-				  {% for name, entries in queue.items %}
-				  	<b>Queue(</b><i>{{ name }}</i><b>):</b><br/>
-				  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
-					<thead> 
-					<tr> 
-					    <th class="pos">#</th> 
-					    <th class="title">Title</th> 
-					    <th class="artist">Artist</th> 
-					    <th class="album">Album</th> 
-					    <th class="status">Status</th>
-					    <th class="onair">On Air</th>
-					    <th class="rid">RID</th> 
-					</tr>
-		      	  	</thead>
-		      	  	<tbody>
-		      	  	{% if entries %}
-				  	{% for e in entries %}
-				  		{% for rid, listing in metadata_storage.items %}
-				  			{% ifequal e rid %}
-				  				<tr>
-				  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-				  					<td>{{ listing.title|truncatewords:8 }}</td>
-				  					<td>{{ listing.artist }}</td>
-				  					<td>{{ listing.album|truncatewords:5 }}</td>
-				  					<td>{{ listing.status }}</td>
-				  					{% if listing.on_air %}
-				  						<td>{{ listing.on_air }}{% now "T" %}</td>
-				  					{% else %}
-				  						<td></td>
-				  					{% endif %}
-				  					<td class="rid">{{ listing.rid }}</td>
-				  				</tr>
-				  			{% endifequal %}
-		      	  	  	{% endfor %}
-		      	  	{% endfor %}
-		      	  	{% else %}
-		      	  	<tr><td colspan="7">There are no items in this queue to display.</td></tr>
-		      	  	{% endif %}
-		      	  	</tbody>
-		      	  	</table>
-		      	  	<br/>
-				  {% endfor %}
 				</div>
 			    <div id="tabs-3">
 			    	  {% block pooltab %}
