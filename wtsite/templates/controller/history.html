@@ -2,8 +2,7 @@
 					  {% for name, entries in history.items %}
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 					  	<script type="text/javascript">
-							$('#historyTable{{ forloop.counter0 }}').tablesorter();
-							$.trigger("appendCache")
+							$('#historyTable{{ forloop.counter0 }}').tablesorter({widgets: ['zebra']});
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
