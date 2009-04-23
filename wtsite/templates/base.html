@@ -23,6 +23,7 @@
 <script type="text/javascript" src="{{ "media/theme/default/js/jquery-ui-1.7.1.custom.min.js"|baseurl }}"></script>
 {% endif %}
 <script type="text/javascript" src="{{ "media/js/jquery.tablesorter.min.js"|baseurl }}"></script>
+<script type="text/javascript" src="{{ "media/js/jquery.cookie.js"|baseurl }}"></script>
 <script type="text/javascript">
 $(function(){
 	// Accordion
@@ -31,6 +32,7 @@ $(function(){
 	//Tabs
 	$('#tabs').tabs();
 	{% block tabselect %}
+	$('.selector').tabs({ cookie: { expires: 30 } });
 	{% endblock tabselect %}
 
 	// Dialog			
