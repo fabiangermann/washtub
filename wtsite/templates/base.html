@@ -36,7 +36,7 @@ $(function(){
 	$('#tabs').bind('tabsshow', function(event, ui) {
 		var i;
 		for (i in visibleTableArray){
-			alert(visibleTableArray[x]);
+			alert('hello'+visibleTableArray[x]);
 			$(visibleTableArray[x]).trigger('applyWidgets');
 		}
 	});
