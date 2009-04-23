@@ -2,8 +2,8 @@
 					  {% for name, entries in history.items %}
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 					  	<script type="text/javascript">
-							$('historyTable{{ forloop.counter0 }}').tablesorter();
-							$('historyTable{{ forloop.counter0 }}').trigger('applyWidgets') 
+							$('#historyTable{{ forloop.counter0 }}').tablesorter({widgetZebra: {css: ["even","odd"]});
+							$('#historyTable{{ forloop.counter0 }}').trigger('applyWidgets') 
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
