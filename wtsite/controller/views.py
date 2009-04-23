@@ -339,12 +339,14 @@ def display_pool_page(request, host_name, type, page):
 
 @login_required
 def display_pool(request, host_name, type):
-	template_dict = get_realtime_status(host_name)
+	host = get_object_or_404(Host, name=host_name)
 	
+	template_dict = {}
 	#populate both dictionaries to avoid template errors.
 	all_pages = get_song_pager()
 	template_dict['all_pages'] = all_pages
 	template_dict['single_page'] = all_pages
+	template_dict['active_host'] = host
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
 @login_required
