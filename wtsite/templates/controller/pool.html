@@ -1,7 +1,14 @@
 {% block tabselect %}
 	{% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
-
+<script type="text/javascript">
+function GetPoolPage(host, page)
+{
+	var url = '/washtub/pool/'+host+'/song/'+page; 
+	$('#tabs').tabs( 'url', 2, url);
+	$('#tabs').tabs( 'select', 2);
+}
+</script>
 
    	  {% block pooltab %}
    	  <form class="searchform" action="{% url controller.views.search_pool_page active_host 1 %}" method="GET">
