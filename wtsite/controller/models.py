@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.encoding import *
 # Create your models here.
+class Theme(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+    
+    def __unicode__(self):
+        return self.value
+
 class Host(models.Model):
     name = models.CharField(max_length=128)
     ip_address = models.IPAddressField('Server IP Address')
@@ -32,10 +38,3 @@ class Setting(models.Model):
         ordering = ['hostname', 'value']
         verbose_name = "Setting"
         verbose_name_plural = "Settings"
-
-class Theme(models.Model):
-    name = models.CharField(max_length=64, unique=True)
-    
-    def __unicode__(self):
-        return self.value
-    
