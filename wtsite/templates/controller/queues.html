@@ -1,7 +1,13 @@
 
 				  {% for name, entries in queue.items %}
 				  	<b>Queue(</b><i>{{ name }}</i><b>):</b><br/>
-				  	<table id="metaTable{{ forloop.counter0 }}" class="tablesorter"> 
+				  	<script type="text/javascript">
+					//Call Table Sorter
+					$("#historyTable{{ forloop.counter0 }}").tablesorter({
+						widgets: ['zebra']
+					});
+					</script>
+				  	<table id="queueTable{{ forloop.counter0 }}" class="tablesorter"> 
 					<thead> 
 					<tr> 
 					    <th class="pos">#</th> 
