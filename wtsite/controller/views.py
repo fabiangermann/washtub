@@ -230,6 +230,9 @@ def display_queues(request, host_name):
 def display_history(request, host_name):
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)
+	
+	#Get active nodes for this host and this liquidsoap instance
+	node_list = parse_node_list(host, host_settings)
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
 	template_dict = {}
 	metadata_storage = {}
