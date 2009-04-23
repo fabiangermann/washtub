@@ -33,6 +33,9 @@ $(function(){
 	$('#tabs').tabs({ cookie: { expires: 30 }, 
 			          ajaxOptions: { cache: false }
 	});
+	$('#tabs').bind('tabsshow', function(event, ui) {
+		$("#historyTable0").trigger("update");
+	});
 		
 	{% block tabselect %}
 	{% endblock tabselect %}
