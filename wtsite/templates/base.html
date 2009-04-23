@@ -31,9 +31,9 @@ $(function(){
 	
 	//Tabs
 	$('#tabs').tabs({ cookie: { expires: 30 }, 
-			        {ajaxOptions: { cache: false },
-	  		        {load: function(event,ui) { $.trigger("appendCache") }}
-	);
+			        ajaxOptions: { cache: false },
+	  		        load: function(event,ui) { $.trigger("appendCache") }
+	});
 	{% block tabselect %}
 	{% endblock tabselect %}
 
