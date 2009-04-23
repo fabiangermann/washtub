@@ -1,4 +1,4 @@
-
+{% load controller_extras %}
 					  {% for name, entries in history.items %}
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
