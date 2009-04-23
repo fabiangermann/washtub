@@ -202,7 +202,10 @@ def get_realtime_status(host_name):
 
 @login_required	
 def display_status(request, host_name):
-	#template_dict = get_realtime_status(host_name)
+	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	
+	template_dict = {}
 	p = get_song_pager()
 	try:
 		single_page = p.page(1)
@@ -210,6 +213,9 @@ def display_status(request, host_name):
 		raise Http404
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
+	
+	template_dict['active_host'] = host
+	template_dict['hosts'] = get_host_list()
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 @login_required	
