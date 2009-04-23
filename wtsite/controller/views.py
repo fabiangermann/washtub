@@ -204,7 +204,7 @@ def get_realtime_status(host_name):
 def display_status(request, host_name):
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)
-	t = Theme.object.get(host__name__exact=host_name)
+	t = Theme.objects.get(host__name__exact=host_name)
 	
 	template_dict = {}
 	p = get_song_pager()
