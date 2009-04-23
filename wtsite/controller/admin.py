@@ -11,6 +11,6 @@ class SettingAdmin(admin.ModelAdmin):
 	list_filter = ['hostname']
 	list_display = ('value', 'data', 'hostname')
 
-admin.site.register(Host, ThemeAdmin)
+admin.site.register(Theme, ThemeAdmin)
 admin.site.register(Host, HostAdmin)
 admin.site.register(Setting, SettingAdmin)
