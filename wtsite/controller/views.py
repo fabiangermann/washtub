@@ -202,7 +202,7 @@ def get_realtime_status(host_name):
 
 @login_required	
 def display_status(request, host_name):
-	template_dict = get_realtime_status(host_name)
+	#template_dict = get_realtime_status(host_name)
 	p = get_song_pager()
 	try:
 		single_page = p.page(1)
@@ -241,7 +241,7 @@ def display_nodes(request, host_name):
 	
 	template_dict = {}
 	template_dict['node_list'] = node_list
-	#template_dict['streams'] = streams
+	template_dict['streams'] = streams
 	template_dict['status'] = status
 	template_dict['air_queue'] = air_queue
 	template_dict['alive_queue'] = alive_queue
