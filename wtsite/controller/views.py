@@ -217,12 +217,11 @@ def display_queues(request, host_name):
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-	metadata_storage = {}
+	template_dict = {}
 	
 	#Get 'request' Queues and Grab Metadata for them
 	queue = parse_queue_dict(host, host_settings)
-	metadata_storage = parse_queue_metadata(host, host_settings, queue, metadata_storage)
-	template_dict['metadata_storage'] = metadata_storage
+	template_dict['metadata_storage'] = parse_queue_metadata(host, host_settings, queue, metadata_storage)
 	template_dict['queue'] = queue
 	return render_to_response('controller/queues.html', template_dict, context_instance=RequestContext(request))
 
