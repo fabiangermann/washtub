@@ -1,17 +1,12 @@
 {% load controller_extras %}
-<script type="text/javascript">
-	//Call Table Sorter
-	$("#historyTable0").tablesorter({
-		widgets: ['zebra']
-	});
-	
-	//Call Table Sorter
-	$("#historyTable1").tablesorter({
-		widgets: ['zebra']
-	});
-</script>
 					  {% for name, entries in history.items %}
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
+						<script type="text/javascript">
+							//Call Table Sorter
+							$("#historyTable{{ forloop.counter0 }}").tablesorter({
+								widgets: ['zebra']
+							});
+						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
 						<tr> 
