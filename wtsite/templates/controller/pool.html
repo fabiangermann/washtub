@@ -68,6 +68,7 @@
 			<span class="pagination-next">
 			{% if single_page.has_next %}<a href="{% url controller.views.display_pool_page active_host "songs" single_page.next_page_number %}">next</a>&rarr;{% endif %}
 			{% if single_page.has_next %}<a onClick="GetPoolPage('{{ active_host }}', {{ single_page.next_page_number }})" href="#">next ajax</a>&rarr;{% endif %}
+			{% if single_page.has_next %}<a onClick="alert('test')" href="#">next test</a>&rarr;{% endif %}
 			</span>
 		</div>
 		{% endblock pagination %}
