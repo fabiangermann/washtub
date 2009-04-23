@@ -1,13 +1,10 @@
 {% load controller_extras %}
 
-<script type="text/javascript">
-	var visibleTableArray = new Array();
-</script>
 					  {% for name, entries in history.items %}
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 					  	<script type="text/javascript">	//Call Table Sorter
 							$("#historyTable{{ forloop.counter0 }}").tablesorter();
-							visibleTableArray.push("#historyTable{{ forloop.counter0 }}");
+							eval("visibleTableArray.push('#historyTable{{ forloop.counter0 }}'););
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
