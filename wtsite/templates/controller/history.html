@@ -3,7 +3,7 @@
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 						<script type="text/javascript">
 							//Call Table Sorter
-							eval($("#historyTable{{ forloop.counter0 }}").tablesorter();)
+							eval("$("#historyTable{{ forloop.counter0 }}").tablesorter();")
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
