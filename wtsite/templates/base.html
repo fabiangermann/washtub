@@ -37,8 +37,8 @@ $(function(){
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
 		var i;
+		alert('hello'+visibleTableArray[x]);
 		for (i in visibleTableArray){
-			alert('hello'+visibleTableArray[x]);
 			$(visibleTableArray[x]).trigger('applyWidgets');
 		}
 	});
