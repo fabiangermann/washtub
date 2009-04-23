@@ -841,11 +841,12 @@
 		id: "zebra",
 		format: function(table) {
 			if(table.config.debug) { var time = new Date(); }
-			var tbodyfix = $("tr", table.tBodies[0]);
-            if ($(tbodyfix).css("display") !== "none" && $(tbodyfix).css("visibility") !== "hidden") {
-                $(tbodyfix).filter(':even').removeClass(table.config.widgetZebra.css[1]).addClass(table.config.widgetZebra.css[0]).end().filter(':odd').removeClass(table.config.widgetZebra.css[0]).addClass(table.config.widgetZebra.css[1];
-                if(table.config.debug) { $.tablesorter.benchmark("Applying Zebra widget", time); }
-            } 
+			$("tr:visible",table.tBodies[0])
+	        .filter(':even')
+	        .removeClass(table.config.widgetZebra.css[1]).addClass(table.config.widgetZebra.css[0])
+	        .end().filter(':odd')
+	        .removeClass(table.config.widgetZebra.css[0]).addClass(table.config.widgetZebra.css[1]);
+			if(table.config.debug) { $.tablesorter.benchmark("Applying Zebra widget", time); }
 		}
 	});	
 })(jQuery);
