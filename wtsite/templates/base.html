@@ -34,7 +34,7 @@ $(function(){
 			          ajaxOptions: { cache: false }
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
-		$('#historyTable0').trigger('applyWidgets')
+		$.trigger('applyWidgets')
 	});
 		
 	{% block tabselect %}
