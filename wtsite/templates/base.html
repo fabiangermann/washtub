@@ -30,9 +30,8 @@ $(function(){
 	$("#accordion").accordion({ header: "h3" });
 	
 	//Tabs
-	$('#tabs').tabs();
+	$('#tabs').tabs({ cookie: { expires: 30 } });
 	{% block tabselect %}
-	$('.selector').tabs({ cookie: { expires: 30 } });
 	{% endblock tabselect %}
 
 	// Dialog			
