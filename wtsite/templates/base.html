@@ -31,7 +31,7 @@ $(function(){
 	
 	//Tabs
 	$('#tabs').tabs({ cookie: { expires: 30 }, 
-			          ajaxOptions: { cache: false }
+			          ajaxOptions: { cache: true }
 	});
 	$('#tabs').bind('tabsload', function(event, ui) { $.trigger("appendCache") });
 		
