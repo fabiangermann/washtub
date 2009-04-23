@@ -5,7 +5,7 @@ class ThemeAdmin(admin.ModelAdmin):
 	pass
 	
 class HostAdmin(admin.ModelAdmin):
-	list_display = ('name', 'ip_address', 'base_url', 'admin')
+	list_display = ('name', 'ip_address', 'base_url', 'theme', 'admin')
 
 class SettingAdmin(admin.ModelAdmin):
 	list_filter = ['hostname']
