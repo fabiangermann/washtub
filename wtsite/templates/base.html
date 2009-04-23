@@ -55,13 +55,9 @@ $(function(){
 		return false;
 	});
 
-
-	$('#tabs').bind('tabsload', function(event, ui) {
-
 	$('#historyTable0').tablesorter();
-	$('#historyTable0').tablesorter();
+	$('#historyTable1').tablesorter();
 	
-    $.tablesorter.defaults.widgets = ['zebra'];
 	//Call Table Sorter
 	$("#metaTable0").tablesorter({
 		widgets: ['zebra']
@@ -90,7 +86,6 @@ $(function(){
 	//Call Table Sorter
 	$("#poolTable").tablesorter({
 		widgets: ['zebra']
-	});
 	});
 
 });
