@@ -2,12 +2,14 @@
 	{% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
 <script type="text/javascript">
-function GetPoolPage(host, page)
-{
-	var url = '/washtub/pool/'+host+'/song/'+page; 
-	$('#tabs').tabs( 'url', 2, url);
-	$('#tabs').tabs( 'select', 2);
-}
+$('#tabs').tabs({
+    load: function(event, ui) {
+        $('pagination-pre a', ui.panel).click(function() {
+            $(ui.panel).load(this.href);
+            return false;
+        });
+    }
+});
 </script>
 
    	  {% block pooltab %}
@@ -66,15 +68,23 @@ function GetPoolPage(host, page)
    	  	{% block pagination %}
    	  	<div class="pagination"> 
 			<span class="pagination-pre">
-			{% if single_page.has_previous %}&larr;<a href="{% url controller.views.display_pool_page active_host "songs" single_page.previous_page_number %}">previous</a>{% endif %}
-			{% if single_page.has_previous %}&larr;<a onClick="GetPoolPage('{{ active_host }}', {{ single_page.previous_page_number }})" href="#">previous ajax</a>{% endif %}
+			{% if single_page.has_previous %}
+				&larr;<a href="{% url controller.views.display_pool_page active_host "songs" single_page.previous_page_number %}">previous</a>
+			{% endif %}
+			{% if single_page.has_previous %}
+				&larr;<a onClick="GetPoolPage('{{ active_host }}', {{ single_page.previous_page_number }})" href="#">previous ajax</a>
+			{% endif %}
 			</span>
 			{% if single_page.number %}
 			<span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
 			{% endif %}
 			<span class="pagination-next">
-			{% if single_page.has_next %}<a href="{% url controller.views.display_pool_page active_host "songs" single_page.next_page_number %}">next</a>&rarr;{% endif %}
-			{% if single_page.has_next %}<a onClick="GetPoolPage('{{ active_host }}', {{ single_page.next_page_number }})" href="#">next ajax</a>&rarr;{% endif %}
+			{% if single_page.has_next %}
+				<a href="{% url controller.views.display_pool_page active_host "songs" single_page.next_page_number %}">next</a>&rarr;
+			{% endif %}
+			{% if single_page.has_next %}
+				<a onClick="GetPoolPage('{{ active_host }}', {{ single_page.next_page_number }})" href="#">next ajax</a>&rarr;
+			{% endif %}
 			{% if single_page.has_next %}<a onClick="alert('test')" href="#">next test</a>&rarr;{% endif %}
 			</span>
 		</div>
