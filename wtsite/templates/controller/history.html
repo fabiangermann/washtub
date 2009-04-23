@@ -2,7 +2,9 @@
 					  {% for name, entries in history.items %}
 					  	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
 					  	<script type="text/javascript">
+		                $(document).ready(function() { 
 							$('#historyTable{{ forloop.counter0 }}').tablesorter();
+		                });
 						</script>
 					  	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 						<thead> 
