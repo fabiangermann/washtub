@@ -227,18 +227,21 @@ def display_nodes(request, host_name):
 	status = build_status_list(host, host_settings, streams, help)
 	
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-	template_dict = {}
 	metadata_storage = {}
 
 	#Get 'on_air' Queue and Grab Metadata for it
 	air_queue = {}
-	template_dict['air_queue'] = parse_rid_list(host, host_settings, "on_air")
+	air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
 	metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 	
 	#Get 'alive' Queue and Grab Metadata for it
-	template_dict['alive_queue'] = parse_rid_list(host, host_settings, "alive")
+	alive_queue = {} 
+	alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
 	metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
 	
+	template_dict = {}
+	template_dict['air_queue'] = air_queue
+	template_dict['alive_queue'] = alive_queue
 	template_dict['metadata_storage'] = metadata_storage
 
 	return render_to_response('controller/queues.html', template_dict, context_instance=RequestContext(request))
