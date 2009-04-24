@@ -23,11 +23,11 @@
 	 	  	</thead>
 	 	  	<tbody>
 	  {% for entry in single_page.object_list %}
-		<tr>
+		<tr title="title:{{ entry.title }}<br/>artist:{{ entry.artist }}<br/>album:{{ entry.album }}<br/>track:{{ entry.track }}<br/>genre:{{ entry.genre }}<br/>">
 			<td class="track">{{ entry.track }}</td>
-			<td title="{{ entry.title }}">{{ entry.title|truncatewords:5 }}</td>
+			<td>{{ entry.title|truncatewords:4 }}</td>
 			<td>{{ entry.artist }}</td>
-			<td>{{ entry.album|truncatewords:5 }}</td>
+			<td>{{ entry.album|truncatewords:4 }}</td>
 			<td>{{ entry.genre }}</td>
 			{% if entry.lastplay %}
 				<td>{{ listing.on_air }} {% now "T" %}</td>
