@@ -1,7 +1,9 @@
 {% block tabselect %}
 	{% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
-
+<script type="text/javascript">
+$('#poolTable tr').tooltip();
+</script>
 {% block pooltab %}
     <form class="searchform" action="{% url controller.views.display_status_search_paged active_host 1 %}" method="GET">
 	<input class="searchbox" type="text" name="search"></input>
