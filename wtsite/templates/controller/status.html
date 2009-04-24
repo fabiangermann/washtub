@@ -12,7 +12,7 @@
 			    <ul>
 			    	<li><a href="{% url controller.views.display_nodes active_host %}">Status</a></li>
 			    	<li><a href="{% url controller.views.display_queues active_host %}">Queues</a></li>
-			    	<li><a href="{% url controller.views.display_pool_page active_host "song" 1 %}">Pool</a></li>
+			    	<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}">Pool</a></li>
 			    	<li><a href="{% url controller.views.display_history active_host %}">History</a></li>
 			    	<li><a href="{% url controller.views.display_help active_host %}">Help</a></li>
 			    </ul>

@@ -85,13 +85,6 @@ function GetHostStatus()
 		window.location="{{ "status/"|baseurl }}"+myhost;
 	}
 }
-
-function GetPoolPage(host, page)
-{
-	var url = '/washtub/pool/'+host+'/song/'+page; 
-	$('#tabs').tabs( 'url', 2, url);
-	$('#tabs').tabs( 'select', 2);
-}
 </script>
 <script type="text/javascript" src="{{ "media/js/main.js"|baseurl }}"></script>
 {% block extrahead %}

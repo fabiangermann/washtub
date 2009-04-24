@@ -215,10 +215,25 @@ def display_status(request, host_name):
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	
+	template_dict['pool_page'] = page
 	template_dict['active_host'] = host
 	template_dict['hosts'] = get_host_list()
 	template_dict['theme'] = t.name
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+
+@login_required	
+def display_status(request, host_name, page):
+	host = get_object_or_404(Host, name=host_name)
+	t = Theme.objects.get(host__name__exact=host_name)
+	
+	template_dict = {}
+	
+	template_dict['pool_page'] = page
+	template_dict['active_host'] = host
+	template_dict['hosts'] = get_host_list()
+	template_dict['theme'] = t.name
+	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+
 
 @login_required	
 def display_nodes(request, host_name):
