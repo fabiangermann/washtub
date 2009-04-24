@@ -59,7 +59,7 @@
    	  	<div class="pagination"> 
 			<span class="pagination-pre">
 			{% if single_page.has_previous %}
-				&larr;<a href="{% url controller.views.display_pool_page active_host "songs" single_page.previous_page_number %}">previous</a>
+				&larr;<a href="{% url controller.views.display_status active_host "songs" single_page.previous_page_number %}">previous</a>
 			{% endif %}
 			</span>
 			{% if single_page.number %}
@@ -67,7 +67,7 @@
 			{% endif %}
 			<span class="pagination-next">
 			{% if single_page.has_next %}
-				<a href="{% url controller.views.display_pool_page active_host "songs" single_page.next_page_number %}">next</a>&rarr;
+				<a href="{% url controller.views.display_status active_host "songs" single_page.next_page_number %}">next</a>&rarr;
 			{% endif %}
 
 			</span>
