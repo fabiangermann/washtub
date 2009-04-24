@@ -25,9 +25,7 @@
 <script type="text/javascript" src="{{ "media/js/jquery.cookie.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tablesorter.min.js"|baseurl }}"></script>
 <script type="text/javascript">
-$(function(){
-	visibleTableArray = new Array();
-	
+$(function(){	
 	// Accordion
 	$("#accordion").accordion({ header: "h3" });
 	
@@ -38,6 +36,10 @@ $(function(){
 	$('#tabs').bind('tabsshow', function(event, ui) {
 		$.tablesorter.defaults.widgets = ['zebra']; 
 		//Call Table Sorter
+		//This is hackish, but zebra widgets don't refresh automagically after
+		// ajax responses in tables
+		//A better solution would be to check the active tab and only instantiate
+		//the tablesorters that we need (speed enhancement)
 		$("#aliveTable").tablesorter();
 		$("#onAirTable").tablesorter();
 		$("#queueTable0").tablesorter();
@@ -93,7 +95,6 @@ function GetHostStatus()
 <body>
 <div class="header">
   <div class="status"> 
-  <a onCLick="GetPoolPage('lx-web', 2)" href="#">page test</a>
     {% block userstatus %}
       {% if user.is_authenticated %}
         Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a> 
