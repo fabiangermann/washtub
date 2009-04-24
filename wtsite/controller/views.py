@@ -432,6 +432,7 @@ def search_pool_page(request, host_name, page):
 		except EmptyPage, InvalidPage:
 			single_page = p.page(p.num_pages)
 		template_dict['active_host'] = host
+		template_dict['search'] = True
 		template_dict['all_pages'] = p
 		template_dict['single_page'] = single_page
 		return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
