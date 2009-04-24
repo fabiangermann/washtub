@@ -435,6 +435,7 @@ def search_pool_page(request, host_name, page):
 		template_dict['search'] = True
 		template_dict['all_pages'] = p
 		template_dict['single_page'] = single_page
+		template_dict['pool_page'] = page
 		return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
 	else:
 		#return message about Post with bad parameters.
