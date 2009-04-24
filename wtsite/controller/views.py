@@ -215,7 +215,7 @@ def display_status(request, host_name):
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	
-	template_dict['pool_page'] = page
+	template_dict['pool_page'] = 1
 	template_dict['active_host'] = host
 	template_dict['hosts'] = get_host_list()
 	template_dict['theme'] = t.name
