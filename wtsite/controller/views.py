@@ -222,7 +222,7 @@ def display_status(request, host_name):
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 @login_required	
-def display_status(request, host_name, page):
+def display_status_paged(request, host_name, page):
 	host = get_object_or_404(Host, name=host_name)
 	t = Theme.objects.get(host__name__exact=host_name)
 	
