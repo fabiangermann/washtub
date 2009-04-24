@@ -234,6 +234,24 @@ def display_status_paged(request, host_name, page):
 	template_dict['theme'] = t.name
 	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
+@login_required	
+def display_status_search_paged(request, host_name, page):
+	if request.method == 'GET':
+		host = get_object_or_404(Host, name=host_name)
+		t = Theme.objects.get(host__name__exact=host_name)
+	
+		template_dict = {}
+		template_dict['query_string'] = request.META['QUERY_STRING']
+		template_dict['pool_page'] = page
+		template_dict['search'] = True
+		template_dict['active_host'] = host
+		template_dict['hosts'] = get_host_list()
+		template_dict['theme'] = t.name
+		return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+	else:
+		#return message about Post with bad parameters.
+		message = 'Search cannot be executed via POST requests.'
+		return display_error(request, host_name, 'controller/status.html', message)
 
 @login_required	
 def display_nodes(request, host_name):
@@ -393,9 +411,8 @@ def search_pool(request, host_name):
 	
 @login_required
 def search_pool_page(request, host_name, page):
-	if request.method == 'GET':	
-		#we will at least get empty results, so grab the status, while we are here.
-		template_dict = get_realtime_status(host_name)
+	if request.method == 'GET':
+		host = get_object_or_404(Host, name=host_name)
 		template_dict['query_string'] = request.META['QUERY_STRING']
 		
 		cat = request.GET['type']
