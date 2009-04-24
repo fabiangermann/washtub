@@ -23,7 +23,7 @@
 	 	  	</thead>
 	 	  	<tbody>
 	  {% for entry in single_page.object_list %}
-		<tr title="title:{{ entry.title }}<br/>artist:{{ entry.artist }}<br/>album:{{ entry.album }}<br/>track:{{ entry.track }}<br/>genre:{{ entry.genre }}<br/>">
+		<tr title="title:{{ entry.title }}<br>artist: {{ entry.artist }}<br>album: {{ entry.album }}<br>track: {{ entry.track }}<br>genre: {{ entry.genre }}">
 			<td class="track">{{ entry.track }}</td>
 			<td>{{ entry.title|truncatewords:4 }}</td>
 			<td>{{ entry.artist }}</td>
