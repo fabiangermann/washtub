@@ -413,6 +413,7 @@ def search_pool(request, host_name):
 def search_pool_page(request, host_name, page):
 	if request.method == 'GET':
 		host = get_object_or_404(Host, name=host_name)
+		template_dict = {}
 		template_dict['query_string'] = request.META['QUERY_STRING']
 		
 		cat = request.GET['type']
