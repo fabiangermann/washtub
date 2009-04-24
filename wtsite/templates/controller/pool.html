@@ -25,7 +25,14 @@ $('#poolTable tr').tooltip();
 	 	  	</thead>
 	 	  	<tbody>
 	  {% for entry in single_page.object_list %}
-		<tr title="title:{{ entry.title }}\nartist: {{ entry.artist }}\nalbum: {{ entry.album }}\ntrack: {{ entry.track }}\ngenre: {{ entry.genre }}">
+		<tr>
+			<tooltip>
+			<label value="title:{{ entry.title }}"/>
+			<label value="artist: {{ entry.artist }}"/>
+			<label value="album: {{ entry.album }}"/>
+			<label value="track: {{ entry.track }}"/>
+			<label value="genre: {{ entry.genre }}"/>
+			</tooltip>
 			<td class="track">{{ entry.track }}</td>
 			<td>{{ entry.title|truncatewords:4 }}</td>
 			<td>{{ entry.artist }}</td>
