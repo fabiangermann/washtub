@@ -9,7 +9,7 @@
 	<span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
 	{% endif %}
 	<span class="pagination-next">
-	{% if single_page.has_next %}<a href="{% url controller.views.dispaly_status_search_paged active_host single_page.next_page_number %}?{{query_string}}">next</a>&rarr;{% endif %}
+	{% if single_page.has_next %}<a href="{% url controller.views.display_status_search_paged active_host single_page.next_page_number %}?{{query_string}}">next</a>&rarr;{% endif %}
 	</span>
 	</div>
 {% endblock pagination %}

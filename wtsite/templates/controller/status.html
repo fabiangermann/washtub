@@ -13,7 +13,7 @@
 			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status">Status</a></li>
 			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues">Queues</a></li>
 			    	{% if search %}
-			    		<li><a href="{% url controller.views.search_pool_page active_host single_page %}?{{ query_string }}"  title="pool">Pool</a></li>
+			    		<li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="pool">Pool</a></li>
 			    	{% else %}
 			    		<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool">Pool</a></li>
 			    	{% endif %}
