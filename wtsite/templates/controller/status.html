@@ -10,11 +10,11 @@
 {% endblock tabsetup %}
 {% block content %}<div id="tabs">
 			    <ul>
-			    	<li><a href="{% url controller.views.display_nodes active_host %}">Status</a></li>
-			    	<li><a href="{% url controller.views.display_queues active_host %}">Queues</a></li>
-			    	<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}">Pool</a></li>
-			    	<li><a href="{% url controller.views.display_history active_host %}">History</a></li>
-			    	<li><a href="{% url controller.views.display_help active_host %}">Help</a></li>
+			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status">Status</a></li>
+			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues">Queues</a></li>
+			    	<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool">Pool</a></li>
+			    	<li><a href="{% url controller.views.display_history active_host %}" title="history">History</a></li>
+			    	<li><a href="{% url controller.views.display_help active_host %}" title="help">Help</a></li>
 			    </ul>
 			    <div id="tabs-1">
 				</div>
