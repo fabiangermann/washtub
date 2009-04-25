@@ -16,7 +16,7 @@ def build_file_list(dir):
     for root, dirs, files in list:
         for f in files:
             ext = path.splitext(f)[1]
-            if ext in ('.mp3', 'flac'):
+            if ext in ('.mp3', '.flac'):
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time)
