@@ -361,6 +361,8 @@ def display_alert(request, host_name, template, msg):
 @login_required	
 def display_pool_page(request, host_name, type, page):
 	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	node_list = parse_node_list(host, host_settings)
 	template_dict = {}
 	p = get_song_pager()
 	try:
@@ -370,6 +372,7 @@ def display_pool_page(request, host_name, type, page):
 	template_dict['all_pages'] = p
 	template_dict['single_page'] = single_page
 	template_dict['active_host'] = host
+	template_dict['node_list'] = node_list
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
 @login_required
@@ -413,6 +416,8 @@ def search_pool(request, host_name):
 def search_pool_page(request, host_name, page):
 	if request.method == 'GET':
 		host = get_object_or_404(Host, name=host_name)
+		host_settings = get_list_or_404(Setting, hostname=host)
+		node_list = parse_node_list(host, host_settings)
 		template_dict = {}
 		template_dict['query_string'] = request.META['QUERY_STRING']
 		
@@ -431,6 +436,7 @@ def search_pool_page(request, host_name, page):
 			single_page = p.page(page)
 		except EmptyPage, InvalidPage:
 			single_page = p.page(p.num_pages)
+		template_dict['node_list'] = node_list
 		template_dict['active_host'] = host
 		template_dict['search'] = True
 		template_dict['all_pages'] = p
