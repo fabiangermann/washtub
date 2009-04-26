@@ -57,10 +57,8 @@ def build_file_list2(dir):
                 #except Song.DoesNotExist:
                     #add it into the database
                 now = datetime.datetime.now().isoformat(' ')
-                logging.info('Adding file:%s)' % full_path)
                 s = Song(filename=full_path, date_modified=now, date_entered=now)
                 s.save()
-                logging.info('Completed')
     logging.info('End of build_file_list_2(%s)' % dir)
     return
 
