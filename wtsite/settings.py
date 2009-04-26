@@ -10,6 +10,7 @@ SERVER_NAME = 'http://home.vinylproject.com/'
 # djangologging options
 INTERNAL_IPS = ('127.0.0.1','192.168.0.2')
 LOGGING_INTERCEPT_REDIRECTS = True
+LOGGING_LOG_SQL = True
 
 # Path configs for making Washtub Portable
 # *Must have a starting slash
