@@ -211,12 +211,21 @@ def display_status(request, host_name):
 			pg_num = request.GET['pg']
 		except:
 			pg_num=1
+		try:
+			search = request.GET['search']
+		except:
+			search=False
+		if search == true:
+			search=True
+			
 		host = get_object_or_404(Host, name=host_name)
 		host_settings = get_list_or_404(Setting, hostname=host)
 		t = Theme.objects.get(host__name__exact=host_name)
 		
 		template_dict = {}
 		template_dict['pool_page'] = pg_num
+		template_dict['search'] = search
+		template_dict['query_string'] = request.META['QUERY_STRING']
 		template_dict['active_host'] = host
 		template_dict['hosts'] = get_host_list()
 		template_dict['theme'] = t.name
