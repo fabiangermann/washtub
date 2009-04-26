@@ -129,9 +129,9 @@ def file_scanner(request):
     else:
         return
     
-    list = build_file_list(directory)
+    list = build_file_list2(directory)
     songs = Song.objects.all()
-    clean_db(directory, songs)
+    clean_db2(directory, songs)
     
     return HttpResponseRedirect('/'+settings.BASE_URL)
     
