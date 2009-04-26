@@ -207,8 +207,9 @@ def index (request):
 @login_required	
 def display_status(request, host_name):
 	if request.method == 'GET':
-		pg_num = request.GET['pg']
-		if pg_num is None:
+		try:
+			pg_num = request.GET['pg']
+		except:
 			pg_num=1
 		host = get_object_or_404(Host, name=host_name)
 		host_settings = get_list_or_404(Setting, hostname=host)
