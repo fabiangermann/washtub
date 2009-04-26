@@ -7,7 +7,9 @@ TEMPLATE_DEBUG = DEBUG
 # *Required trailing slash
 SERVER_NAME = 'http://home.vinylproject.com/'
 
+# djangologging options
 INTERNAL_IPS = ('127.0.0.1',)
+LOGGING_INTERCEPT_REDIRECTS = True
 
 # Path configs for making Washtub Portable
 # *Must have a starting slash
