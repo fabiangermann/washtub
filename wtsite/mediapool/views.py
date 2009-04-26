@@ -48,8 +48,8 @@ def build_file_list2(dir):
             ext = path.splitext(f)[1]
             if ext in ('.mp3', '.flac'):
                 full_path = path.join(root,f)
-                #mod_time = stat(full_path)[ST_MTIME]
-                #mod_time = datetime.datetime.fromtimestamp(mod_time)
+                mod_time = stat(full_path)[ST_MTIME]
+                mod_time = datetime.datetime.fromtimestamp(mod_time)
                 #try: 
                 #    #check update time and compare against database.
                 #    s = Song.objects.get(filename=full_path)
@@ -59,7 +59,7 @@ def build_file_list2(dir):
                 #except Song.DoesNotExist:
                     #add it into the database
                 now = datetime.datetime.now().isoformat(' ')
-                s = Song(filename=full_path, date_modified=now, date_entered=now)
+                s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                 s.save()
     logging.info('End of build_file_list2(%s)' % dir)
     return
