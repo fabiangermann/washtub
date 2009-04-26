@@ -215,7 +215,7 @@ def display_status(request, host_name):
 			search = request.GET['search']
 		except:
 			search=False
-		if search == true:
+		if search == 'true':
 			search=True
 			
 		host = get_object_or_404(Host, name=host_name)
