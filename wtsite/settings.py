@@ -7,6 +7,8 @@ TEMPLATE_DEBUG = DEBUG
 # *Required trailing slash
 SERVER_NAME = 'http://home.vinylproject.com/'
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 # Path configs for making Washtub Portable
 # *Must have a starting slash
 # *No trailing slash
@@ -83,6 +85,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'djangologging.middleware.LoggingMiddleware',
 )
 
 ROOT_URLCONF = 'wtsite.urls'

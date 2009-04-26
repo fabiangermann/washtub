@@ -34,6 +34,7 @@ def build_file_list(dir):
     return
 
 def build_file_list2(dir):
+    logging.info('Start of build_file_list_2(%s)' % dir)
     if not (access(dir, (F_OK or R_OK))):
         return
     #empty all songs from current database.  This should be fast!!!
