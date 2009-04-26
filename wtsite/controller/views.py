@@ -200,39 +200,28 @@ def get_realtime_status(host_name):
 			'status': status
 			}
 
-@login_required	
-def display_status(request, host_name):
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	t = Theme.objects.get(host__name__exact=host_name)
-	
-	template_dict = {}
-	p = get_song_pager()
-	try:
-		single_page = p.page(1)
-	except EmptyPage, InvalidPage:
-		raise Http404
-	template_dict['all_pages'] = p
-	template_dict['single_page'] = single_page
-	
-	template_dict['pool_page'] = 1
-	template_dict['active_host'] = host
-	template_dict['hosts'] = get_host_list()
-	template_dict['theme'] = t.name
-	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+def index (request):
+	hosts = get_host_list()
+	return render_to_response('index.html', {'hosts': hosts}, context_instance=RequestContext(request))
 
 @login_required	
-def display_status_paged(request, host_name, page):
-	host = get_object_or_404(Host, name=host_name)
-	t = Theme.objects.get(host__name__exact=host_name)
-	
-	template_dict = {}
-	
-	template_dict['pool_page'] = page
-	template_dict['active_host'] = host
-	template_dict['hosts'] = get_host_list()
-	template_dict['theme'] = t.name
-	return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+def display_status(request, host_name):
+	if request.method == 'GET':
+		pg_num = request.GET['pg']
+		if pg_num is None:
+			pg_num=1
+		host = get_object_or_404(Host, name=host_name)
+		host_settings = get_list_or_404(Setting, hostname=host)
+		t = Theme.objects.get(host__name__exact=host_name)
+		
+		template_dict = {}
+		template_dict['pool_page'] = pg_num
+		template_dict['active_host'] = host
+		template_dict['hosts'] = get_host_list()
+		template_dict['theme'] = t.name
+		return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+	else:
+		return
 
 @login_required	
 def display_status_search_paged(request, host_name, page):
@@ -447,10 +436,6 @@ def search_pool_page(request, host_name, page):
 		#return message about Post with bad parameters.
 		message = 'Search cannot be executed via POST requests.'
 		return display_error(request, host_name, 'controller/pool.html', message)
-
-def index (request):
-	hosts = get_host_list()
-	return render_to_response('index.html', {'hosts': hosts}, context_instance=RequestContext(request))
 
 @login_required
 def stream_skip(request, host_name, stream):
