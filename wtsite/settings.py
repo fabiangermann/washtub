@@ -90,6 +90,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'djangologging.middleware.LoggingMiddleware',
+    'djangologging.middleware.SuppressLoggingOnAjaxRequestsMiddleware',
 )
 
 ROOT_URLCONF = 'wtsite.urls'
