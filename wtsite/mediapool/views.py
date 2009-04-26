@@ -10,6 +10,7 @@ from stat import ST_MTIME
 import tagpy, datetime, logging
 
 def build_file_list(dir):
+    logging.info('Start of build_file_list(%s)' % dir)
     if not (access(dir, (F_OK or R_OK))):
         return
     list = walk(dir,topdown=True)
@@ -31,10 +32,11 @@ def build_file_list(dir):
                     now = datetime.datetime.now().isoformat(' ')
                     s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                     s.save()
+    logging.info('End of build_file_list(%s)' % dir)
     return
 
 def build_file_list2(dir):
-    logging.info('Start of build_file_list_2(%s)' % dir)
+    logging.info('Start of build_file_list2(%s)' % dir)
     if not (access(dir, (F_OK or R_OK))):
         return
     #empty all songs from current database.  This should be fast!!!
@@ -59,10 +61,11 @@ def build_file_list2(dir):
                 now = datetime.datetime.now().isoformat(' ')
                 s = Song(filename=full_path, date_modified=now, date_entered=now)
                 s.save()
-    logging.info('End of build_file_list_2(%s)' % dir)
+    logging.info('End of build_file_list2(%s)' % dir)
     return
 
 def clean_db(dir, songs):
+    logging.info('Start of clean_db(%s)' % dir)
     if not (access(dir, (F_OK or R_OK))):
         return
     # remove songs that are in the database, but aren't physically on the filesystem
@@ -97,9 +100,11 @@ def clean_db(dir, songs):
     d = Genre.objects.filter(song__title__isnull=True)
     d.delete()
     
+    logging.info('End of clean_db(%s)' % dir)
     return  
 
 def clean_db2(dir, songs):
+    logging.info('Start of clean_db(%s)' % dir)
     if not (access(dir, (F_OK or R_OK))):
         return
     # No need to remove objects that don't exist (build_file_list2 only adds new to empty database)
@@ -113,6 +118,7 @@ def clean_db2(dir, songs):
     d = Genre.objects.filter(song__title__isnull=True)
     d.delete()
     
+    logging.info('End of clean_db(%s)' % dir)
     return 
 
 @login_required()
@@ -123,9 +129,9 @@ def file_scanner(request):
     else:
         return
     
-    list = build_file_list2(directory)
+    list = build_file_list(directory)
     songs = Song.objects.all()
-    clean_db2(directory, songs)
+    clean_db(directory, songs)
     
     return HttpResponseRedirect('/'+settings.BASE_URL)
     
