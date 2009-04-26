@@ -9,7 +9,7 @@ SERVER_NAME = 'http://home.vinylproject.com/'
 
 # djangologging options
 INTERNAL_IPS = ('127.0.0.1','192.168.0.2')
-LOGGING_OUTPUT_ENABLED = False
+LOGGING_OUTPUT_ENABLED = True
 LOGGING_INTERCEPT_REDIRECTS = True
 LOGGING_LOG_SQL = False
 
