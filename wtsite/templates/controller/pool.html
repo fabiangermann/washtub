@@ -5,7 +5,7 @@
 $('#poolTable tr').tooltip();
 </script>
 {% block pooltab %}
-    <form class="searchform" action="{% url controller.views.display_status active_host 1 %}?search=true" method="GET">
+    <form class="searchform" action="{% url controller.views.display_status active_host %}?search=true" method="GET">
 	<input class="searchbox" type="text" name="search"></input>
 	<input type="hidden" name="type" value="song"></input>
 	<input class="searchbutton" type="submit" value="submit"></submit>
