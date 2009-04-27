@@ -112,7 +112,6 @@ function GetHostStatus()
     {% endif %}
     </select>
    	&nbsp;<a class="menu" href="{{ ""|baseurl }}">Home</a>
-    {% endif %}
     {% if user.is_staff %}
     <b>{% filter force_escape %}::{% endfilter %}</b> 
     <a class="menu" href="{{ "admin"|baseurl }}">Administration Panel</a>
