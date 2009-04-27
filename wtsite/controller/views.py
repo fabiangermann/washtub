@@ -206,6 +206,7 @@ def index (request):
 
 @login_required	
 def display_status(request, host_name):
+	logging.info('Start of display_status()')
 	if request.method == 'GET':
 		template_dict = {}
 		try:
@@ -227,31 +228,15 @@ def display_status(request, host_name):
 		template_dict['active_host'] = host
 		template_dict['hosts'] = get_host_list()
 		template_dict['theme'] = t.name
+		logging.info('End of display_status() with GET')
 		return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 	else:
+		logging.info('End of display_status() with POST')
 		return
 
 @login_required	
-def display_status_search_paged(request, host_name, page):
-	if request.method == 'GET':
-		host = get_object_or_404(Host, name=host_name)
-		t = Theme.objects.get(host__name__exact=host_name)
-	
-		template_dict = {}
-		template_dict['query_string'] = request.META['QUERY_STRING']
-		template_dict['pool_page'] = page
-		template_dict['search'] = True
-		template_dict['active_host'] = host
-		template_dict['hosts'] = get_host_list()
-		template_dict['theme'] = t.name
-		return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
-	else:
-		#return message about Post with bad parameters.
-		message = 'Search cannot be executed via POST requests.'
-		return display_error(request, host_name, 'controller/status.html', message)
-
-@login_required	
 def display_nodes(request, host_name):
+	logging.info('Start of display_nodes()')
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)
 	
@@ -286,6 +271,7 @@ def display_nodes(request, host_name):
 	template_dict['alive_queue'] = alive_queue
 	template_dict['metadata_storage'] = metadata_storage
 
+	logging.info('End of display_nodes()')
 	return render_to_response('controller/nodes.html', template_dict, context_instance=RequestContext(request))
 
 @login_required	
@@ -357,6 +343,7 @@ def display_alert(request, host_name, template, msg):
 
 @login_required	
 def display_pool_page(request, host_name, type, page):
+	logging.info('Start of display_pool_page()')
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)
 	node_list = parse_node_list(host, host_settings)
@@ -370,6 +357,7 @@ def display_pool_page(request, host_name, type, page):
 	template_dict['single_page'] = single_page
 	template_dict['active_host'] = host
 	template_dict['node_list'] = node_list
+	logging.info('End of display_pool_page()')
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
 @login_required
@@ -411,6 +399,7 @@ def search_pool(request, host_name):
 	
 @login_required
 def search_pool_page(request, host_name, page):
+	logging.info('Start of search_pool_page()')
 	if request.method == 'GET':
 		host = get_object_or_404(Host, name=host_name)
 		host_settings = get_list_or_404(Setting, hostname=host)
@@ -439,10 +428,12 @@ def search_pool_page(request, host_name, page):
 		template_dict['all_pages'] = p
 		template_dict['single_page'] = single_page
 		template_dict['pool_page'] = page
+		logging.info('End of search_pool_page() with GET')
 		return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
 	else:
 		#return message about Post with bad parameters.
 		message = 'Search cannot be executed via POST requests.'
+		logging.info('End of search_pool_page() with POST')
 		return display_error(request, host_name, 'controller/pool.html', message)
 
 @login_required
