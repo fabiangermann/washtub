@@ -31,7 +31,7 @@ $(function(){
 	$("#accordion").accordion({ header: "h3" });
 	
 	//Tabs
-	$('#tabs').tabs({ cookie: { expires: 30 }, 
+	$('#tabs').tabs({ cookie: { expires: -1 }, 
 			          ajaxOptions: { cache: false }
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
