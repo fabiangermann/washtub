@@ -151,56 +151,6 @@ def get_host_list():
 	h = Host.objects.all()
 	return h   
 
-def get_realtime_status(host_name):
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	
-	#Parse all available help commands (for reference)	
-	help = parse_help(host, host_settings)
-	
-	#Get active nodes for this host and this liquidsoap instance
-	node_list = parse_node_list(host, host_settings)
-	streams = parse_output_streams(host, host_settings, node_list)
-	streams = sorted(streams)
-	status = build_status_list(host, host_settings, streams, help)
-	
-	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-	metadata_storage = {}
-	
-	#Get 'history' Listing and Grab Metadata for it.
-	history = parse_history(host, host_settings, node_list)
-	metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
-
-	#Get 'request' Queues and Grab Metadata for them
-	queue = parse_queue_dict(host, host_settings)
-	metadata_storage = parse_queue_metadata(host, host_settings, queue, metadata_storage)
-	
-	#Get 'on_air' Queue and Grab Metadata for it
-	air_queue = {}
-	air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
-	metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
-	
-	#Get 'alive' Queue and Grab Metadata for it
-	alive_queue = {}
-	alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
-	metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
-	
-	hosts = get_host_list()
-	active_host = host
-	
-	return {'metadata_storage': metadata_storage,
-			'history': history,
-			'streams': streams,
-			'alive_queue': alive_queue,
-			'air_queue': air_queue, 
-			'queue': queue, 
-			'active_host': active_host, 
-			'hosts': hosts, 
-			'help': help, 
-			'node_list': node_list,
-			'status': status
-			}
-
 def index (request):
 	hosts = get_host_list()
 	return render_to_response('index.html', {'hosts': hosts}, context_instance=RequestContext(request))
@@ -208,24 +158,26 @@ def index (request):
 @login_required	
 def display_status(request, host_name):
 	logging.info('Start of display_status()')
-	if request.method == 'GET':
+	if request.method == 'GET':		
+		host = get_object_or_404(Host, name=host_name)
+		host_settings = get_list_or_404(Setting, hostname=host)
+		t = Theme.objects.get(host__name__exact=host_name)
 		template_dict = {}
 		try:
 			pg_num = request.GET['pg']
 		except:
 			pg_num=1
 		try:
+			# If there is a search string parameter,
+			# set search to active and pass along the
+			# the query string so ajax calls know what to search
 			search = request.GET['search']
 			template_dict['search'] = True
+			template_dict['query_string'] = request.META['QUERY_STRING']
 		except:
 			template_dict['search'] = False
-			
-		host = get_object_or_404(Host, name=host_name)
-		host_settings = get_list_or_404(Setting, hostname=host)
-		t = Theme.objects.get(host__name__exact=host_name)
 		
 		template_dict['pool_page'] = pg_num
-		template_dict['query_string'] = request.META['QUERY_STRING']
 		template_dict['active_host'] = host
 		template_dict['hosts'] = get_host_list()
 		template_dict['theme'] = t.name
@@ -318,28 +270,32 @@ def display_help(request, host_name):
 	template_dict['help'] = parse_help(host, host_settings)
 	return render_to_response('controller/help.html', template_dict, context_instance=RequestContext(request))
 
-def display_error(request, host_name, template, msg):
-	template_dict = get_realtime_status(host_name)
-	p = get_song_pager()
-	try:
-		single_page = p.page(1)
-	except EmptyPage, InvalidPage:
-		raise Http404
-	template_dict['all_pages'] = p
-	template_dict['single_page'] = single_page
+def display_error(request, host_name, template, msg):		
+	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	t = Theme.objects.get(host__name__exact=host_name)
+	pg_num=1
+	template_dict = {}
 	template_dict['error'] = msg
+	template_dict['search'] = False
+	template_dict['pool_page'] = pg_num
+	template_dict['active_host'] = host
+	template_dict['hosts'] = get_host_list()
+	template_dict['theme'] = t.name
 	return render_to_response(template, template_dict, context_instance=RequestContext(request))
 
-def display_alert(request, host_name, template, msg):
-	template_dict = get_realtime_status(host_name)
-	p = get_song_pager()
-	try:
-		single_page = p.page(1)
-	except EmptyPage, InvalidPage:
-		raise Http404
-	template_dict['all_pages'] = p
-	template_dict['single_page'] = single_page
+def display_alert(request, host_name, template, msg):		
+	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	t = Theme.objects.get(host__name__exact=host_name)
+	pg_num=1
+	template_dict = {}
 	template_dict['alert'] = msg
+	template_dict['search'] = False
+	template_dict['pool_page'] = pg_num
+	template_dict['active_host'] = host
+	template_dict['hosts'] = get_host_list()
+	template_dict['theme'] = t.name
 	return render_to_response(template, template_dict, context_instance=RequestContext(request))
 
 @login_required	
@@ -532,4 +488,4 @@ def queue_push(request, host_name):
 	else:
 		#return message about Get with bad parameters.
 		message = 'Requests cannot be pushed via GET requests.'
-		return display_error(request, host_name, 'controller/pool.html', message)
+		return display_error(request, host_name, 'controller/status.html', message)
