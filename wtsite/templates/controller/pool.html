@@ -2,26 +2,15 @@
 	{% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
 
-{% block alertmessage %}
-  {% if alert %}
-	 <div class="ui-widget">
-		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;"> 
-			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
-			<strong>Notice:</strong> {{ alert }}</p>
-		</div>
-	 </div>
-  {% endif %}
-{% endblock alertmessage %}
-
 <script type="text/javascript">
 $('#poolTable tr').tooltip();
 </script>
-{% block pooltab %}
     <form class="searchform" action="{% url controller.views.display_status active_host %}" method="GET">
 	<input class="searchbox" type="text" name="search"></input>
 	<input type="hidden" name="type" value="song"></input>
 	<input class="searchbutton" type="submit" value="submit"></submit>
-	 </form>
+	</form>
+{% block pooltab %}
 	 	  <b>Available Media(</b><i>{{ all_pages.count }} items found</i><b>):</b><br/>
 		<table id="poolTable" class="tablesorter"> 
 	<thead> 
