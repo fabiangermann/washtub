@@ -207,24 +207,22 @@ def index (request):
 @login_required	
 def display_status(request, host_name):
 	if request.method == 'GET':
+		template_dict = {}
 		try:
 			pg_num = request.GET['pg']
 		except:
 			pg_num=1
 		try:
 			search = request.GET['search']
+			template_dict['search'] = True
 		except:
-			search=False
-		if search is not None:
-			search=True
+			template_dict['search'] = True
 			
 		host = get_object_or_404(Host, name=host_name)
 		host_settings = get_list_or_404(Setting, hostname=host)
 		t = Theme.objects.get(host__name__exact=host_name)
 		
-		template_dict = {}
 		template_dict['pool_page'] = pg_num
-		template_dict['search'] = search
 		template_dict['query_string'] = request.META['QUERY_STRING']
 		template_dict['active_host'] = host
 		template_dict['hosts'] = get_host_list()
