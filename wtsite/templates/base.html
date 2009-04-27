@@ -31,7 +31,7 @@ $(function(){
 	$("#accordion").accordion({ header: "h3" });
 	
 	//Tabs
-	$('#tabs').tabs({ cookie: {}, 
+	$('#tabs').tabs({ cookie: { path: {{ ""|baseurl }}, name: "washtub-tabs" }, 
 			          ajaxOptions: { cache: false }
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
