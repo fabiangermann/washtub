@@ -405,8 +405,17 @@ def search_pool_page(request, host_name, page):
 		host_settings = get_list_or_404(Setting, hostname=host)
 		node_list = parse_node_list(host, host_settings)
 		template_dict = {}
-		template_dict['query_string'] = request.META['QUERY_STRING']
-		assert False
+		try:
+			pg_num = request.GET['pg']
+		except:
+			pg_num=1
+		
+		fresh = {}
+		q = QueryDict(request.META['QUERY_STRING'])
+		for key,value in q.iteritems():
+			if key != 'pg':
+				fresh.update({key : value})
+		template_dict['query_string'] = fresh.urlencode()
 		cat = request.GET['type']
 		str = request.GET['search']
 		results = Song.objects.filter(title__icontains=str)
