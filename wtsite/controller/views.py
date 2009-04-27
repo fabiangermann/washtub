@@ -216,7 +216,7 @@ def display_status(request, host_name):
 			search = request.GET['search']
 			template_dict['search'] = True
 		except:
-			template_dict['search'] = True
+			template_dict['search'] = False
 			
 		host = get_object_or_404(Host, name=host_name)
 		host_settings = get_list_or_404(Setting, hostname=host)
