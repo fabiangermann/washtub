@@ -411,6 +411,9 @@ def search_pool_page(request, host_name, page):
 		except:
 			pg_num=1
 		
+		# This is quirky, but we don't want to pass the pg=3 back to the search results.
+		# It causes, the pager links to append (i.e. ?pg=2&pg=2&pg=2)
+		# So we loop through the QueryDict and get rid of the pg=2 parameters.
 		fresh = QueryDict('')
 		fresh = fresh.copy()
 		q = QueryDict(request.META['QUERY_STRING'])
@@ -418,6 +421,8 @@ def search_pool_page(request, host_name, page):
 			if key != 'pg':
 				fresh.update({key : value})
 		template_dict['query_string'] = fresh.urlencode()
+		
+		# Start the search process
 		cat = request.GET['type']
 		str = request.GET['search']
 		results = Song.objects.filter(title__icontains=str)
