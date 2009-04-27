@@ -411,7 +411,7 @@ def search_pool_page(request, host_name, page):
 		except:
 			pg_num=1
 		
-		fresh = {}
+		fresh = QueryDict('')
 		q = QueryDict(request.META['QUERY_STRING'])
 		for key,value in q.iteritems():
 			if key != 'pg':
