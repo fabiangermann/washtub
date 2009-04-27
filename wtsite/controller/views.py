@@ -406,7 +406,7 @@ def search_pool_page(request, host_name, page):
 		node_list = parse_node_list(host, host_settings)
 		template_dict = {}
 		template_dict['query_string'] = request.META['QUERY_STRING']
-		
+		assert False
 		cat = request.GET['type']
 		str = request.GET['search']
 		results = Song.objects.filter(title__icontains=str)
