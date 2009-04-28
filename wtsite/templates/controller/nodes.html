@@ -76,7 +76,7 @@
     	  {% endfor %}
 		  {% for name in in_streams %}
     	  	{% if forloop.counter0|divisibleby:3 %}
-    	  		{% if not forloop.first %}
+    	  		{% if not forloop.first and not forloop.last %}
     	  		</div><div id="controls">
     	  		{% endif %}
     	  	{% endif %}
