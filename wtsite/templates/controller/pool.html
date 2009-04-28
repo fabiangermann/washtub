@@ -67,8 +67,9 @@ $('#poolTable tr').tooltip();
 	 	  	</tbody>
 	 	  	</table>
 	 	  	<br/>
-	 	  	{% block pagination %}
-	 	  	<div class="pagination"> 
+{% endblock pooltab %}
+ 	{% block pagination %}
+ 	  	<div class="pagination"> 
 		<span class="pagination-pre">
 		{% if single_page.has_previous %}
 			&larr;<a href="{% url controller.views.display_status active_host %}?pg={{ single_page.previous_page_number }}">previous</a>
@@ -85,4 +86,3 @@ $('#poolTable tr').tooltip();
 		</span>
 	</div>
 	{% endblock pagination %}
-{% endblock pooltab %}
