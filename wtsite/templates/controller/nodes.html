@@ -23,8 +23,7 @@
     	  	<thead>
     	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
     	  	<tr><td><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a></td></tr>
-    	  		{% for item, type in node_list %}
-    	  			{{ item }}
+    	  		{% for item, type in node_list.items %}
     	  			{% ifequal item name %}
     	  				<tr><td><i>{{ type }}</i></td></tr>
     	  			{% endifequal %}
@@ -90,7 +89,7 @@
     	  	<thead>
     	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
     	  	<tr><td><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a></td></tr>
-    	  		{% for item, type in node_list %}
+    	  		{% for item, type in node_list.items %}
     	  			{% ifequal item name %}
     	  				<tr><td><i>{{ type }}</i></td></tr>
     	  			{% endifequal %}
