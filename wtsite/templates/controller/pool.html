@@ -64,7 +64,8 @@ $('#poolTable tr').tooltip();
 			</td>
 		</tr>
 	  	{% endfor %}
-		<tr>
+		<tr colspan=7>
+		<td>
 			{% block alertmessage %}
 			  {% if alert %}
 				 <div class="ui-widget">
@@ -75,6 +76,7 @@ $('#poolTable tr').tooltip();
 				 </div>
 			  {% endif %}
 			{% endblock alertmessage %}
+		</td>
 		</tr>
 	 	  	</tbody>
 	 	  	</table>
