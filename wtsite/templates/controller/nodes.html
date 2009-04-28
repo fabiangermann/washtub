@@ -22,7 +22,7 @@
     	  	<table id="streamTable" class="tablesorter">
     	  	<thead>
     	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
-    	  	<tr><td><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a></td>
+    	  	<tr><td colspan="2"><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a></td>
     	  		{% for item, type in node_list.items %}
     	  			{% ifequal item name %}
     	  				<td><i>{{ type }}</i></td>
