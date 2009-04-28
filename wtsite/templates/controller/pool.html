@@ -64,18 +64,22 @@ $('#poolTable tr').tooltip();
 			</td>
 		</tr>
 	  	{% endfor %}
+		<tr>
+		<td>
+			{% block alertmessage %}
+			  {% if alert %}
+				 <div class="ui-widget">
+					<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;"> 
+						<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
+						<strong>Notice:</strong> {{ alert }}</p>
+					</div>
+				 </div>
+			  {% endif %}
+			{% endblock alertmessage %}
+		</td>
+		</tr>
 	 	  	</tbody>
 	 	  	</table>
-{% block alertmessage %}
-  {% if alert %}
-	 <div class="ui-widget">
-		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;"> 
-			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
-			<strong>Notice:</strong> {{ alert }}</p>
-		</div>
-	 </div>
-  {% endif %}
-{% endblock alertmessage %}
  	{% block pagination %}
  	  	<div class="pagination"> 
 		<span class="pagination-pre">
