@@ -367,7 +367,7 @@ def search_pool_page(request, host_name, page):
 		except:
 			pg_num=1
 		
-		# This is quirky, but we don't want to pass the pg=3 back to the search results.
+		# This is quirky, but we don't want to pass the pg=3 parameter back to the search results.
 		# It causes, the pager links to append (i.e. ?pg=2&pg=2&pg=2)
 		# So we loop through the QueryDict and get rid of the pg=2 parameters.
 		fresh = QueryDict('')
@@ -385,8 +385,6 @@ def search_pool_page(request, host_name, page):
 		results = results | Song.objects.filter(artist__name__icontains=str)
 		results = results | Song.objects.filter(album__name__icontains=str)
 		results = results | Song.objects.filter(genre__name__icontains=str)
-		if not results:
-			template_dict['alert'] = 'Search did not yield any results.'
 
 		#populate both dictionaries to avoid template errors.		
 		p = get_song_search_pager(results)

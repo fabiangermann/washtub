@@ -11,8 +11,8 @@ $('#poolTable tr').tooltip();
 	<button class="ui-state-default ui-corner-all" type="submit" value="submit">search</button>
 	</form>
 {% block pooltab %}
-	 	  <b>Available Media(</b><i>{{ all_pages.count }} items found</i><b>):</b><br/>
-		<table id="poolTable" class="tablesorter"> 
+  	<b>Available Media(</b><i>{{ all_pages.count }} items found</i><b>):</b><br/>
+	<table id="poolTable" class="tablesorter"> 
 	<thead> 
 	<tr> 
 	    <th class="track">#</th> 
@@ -23,9 +23,10 @@ $('#poolTable tr').tooltip();
 	    <th class="lastplay">Last Played</th>
 	    <th class="ops">Ops</th> 
 	</tr>
-	 	  	</thead>
-	 	  	<tbody>
-	  {% for entry in single_page.object_list %}
+  	</thead>
+  	<tbody>
+  	{% if single_page.object_list %}
+  		{% for entry in single_page.object_list %}
 		<tr>
 			{% comment %}
 			<tooltip>
@@ -64,22 +65,13 @@ $('#poolTable tr').tooltip();
 			</td>
 		</tr>
 	  	{% endfor %}
+	{% else %}
 		<tr>
-		<td colspan="7">
-			{% block alertmessage %}
-			  {% if alert %}
-				 <div class="ui-widget">
-					<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;"> 
-						<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
-						{{ alert }}</p>
-					</div>
-				 </div>
-			  {% endif %}
-			{% endblock alertmessage %}
-		</td>
+		<td colspan="7">Search did not yield any results</td>
 		</tr>
-	 	  	</tbody>
-	 	  	</table>
+	{% endif %}
+  	</tbody>
+  	</table>
  	{% block pagination %}
  	  	<div class="pagination"> 
 		<span class="pagination-pre">
