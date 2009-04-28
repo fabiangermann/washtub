@@ -8,7 +8,7 @@ $('#poolTable tr').tooltip();
     <form class="searchform" action="{% url controller.views.display_status active_host %}" method="GET">
 	<input class="searchbox" type="text" name="search"></input>
 	<input type="hidden" name="type" value="song"></input>
-	<input class="searchbutton" type="submit" value="submit"></submit>
+	<button class="ui-state-default ui-corner-all" type="submit" value="submit"></button>
 	</form>
 {% block pooltab %}
 	 	  <b>Available Media(</b><i>{{ all_pages.count }} items found</i><b>):</b><br/>
