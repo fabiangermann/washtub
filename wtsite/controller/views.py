@@ -209,7 +209,7 @@ def display_nodes(request, host_name):
 	out_streams = sorted(out_streams)
 	in_streams = parse_input_streams(host, host_settings, node_list)
 	in_streams = sorted(in_streams)
-	status = build_status_list(host, host_settings, streams, help)
+	status = build_status_list(host, host_settings, out_streams, help)
 	
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
 	metadata_storage = {}
