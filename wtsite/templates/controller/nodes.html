@@ -13,7 +13,7 @@
     	  </table>
     	  </div>	
     	  <div id="controls">
-		  {% for name in streams %}
+		  {% for name in out_streams %}
     	  	{% if forloop.counter0|divisibleby:2 %}
     	  		{% if not forloop.first %}
     	  		</div><div id="controls">
@@ -71,6 +71,35 @@
     	  	</a>
     	  	</td>
     	  	</tr>
+    	  	</tbody>
+    	  	</table> 
+    	  {% endfor %}
+    	  </div>	
+    	  <div id="controls">
+		  {% for name in in_streams %}
+    	  	{% if forloop.counter0|divisibleby:3 %}
+    	  		{% if not forloop.first %}
+    	  		</div><div id="controls">
+    	  		{% endif %}
+    	  	{% endif %}
+    	  	<table id="streamTable" class="tablesorter">
+    	  	<thead>
+    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
+    	  	<tr><td colspan="2"><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a></td></tr>
+    	  	{% endwith %}
+    	  	</thead>
+    	  	<tbody>
+    	  	<tr>
+    	  	<td class="play">
+    	  	<a href="{% url controller.views.stream_start active_host name %}" title="Play">
+    	  	<span id="controlspan">&nbsp;</span>
+    	  	</a>
+    	  	</td>
+    	  	<td class="stop">
+    	  	<a href="{% url controller.views.stream_stop active_host name %}" title="Stop">
+    	  	<span id="controlspan">&nbsp;</span> 
+    	  	</a>
+    	  	</td>
     	  	</tbody>
     	  	</table> 
     	  {% endfor %}

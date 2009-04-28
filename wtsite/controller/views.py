@@ -88,6 +88,13 @@ def parse_output_streams(host, host_settings, node_list):
 		if ('output' in temp):
 			streams.append(node)
 	return streams
+
+def parse_input_streams(host, host_settings, node_list):
+	streams = []
+	for node,type in node_list.iteritems():
+		if (type == 'input.http'):
+			streams.append(node)
+	return streams
 							
 def parse_history(host, host_settings, node_list):
 	history = {}
@@ -198,8 +205,10 @@ def display_nodes(request, host_name):
 	
 	#Get active nodes for this host and this liquidsoap instance
 	node_list = parse_node_list(host, host_settings)
-	streams = parse_output_streams(host, host_settings, node_list)
-	streams = sorted(streams)
+	out_streams = parse_output_streams(host, host_settings, node_list)
+	out_streams = sorted(out_streams)
+	in_streams = parse_input_streams(host, host_settings, node_list)
+	in_streams = sorted(in_streams)
 	status = build_status_list(host, host_settings, streams, help)
 	
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
@@ -218,7 +227,8 @@ def display_nodes(request, host_name):
 	template_dict = {}
 	template_dict['active_host'] = host
 	template_dict['node_list'] = node_list
-	template_dict['streams'] = streams
+	template_dict['out_streams'] = out_streams
+	template_dict['in_streams'] = in_streams
 	template_dict['status'] = status
 	template_dict['air_queue'] = air_queue
 	template_dict['alive_queue'] = alive_queue
@@ -386,12 +396,14 @@ def search_pool_page(request, host_name, page):
 		results = results | Song.objects.filter(album__name__icontains=str)
 		results = results | Song.objects.filter(genre__name__icontains=str)
 
-		#populate both dictionaries to avoid template errors.		
+		#populate the paginator using the search queryset.		
 		p = get_song_search_pager(results)
 		try:
 			single_page = p.page(page)
 		except EmptyPage, InvalidPage:
 			single_page = p.page(p.num_pages)
+			
+		#place all the information we gathered into the template dictionary
 		template_dict['node_list'] = node_list
 		template_dict['active_host'] = host
 		template_dict['search'] = True
@@ -453,7 +465,7 @@ def stream_start(request, host_name, stream):
 			return HttpResponse(status=500)
 	else:
 		raise Http404
-
+		
 @login_required
 def queue_push(request, host_name):
 	if request.method == 'POST':
