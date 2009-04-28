@@ -1,7 +1,6 @@
 {% extends "controller/pool.html" %}
 
 {% block pooltab %}
-{% endblock pooltab %}
 
 {% block alertmessage %}
   {% if alert %}
@@ -13,6 +12,7 @@
 	 </div>
   {% endif %}
 {% endblock alertmessage %}
+
 
 {% block pagination %}
    <div class="pagination"> 
@@ -27,3 +27,6 @@
 	</span>
 	</div>
 {% endblock pagination %}
+
+
+{% endblock pooltab %}
