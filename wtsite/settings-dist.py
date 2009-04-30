@@ -17,38 +17,53 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# Specify the server name
-# *Required trailing slash
-SERVER_NAME = 'http://home.vinylproject.com/'
-
 # djangologging options
+# http://code.google.com/p/django-logging/wiki/Overview
 INTERNAL_IPS = ('127.0.0.1','192.168.0.2')
 LOGGING_OUTPUT_ENABLED = False
 LOGGING_INTERCEPT_REDIRECTS = True
 LOGGING_LOG_SQL = False
 
-# Path configs for making Washtub Portable
+
+########################################################################
+# Custom Washtub Global Settings
+########################################################################
+
+# Specify the server name
+# *Required trailing slash
+SERVER_NAME = 'http://your.servername.com/'
+
+# Path where washtub code is installed on filesystem
+# This is REQUIRED 
 # *Must have a starting slash
 # *No trailing slash
 PROJECT_PATH = '/usr/share/washtub'
-
+ 
+# Path to construct a url prefix for the installation
+# This is REQUIRED 
+# EXAMPLE:  BASE_URL = 'washtub/' for http://yourdomain/washtub/
 # *No starting slash
 # *Required trailing slash
-BASE_URL = 'washtub/'
+BASE_URL = '' #use empty string for webserver root path
 
-# These Are Custom Settings for the MediaPool App
-MEDIAPOOL_PATH = '/mnt/nfs/lx-gateway/data/audio/washtub'
+# This is a custom setting for the mediapool app
+# * no trailing slash
+MEDIAPOOL_PATH = '/full/path/to/mediapool/dir'
+
+########################################################################
+# Regular Django Global Settings
+########################################################################
 
 ADMINS = (
-    ('Chris Everest', 'chris@vinylproject.com'),
+    ('Admin Name', 'youremail@email.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'washtubdb'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'cex'             # Not used with sqlite3.
-DATABASE_PASSWORD = '6677rif'         # Not used with sqlite3.
+DATABASE_NAME = 'database'          # Or path to database file if using sqlite3.
+DATABASE_USER = 'user'              # Not used with sqlite3.
+DATABASE_PASSWORD = 'pass'          # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
