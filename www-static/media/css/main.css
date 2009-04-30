@@ -1,4 +1,21 @@
-body{ font: 62.5% "Trebuchet MS", sans-serif;}
+/*
+    Copyright (c) 2009, Chris Everest 
+    This file is part of Washtub.
+
+    Washtub is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Washtub is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 .demoHeaders { margin-top: 2em; }
 #dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
 #dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
@@ -6,7 +23,6 @@ ul#icons {margin: 0; padding: 0;}
 ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
 ul#icons span.ui-icon {float: left; margin: 0 4px;}
 
-/* written by Chris Everest */
 body {
 color:black;
 font:62.5% "lucida sans", sans-serif;
@@ -41,25 +57,6 @@ div.status{
 	float:right;
 }
 
-.error {
-	display:inline-block;
-	color:red;
-	background-color:#FFC0CB;
-	width:30%;
-	border:solid 1px red;
-	margin-top:-1px;
-	height:1.2em;
-}
-
-table a #controlspan, table div #controlspan {
-	display:block;
-	text-indent:0.85em;
-	width:100%;
-	height:100%;
-	cursor:pointer;
-	text-decoration:none;
-}
-
 a.menu {
     font-weight : normal;
     text-decoration : none;
@@ -85,54 +82,6 @@ a:hover {
 text-decoration:underline;
 }
 
-div.stat0, div.stat1 {
-color:#303030;
-font-weight:normal;
-text-decoration:none;
-width:381px;
-height:15px;
-}
-
-
-div.stat0 span.column1{
-background-color:#cdc6bb;
-}
-
-div.stat0 span.column2{
-background-color:#cdc6bb;
-}
-
-div.stat1 span.column1{
-background-color:white;
-}
-
-
-div.stat1 span.column2{
-background-color:white;
-}
-
-div span.column1,span.column2 {
-padding:3px 2px 3px 2px;
-}
-
-div span.column2 a{
-font-size:10px;
-}
-
-div span.column1 {
-width:294px;
-float:left;
-border-right: 1px solid gray;
-font-size:12px;
-}
-
-div span.column2 {
-width:78px;
-float:right;
-text-align:center;
-height:15px;
-}
-
 p {
 text-indent: 1.5em;
 }
@@ -142,128 +91,17 @@ color:black;
 clear:both;
 padding:0;
 }
-/*** Main container ***/
-
-#container {
-margin:auto;
-padding:0;
-width:785px;
-text-align:center;
-}
-
-/*** Header section ***/
-
-#sitename {
-color:#ffffff;
-height:92px;
-margin:0 20px 10px;
-text-align:left;
-}
-
-#sitename h1,#sitename h2{
-font-weight:400;
-letter-spacing:-2px;
-margin:0;
-padding:0;
-}
-
-#sitename h1{
-font-size:2.4em;
-padding-top:20px;
-}
-
-#homelink {
-letter-spacing:-2px;
-color:#ffffff;
-margin:0;
-padding:0;
-}
-
-#sitename h2 {
-font-size:1.6em;
-}
-
-/*** Logo Display ***/
 
 a img {
 border-style:none;
 }
+
 img {
 float:left;
 display:inline;
 padding:0;
 margin:0px;
 margin-bottom:12px;
-}
-
-td a {
-vertical-align:middle;
-}
-
-/*** Horizontal menu ***/
-
-
-#infomenu {
-float:right;
-display:inline;
-width:315px;
-}
-
-#infomenu ul {
-float:right;
-font-size:16px;
-margin:0;
-padding:0;
-clear:right;
-}
-
-#infomenu li {
-float:left;
-height:35px;
-list-style:none;
-margin:0;
-padding:0;
-}
-
-#infomenu a {
-font-family: "Comic Sans MS", sans-serif; 
-background:transparent url(/media/images/fade-bg.png) 0px 2px repeat-x;
-border-right:1px solid #6d6348;
-color:#262626;
-display:block;
-font-size:0.7em;
-padding:10px 11px 10px;
-text-transform:uppercase;
-text-decoration:none;
-}
-
-#infomenu a.last {
-border:0px;
-}
-
-#infomenu a:hover {
-background:white url(/media/images/fade-button-tl.png) top left no-repeat;
-border-top:1px solid #6d6348;
-border-bottom:1px solid #6d6348;
-padding-top:8px;
-color:#313131;
-text-decoration:underline;
-}
-
-#infomenu a.last:hover {
-border-right:1px solid #6d6348;
-padding-right:10px;
-}
-
-#infomenu a.first:hover {
-border-left:1px solid #6d6348;
-padding-left:10px;
-}
-
-#infomenu a.current {
-background:#f0f0f0 url(/media/image/menuhover.jpg) top left repeat-x;
-color:#505050;
-text-decoration:none;
 }
 
 /*** Content wrap ***/
@@ -382,156 +220,7 @@ text-indent: 0;
 font-size:1.0em;
 }
 
-.linklist {
-list-style:none;
-margin:0 0 16px 10px;
-padding:0;
-}
-
-.linklist li {margin-bottom:0.1em;}
-
-/*** Sidebar menu ***/
-
-.nav {
-background:#e8e9ea;
-border:1px solid #b0b0b0;
-color:#606060;
-display:block;
-margin-top:8px;
-padding:5px 10px 4px 0px;
-position:relative;
-text-transform:uppercase;
-width:140px;
-}
-
-.nav:hover,.active {
-background:#f8f9fa;
-border:1px solid #909090;
-color:#303030;
-text-decoration:none;
-}
-
-.sub {
-font-size:0.8em;
-letter-spacing:1px;
-margin:3px 0 2px 10px;
-padding:4px 2px 2px 8px;
-width:125px;
-}
-
-/*** Content ***/
-
-#content,#contentalt {
-background-color:#fafcff;
-border:1px solid #909090;
-color:#2a2a2a;
-padding:15px 20px 5px;
-}
-
-#content {margin:0 200px;}
-#contentalt {margin:0 200px 0 20px;}
-
-#content h1,#content h2,#contentalt h1,#contentalt h2 {
-background-color:inherit;
-color:#606060;
-font-size:1.8em;
-font-weight:bold;
-letter-spacing:-1px;
-margin:0 0 15px;
-padding:0;
-}
-
-#content h2,#contentalt h2 {
-font-size:1.3em;
-margin-bottom:10px;
-}
-
-#content h3,#contentalt h3 {
-font-size:1.0em;
-padding:10px 0 0 0;
-margin-bottom:10px;
-}
-
-#content img,#contentalt img {
-border:0px solid #b0b0b0;
-/*float:left;*/
-/*margin: 5px 15px 6px;*/
-/*padding:2px;*/
-}
-
-
-/*** Breakout Box ***/
-
-#breakout {
-text-indent:0px;
-padding:7px 10px 7px 0;
-margin:10px 10px 15px 0;
-display:block;
-width:339px;
-border:dashed 1px #6d6348;
-background:white url(/media/images/fade-button-tl.png) top left no-repeat;
-}
-
-#breakout p {
-font-size:1.45em;
-text-indent:0px;
-margin:3px 0 2px 7px;
-}
-
-#breakout ul {
-margin:0 0 12px 12px;
-padding:0 0 0 12px;
-text-align:left;
-}
-
-#breakout hr {
-margin-left:14px;
-width:95%;
-}
-
-#breakout.list hr {
-margin-left:7px;
-}
-
-#breakout.list {
-width:auto;
-}
-
-/*** Footer ***/
-
-#footer {
-/*background:#8b8b8b url(/media/image/footerbg.jpg) top left repeat-x;*/
-clear:both;
-text-transform:uppercase;
-/*color:#d0d0d0;*/
-font-size:0.8em;
-font-weight:normal;
-text-align:center;
-margin-top:0;
-padding-bottom:7px;
-margin-bottom:20px;
-border-top:0;
-}
-
-#footer hr {
-margin-bottom:7px;
-}
-
-#footer a {
-/*color:#d0d0d0;
-font-weight:bold;*/
-}
-
 /*** Various classes ***/
-
-.thumbnail {
-width:100px;
-height:100px;
-background:#fafbfc;
-border:1px solid #b0b0b0;
-margin:0 0 10px 10px;
-padding:5px;
-}
 
 .searchform {margin:0;float:right}
 
@@ -561,57 +250,6 @@ padding:0px;
 margin:0px;
 }
 
-div.row {
-clear:none;
-}
-
-div.row span hr {
-float:right;
-margin-right:0px;
-width:100%;
-color:black;
-}
-
-div.row span.labels {
-float:left;
-width:57px;
-text-align:right;
-margin:3px 2px 0 0;
-padding:0px;
-}
-
-div.row span.inputs {
-float:right;
-margin:2px;
-clear:right;
-}
-
-.loginbox, .loginbox2, .loginbox3, .loginbox4, #id_username, #id_password {
-background:white;
-border:1px solid #b0b0b0;
-padding:0px 0px 0px 3px;
-margin:0px;
-width:95px;
-}
-
-/*.loginbox {
-}
-
-.loginbox2 {
-}
-
-.loginbox3 {
-}
-
-.loginbox4 {
-}*/
-
-.loginbutton {
-background:#f0f0f0;
-border:1px solid #b0b0b0;
-padding-left:3px;
-}
-
 .clearingdiv {
 clear:both;
 height:1px;
@@ -621,23 +259,6 @@ width:1px;
 .hide {display:none;}
 
 /*** Text format ***/
-
-.intro {
-font-size:1.1em;
-font-weight:normal;
-/*letter-spacing:-1px;*/
-}
-
-.object {
-min-height:90px;
-}
-
-.admin-container {
-float:right;
-}
-.admin-links {
-
-}
 
 .small {font-size:0.8em;}
 .large {font-size:1.4em;}
@@ -666,6 +287,20 @@ div .help{
 }
 
 /* tables */
+
+table a #controlspan, table div #controlspan {
+	display:block;
+	text-indent:0.85em;
+	width:100%;
+	height:100%;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+td a {
+vertical-align:middle;
+}
+
 table.tablesorter {
 	font-family:arial;
 	background-color: #CDCDCD;
@@ -690,7 +325,6 @@ table.tablesorter tfoot tr {
 	height:5px;
 }
 table.tablesorter thead tr .header {
-	/* background-image: url(../images/bg.gif); */
 	background-repeat: no-repeat;
 	background-position: center right;
 	cursor: pointer;
