@@ -396,7 +396,8 @@ table.tablesorter td.remaining {
 	width:325px;	
 }
 
-.quickstatus .ui-widget-header {
-	padding:5px;	
+.quickstatus .ui-widget-header, .quickstatus .ui-widget-content {
+	padding:5px;
+		
 }
 /*** End of file ***/
