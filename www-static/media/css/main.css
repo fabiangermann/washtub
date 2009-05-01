@@ -391,4 +391,8 @@ table.tablesorter td.remaining {
 .ui-tabs {
 	min-height: 450px;
 }
+
+.quickstatus {
+	width:500px;	
+}
 /*** End of file ***/
