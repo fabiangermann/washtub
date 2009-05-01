@@ -408,7 +408,7 @@ table.tablesorter td.remaining {
 	border-top:0px;
 }
 
-.quickstatus .hover(
+.hover(
 	function(){ 
 		$(this).addClass("ui-state-hover"); 
 	},
