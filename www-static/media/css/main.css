@@ -408,13 +408,5 @@ table.tablesorter td.remaining {
 	border-top:0px;
 }
 
-.hover(
-	function(){ 
-		$(this).addClass("ui-state-hover"); 
-	},
-	function(){ 
-		$(this).removeClass("ui-state-hover"); 
-	}
-)
 
 /*** End of file ***/
