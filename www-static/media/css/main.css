@@ -393,6 +393,7 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus {
-	width:325px;	
+	width:325px;
+	margin:5px;	
 }
 /*** End of file ***/
