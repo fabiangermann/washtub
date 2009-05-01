@@ -393,7 +393,10 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus {
-	width:325px;
+	width:325px;	
+}
+
+.ui-widget-header .quickstatus {
 	padding:5px;	
 }
 /*** End of file ***/
