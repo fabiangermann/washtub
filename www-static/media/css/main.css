@@ -393,11 +393,14 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus {
+	margin-top:10px;
 	width:325px;	
 }
 
+.quickstatus .ui-widget-header {
+	text-transform:uppercase;
+}
 .quickstatus .ui-widget-header, .quickstatus .ui-widget-content {
 	padding:5px;
-		
 }
 /*** End of file ***/
