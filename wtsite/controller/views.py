@@ -26,10 +26,14 @@ from django.template import RequestContext
 from wtsite.controller.models import *
 from wtsite.mediapool.models import *
 from wtsite.mediapool.views import *
-
 import telnetlib, string, time
 
-# Create your views here.
+############################################################################
+#	Begin 'Utility' Functions
+#	These are discrete utilities that interact with the liquidsoap server  
+#	These are not called directly by urls.py
+############################################################################
+
 def parse_command(host, host_settings, command):
 	port = None
 	for p in host_settings:
@@ -174,6 +178,11 @@ def get_host_list():
 	h = Host.objects.all()
 	return h   
 
+############################################################################
+#	Begin Main 'Display' Functions
+#	Functions that display main pages with full layouts
+############################################################################
+
 def index (request):
 	hosts = get_host_list()
 	return render_to_response('index.html', {'hosts': hosts}, context_instance=RequestContext(request))
@@ -210,6 +219,41 @@ def display_status(request, host_name):
 		logging.info('End of display_status() with POST')
 		return
 
+def display_error(request, host_name, template, msg):		
+	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	t = Theme.objects.get(host__name__exact=host_name)
+	pg_num=1
+	template_dict = {}
+	template_dict['error'] = msg
+	template_dict['search'] = False
+	template_dict['pool_page'] = pg_num
+	template_dict['active_host'] = host
+	template_dict['hosts'] = get_host_list()
+	template_dict['theme'] = t.name
+	return render_to_response(template, template_dict, context_instance=RequestContext(request))
+
+def display_alert(request, host_name, template, msg):		
+	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)
+	t = Theme.objects.get(host__name__exact=host_name)
+	pg_num=1
+	template_dict = {}
+	template_dict['alert'] = msg
+	template_dict['search'] = False
+	template_dict['pool_page'] = pg_num
+	template_dict['active_host'] = host
+	template_dict['hosts'] = get_host_list()
+	template_dict['theme'] = t.name
+	return render_to_response(template, template_dict, context_instance=RequestContext(request))
+
+############################################################################
+#	Begin Asynchronous 'Display' Functions
+#	Functions that display discrete data
+#	Minimal table views created for individual tabs
+#	All are called directly by urls.py
+############################################################################	
+	
 @login_required	
 def display_nodes(request, host_name):
 	logging.info('Start of display_nodes()')
@@ -295,34 +339,6 @@ def display_help(request, host_name):
 	#Parse all available help commands (for reference)	
 	template_dict['help'] = parse_help(host, host_settings)
 	return render_to_response('controller/help.html', template_dict, context_instance=RequestContext(request))
-
-def display_error(request, host_name, template, msg):		
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	t = Theme.objects.get(host__name__exact=host_name)
-	pg_num=1
-	template_dict = {}
-	template_dict['error'] = msg
-	template_dict['search'] = False
-	template_dict['pool_page'] = pg_num
-	template_dict['active_host'] = host
-	template_dict['hosts'] = get_host_list()
-	template_dict['theme'] = t.name
-	return render_to_response(template, template_dict, context_instance=RequestContext(request))
-
-def display_alert(request, host_name, template, msg):		
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	t = Theme.objects.get(host__name__exact=host_name)
-	pg_num=1
-	template_dict = {}
-	template_dict['alert'] = msg
-	template_dict['search'] = False
-	template_dict['pool_page'] = pg_num
-	template_dict['active_host'] = host
-	template_dict['hosts'] = get_host_list()
-	template_dict['theme'] = t.name
-	return render_to_response(template, template_dict, context_instance=RequestContext(request))
 
 @login_required	
 def display_pool_page(request, host_name, type, page):
@@ -434,6 +450,13 @@ def search_pool_page(request, host_name, page):
 		logging.info('End of search_pool_page() with POST')
 		return display_error(request, host_name, 'controller/pool.html', message)
 
+############################################################################
+#	Begin 'Action' Functions
+#	Functions act on liquidsoap servers 
+#	START, STOP, PUSH, ETC...
+#	All are called directly by urls.py
+############################################################################
+	
 @login_required
 def stream_skip(request, host_name, stream):
 	host = get_object_or_404(Host, name=host_name)
