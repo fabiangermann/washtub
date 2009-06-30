@@ -310,8 +310,7 @@ def display_queues(request, host_name):
 	template_dict['metadata_storage'] = parse_queue_metadata(host, host_settings, queue, metadata_storage)
 	template_dict['queue'] = queue
 	return render_to_response('controller/queues.html', template_dict, context_instance=RequestContext(request))
-
-@login_required	
+	
 def display_history(request, host_name):
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)
