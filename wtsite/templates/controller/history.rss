@@ -30,7 +30,7 @@
   			{% ifequal e rid %}
   				<item>
   					<title>{{ listing.title }} by {{ listing.artist }}</title>
-  					{% comment %}<link>{{ "status/"|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>{% endcomment %}
+  					<link>{{ "status/"|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>
   					<description>
   					artist: {{ listing.artist }}
   					name: {{ listing.title }}
