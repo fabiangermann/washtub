@@ -324,9 +324,20 @@ def display_history(request, host_name):
 	
 	#Get 'history' Listing and Grab Metadata for it.
 	history = parse_history(host, host_settings, node_list)
+	template_dict['active_host'] = host
 	template_dict['metadata_storage'] = parse_queue_metadata(host, host_settings, history, metadata_storage)
 	template_dict['history'] = history
-	return render_to_response('controller/history.html', template_dict, context_instance=RequestContext(request))
+	
+	if request.method == 'GET':
+		try:
+			 format = request.GET['format']
+			 if (format == 'rss'):
+			 	template_file = 'history.rss'
+		except:
+			template_file = 'history.html'
+	else:
+		 template_file = 'history.html'
+	return render_to_response('controller/'+template_file, template_dict, context_instance=RequestContext(request))
 
 @login_required	
 def display_help(request, host_name):

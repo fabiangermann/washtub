@@ -36,6 +36,10 @@ def cat(value, string):
 def baseurl(value):
 	return '/'+settings.BASE_URL+value
 
+@register.filter("serverurl")
+@stringfilter
+def serverurl(value):
+	return settings.SERVER_NAME+value
 
 @register.filter("tominutes")
 def tominutes(value):
