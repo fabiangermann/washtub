@@ -335,10 +335,10 @@ def display_history(request, host_name):
 			 	mime_output = 'application/rss+xml'
 		except:
 			template_file = 'history.html'
-			mime_ouput = 'text/html'
+			mime_output = 'text/html'
 	else:
 		 template_file = 'history.html'
-		 mime_ouput = 'text/html'
+		 mime_output = 'text/html'
 	return render_to_response('controller/'+template_file, template_dict, context_instance=RequestContext(request), mimetype=mime_output)
 
 @login_required	
