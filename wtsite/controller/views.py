@@ -332,14 +332,14 @@ def display_history(request, host_name):
 			 format = request.GET['format']
 			 if (format == 'rss'):
 			 	template_file = 'history.rss'
-			 	mime_output = 'text/rss+xml'
+			 	mime_output = 'application/rss+xml'
 		except:
 			template_file = 'history.html'
 			mime_ouput = 'text/html'
 	else:
 		 template_file = 'history.html'
 		 mime_ouput = 'text/html'
-	return render_to_response('controller/'+template_file, template_dict, mimetype=mime_output, context_instance=RequestContext(request))
+	return render_to_response('controller/'+template_file, template_dict, context_instance=RequestContext(request), mimetype=mime_output)
 
 @login_required	
 def display_help(request, host_name):
