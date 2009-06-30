@@ -332,7 +332,7 @@ def display_history(request, host_name):
 			 format = request.GET['format']
 			 if (format == 'rss'):
 			 	template_file = 'history.rss'
-			 	mime_output = 'application/application/rss+xml'
+			 	mime_output = 'text/rss+xml'
 		except:
 			template_file = 'history.html'
 			mime_ouput = 'text/html'
