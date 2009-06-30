@@ -19,7 +19,7 @@
 
 {% load controller_extras %}
 <rss version="2.0">
-	<channel link="{{ ""|serverurl|baseurl }}">
+	<channel>
 	<title>{{ active_host }} - Recent Playlist History</title>
 	<description>History detail for {{ active_host }} stream.</description>
 	<language>en-us</language>
@@ -42,5 +42,5 @@
     	 {% endfor %}
     {% endfor %}
 {% endfor %}
-</channel>
+</channel link="{{ ""|baseurl|serverurl }}" >
 </rss>
