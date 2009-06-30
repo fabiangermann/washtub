@@ -24,7 +24,6 @@
 	<description>History detail for {{ active_host }} stream.</description>
 	<language>en-us</language>
 	<generator>Washtub Liquidsoap Controller</generator> 
-	</channel>
 {% for name, entries in history.items %}
   	{% for e in entries reversed%}
   		{% for rid, listing in metadata_storage.items %}
@@ -43,5 +42,5 @@
     	 {% endfor %}
     {% endfor %}
 {% endfor %}
-
+</channel>
 </rss>
