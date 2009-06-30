@@ -19,7 +19,7 @@
 
 {% load controller_extras %}
 <rss version="2.0">
-	<channel rdf:about="{{ ""|baseurl|serverurl }}" >
+	<channel>
 	<title>{{ active_host }} - Recent Playlist History</title>
 	<description>History detail for {{ active_host }} stream.</description>
 	<language>en-us</language>
@@ -30,17 +30,21 @@
   			{% ifequal e rid %}
   				<item>
   					<title>{{ listing.title }} by {{ listing.artist }}</title>
-  					<link>{{ "status/"|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>
+  					{% comment %}<link>{{ "status/"|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>{% endcomment %}
   					<description>
   					artist: {{ listing.artist }}
   					name: {{ listing.title }}
   					album: {{ listing.album }}
   					time: {{ listing.on_air }}
   					</description>
+  					{% if listing.on_air %}
+  					<pubDate>{{ listing.on_air }} {% now "T" %}</pubDate>
+  					{% endif %}
   				</item>
   			{% endifequal %}
     	 {% endfor %}
     {% endfor %}
 {% endfor %}
+
 </channel>
 </rss>
