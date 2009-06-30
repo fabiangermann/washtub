@@ -29,12 +29,13 @@
   		{% for rid, listing in metadata_storage.items %}
   			{% ifequal e rid %}
   				<item>
-  					<title>{{ listing.title }}</title>
+  					<title>{{ listing.title }} by {{ listing.artist }}</title>
   					<link>{{ "status/"|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>
   					<description>
-  					artist: {{ listing.title }}
+  					artist: {{ listing.artist }}
   					name: {{ listing.title }}
   					album: {{ listing.album }}
+  					time: {{ listing.on_air }}
   					</description>
   					{% if listing.on_air %}
   					<pubDate>{{ listing.on_air }} {% now "T" %}</pubDate>
