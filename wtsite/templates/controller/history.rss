@@ -1,3 +1,4 @@
+{%  autoescape off %}<?xml version="1.0"?>{% end autoescape %}
 {% comment %}
     Copyright (c) 2009, Chris Everest 
     This file is part of Washtub.
@@ -17,7 +18,6 @@
 {% endcomment %}
 
 {% load controller_extras %}
-<?xml version="1.0"?>
 <rss version="2.0">
 	<channel>
 	<title>{{ active_host }} - Recent Playlist History</title>
