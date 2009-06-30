@@ -37,14 +37,10 @@
   					album: {{ listing.album }}
   					time: {{ listing.on_air }}
   					</description>
-  					{% if listing.on_air %}
-  					<pubDate>{{ listing.on_air }} {% now "T" %}</pubDate>
-  					{% endif %}
   				</item>
   			{% endifequal %}
     	 {% endfor %}
     {% endfor %}
 {% endfor %}
-
 </channel>
 </rss>
