@@ -1,4 +1,4 @@
-{%  autoescape off %}<?xml version="1.0"?>{% endautoescape %}
+<?xml version="1.0"?>
 {% comment %}
     Copyright (c) 2009, Chris Everest 
     This file is part of Washtub.
