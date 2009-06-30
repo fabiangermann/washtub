@@ -30,7 +30,7 @@
   			{% ifequal e rid %}
   				<item>
   					<title>{{ listing.title }}</title>
-  					<link>{{ 'status/'|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>
+  					<link>{{ "status/"|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>
   					<description>
   					name: {{ listing.title }}</br>
   					album: {{ listing.album }}</br>
