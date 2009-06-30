@@ -332,6 +332,7 @@ def display_history(request, host_name):
 			 format = request.GET['format']
 			 if (format == 'rss'):
 			 	template_file = 'history.rss'
+				return render_to_response('controller/'+template_file, template_dict, mimetype="application/xhtml+xml", context_instance=RequestContext(request))
 		except:
 			template_file = 'history.html'
 	else:
