@@ -58,7 +58,12 @@ def parse_metadata(host, host_settings, rid):
 		m = m.split('=')
 		if len(m) > 1:
 			if m[0] != 'END':
-				metadata[m[0]] = m[1].strip('"')
+				if m[0] == 'on_air':
+					datestring = m[1].strip('"')
+					mydate = strptime(datestring, "%y/%m/%d %h:%m:%s")
+					metadata[m[0]] = mydate
+				else:
+					metadata[m[0]] = m[1].strip('"')
 	return metadata
 
 def parse_queue_metadata(host, host_settings, queue, storage):
