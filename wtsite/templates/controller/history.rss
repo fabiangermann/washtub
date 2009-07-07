@@ -33,12 +33,12 @@
   					<link>{{ "status/"|cat:active_host|cat:"#history-tab"|baseurl|serverurl }}</link>
   					<description>
   					artist: {{ listing.artist }}
-  					name: {{ listing.title }}
+  					title: {{ listing.title }}
   					album: {{ listing.album }}
-  					time: {{ listing.on_air }}
+  					airtime: {{ listing.on_air|date "D, d M Y" }} {{ listing.on_air|time }} {% now "T" %}
   					</description>
   					{% if listing.on_air %}
-  					<pubDate>{{ listing.on_air }} {% now "T" %}</pubDate>
+  					<pubDate>{{ listing.on_air|date "D, d M Y" }} {{ listing.on_air|time }} {% now "T" %}</pubDate>
   					{% endif %}
   				</item>
   			{% endifequal %}
