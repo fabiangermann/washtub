@@ -61,7 +61,7 @@ def parse_metadata(host, host_settings, rid):
 			if m[0] != 'END':
 				if m[0] == 'on_air':
 					datestring = m[1].strip('"')
-					mydate = strptime(datestring, "%Y/%m/%d %H:%M:%S")
+					mydate = datetime.strptime(datestring, "%Y/%m/%d %H:%M:%S")
 					metadata[m[0]] = mydate
 				else:
 					metadata[m[0]] = m[1].strip('"')
