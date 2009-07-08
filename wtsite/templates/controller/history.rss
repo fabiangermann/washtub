@@ -29,13 +29,13 @@
   		{% for rid, listing in metadata_storage.items %}
   			{% ifequal e rid %}
   				<item>
-  					<title>{{ listing.title }} by {{ listing.artist }}</title>
+  					<title>"{{ listing.title }}" by {{ listing.artist }}</title>
   					<link>{{ ""|serverurl }}{% url controller.views.display_status active_host %}{{ "?search="|cat:listing.title|cat:"&type=song#search-tab" }}</link>
   					<description>
-  					artist: {{ listing.artist }}
-  					title: {{ listing.title }}
-  					album: {{ listing.album }}
-  					airtime: {{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %}
+  					artist: {{ listing.artist }} <br />
+  					title: "{{ listing.title }}" <br />
+  					album: {{ listing.album }} <br />
+  					airtime: {{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %} <br />
   					</description>
   					{% if listing.on_air %}
   					<pubDate>{{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %}</pubDate>
