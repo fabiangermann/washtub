@@ -30,7 +30,7 @@
   			{% ifequal e rid %}
   				<item>
   					<title>{{ listing.title }} by {{ listing.artist }}</title>
-  					<link>{{ "http://"|cat:active_host }}{% url controller.views.display_status active_host %}{{ "?search="|cat:listing.title|cat:"&type=song" }}</link>
+  					<link>{{ ""|serverurl }}{% url controller.views.display_status active_host %}{{ "?search="|cat:listing.title|cat:"&type=song" }}</link>
   					<description>
   					artist: {{ listing.artist }}
   					title: {{ listing.title }}
