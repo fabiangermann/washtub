@@ -35,10 +35,10 @@
   					artist: {{ listing.artist }}
   					title: {{ listing.title }}
   					album: {{ listing.album }}
-  					airtime: {{ listing.on_air|date }} {% now "T" %}
+  					airtime: {{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s T" }} {% now "T" %}
   					</description>
   					{% if listing.on_air %}
-  					<pubDate>{{ listing.on_air|date }} {% now "T" %}</pubDate>
+  					<pubDate>{{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s T" }} {% now "T" %}</pubDate>
   					{% endif %}
   				</item>
   			{% endifequal %}
