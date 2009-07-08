@@ -27,7 +27,7 @@ from wtsite.controller.models import *
 from wtsite.mediapool.models import *
 from wtsite.mediapool.views import *
 import telnetlib, string, time
-from time import strptime
+from datetime import strptime
 
 ############################################################################
 #	Begin 'Utility' Functions
