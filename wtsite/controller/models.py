@@ -71,7 +71,7 @@ class Log(models.Model):
     
     def __unicode__(self):
         return self.id
-    def simple_entrytime(selfself):
+    def simple_entrytime(self):
         return self.entrytime.strftime('%Y-%m-%d %H:%M:%S')
     
     class Meta:
