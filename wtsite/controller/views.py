@@ -583,7 +583,7 @@ def write_log(request, host_name):
 							#it matches a metadata
 							try:
 								log = Log.objects.get(entrytime__exact=listing['on_air'])
-							except(DoesNotExist):
+							except Log.DoesNotExist:
 								if not log:
 									#this hasn't yet been logged, so LOG IT!!!
 									#check to see if it's in the mediapool first
