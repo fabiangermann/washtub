@@ -589,7 +589,7 @@ def write_log(request, host_name):
 									  Q(artist__name__iexact=listing['artist']),
 									  Q(album__name__iexact=listing['album']),
 									  Q(genre__name__iexact=listing['genre'])).distinct()[0]
-									id = results.song_id
+									id = results.id
 								except(IndexError):
 									id = -1
 								log = Log(
