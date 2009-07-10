@@ -68,9 +68,7 @@ class Log(models.Model):
     title = models.CharField(max_length=765)
     artist = models.CharField(max_length=765)
     album = models.CharField(max_length=765)
-    
-    def __unicode__(self):
-        return self.id
+
     def simple_entrytime(self):
         return self.entrytime.strftime('%Y-%m-%d %H:%M:%S')
     
