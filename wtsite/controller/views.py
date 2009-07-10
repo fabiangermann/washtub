@@ -595,7 +595,7 @@ def write_log(request, host_name):
 								log = Log(
 							    	entrytime = listing['on_air'],
 							    	info = 'RADIO_HISTORY',
-							    	host = listing['host'],
+							    	host = host,
 							    	playlist = name,
 							    	song_id = id,
 							    	metadata = listing['status'],
