@@ -17,6 +17,8 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.encoding import *
+from datetime import datetime
+
 # Create your models here.
 class Theme(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -65,6 +67,11 @@ class Log(models.Model):
     title = models.CharField(max_length=765)
     artist = models.CharField(max_length=765)
     album = models.CharField(max_length=765)
+    
+    def __unicode__(self):
+        return self.id
+    def simple_entrytime(selfself):
+        return strftime(entrytime, '%Y-%m-%d %H:%M:%S')
     
     class Meta:
         ordering = ['entrytime']
