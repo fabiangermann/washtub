@@ -584,29 +584,26 @@ def write_log(request, host_name):
 							try:
 								log = Log.objects.get(entrytime__exact=listing['on_air'])
 							except Log.DoesNotExist:
-								if not log:
-									#this hasn't yet been logged, so LOG IT!!!
-									#check to see if it's in the mediapool first
-									try:
-										results = Song.objects.filter(Q(title__iexact=listing['title']),
-										  Q(artist__name__iexact=listing['artist']),
-										  Q(album__name__iexact=listing['album']),
-										  Q(genre__name__iexact=listing['genre'])).distinct()[0]
-										id = results.song_id
-									except(IndexError):
-										id = -1
-									log = Log(
-								    	entrytime = listing['on_air'],
-								    	info = 'RADIO_HISTORY',
-								    	host = listing['host'],
-								    	playlist = name,
-								    	song_id = id,
-								    	metadata = listing['status'],
-								    	title = listing['title'],
-								    	artist = listing['artist'],
-								    	album = listing['album'],
-										)
-									log.save()
+								try:
+									results = Song.objects.filter(Q(title__iexact=listing['title']),
+									  Q(artist__name__iexact=listing['artist']),
+									  Q(album__name__iexact=listing['album']),
+									  Q(genre__name__iexact=listing['genre'])).distinct()[0]
+									id = results.song_id
+								except(IndexError):
+									id = -1
+								log = Log(
+							    	entrytime = listing['on_air'],
+							    	info = 'RADIO_HISTORY',
+							    	host = listing['host'],
+							    	playlist = name,
+							    	song_id = id,
+							    	metadata = listing['status'],
+							    	title = listing['title'],
+							    	artist = listing['artist'],
+							    	album = listing['album'],
+									)
+								log.save()
 		return render_to_response('controller/log.html', {}, context_instance=RequestContext(request))
 	else:
 		return HttpResponse(status=500)
