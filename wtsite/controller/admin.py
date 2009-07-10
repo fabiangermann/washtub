@@ -27,6 +27,11 @@ class SettingAdmin(admin.ModelAdmin):
 	list_filter = ['hostname']
 	list_display = ('value', 'data', 'hostname')
 
+class LogAdmin(admin.ModelAdmin):
+	list_filter = ['host']
+	list_display = ( 'entrytime', 'info', 'host', 'title', 'artist', 'album', 'playlist', 'song_id', 'metadata')
+	 
 admin.site.register(Theme, ThemeAdmin)
 admin.site.register(Host, HostAdmin)
 admin.site.register(Setting, SettingAdmin)
+admin.site.register(Log, LogAdmin)
