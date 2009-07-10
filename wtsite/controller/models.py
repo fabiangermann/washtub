@@ -63,8 +63,8 @@ class Log(models.Model):
     song_id = models.IntegerField(default=-1)
     metadata = models.CharField(max_length=1024)
     title = models.CharField(max_length=765)
-    artist = models.ForeignKey(max_length=765)
-    album = models.ForeignKey(max_length=765)
+    artist = models.CharField(max_length=765)
+    album = models.CharField(max_length=765)
     
     def __unicode__(self):
         return self.id
