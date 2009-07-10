@@ -559,7 +559,6 @@ def queue_push(request, host_name):
 		message = 'Requests cannot be pushed via GET requests.'
 		return display_error(request, host_name, 'controller/status.html', message)
 
-@login_required
 def write_log(request, host_name):
 	if request.method == 'GET':		
 		host = get_object_or_404(Host, name=host_name)
