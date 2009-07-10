@@ -54,3 +54,22 @@ class Setting(models.Model):
         ordering = ['hostname', 'value']
         verbose_name = "Setting"
         verbose_name_plural = "Settings"
+        
+class Log(models.Model):
+    entrytime = models.DateTimeField()
+    info = models.CharField(max_length=48)
+    host = models.CharField(max_length=255)
+    playlist = models.CharField(max_length=128)
+    song_id = models.IntField(default=-1)
+    metadata = models.CharField(max_length=1024)
+    title = models.CharField(max_length=765)
+    artist = models.ForeignKey(max_length=765)
+    album = models.ForeignKey(max_length=765)
+    
+    def __unicode__(self):
+        return self.id
+    
+    class Meta:
+        ordering = ['entrytime']
+        verbose_name_plural = "Log Entries"
+    
