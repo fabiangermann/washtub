@@ -66,9 +66,6 @@ class Log(models.Model):
     artist = models.CharField(max_length=765)
     album = models.CharField(max_length=765)
     
-    def __unicode__(self):
-        return self.id
-    
     class Meta:
         ordering = ['entrytime']
         verbose_name_plural = "Log Entries"
