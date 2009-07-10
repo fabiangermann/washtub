@@ -558,3 +558,54 @@ def queue_push(request, host_name):
 		#return message about Get with bad parameters.
 		message = 'Requests cannot be pushed via GET requests.'
 		return display_error(request, host_name, 'controller/status.html', message)
+
+@login_required
+def write_log(request, host_name):
+	if request.method == 'GET':		
+		host = get_object_or_404(Host, name=host_name)
+		host_settings = get_list_or_404(Setting, hostname=host)	#Get active nodes for this host and this liquidsoap instance
+		
+		node_list = parse_node_list(host, host_settings)
+		#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
+		history = {}
+		metadata_storage = {}
+	
+		#Get 'history' Listing and Grab Metadata for it.
+		history = parse_history(host, host_settings, node_list)
+		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
+		
+		for name, entries in history.iteritems():
+			for i, e in enumerate(reversed(entries)):
+				if i == 0:
+					for rid, listing in metadata_storage.iteritems():
+						if e == rid:
+							#this is the 'latest' history entry and 
+							#it matches a metadata
+							log = Log.objects.get(entrytime__exact=listing['on_air'])
+							if not log:
+								#this hasn't yet been logged, so LOG IT!!!
+								#check to see if it's in the mediapool first
+								try:
+									results = Song.objects.filter(Q(title__iexact=listing['title']),
+									  Q(artist__name__iexact=listing['artist']),
+									  Q(album__name__iexact=listing['album']),
+									  Q(genre__name__iexact=listing['genre'])).distinct()[0]
+									id = results.song_id
+								except(IndexError):
+									id = -1
+								log = Log(
+							    	entrytime = listing['on_air'],
+							    	info = 'RADIO_HISTORY',
+							    	host = listing['host'],
+							    	playlist = name,
+							    	song_id = id,
+							    	metadata = listing['status'],
+							    	title = listing['title'],
+							    	artist = listing['artist'],
+							    	album = listing['album'],
+									)
+								log.save()
+		return render_to_response('controller/log.html', {}, context_instance=RequestContext(request))
+	else:
+		return HttpResponse(status=500)
+	
