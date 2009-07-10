@@ -72,6 +72,6 @@ class Log(models.Model):
         return self.entrytime.strftime('%Y-%m-%d %H:%M:%S')
     
     class Meta:
-        ordering = ['entrytime']
+        ordering = ['-entrytime']
         verbose_name_plural = "Log Entries"
     
