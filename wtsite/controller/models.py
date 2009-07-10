@@ -59,15 +59,14 @@ class Setting(models.Model):
         verbose_name_plural = "Settings"
         
 class Log(models.Model):
-    entrytime = models.DateTimeField()
-    info = models.CharField(max_length=48)
-    host = models.CharField(max_length=255)
-    playlist = models.CharField(max_length=128)
-    song_id = models.IntegerField(default=-1)
-    metadata = models.CharField(max_length=1024)
-    title = models.CharField(max_length=765)
-    artist = models.CharField(max_length=765)
-    album = models.CharField(max_length=765)
+    entrytime = models.DateTimeField(editable=False)
+    info = models.CharField(max_length=48, editable=False)
+    host = models.CharField(max_length=255, editable=False)
+    stream = models.CharField(max_length=128, editable=False)
+    song_id = models.IntegerField(default=-1, editable=False)
+    title = models.CharField(max_length=765, editable=False)
+    artist = models.CharField(max_length=765, editable=False)
+    album = models.CharField(max_length=765, editable=False)
 
     def simple_entrytime(self):
         return self.entrytime.strftime('%Y-%m-%d %H:%M:%S')
