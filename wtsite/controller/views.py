@@ -45,10 +45,13 @@ def parse_command(host, host_settings, command):
 	if not port:
 		port = '1234' 
 	command+='\n'
-	tn = telnetlib.Telnet(str(host.ip_address), port)
-	tn.write(command)
-	response = tn.read_until("END")
-	tn.close()
+	try:
+		tn = telnetlib.Telnet(str(host.ip_address), port)
+		tn.write(command)
+		response = tn.read_until("END")
+		tn.close()
+	except error:
+		response = ''
 	return response
 
 
