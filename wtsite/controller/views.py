@@ -582,38 +582,36 @@ def write_log(request, host_name):
 		history = parse_history(host, host_settings, node_list)
 		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
 		
-		time.sleep(0.5)		
+		assert False		
 		for name, entries in air_queue.iteritems():
 			for i, e in enumerate(reversed(entries)): #reverse for descending order
-				if i == 0: #only record the latest on_air entry
-					for stream_name, id_list in history.iteritems():
-						if e in id_list:							
-							for rid, listing in metadata_storage.iteritems():
-								if e == rid:
-									#this is the 'latest' on_air entry and 
-									#it matches a metadata listing
-									try:
-										log = Log.objects.get(entrytime__exact=listing['on_air'])
-									except Log.DoesNotExist:
-										try:
-											results = Song.objects.filter(Q(title__iexact=listing['title']),
-											  Q(artist__name__iexact=listing['artist']),
-											  Q(album__name__iexact=listing['album']),
-											  Q(genre__name__iexact=listing['genre'])).distinct()[0]
-											id = results.id
-										except(IndexError):
-											id = -1
-										log = Log(
-									    	entrytime = listing['on_air'],
-									    	info = 'RADIO_HISTORY',
-									    	host = host,
-									    	stream = stream_name,
-									    	song_id = id,
-									    	title = listing['title'],
-									    	artist = listing['artist'],
-									    	album = listing['album'],
-											)
-										log.save()
+				if i == 0: #only record the latest on_air entry							
+					for rid, listing in metadata_storage.iteritems():
+						if e == rid:
+							#this is the 'latest' on_air entry and 
+							#it matches a metadata listing
+							try:
+								log = Log.objects.get(entrytime__exact=listing['on_air'])
+							except Log.DoesNotExist:
+								try:
+									results = Song.objects.filter(Q(title__iexact=listing['title']),
+									  Q(artist__name__iexact=listing['artist']),
+									  Q(album__name__iexact=listing['album']),
+									  Q(genre__name__iexact=listing['genre'])).distinct()[0]
+									id = results.id
+								except(IndexError):
+									id = -1
+								log = Log(
+							    	entrytime = listing['on_air'],
+							    	info = 'RADIO_HISTORY',
+							    	host = host,
+							    	stream = stream_name,
+							    	song_id = id,
+							    	title = listing['title'],
+							    	artist = listing['artist'],
+							    	album = listing['album'],
+									)
+								log.save()
 		return render_to_response('controller/log.html', {}, context_instance=RequestContext(request))
 	else:
 		return HttpResponse(status=500)
