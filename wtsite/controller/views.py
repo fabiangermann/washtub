@@ -28,7 +28,7 @@ from wtsite.mediapool.models import *
 from wtsite.mediapool.views import *
 import telnetlib, string, time, datetime, threading
 from datetime import datetime
-from threading import Timer
+from threading import Thread
 
 
 ############################################################################
