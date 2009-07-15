@@ -571,12 +571,19 @@ def write_log(request, host_name):
 		node_list = parse_node_list(host, host_settings)
 		#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
 		air_queue = {}
+		history = {}
 		metadata_storage = {}
 	
 		#Get 'on_air' Queue and Grab Metadata for it
 		air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
 		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 		
+		#Get 'history' and Grab Metadata for it
+		history = parse_history(host, host_Settings, node_list)
+		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
+		
+		assert False
+				
 		for name, entries in air_queue.iteritems():
 			for i, e in enumerate(reversed(entries)):
 				if i == 0:
