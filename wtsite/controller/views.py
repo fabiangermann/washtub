@@ -570,20 +570,20 @@ def write_log(request, host_name):
 		
 		node_list = parse_node_list(host, host_settings)
 		#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-		history = {}
+		air_queue = {}
 		metadata_storage = {}
 	
-		#Get 'history' Listing and Grab Metadata for it.
-		history = parse_history(host, host_settings, node_list)
-		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
+		#Get 'on_air' Queue and Grab Metadata for it
+		air_queue = parse_rid_list(host, host_settings, "on_air")
+		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 		
-		for name, entries in history.iteritems():
+		for name, entries in air_queue.iteritems():
 			for i, e in enumerate(reversed(entries)):
 				if i == 0:
 					for rid, listing in metadata_storage.iteritems():
 						if e == rid:
-							#this is the 'latest' history entry and 
-							#it matches a metadata
+							#this is the 'latest' on_air entry and 
+							#it matches a metadata listing
 							try:
 								log = Log.objects.get(entrytime__exact=listing['on_air'])
 							except Log.DoesNotExist:
