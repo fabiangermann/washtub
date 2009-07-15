@@ -564,7 +564,8 @@ def queue_push(request, host_name):
 		message = 'Requests cannot be pushed via GET requests.'
 		return display_error(request, host_name, 'controller/status.html', message)
 
-def commit_log(host_name):	
+def commit_log(host_name):
+	time.sleep(5.0)
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)	#Get active nodes for this host and this liquidsoap instance
 	
@@ -614,7 +615,8 @@ def commit_log(host_name):
 	
 def write_log(request, host_name):
 	if request.method == 'GET':		
-		t = Timer(30.0, commit_log(host_name))
+		t = Thread(target=commit_log, args=[host_name])
+		t.setDaemon(True)
 		t.start()
 		return render_to_response('controller/log.html', {}, context_instance=RequestContext(request))
 	else:
