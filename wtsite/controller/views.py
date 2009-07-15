@@ -581,8 +581,6 @@ def write_log(request, host_name):
 		#Get 'history' and Grab Metadata for it
 		history = parse_history(host, host_settings, node_list)
 		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
-		
-		assert False
 				
 		for name, entries in air_queue.iteritems():
 			for i, e in enumerate(reversed(entries)):
