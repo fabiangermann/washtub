@@ -574,16 +574,16 @@ def write_log(request, host_name):
 		metadata_storage = {}
 	
 		#Get 'on_air' Queue and Grab Metadata for it
-		air_queue = parse_rid_list(host, host_settings, "on_air")
+		air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
 		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 		
-		for entries in air_queue:
+		for name, entries in air_queue.iteritems():
 			for i, e in enumerate(reversed(entries)):
 				if i == 0:
 					for rid, listing in metadata_storage.iteritems():
 						if e == rid:
 							#this is the 'latest' on_air entry and 
-							#it matches a metadata listing
+							#it matches a metadata listi
 							try:
 								log = Log.objects.get(entrytime__exact=listing['on_air'])
 							except Log.DoesNotExist:
