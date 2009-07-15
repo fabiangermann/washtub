@@ -581,7 +581,8 @@ def write_log(request, host_name):
 		#Get 'history' and Grab Metadata for it
 		history = parse_history(host, host_settings, node_list)
 		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
-				
+		
+		time.sleep(0.5)		
 		for name, entries in air_queue.iteritems():
 			for i, e in enumerate(reversed(entries)): #reverse for descending order
 				if i == 0: #only record the latest on_air entry
