@@ -589,6 +589,7 @@ def commit_log(host_name):
 	metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
 			
 	for name, entries in history.iteritems():
+		name = replacedot(name)
 		for i, e in enumerate(reversed(entries)): #reverse for descending order
 			if i == 0: #only write log entry for the latest on_air entry							
 				for rid, listing in metadata_storage.iteritems():
@@ -596,7 +597,8 @@ def commit_log(host_name):
 						#this is the 'latest' on_air entry and 
 						#it matches a metadata listing
 						try:
-							log = Log.objects.get(entrytime__exact=listing['on_air'])
+							log = Log.objects.get(Q(entrytime__exact=listing['on_air']),
+												  Q(stream__exact=name))
 						except Log.DoesNotExist:
 							try:
 								results = Song.objects.filter(Q(title__iexact=listing['title']),
@@ -610,7 +612,7 @@ def commit_log(host_name):
 						    	entrytime = listing['on_air'],
 						    	info = 'RADIO_HISTORY',
 						    	host = host,
-						    	stream = replacedot(name),
+						    	stream = name,
 						    	song_id = id,
 						    	title = listing['title'],
 						    	artist = listing['artist'],
