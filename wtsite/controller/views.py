@@ -26,8 +26,9 @@ from django.template import RequestContext
 from wtsite.controller.models import *
 from wtsite.mediapool.models import *
 from wtsite.mediapool.views import *
-import telnetlib, string, time, datetime
+import telnetlib, string, time, datetime, threading
 from datetime import datetime
+from threading import Timer
 
 
 ############################################################################
@@ -563,56 +564,58 @@ def queue_push(request, host_name):
 		message = 'Requests cannot be pushed via GET requests.'
 		return display_error(request, host_name, 'controller/status.html', message)
 
+def commit_log(host_name):	
+	host = get_object_or_404(Host, name=host_name)
+	host_settings = get_list_or_404(Setting, hostname=host)	#Get active nodes for this host and this liquidsoap instance
+	
+	node_list = parse_node_list(host, host_settings)
+	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
+	air_queue = {}
+	history = {}
+	metadata_storage = {}
+
+	#Get 'on_air' Queue and Grab Metadata for it
+	air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+	metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
+	
+	#Get 'history' and Grab Metadata for it
+	history = parse_history(host, host_settings, node_list)
+	metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
+			
+	for name, entries in air_queue.iteritems():
+		for i, e in enumerate(reversed(entries)): #reverse for descending order
+			if i == 0: #only write log entry for the latest on_air entry							
+				for rid, listing in metadata_storage.iteritems():
+					if e == rid:
+						#this is the 'latest' on_air entry and 
+						#it matches a metadata listing
+						try:
+							log = Log.objects.get(entrytime__exact=listing['on_air'])
+						except Log.DoesNotExist:
+							try:
+								results = Song.objects.filter(Q(title__iexact=listing['title']),
+								  Q(artist__name__iexact=listing['artist']),
+								  Q(album__name__iexact=listing['album']),
+								  Q(genre__name__iexact=listing['genre'])).distinct()[0]
+								id = results.id
+							except(IndexError):
+								id = -1
+							log = Log(
+						    	entrytime = listing['on_air'],
+						    	info = 'RADIO_HISTORY',
+						    	host = host,
+						    	stream = stream_name,
+						    	song_id = id,
+						    	title = listing['title'],
+						    	artist = listing['artist'],
+						    	album = listing['album'],
+								)
+							log.save()
+	
 def write_log(request, host_name):
 	if request.method == 'GET':		
-		host = get_object_or_404(Host, name=host_name)
-		host_settings = get_list_or_404(Setting, hostname=host)	#Get active nodes for this host and this liquidsoap instance
-		
-		node_list = parse_node_list(host, host_settings)
-		#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-		air_queue = {}
-		history = {}
-		metadata_storage = {}
-	
-		#Get 'on_air' Queue and Grab Metadata for it
-		air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
-		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
-		
-		#Get 'history' and Grab Metadata for it
-		history = parse_history(host, host_settings, node_list)
-		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
-		
-		assert False		
-		for name, entries in air_queue.iteritems():
-			for i, e in enumerate(reversed(entries)): #reverse for descending order
-				if i == 0: #only record the latest on_air entry							
-					for rid, listing in metadata_storage.iteritems():
-						if e == rid:
-							#this is the 'latest' on_air entry and 
-							#it matches a metadata listing
-							try:
-								log = Log.objects.get(entrytime__exact=listing['on_air'])
-							except Log.DoesNotExist:
-								try:
-									results = Song.objects.filter(Q(title__iexact=listing['title']),
-									  Q(artist__name__iexact=listing['artist']),
-									  Q(album__name__iexact=listing['album']),
-									  Q(genre__name__iexact=listing['genre'])).distinct()[0]
-									id = results.id
-								except(IndexError):
-									id = -1
-								log = Log(
-							    	entrytime = listing['on_air'],
-							    	info = 'RADIO_HISTORY',
-							    	host = host,
-							    	stream = stream_name,
-							    	song_id = id,
-							    	title = listing['title'],
-							    	artist = listing['artist'],
-							    	album = listing['album'],
-									)
-								log.save()
+		t = Timer(5.0, commit_log(host_name))
+		t.start()
 		return render_to_response('controller/log.html', {}, context_instance=RequestContext(request))
 	else:
 		return HttpResponse(status=500)
-	
