@@ -50,7 +50,7 @@ def parse_command(host, host_settings, command):
 		tn.write(command)
 		response = tn.read_until("END")
 		tn.close()
-	except error:
+	except:
 		response = ''
 	return response
 
