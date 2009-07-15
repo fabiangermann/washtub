@@ -489,7 +489,7 @@ def stream_skip(request, host_name, stream):
 		response = parse_command(host, host_settings, '%s.skip' % (str(stream)))
 		response = response.splitlines()
 		if('Done' in response):
-			time.sleep(0.75)
+			#time.sleep(0.75)
 			return HttpResponseRedirect('/'+settings.BASE_URL+'status/'+host_name)
 		else:
 			return HttpResponse(status=404)
