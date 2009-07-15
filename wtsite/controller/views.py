@@ -614,7 +614,7 @@ def commit_log(host_name):
 	
 def write_log(request, host_name):
 	if request.method == 'GET':		
-		t = Timer(10.0, commit_log(host_name))
+		t = Timer(30.0, commit_log(host_name))
 		t.start()
 		return render_to_response('controller/log.html', {}, context_instance=RequestContext(request))
 	else:
