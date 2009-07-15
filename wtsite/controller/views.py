@@ -577,7 +577,7 @@ def write_log(request, host_name):
 		air_queue = parse_rid_list(host, host_settings, "on_air")
 		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 		
-		for name, entries in air_queue.iteritems():
+		for entries in air_queue:
 			for i, e in enumerate(reversed(entries)):
 				if i == 0:
 					for rid, listing in metadata_storage.iteritems():
