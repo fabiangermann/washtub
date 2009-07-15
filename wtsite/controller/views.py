@@ -579,7 +579,7 @@ def write_log(request, host_name):
 		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 		
 		#Get 'history' and Grab Metadata for it
-		history = parse_history(host, host_Settings, node_list)
+		history = parse_history(host, host_settings, node_list)
 		metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
 		
 		assert False
