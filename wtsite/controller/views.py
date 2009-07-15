@@ -606,7 +606,7 @@ def commit_log(host_name):
 						    	entrytime = listing['on_air'],
 						    	info = 'RADIO_HISTORY',
 						    	host = host,
-						    	stream = replace_dot(name),
+						    	stream = replacedot(name),
 						    	song_id = id,
 						    	title = listing['title'],
 						    	artist = listing['artist'],
