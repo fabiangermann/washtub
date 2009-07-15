@@ -566,7 +566,7 @@ def queue_push(request, host_name):
 		return display_error(request, host_name, 'controller/status.html', message)
 
 def commit_log(host_name):
-	#time.sleep(1.0)
+	time.sleep(0.5)
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)	#Get active nodes for this host and this liquidsoap instance
 	
