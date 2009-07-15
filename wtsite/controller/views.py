@@ -24,6 +24,7 @@ from django.http import QueryDict
 from django.db.models import Q
 from django.template import RequestContext
 from wtsite.controller.models import *
+from wtsite.controller.templatetags.controller_extras import *
 from wtsite.mediapool.models import *
 from wtsite.mediapool.views import *
 import telnetlib, string, time, datetime, threading
@@ -605,7 +606,7 @@ def commit_log(host_name):
 						    	entrytime = listing['on_air'],
 						    	info = 'RADIO_HISTORY',
 						    	host = host,
-						    	stream = name,
+						    	stream = replace_dot(name),
 						    	song_id = id,
 						    	title = listing['title'],
 						    	artist = listing['artist'],
