@@ -582,7 +582,7 @@ def commit_log(host_name):
 	history = parse_history(host, host_settings, node_list)
 	metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
 			
-	for name, entries in air_queue.iteritems():
+	for name, entries in history.iteritems():
 		for i, e in enumerate(reversed(entries)): #reverse for descending order
 			if i == 0: #only write log entry for the latest on_air entry							
 				for rid, listing in metadata_storage.iteritems():
