@@ -25,7 +25,7 @@ from os.path import join, getsize
 from stat import ST_MTIME
 import tagpy, datetime, logging, unicodedata
 
-def re_encode(input_string, decoder = 'utf-8', encoder = 'utf=8'):   
+def re_encode(input_string, decoder = 'latin-1', encoder = 'utf=8'):   
    try:
      output_string = unicodedata.normalize('NFD',
         input_string.decode(decoder)).encode(encoder)
@@ -74,7 +74,6 @@ def build_file_list2(dir):
         for f in files:
             ext = path.splitext(f)[1]
             if ext in ('.mp3', '.flac'):
-                f = re_encode(f)
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time)
@@ -87,6 +86,7 @@ def build_file_list2(dir):
                 #except Song.DoesNotExist:
                     #add it into the database
                 now = datetime.datetime.now().isoformat(' ')
+                f = re_encode(f)
                 s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                 s.save()
     logging.info('End of build_file_list2(%s)' % dir)
