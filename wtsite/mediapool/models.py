@@ -153,7 +153,10 @@ class Song(models.Model):
         else:
             self.genre = a
         #Finally, re_encode the filename to make sure it can convert to unicode
-        self.filename = re_encode(self.filename)
+        try:
+            self.filename = smart_unicode(self.filename)
+        except:
+            self.filename = re_encode(self.filename)
         super(Song, self).save(force_insert, force_update)
         
 
