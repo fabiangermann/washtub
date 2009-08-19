@@ -106,10 +106,6 @@ class Song(models.Model):
     def save(self, force_insert=False, force_update=False):
         if type(self.filename).__name__=='unicode':
             self.filename = smart_str(self.filename)
-        try:
-            smart_unicode(self.filename)
-        except:
-            return
         if not ( access(str(self.filename), (F_OK or R_OK))):
             return
         ref = tagpy.FileRef(self.filename)
@@ -156,6 +152,8 @@ class Song(models.Model):
             self.genre = a
         else:
             self.genre = a
+        #Finally, re_encode the filename to make sure it can convert to unicode
+        self.filename = re_encode(self.filename)
         super(Song, self).save(force_insert, force_update)
         
 
