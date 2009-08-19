@@ -86,7 +86,6 @@ def build_file_list2(dir):
                 #except Song.DoesNotExist:
                     #add it into the database
                 now = datetime.datetime.now().isoformat(' ')
-                f = re_encode(f)
                 s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                 s.save()
     logging.info('End of build_file_list2(%s)' % dir)
