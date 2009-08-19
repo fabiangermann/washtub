@@ -157,6 +157,7 @@ class Song(models.Model):
             self.filename = smart_unicode(self.filename)
         except:
             self.filename = re_encode(self.filename)
+            self.filename = smart_unicode(self.filename)
             test_val = self.filename
         super(Song, self).save(force_insert, force_update)
         
