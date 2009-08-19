@@ -18,13 +18,17 @@ from django.db import models
 from django.conf import settings
 from django.utils.encoding import smart_str, smart_unicode
 from os import path, access, F_OK, R_OK
-import tagpy 
+import tagpy, unicodedata
 
-#class Directory(models.Model):
-#    path = models.TextField()
-#    parent_id = models.IntegerField()
-#    class Meta:
-#        db_table = u'music_directories'
+def re_encode(input_string, decoder = 'utf-8', encoder = 'utf=8'):   
+   try:
+     output_string = unicodedata.normalize('NFD',
+        input_string.decode(decoder)).encode(encoder)
+
+   except UnicodeError:
+     output_string = unicodedata.normalize('NFD', 
+        input_string.decode('ascii', 'replace')).encode(encoder)
+   return output_string
 
 class Artist(models.Model):
     name = models.CharField(max_length=765)
@@ -100,9 +104,12 @@ class Song(models.Model):
         return self.title
         
     def save(self, force_insert=False, force_update=False):
-        enc_type = type(self.filename).__name__
         if type(self.filename).__name__=='unicode':
             self.filename = smart_str(self.filename)
+        try:
+            smart_unicode(self.filename)
+        except:
+            return
         if not ( access(str(self.filename), (F_OK or R_OK))):
             return
         ref = tagpy.FileRef(self.filename)
