@@ -23,7 +23,18 @@ from wtsite.mediapool.models import *
 from os import access, stat, path, walk, F_OK, R_OK
 from os.path import join, getsize
 from stat import ST_MTIME
-import tagpy, datetime, logging
+import tagpy, datetime, logging, unicodedata
+
+def re_encode(input_string, decoder = 'utf-8', encoder = 'utf=8'):   
+   try:
+     output_string = unicodedata.normalize('NFD',
+        input_string.decode(decoder)).encode(encoder)
+
+   except UnicodeError:
+     output_string = unicodedata.normalize('NFD', 
+        input_string.decode('ascii', 'replace')).encode(encoder)
+   return output_string
+
 
 def build_file_list(dir):
     logging.info('Start of build_file_list(%s)' % dir)
@@ -63,6 +74,7 @@ def build_file_list2(dir):
         for f in files:
             ext = path.splitext(f)[1]
             if ext in ('.mp3', '.flac'):
+                f = re_encode(f)
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time)
