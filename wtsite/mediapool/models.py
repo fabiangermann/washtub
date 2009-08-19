@@ -101,7 +101,7 @@ class Song(models.Model):
         
     def save(self, force_insert=False, force_update=False):
         enc_type = type(self.filename).__name__
-        if type(self.filename).__name__=='unicode':
+        if type(self.filename).__name__!='unicode':
             self.filename = smart_str(self.filename)
         if not ( access(str(self.filename), (F_OK or R_OK))):
             return
