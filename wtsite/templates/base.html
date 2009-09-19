@@ -50,7 +50,7 @@ $(function(){
 	//Tabs
 	$('#tabs').tabs({ cookie: { path: {{ ""|baseurl }}, name: "washtub-tabs" }, 
 			          ajaxOptions: { cache: false },
-			          spinner: '<img src="{{ "images/throbber.gif"|baseurl }}"></img>' 
+			          spinner: '<img src="{{ "media/images/throbber.gif"|baseurl }}"></img>' 
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
 		$.tablesorter.defaults.widgets = ['zebra']; 
