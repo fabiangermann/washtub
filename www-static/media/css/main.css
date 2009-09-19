@@ -408,5 +408,7 @@ table.tablesorter td.remaining {
 	border-top:0px;
 }
 
-
+.ui-tabs .ui-tabs-nav li a {
+	width:5.0em;
+}
 /*** End of file ***/
