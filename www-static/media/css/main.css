@@ -411,4 +411,10 @@ table.tablesorter td.remaining {
 .ui-tabs .ui-tabs-nav li a {
 	width:5.0em;
 }
+
+.ui-tabs .ui-tabs-nav li a img{
+	float:right;
+	width:16px;
+	height:16px;
+}
 /*** End of file ***/
