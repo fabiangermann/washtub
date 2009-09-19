@@ -412,7 +412,7 @@ table.tablesorter td.remaining {
 	width:5.0em;
 }
 
-.ui-tabs .ui-tabs-nav li a img{
+.ui-tabs .ui-tabs-nav li a span img{
 	float:right;
 	width:16px;
 	height:16px;
