@@ -28,15 +28,15 @@
 {% endblock tabsetup %}
 {% block content %}<div id="tabs">
 			    <ul>
-			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab"><div style="float:left">Status</div><span><img src="{{ "media/images/throbber.gif"|baseurl }}"></img></span></a></li>
-			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab">Queues<span>&nbsp;</span></a></li>
+			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab"><div style="float:left">Status</div><span>&nbsp;</span></a></li>
+			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab"><div style="float:left">Queues</div><span>&nbsp;</span></a></li>
 			    	{% if search %}
-			    		<li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="search-tab">Search<span>&nbsp;</span></a></li>
+			    		<li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="search-tab"><div style="float:left">Search</div><span>&nbsp;</span></a></li>
 			    	{% else %}
-			    		<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool-tab">Pool<span>&nbsp;</span></a></li>
+			    		<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool-tab"><div style="float:left">Pool</div><span>&nbsp;</span></a></li>
 			    	{% endif %}
-			    	<li><a href="{% url controller.views.display_history active_host %}" title="history-tab">History<span>&nbsp;</span></a></li>
-			    	<li><a href="{% url controller.views.display_help active_host %}" title="help-tab">Help<span>&nbsp;</span></a></li>
+			    	<li><a href="{% url controller.views.display_history active_host %}" title="history-tab"><div style="float:left">History</div><span>&nbsp;</span></a></li>
+			    	<li><a href="{% url controller.views.display_help active_host %}" title="help-tab"><div style="float:left">Help</div><span>&nbsp;</span></a></li>
 			    </ul>
 				</div>
 			</div>
