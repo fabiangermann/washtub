@@ -28,7 +28,7 @@
 {% endblock tabsetup %}
 {% block content %}<div id="tabs">
 			    <ul>
-			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab">Status<span><img src="{{ "media/images/throbber.gif"|baseurl }}></img></span></a></li>
+			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab">Status<span><img src="{{ "media/images/throbber.gif"|baseurl }}"></img></span></a></li>
 			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab">Queues<span>&nbsp;</span></a></li>
 			    	{% if search %}
 			    		<li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="search-tab">Search<span>&nbsp;</span></a></li>
