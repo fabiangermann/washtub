@@ -28,15 +28,15 @@
 {% endblock tabsetup %}
 {% block content %}<div id="tabs">
 			    <ul>
-			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab"><span>Status</span></a></li>
-			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab"><span>Queues</span></a></li>
+			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab">Status<span>&nbsp;</span></a></li>
+			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab">Queues<span>&nbsp;</span></a></li>
 			    	{% if search %}
-			    		<li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="search-tab"><span>Search</span></a></li>
+			    		<li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="search-tab">Search<span>&nbsp;</span></a></li>
 			    	{% else %}
-			    		<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool-tab"><span>Pool</span></a></li>
+			    		<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool-tab">Pool<span>&nbsp;</span></a></li>
 			    	{% endif %}
-			    	<li><a href="{% url controller.views.display_history active_host %}" title="history-tab"><span>History</span></a></li>
-			    	<li><a href="{% url controller.views.display_help active_host %}" title="help-tab"><span>Help</span></a></li>
+			    	<li><a href="{% url controller.views.display_history active_host %}" title="history-tab">History<span>&nbsp;</span></a></li>
+			    	<li><a href="{% url controller.views.display_help active_host %}" title="help-tab">Help<span>&nbsp;</span></a></li>
 			    </ul>
 				</div>
 			</div>
