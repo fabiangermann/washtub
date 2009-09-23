@@ -43,7 +43,7 @@
 		{% if dicts.online %}<img title="online" src="{{ "media/images/tango/16x16/status/available.png"|baseurl }}"></img>{% endif %}
 	</div>
 	<div class="ui-widget-content ui-corner-bottom">
-
+	{% if dicts.online %}
 	<b>IP Address:</b>&nbsp;{{ dicts.status.ip_address }}<br/>
 	<b>Version:</b>&nbsp;{{ dicts.status.version }}<br/>
 	<b>Uptime:</b>&nbsp;{{ dicts.status.uptime }}<br/>
@@ -67,6 +67,7 @@
     	{{ name|replacedot }}
 		{% endwith %}
 	{% endfor %}
+	{% endif %}
 	</div>
 	</div></a></span>
 	{% endfor %}
