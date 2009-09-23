@@ -32,9 +32,9 @@
 	<h1>Washtub - The Liquidsoap Controller</h1>
 	<div>The radio extension for people.</div>
 	</div>
-	
+	{% for host, dict in quickstatus.items %} 
 	<div class="clearingdiv">&nbsp;</div>
-	<span><a href="/washtub/status/vinylproject.com">
+	<span><a href="{% url wtsite.controller.views.display_status host">
 	<div class="quickstatus ui-corner-all">
 	<div class="ui-widget-header ui-corner-top">
 		vinylproject.com
@@ -43,6 +43,7 @@
 		quickview status here
 	</div>
 	</div></a></span>
+	{% endfor %}
 	</div>
 </div>
 
