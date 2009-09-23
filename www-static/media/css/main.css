@@ -419,6 +419,9 @@ table.tablesorter td.remaining {
 	text-decoration:none;
 }
 
+.quickstatus .ui-widget-content a.listen {
+	border: 1px;
+}
 .ui-tabs .ui-tabs-nav li a {
 	width:6.5em;
 	padding-right: 0.25em;
