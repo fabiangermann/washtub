@@ -56,7 +56,7 @@
 		{% endfor %}
 	<br/><div class="listen">
 	{% for name in dicts.out_streams %}
-		{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
+		{% with dicts.status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
     	<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a>
 		{% endwith %}
 	{% endfor %}
