@@ -45,11 +45,12 @@
 	<b>IP Address:</b>&nbsp;{{ dicts.status.ip_address }}<br/>
 	<b>Version:</b>&nbsp;{{ dicts.status.version }}<br/>
 	<b>Uptime:</b>&nbsp;{{ dicts.status.uptime }}<br/>
+	<b>Base Url:</b>&nbsp;{{ dicts.status.base_url }}</br>
 		{% for name, entries in dicts.air_queue.items %}
 			{% for e in entries %}
 				{% for rid, listing in dicts.metadata_storage.items %}
 					{% ifequal e rid %}
-						<b>Now Playing:</b> {{ listing.title }}
+						<b>Now Playing:</b> {{ listing.title }}<br/>
 					{% endifequal %}
 				{% endfor %}
 			{% endfor %}
