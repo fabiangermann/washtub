@@ -416,7 +416,7 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus .ui-widget-content a {
-	text-transform:none;
+	text-decoration:none;
 }
 
 .ui-tabs .ui-tabs-nav li a {
