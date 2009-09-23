@@ -200,7 +200,7 @@ def index (request):
 	quickstatus = {}
 	#loop through hosts and grab status for each one
 	for host in host_list:
-		host_settings = Setting.objects.filter(name__exact=host)
+		host_settings = Setting.objects.filter(hostname__exact=host)
 		#Parse all available help commands (for reference)	
 		help = parse_help(host, host_settings)
 		
