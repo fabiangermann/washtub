@@ -37,7 +37,25 @@ from threading import Thread
 #	These are discrete utilities that interact with the liquidsoap server  
 #	These are not called directly by urls.py
 ############################################################################
-
+def is_online(host, host_settings):
+	port = None
+	for p in host_settings:
+	   if p.value == 'port':
+	       port = str(p.data)
+	#default port number (for telnet)
+	if not port:
+		port = '1234' 
+	command='help\n'
+	try:
+		tn = telnetlib.Telnet(str(host.ip_address), port)
+		tn.write(command)
+		response = tn.read_until("END")
+		tn.close()
+		response = True
+	except:
+		response = False
+	return response
+	
 def parse_command(host, host_settings, command):
 	port = None
 	for p in host_settings:
@@ -55,7 +73,6 @@ def parse_command(host, host_settings, command):
 	except:
 		response = ''
 	return response
-
 
 def parse_metadata(host, host_settings, rid):
 	meta_list = parse_command(host, host_settings, 'metadata %s\n' % rid)
@@ -201,28 +218,38 @@ def index (request):
 	#loop through hosts and grab status for each one
 	for host in host_list:
 		host_settings = Setting.objects.filter(hostname__exact=host)
-		#Parse all available help commands (for reference)	
-		help = parse_help(host, host_settings)
+		#check to see if host is online
+		if is_online(host, host_settings):
+			#Parse all available help commands (for reference)	
+			help = parse_help(host, host_settings)
+			
+			#Get active nodes for this host and this liquidsoap instance
+			node_list = parse_node_list(host, host_settings)
+			out_streams = parse_output_streams(host, host_settings, node_list)
+			out_streams = sorted(out_streams)
+			status = build_status_list(host, host_settings, out_streams, help)
+			
+			#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
+			metadata_storage = {}
 		
-		#Get active nodes for this host and this liquidsoap instance
-		node_list = parse_node_list(host, host_settings)
-		out_streams = parse_output_streams(host, host_settings, node_list)
-		out_streams = sorted(out_streams)
-		status = build_status_list(host, host_settings, out_streams, help)
-		
-		#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-		metadata_storage = {}
-	
-		#Get 'on_air' Queue and Grab Metadata for it
-		air_queue = {}
-		air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
-		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
-		
-		#Get 'alive' Queue and Grab Metadata for it
-		alive_queue = {} 
-		alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
-		metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
-		
+			#Get 'on_air' Queue and Grab Metadata for it
+			air_queue = {}
+			air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+			metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
+			
+			#Get 'alive' Queue and Grab Metadata for it
+			alive_queue = {} 
+			alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
+			metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
+		else:
+			#create empty lists to send through
+			node_list = {}
+			out_streams = {}
+			status = {}
+			air_queue = {}
+			alive_queue = {}
+			metadata_storage = {}
+			
 		template_dict = {}
 		template_dict['node_list'] = node_list
 		template_dict['out_streams'] = out_streams
