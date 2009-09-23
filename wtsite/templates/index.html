@@ -37,7 +37,7 @@
 	<span><a href="{% url wtsite.controller.views.display_status host %}">
 	<div class="quickstatus ui-corner-all">
 	<div class="ui-widget-header ui-corner-top">
-		{{ host }}
+		{{ host }} {% if not dicts.online %}<i>offline</i>{% endif %}
 	</div>
 	<div class="ui-widget-content ui-corner-bottom">
 		{% for name, entries in dicts.air_queue.items %}

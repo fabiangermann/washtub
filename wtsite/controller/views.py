@@ -218,8 +218,9 @@ def index (request):
 	#loop through hosts and grab status for each one
 	for host in host_list:
 		host_settings = Setting.objects.filter(hostname__exact=host)
-		#check to see if host is online
-		if is_online(host, host_settings):
+		template_dict = {}
+		host_online = is_online(host, host_settings)
+		if host_online:
 			#Parse all available help commands (for reference)	
 			help = parse_help(host, host_settings)
 			
@@ -241,22 +242,17 @@ def index (request):
 			alive_queue = {} 
 			alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
 			metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
+				
+			template_dict['online'] = host_online
+			template_dict['node_list'] = node_list
+			template_dict['out_streams'] = out_streams
+			template_dict['status'] = status
+			template_dict['air_queue'] = air_queue
+			template_dict['alive_queue'] = alive_queue
+			template_dict['metadata_storage'] = metadata_storage
 		else:
-			#create empty lists to send through
-			node_list = {}
-			out_streams = {}
-			status = {}
-			air_queue = {}
-			alive_queue = {}
-			metadata_storage = {}
-			
-		template_dict = {}
-		template_dict['node_list'] = node_list
-		template_dict['out_streams'] = out_streams
-		template_dict['status'] = status
-		template_dict['air_queue'] = air_queue
-		template_dict['alive_queue'] = alive_queue
-		template_dict['metadata_storage'] = metadata_storage
+			template_dict['online'] = host_online
+		
 		quickstatus[host]=template_dict
 	return render_to_response('index.html', {'hosts': host_list, 'quickstatus': quickstatus}, context_instance=RequestContext(request))
 
