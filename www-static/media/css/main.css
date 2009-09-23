@@ -403,7 +403,8 @@ table.tablesorter td.remaining {
 
 .quickstatus .ui-widget-header i{
 	color:red;
-	text-transform:normal;
+	text-transform:lowercase;
+	font-weight:normal;
 }
 .quickstatus .ui-widget-header, .quickstatus .ui-widget-content {
 	padding:5px;
