@@ -38,14 +38,16 @@
 	<span><a href="{% url wtsite.controller.views.display_status host %}">
 	<div class="quickstatus ui-corner-all">
 	<div class="ui-widget-header ui-corner-top">
-		{{ host }} {% if not dicts.online %}<i>(offline)</i>{% endif %}
+		{{ host }} 
+		{% if not dicts.online %}<img src="{{ "media/images/tango/16x16/status/offline.png"|baseurl }}"></img>{% endif %}
+		{% if dicts.online %}<img src="{{ "media/images/tango/16x16/status/available.png"|baseurl }}"></img>{% endif %}
 	</div>
 	<div class="ui-widget-content ui-corner-bottom">
 
 	<b>IP Address:</b>&nbsp;{{ dicts.status.ip_address }}<br/>
 	<b>Version:</b>&nbsp;{{ dicts.status.version }}<br/>
 	<b>Uptime:</b>&nbsp;{{ dicts.status.uptime }}<br/>
-	<b>Base Url:</b>&nbsp;{{ dicts.status.base_url }}</br>
+	<b>Base Url:</b>&nbsp;{{ dicts.status.base_url }}<br/>
 		{% for name, entries in dicts.air_queue.items %}
 			{% for e in entries %}
 				{% for rid, listing in dicts.metadata_storage.items %}

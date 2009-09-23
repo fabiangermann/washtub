@@ -408,6 +408,11 @@ table.tablesorter td.remaining {
 	text-transform:lowercase;
 	font-weight:normal;
 }
+
+.quickstatus .ui-widget-header i{
+	float:right;
+}
+
 .quickstatus .ui-widget-header, .quickstatus .ui-widget-content {
 	padding:5px;
 }
