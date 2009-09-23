@@ -39,7 +39,7 @@
 	<div class="quickstatus ui-corner-all">
 	<div class="ui-widget-header ui-corner-top">
 		{{ host }} 
-		{% if not dicts.online %}<img src="{{ "media/images/tango/16x16/status/offline.png"|baseurl }}"></img>{% endif %}
+		{% if not dicts.online %}(offline)<img src="{{ "media/images/tango/16x16/status/offline.png"|baseurl }}"></img>{% endif %}
 		{% if dicts.online %}<img src="{{ "media/images/tango/16x16/status/available.png"|baseurl }}"></img>{% endif %}
 	</div>
 	<div class="ui-widget-content ui-corner-bottom">
