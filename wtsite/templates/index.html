@@ -52,7 +52,7 @@
 			{% for e in entries %}
 				{% for rid, listing in dicts.metadata_storage.items %}
 					{% ifequal e rid %}
-						<b>Now Playing:</b> {{ listing.title }}<br/>
+						<b>Now Playing:</b> "{{ listing.title }}" by {{ listing.artist }}<br/>
 					{% endifequal %}
 				{% endfor %}
 			{% endfor %}
@@ -61,7 +61,9 @@
 	{% for name in dicts.out_streams %}
 		{% with dicts.status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
 		<br/>
+		{% comment %}
     	<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}" class="listen">
+    	{% endcomment %}
     	{{ name|replacedot }}</a>
 		{% endwith %}
 	{% endfor %}
