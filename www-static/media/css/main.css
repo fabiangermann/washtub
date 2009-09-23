@@ -395,7 +395,7 @@ table.tablesorter td.remaining {
 .quickstatus {
 	margin-top:10px;
 	width:295px;
-	display:inline;
+	display:inline-block;
 }
 
 .quickstatus .ui-widget-header {
