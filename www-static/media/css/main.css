@@ -419,7 +419,7 @@ table.tablesorter td.remaining {
 	text-decoration:none;
 }
 
-.quickstatus .ui-widget-content a a {
+.quickstatus .ui-widget-content a.listen {
 	text-decoration:underline;
 }
 
