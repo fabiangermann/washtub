@@ -44,7 +44,7 @@
 			{% for e in entries %}
 				{% for rid, listing in dicts.metadata_storage.items %}
 					{% ifequal e rid %}
-						now playing: listing.title
+						<b>now playing:</b> {{ listing.title }}
 					{% endifequal %}
 				{% endfor %}
 			{% endfor %}
