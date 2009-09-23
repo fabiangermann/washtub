@@ -399,6 +399,7 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus .ui-widget-header {
+	background:#FFF;
 	text-transform:uppercase;
 }
 
