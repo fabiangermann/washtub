@@ -54,11 +54,12 @@
 				{% endfor %}
 			{% endfor %}
 		{% endfor %}
+	<b>Streams:</b>
 	{% for name in dicts.out_streams %}
 		{% with dicts.status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
 		<br/>
-    	<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}" class="listen">
-    	LISTEN:{{ name|replacedot }}</a>
+    	<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">
+    	{{ name|replacedot }}</a>
 		{% endwith %}
 	{% endfor %}
 	</div>
