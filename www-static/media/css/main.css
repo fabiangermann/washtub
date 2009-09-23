@@ -411,6 +411,7 @@ table.tablesorter td.remaining {
 
 .quickstatus .ui-widget-header img{
 	float:right;
+	margin:0px;
 }
 
 .quickstatus .ui-widget-header, .quickstatus .ui-widget-content {
