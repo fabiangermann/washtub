@@ -402,6 +402,7 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus .ui-widget-header i{
+	float:right;
 	color:red;
 	text-transform:lowercase;
 	font-weight:normal;
