@@ -196,8 +196,42 @@ def get_host_list():
 ############################################################################
 
 def index (request):
-	hosts = get_host_list()
-	return render_to_response('index.html', {'hosts': hosts}, context_instance=RequestContext(request))
+	host_list = get_host_list()
+	quickstatus = {}
+	#loop through hosts and grab status for each one
+	for host in host_list:
+		host_settings = Setting.objects.filter(name__exact=host)
+		#Parse all available help commands (for reference)	
+		help = parse_help(host, host_settings)
+		
+		#Get active nodes for this host and this liquidsoap instance
+		node_list = parse_node_list(host, host_settings)
+		out_streams = parse_output_streams(host, host_settings, node_list)
+		out_streams = sorted(out_streams)
+		status = build_status_list(host, host_settings, out_streams, help)
+		
+		#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
+		metadata_storage = {}
+	
+		#Get 'on_air' Queue and Grab Metadata for it
+		air_queue = {}
+		air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+		metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
+		
+		#Get 'alive' Queue and Grab Metadata for it
+		alive_queue = {} 
+		alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
+		metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
+		
+		template_dict = {}
+		template_dict['node_list'] = node_list
+		template_dict['out_streams'] = out_streams
+		template_dict['status'] = status
+		template_dict['air_queue'] = air_queue
+		template_dict['alive_queue'] = alive_queue
+		template_dict['metadata_storage'] = metadata_storage
+		quickstatus[host]=template_dict
+	return render_to_response('index.html', {'hosts': host_list, 'quickstatus': quickstatus}, context_instance=RequestContext(request))
 
 @login_required	
 def display_status(request, host_name):
