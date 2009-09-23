@@ -59,7 +59,7 @@
 		{% with dicts.status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
 		<br/>
     	<a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">
-    	{{ name|replacedot }}</a>
+    	{{ stream_url }}</a>
 		{% endwith %}
 	{% endfor %}
 	</div>
