@@ -40,9 +40,9 @@
 		{{ host }} {% if not dicts.online %}<i>(offline)</i>{% endif %}
 	</div>
 	<div class="ui-widget-content ui-corner-bottom">
-	IP Address:&nbsp;{{ dicts.status.ip_address }}<br/>
-	Version:&nbsp;{{ dicts.status.version }}<br/>
-	Uptime:&nbsp;{{ dicts.status.uptime }}<br/>
+	<b>IP Address:</b>&nbsp;{{ dicts.status.ip_address }}<br/>
+	<b>Version:</b>&nbsp;{{ dicts.status.version }}<br/>
+	<b>Uptime:</b>&nbsp;{{ dicts.status.uptime }}<br/>
 	{{ dicts.status.base_url|urlize }}<br/>
 		{% for name, entries in dicts.air_queue.items %}
 			{% for e in entries %}
