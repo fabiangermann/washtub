@@ -394,7 +394,7 @@ table.tablesorter td.remaining {
 
 .quickstatus {
 	float:right;
-	margin-top:10px;
+	margin:10px auto 10px auto;
 	width:295px;
 }
 
@@ -413,7 +413,7 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus .ui-widget-content {
-	height:10.0em;
+	height:12.0em;
 	border-top:0px;
 }
 
