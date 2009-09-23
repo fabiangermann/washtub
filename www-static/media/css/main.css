@@ -393,9 +393,9 @@ table.tablesorter td.remaining {
 }
 
 .quickstatus {
+	float:right;
 	margin-top:10px;
 	width:295px;
-	display:inline-block;
 }
 
 .quickstatus .ui-widget-header {
