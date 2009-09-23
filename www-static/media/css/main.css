@@ -398,6 +398,10 @@ table.tablesorter td.remaining {
 	width:295px;
 }
 
+.quickstatus.hover (
+	bakground-color:gray;
+}
+
 .quickstatus .ui-widget-header {
 	text-transform:uppercase;
 }
