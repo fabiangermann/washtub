@@ -398,7 +398,7 @@ table.tablesorter td.remaining {
 	width:295px;
 }
 
-.quickstatus:hover {
+.quickstatus a:hover {
 	background-color:gray;
 }
 
