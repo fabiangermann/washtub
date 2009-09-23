@@ -34,7 +34,7 @@
 	</div>
 	<div class="clearingdiv">&nbsp;</div>
 	{% for host, dict in quickstatus.items %} 
-	<span><a href="{% url wtsite.controller.views.display_status host">
+	<span><a href="{% url wtsite.controller.views.display_status host %}">
 	<div class="quickstatus ui-corner-all">
 	<div class="ui-widget-header ui-corner-top">
 		{{ host }}
