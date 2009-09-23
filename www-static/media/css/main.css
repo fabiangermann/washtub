@@ -419,6 +419,10 @@ table.tablesorter td.remaining {
 	text-decoration:none;
 }
 
+.quickstatus .ui-widget-header a a {
+	text-decoration:underline;
+}
+
 .ui-tabs .ui-tabs-nav li a {
 	width:6.5em;
 	padding-right: 0.25em;
