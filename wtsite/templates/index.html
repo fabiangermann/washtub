@@ -33,14 +33,22 @@
 	<div>The radio extension for people.</div>
 	</div>
 	<div class="clearingdiv">&nbsp;</div>
-	{% for host, dict in quickstatus.items %} 
+	{% for host, dicts in quickstatus.items %} 
 	<span><a href="{% url wtsite.controller.views.display_status host %}">
 	<div class="quickstatus ui-corner-all">
 	<div class="ui-widget-header ui-corner-top">
 		{{ host }}
 	</div>
 	<div class="ui-widget-content ui-corner-bottom">
-		quickview status here
+		{% for name, entries in dicts.air_queue.items %}
+			{% for e in entries %}
+				{% for rid, listing in dicts.metadata_storage.items %}
+					{% ifequal e rid %}
+						now playing: listing.title
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}
 	</div>
 	</div></a></span>
 	{% endfor %}
