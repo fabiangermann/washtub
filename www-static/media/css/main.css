@@ -388,6 +388,14 @@ table.tablesorter td.remaining {
 	text-align:center;
 }
 
+table.tablesorter td.volume-slider {
+        width:175px;
+}
+i
+table.tablesorter td.volume {
+        width:25%;
+}
+
 .ui-tabs {
 	min-height: 450px;
 }

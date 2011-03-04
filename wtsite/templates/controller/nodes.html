@@ -15,213 +15,244 @@
     You should have received a copy of the GNU General Public License
     along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-
 {% load controller_extras %}
-    	  <div id="rightside">
-    	  <table id="nodeTable" class="tablesorter">
-    	  <thead>
-    	  <tr><td>Node List</td><td>Type</td></tr>
-    	  </thead>
-    	  <tbody>
-    	  {% for item,type in node_list.items %}
-    	  <tr><td>{{ item|replacedot }}</td><td>{{ type }}</td></tr>
-    	  {% endfor %}
-    	  <tfoot colspan="2"><tr><td></td></tr></tfoot>
-    	  </tbody>
-    	  </table>
-    	  </div>	
-    	  <div id="controls">
-		  {% for name in out_streams %}
-    	  	{% if forloop.counter0|divisibleby:2 %}
-    	  		{% if not forloop.first %}
-    	  		</div><div id="controls">
-    	  		{% endif %}
-    	  	{% endif %}
-    	  	<table id="streamTable" class="tablesorter">
-    	  	<thead>
-    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
-    	  	<tr><td colspan="3"><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a>
-    	  		{% comment %}
-    	  		{% for item, type in node_list.items %}
-    	  			{% ifequal item name %}
-    	  				<i>{{ type }}</i>
-    	  			{% endifequal %}
-    	  		{% endfor %}
-				{% endcomment %}
-    	  	</td></tr> 	
-    	  	{% endwith %}
-    	  	</thead>
-    	  	<tbody>
-    	  	{% for item, info in status.items %}
-    	  		{% with name|cat:".status" as info_command %}
-    	  		{% ifequal info_command item %}
-    	  			<tr><td>Status:</td>
-    	  			{% ifequal info "on" %}
-    	  			<td class="statuson" colspan="2">
-    	  			<div title="{{ name|replacedot }} is currently playing.">
-    	  			<span id="controlspan"><strong>ON</strong></span>
-    	  			</div>
-    	  			</td>
-    	  			{% else %}
-    	  			<td class="statusoff" colspan="2">
-    	  			<div title="{{ name|replacedot }} is currently stopped."> 
-    	  			<span id="controlspan"><strong>OFF</strong></span>
-    	  			</div>
-    	  			</td>
-    	  			{% endifequal %}
-    	  			</tr>
-    	  		{% endifequal %}
-    	  		{% endwith %}
-    	  	{% endfor %}
-    	  	{% for item, info in status.items %}
-    	  		{% with name|cat:".remaining" as info_command %}
-    	  		{% ifequal info_command item %}
-    	  			<tr><td>Remaining:</td><td class="remaining" colspan="2">{{ info|tominutes }}</td></tr>
-    	  		{% endifequal %}
-    	  		{% endwith %}
-    	  	{% endfor %}
-    	  	<tr>
-    	  	<td class="play">
-    	  	<a href="{% url controller.views.stream_start active_host name %}" title="Play">
-    	  	<span id="controlspan">&nbsp;</span>
-    	  	</a>
-    	  	</td>
-    	  	<td class="stop">
-    	  	<a href="{% url controller.views.stream_stop active_host name %}" title="Stop">
-    	  	<span id="controlspan">&nbsp;</span> 
-    	  	</a>
-    	  	</td>
-    	  	<td class="skip">
-    	  	<a href="{% url controller.views.stream_skip active_host name %}" title="Skip">
-    	  	<span id="controlspan">&nbsp;</span>
-    	  	</a>
-    	  	</td>
-    	  	</tr>
-    	  	</tbody>
-    	  	</table> 
-    	  {% endfor %}
-		  {% for name in in_streams %}
-    	  	{% if forloop.counter0|divisibleby:3 %}
-    	  		{% if not forloop.first and not forloop.last %}
-    	  		</div><div id="controls">
-    	  		{% endif %}
-    	  	{% endif %}
-    	  	<table id="streamTable" class="tablesorter">
-    	  	<thead>
-    	  	{% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
-    	  	<tr><td colspan="2"><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a>
-    	  		{% comment %}
-    	  		{% for item, type in node_list.items %}
-    	  			{% ifequal item name %}
-    	  				<i>{{ type }}</i>
-    	  			{% endifequal %}
-    	  		{% endfor %}
-    	  		{% endcomment %}
-    	  	</td></tr>
-    	  	{% endwith %}
-    	  	</thead>
-    	  	<tbody>
-    	  	<tr>
-    	  	<td class="play">
-    	  	<a href="{% url controller.views.stream_start active_host name %}" title="Play">
-    	  	<span id="controlspan">&nbsp;</span>
-    	  	</a>
-    	  	</td>
-    	  	<td class="stop">
-    	  	<a href="{% url controller.views.stream_stop active_host name %}" title="Stop">
-    	  	<span id="controlspan">&nbsp;</span> 
-    	  	</a>
-    	  	</td>
-    	  	</tbody>
-    	  	</table> 
-    	  {% endfor %}
-    	  </div>
-    	  <div id="leftside">
-		  {% if status %}
-		  <h1>{{ status.host|upper }}</h1>
-		  <div>
-		  IP Address:&nbsp;{{ status.ip_address }}<br/>
-		  Version:&nbsp;{{ status.version }}<br/>
-		  Uptime:&nbsp;{{ status.uptime }}<br/>
-		  {{ status.base_url|urlize }}<br/>
-		  </div>
-		  {% endif %}
-		  </div>
-    	  <div class="clearingdiv">&nbsp;</div>
-		  {% for name, entries in air_queue.items %}
-		  	<b>Currently On Air:</b><br/>
-		  	<table id="onAirTable" class="tablesorter"> 
-			<thead> 
-			<tr> 
-			    <th class="pos">#</th> 
-			    <th class="title">Title</th> 
-			    <th class="artist">Artist</th> 
-			    <th class="album">Album</th> 
-			    <th class="status">Status</th>
-			    <th class="onair">On Air</th>
-			    <th class="rid">RID</th> 
-			</tr>
-      	  	</thead>
-      	  	<tbody>
-		  	{% for e in entries %}
-		  		{% for rid, listing in metadata_storage.items %}
-		  			{% ifequal e rid %}
-		  				<tr>
-		  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-		  					<td>{{ listing.title|truncatewords:8 }}</td>
-		  					<td>{{ listing.artist }}</td>
-		  					<td>{{ listing.album|truncatewords:5 }}</td>
-		  					<td>{{ listing.status }}</td>
-		  					{% if listing.on_air %}
-		  						<td>{{ listing.on_air }} {% now "T" %}</td>
-		  					{% else %}
-		  						<td></td>
-		  					{% endif %}
-		  					<td class="rid">{{ listing.rid }}</td>
-		  				</tr>
-		  			{% endifequal %}
-      	  	  	{% endfor %}
-      	  	{% endfor %}
-      	  	</tbody>
-      	  	</table>
-      	  	<br/>
-		  {% endfor %}
-		  
-		  {% for name, entries in alive_queue.items %}
-		  	<b>Currently Alive:</b><br/>
-		  	<table id="aliveTable" class="tablesorter"> 
-			<thead> 
-			<tr> 
-			    <th class="pos">#</th> 
-			    <th class="title">Title</th> 
-			    <th class="artist">Artist</th> 
-			    <th class="album">Album</th> 
-			    <th class="status">Status</th>
-			    <th class="onair">On Air</th>
-			    <th class="rid">RID</th> 
-			</tr>
-      	  	</thead>
-      	  	<tbody>
-		  	{% for e in entries reversed %}
-		  		{% for rid, listing in metadata_storage.items %}
-		  			{% ifequal e rid %}
-		  				<tr>
-		  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-		  					<td>{{ listing.title|truncatewords:8 }}</td>
-		  					<td>{{ listing.artist }}</td>
-		  					<td>{{ listing.album|truncatewords:5 }}</td>
-		  					<td>{{ listing.status }}</td>
-		  					{% if listing.on_air %}
-		  						<td>{{ listing.on_air }} {% now "T" %}</td>
-		  					{% else %}
-		  						<td></td>
-		  					{% endif %}
-		  					<td class="rid">{{ listing.rid }}</td>
-		  				</tr>
-		  			{% endifequal %}
-      	  	  	{% endfor %}
-      	  	{% endfor %}
-      	  	</tbody>
-      	  	</table>
-      	  	<br/>
-		  {% endfor %}
+<script>
+  function createVolSlider(scope, init_value)
+  {
+    var sliderId = "#" + scope + "Slider";
+    var volumeId = "#" + scope + "VolumeValue"; 
+    init_value = init_value * 100;
+    //document.write(sliderId + '\n');
+    //document.write(volumeId + '\n');
+    //document.write('init value:' + init_value + '\n');
+    //$(document).ready(function() {
+    $(sliderId).slider({
+        value: init_value,
+        max: 100,
+        min: 0,
+        step: 1,
+        slide: function( event, ui ) {
+          $(volumeId).val( ui.value );
+        },
+        change: function( event, ui) {
+           var converted = $(sliderId).slider( "option", "value" ) / 100;
+           $.get("{{ "control/set/"|cat:active_host|baseurl }}", { 'scope': scope, variable: 'volume', value: converted})
+        }
+      });
+      $(volumeId).val( $(sliderId).slider( "value" ) );
+    //});
+  }
+</script>
+
+<div id="rightside">
+  <table id="nodeTable" class="tablesorter">
+    <thead><tr><td>Node List</td><td>Type</td></tr>    </thead>
+    <tbody>
+      {% for item,type in node_list.items %}
+      <tr><td>{{ item|replacedot }}</td><td>{{ type }}</td></tr>
+      {% endfor %}
+    </tbody>
+    <tfoot colspan="2"><tr><td></td></tr></tfoot>
+    </table>
+ </div>    
+<div id="controls">
+  {% for name in out_streams %}
+    {% if forloop.counter0|divisibleby:2 %}
+      {% if not forloop.first %}
+        </div>
+        <div id="controls">
+      {% endif %}
+    {% endif %}
+    <table id="streamTable" class="tablesorter">
+    <thead>
+      {% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
+        <tr><td colspan="3"><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a>
+        {% comment %}
+        {% for item, type in node_list.items %}
+          {% ifequal item name %}
+            <i>{{ type }}</i>
+          {% endifequal %}
+        {% endfor %}
+        {% endcomment %}
+        </td></tr>  
+      {% endwith %}
+    </thead>
+    <tbody>
+      {% for item, info in status.items %}
+        {% with name|cat:".status" as info_command %}
+          {% ifequal info_command item %}
+            <tr><td>Status:</td>
+            {% ifequal info "on" %}
+              <td class="statuson" colspan="2">
+              <div title="{{ name|replacedot }} is currently playing.">
+              <span id="controlspan"><strong>ON</strong></span>
+              </div>
+              </td>
+            {% else %}
+              <td class="statusoff" colspan="2">
+              <div title="{{ name|replacedot }} is currently stopped."> 
+              <span id="controlspan"><strong>OFF</strong></span>
+              </div>
+              </td>
+            {% endifequal %}
+            </tr>
+          {% endifequal %}
+         {% endwith %}
+      {% endfor %}
+      {% for item, info in status.items %}
+        {% with name|cat:".remaining" as info_command %}
+          {% ifequal info_command item %}
+            <tr><td>Remaining:</td><td class="remaining" colspan="2">{{ info|tominutes }}</td></tr>
+          {% endifequal %}
+        {% endwith %}
+      {% endfor %}
+      <tr>
+        <td class="play">
+        <a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a>
+        </td>
+        <td class="stop">
+        <a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a>
+        </td>
+        <td class="skip">
+        <a href="{% url controller.views.stream_skip active_host name %}" title="Skip"><span id="controlspan">&nbsp;</span></a>
+        </td>
+      </tr>
+      </tbody>
+    </table> 
+  {% endfor %}
+  </div>
+  <div id="controls">
+  {% for name in in_streams %}
+    {% if forloop.counter0|divisibleby:3 %}
+      {% if not forloop.first and not forloop.last %}
+        </div><div id="controls">
+      {% endif %}
+    {% endif %}
+    <table id="streamTable" class="tablesorter">
+    <thead>
+      {% with status.base_url|cat:name|cat:".m3u"|replacedot as stream_url %}
+        <tr><td colspan="2"><a href="{{ stream_url }}" title="Listen to {{ name|replacedot }}">{{ name|replacedot }}</a>
+        {% comment %}
+        {% for item, type in node_list.items %}
+          {% ifequal item name %}
+          <i>{{ type }}</i>
+          {% endifequal %}
+        {% endfor %}
+        {% endcomment %}
+        </td></tr>
+      {% endwith %}
+    </thead>
+    <tbody>
+      <tr>
+      <td class="play"><a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a></td>
+      <td class="stop"><a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a></td>
+      </tr>
+    </tbody>
+    </table> 
+  {% endfor %}
+  {% for scope, variable in var_list.items %}
+      {% for var_name, props in variable.items %}
+      {% ifequal var_name "volume" %}
+      <table id="streamTable" class="tablesorter">
+      <thead><tr><td colspan="2">{{ var_name|capfirst }} (source:{{ scope }})</td></tr></thead>
+      <tbody>
+        <tr>
+        <td class="volume-slider" ><div id="{{ scope }}Slider"></div></td>
+        <td class="volume" ><input type="text" id="{{ scope }}VolumeValue" style="width:75%;text-align:right;border:0; color:#f6931f; font-weight:bold;"/></td>
+        <script>$(document).ready(function() { createVolSlider('{{ scope }}', '{{ props.value }}'); });</script>
+        </tr>
+      </tbody>
+      </table>
+      {% endifequal %}
+      {% endfor %}
+  {% endfor %}
+  </div>
+  <div id="leftside">
+  {% if status %}
+    <h1>{{ status.host|upper }}</h1>
+    <div>
+    IP Address:&nbsp;{{ status.ip_address }}<br/>
+    Version:&nbsp;{{ status.version }}<br/>
+    Uptime:&nbsp;{{ status.uptime }}<br/>
+    {{ status.base_url|urlize }}<br/>
+    </div>
+  {% endif %}
+  </div>
+  <div class="clearingdiv">&nbsp;</div>
+  {% for name, entries in air_queue.items %}
+  <b>Currently On Air:</b><br/>
+  <table id="onAirTable" class="tablesorter"> 
+    <thead> 
+    <tr> 
+      <th class="pos">#</th> 
+      <th class="title">Title</th> 
+      <th class="artist">Artist</th> 
+      <th class="album">Album</th> 
+      <th class="status">Status</th>
+      <th class="onair">On Air</th>
+      <th class="rid">RID</th> 
+    </tr>
+    </thead>
+    <tbody>
+    {% for e in entries %}
+      {% for rid, listing in metadata_storage.items %}
+        {% ifequal e rid %}
+          <tr>
+            <td class="pos">{{ forloop.parentloop.counter }}</td>
+            <td>{{ listing.title|truncatewords:8 }}</td>
+            <td>{{ listing.artist }}</td>
+            <td>{{ listing.album|truncatewords:5 }}</td>
+            <td>{{ listing.status }}</td>
+            {% if listing.on_air %}
+              <td>{{ listing.on_air }} {% now "T" %}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td class="rid">{{ listing.rid }}</td>
+          </tr>
+        {% endifequal %}
+      {% endfor %}
+    {% endfor %}
+    </tbody>
+    </table>
+    <br/>
+    {% endfor %}
+  
+    {% for name, entries in alive_queue.items %}
+      <b>Currently Alive:</b><br/>
+      <table id="aliveTable" class="tablesorter"> 
+        <thead> 
+        <tr> 
+          <th class="pos">#</th> 
+          <th class="title">Title</th> 
+          <th class="artist">Artist</th> 
+          <th class="album">Album</th> 
+          <th class="status">Status</th>
+          <th class="onair">On Air</th>
+          <th class="rid">RID</th> 
+        </tr>
+      </thead>
+      <tbody>
+      {% for e in entries reversed %}
+        {% for rid, listing in metadata_storage.items %}
+          {% ifequal e rid %}
+            <tr>
+              <td class="pos">{{ forloop.parentloop.counter }}</td>
+              <td>{{ listing.title|truncatewords:8 }}</td>
+              <td>{{ listing.artist }}</td>
+              <td>{{ listing.album|truncatewords:5 }}</td>
+              <td>{{ listing.status }}</td>
+              {% if listing.on_air %}
+                <td>{{ listing.on_air }} {% now "T" %}</td>
+              {% else %}
+                <td></td>
+              {% endif %}
+              <td class="rid">{{ listing.rid }}</td>
+            </tr>
+          {% endifequal %}
+        {% endfor %}
+      {% endfor %}
+      </tbody>
+      </table>
+      <br/>
+    {% endfor %}

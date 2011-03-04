@@ -27,7 +27,7 @@ from wtsite.controller.models import *
 from wtsite.controller.templatetags.controller_extras import *
 from wtsite.mediapool.models import *
 from wtsite.mediapool.views import *
-import telnetlib, string, time, datetime, threading
+import telnetlib, string, time, datetime, threading, re
 from datetime import datetime
 from threading import Thread
 
@@ -47,7 +47,7 @@ def is_online(host, host_settings):
 		port = '1234' 
 	command='help\n'
 	try:
-		tn = telnetlib.Telnet(str(host.ip_address), port)
+		tn = telnetlib.Telnet(str(host.ip_address), port, 2)
 		tn.write(command)
 		response = tn.read_until("END")
 		tn.close()
@@ -57,22 +57,23 @@ def is_online(host, host_settings):
 	return response
 	
 def parse_command(host, host_settings, command):
-	port = None
-	for p in host_settings:
-	   if p.value == 'port':
-	       port = str(p.data)
-	#default port number (for telnet)
-	if not port:
-		port = '1234' 
-	command+='\n'
-	try:
-		tn = telnetlib.Telnet(str(host.ip_address), port)
-		tn.write(command)
-		response = tn.read_until("END")
-		tn.close()
-	except:
-		response = ''
-	return response
+  port = None
+  for p in host_settings:
+     if p.value == 'port':
+         port = str(p.data)
+  #default port number (for telnet)
+  if not port:
+    port = '1234' 
+  command+='\n'
+  try:
+    tn = telnetlib.Telnet(str(host.ip_address), port)
+    tn.write(str(command))
+    response = tn.read_until("END")
+    tn.close()
+  except:
+    raise Exception()
+  response = re.sub('\nEND$', '', response)
+  return response
 
 def parse_metadata(host, host_settings, rid):
 	meta_list = parse_command(host, host_settings, 'metadata %s\n' % rid)
@@ -109,6 +110,32 @@ def parse_node_list(host, host_settings):
 			item = item.split(' : ')
 			out[item[0]]=item[1]
 	return out
+
+def parse_var_list(host, host_settings):
+  list = parse_command(host, host_settings, "var.list")
+  list = list.splitlines()
+  out = {}
+  for item in list:
+    if item != 'END':
+      item = item.split(' : ')
+      fullname = item[0]
+      varname = fullname.split('_')
+      vartype = item[1]
+      if len(varname) > 1:
+        scope = varname[0]
+        name = varname[1]
+      else:
+        scope = 'global'
+        name = varname[0]
+      # Let's get the variable value while we are here
+      value = parse_command(host, host_settings, "var.get %s" % (fullname))
+      # Liquidsoap interactive variables can either be string or float
+      if vartype == 'float':
+        value = float(value)
+      else:
+        value = str(value)
+      out[scope] = {name: {'type': vartype, 'value': value } }
+  return out
 
 def parse_help(host, host_settings):
 	list = parse_command(host, host_settings, "help")
@@ -325,46 +352,50 @@ def display_alert(request, host_name, template, msg):
 	
 @login_required	
 def display_nodes(request, host_name):
-	logging.info('Start of display_nodes()')
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	
-	#Parse all available help commands (for reference)	
-	help = parse_help(host, host_settings)
-	
-	#Get active nodes for this host and this liquidsoap instance
-	node_list = parse_node_list(host, host_settings)
-	out_streams = parse_output_streams(host, host_settings, node_list)
-	out_streams = sorted(out_streams)
-	in_streams = parse_input_streams(host, host_settings, node_list)
-	in_streams = sorted(in_streams)
-	status = build_status_list(host, host_settings, out_streams, help)
-	
-	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-	metadata_storage = {}
+  logging.info('Start of display_nodes()')
+  host = get_object_or_404(Host, name=host_name)
+  host_settings = get_list_or_404(Setting, hostname=host)
+
+  #Parse all available help commands (for reference)	
+  help = parse_help(host, host_settings)
+
+  #Get active nodes for this host and this liquidsoap instance
+  node_list = parse_node_list(host, host_settings)
+  out_streams = parse_output_streams(host, host_settings, node_list)
+  out_streams = sorted(out_streams)
+  in_streams = parse_input_streams(host, host_settings, node_list)
+  in_streams = sorted(in_streams)
+  status = build_status_list(host, host_settings, out_streams, help)
+
+  # Get list of interactive variables for each host
+  var_list = parse_var_list(host, host_settings)
+
+  #Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
+  metadata_storage = {}
 
 	#Get 'on_air' Queue and Grab Metadata for it
-	air_queue = {}
-	air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
-	metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
-	
-	#Get 'alive' Queue and Grab Metadata for it
-	alive_queue = {} 
-	alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
-	metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
-	
-	template_dict = {}
-	template_dict['active_host'] = host
-	template_dict['node_list'] = node_list
-	template_dict['out_streams'] = out_streams
-	template_dict['in_streams'] = in_streams
-	template_dict['status'] = status
-	template_dict['air_queue'] = air_queue
-	template_dict['alive_queue'] = alive_queue
-	template_dict['metadata_storage'] = metadata_storage
+  air_queue = {}
+  air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+  metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 
-	logging.info('End of display_nodes()')
-	return render_to_response('controller/nodes.html', template_dict, context_instance=RequestContext(request))
+  #Get 'alive' Queue and Grab Metadata for it
+  alive_queue = {} 
+  alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
+  metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
+
+  template_dict = {}
+  template_dict['active_host'] = host
+  template_dict['node_list'] = node_list
+  template_dict['out_streams'] = out_streams
+  template_dict['in_streams'] = in_streams
+  template_dict['var_list'] = var_list
+  template_dict['status'] = status
+  template_dict['air_queue'] = air_queue
+  template_dict['alive_queue'] = alive_queue
+  template_dict['metadata_storage'] = metadata_storage
+
+  logging.info('End of display_nodes()')
+  return render_to_response('controller/nodes.html', template_dict, context_instance=RequestContext(request))
 
 @login_required	
 def display_queues(request, host_name):
@@ -586,6 +617,37 @@ def stream_start(request, host_name, stream):
 			return HttpResponse(status=500)
 	else:
 		raise Http404
+
+@login_required
+def set_variable(request, host_name):
+  message = ''
+  if request.method == 'GET':
+    scope = request.GET['scope']
+    var = request.GET['variable']
+    value = request.GET['value']
+    host = get_object_or_404(Host, name=host_name)
+    host_settings = get_list_or_404(Setting, hostname=host)
+    var_list = parse_var_list(host, host_settings)
+    if scope in var_list and var in var_list[scope]:
+      # XXX: we need a proper way to test validity of new values
+      # For now, this is what we do
+      # There are two types of liquidoap interactive vars: float and string
+      if var_list[scope][var]['type'] == 'float':
+        value = float(value)
+      else:
+        value = str(value)
+      response = parse_command(host, host_settings, "var.set %s_%s = %s" % (scope, var, value))
+      if (response is not None): # and (re.search("Variable \w+ set", response)):
+        # success
+        return HttpResponse("OK")
+      else:
+        message = "there was a problem setting the new value"
+    else:
+      message = "scope or variable not defined" 
+  else:
+    #return message about Get with bad parameters.
+    message = 'Volume cannot be adjusted via GET requests.'
+  return display_error(request, host_name, 'controller/status.html', message)
 		
 @login_required
 def queue_push(request, host_name):
