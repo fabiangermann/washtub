@@ -24,7 +24,7 @@
 	{% if user.is_authenticated %}
 		Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a>
 	{% else %}
-		<form method="post" action=".">
+		<form method="post" action="."> {% csrf_token %}
 		{{ form.username.label_tag }}:&nbsp;{{ form.username }}&nbsp;&nbsp;
 		{{ form.password.label_tag }}:&nbsp;{{ form.password }}
 		<input type="submit" value="login" />
