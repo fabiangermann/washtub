@@ -44,13 +44,10 @@
 <script type="text/javascript" src="{{ "media/js/jquery.tablesorter.min.js"|baseurl }}"></script>
 <script type="text/javascript">
 $(function(){	
-	// Accordion
-	$("#accordion").accordion({ header: "h3" });
-	
 	//Tabs
 	$('#tabs').tabs({ cookie: { path: {{ ""|baseurl }}, name: "washtub-tabs" }, 
 			          ajaxOptions: { cache: false },
-			          spinner: '<img src="{{ "media/images/throbber.gif"|baseurl }}"></img>' 
+			          spinner: "" //'<img width="50%" height="50%" src="{{ "media/images/throbber.gif"|baseurl }}"></img>' 
 	});
 	$('#tabs').bind('tabsshow', function(event, ui) {
 		$.tablesorter.defaults.widgets = ['zebra']; 
@@ -67,6 +64,11 @@ $(function(){
 		$("#historyTable1").tablesorter();
 		$("#poolTable").tablesorter();
 	});
+
+        $("#refresh").click(function() {
+          var current_index = $("#tabs").tabs("option","selected");
+          $("#tabs").tabs("load", current_index);
+        });
 		
 	{% block tabselect %}
 	{% endblock tabselect %}
