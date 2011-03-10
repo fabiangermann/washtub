@@ -19,6 +19,7 @@ from django.conf import settings
 from django.utils.encoding import smart_str
 from django import template
 import string
+import re
 
 register = template.Library()
 
@@ -51,4 +52,8 @@ def tominutes(value):
 		return ('%s:%.2d' % (minutes,seconds))
 	except (ValueError, TypeError):
 		return
+
+@register.filter("basepath")
+def basepath(value):
+        return re.sub('^(.+\/)+', '', value);
 

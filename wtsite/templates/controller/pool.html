@@ -15,14 +15,12 @@
     You should have received a copy of the GNU General Public License
     along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-
+{% load controller_extras %}
 {% block tabselect %}
+
 	{% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
-
-<script type="text/javascript">
-$('#poolTable tr').tooltip();
-</script>
+<script>$(document).ready(function() {$('.tablesorter tr[title]').tooltip();}); </script> 
     <form class="searchform" action="{% url controller.views.display_status active_host %}" method="GET">
 	<input class="searchbox" type="text" name="search"></input>
 	<input type="hidden" name="type" value="song"></input>
@@ -45,8 +43,8 @@ $('#poolTable tr').tooltip();
   	<tbody>
   	{% if single_page.object_list %}
   		{% for entry in single_page.object_list %}
-		<tr>
-			{% comment %}
+		<tr title="{{ entry.filename|basepath }}">
+		        {% comment %}	
 			<tooltip>
 			<label value="title:{{ entry.title }}"/>
 			<label value="artist: {{ entry.artist }}"/>
@@ -54,7 +52,7 @@ $('#poolTable tr').tooltip();
 			<label value="track: {{ entry.track }}"/>
 			<label value="genre: {{ entry.genre }}"/>
 			</tooltip>
-			{% endcomment %}
+                        {% endcomment %}
 			<td class="track">{{ entry.track }}</td>
 			<td>{{ entry.title|truncatewords:4 }}</td>
 			<td>{{ entry.artist }}</td>
