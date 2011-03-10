@@ -26,47 +26,20 @@
 {% block tabsetup %}
 	$('#tabs').tabs();
 {% endblock tabsetup %}
-{% block content %}<div id="tabs">
-			    <ul>
-			    	<li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab"><div style="float:left">Status</div><span>&nbsp;</span></a></li>
-			    	<li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab"><div style="float:left">Queues</div><span>&nbsp;</span></a></li>
-			    	{% if search %}
-			    		<li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="search-tab"><div style="float:left">Search</div><span>&nbsp;</span></a></li>
-			    	{% else %}
-			    		<li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool-tab"><div style="float:left">Pool</div><span>&nbsp;</span></a></li>
-			    	{% endif %}
-			    	<li><a href="{% url controller.views.display_history active_host %}" title="history-tab"><div style="float:left">History</div><span>&nbsp;</span></a></li>
-			    	<li><a href="{% url controller.views.display_help active_host %}" title="help-tab"><div style="float:left">Help</div><span>&nbsp;</span></a></li>
-			    </ul>
-				</div>
-			</div>
-{% comment %}			
-<div id="tabs-1">
+{% block content %}
+<button class="ui-state-default ui-corner-all" id="refresh" style="float:right;position:relative;z-index:10;margin:6px 7px 0px 0px;">Refresh</button>
+<div id="tabs">
+<ul>
+    <li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab"><div style="float:left">Status</div><span>&nbsp;</span></a></li>
+    <li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab"><div style="float:left">Queues</div><span>&nbsp;</span></a></li>
+    {% if search %}
+    <li><a href="{% url controller.views.search_pool_page active_host pool_page %}?{{ query_string }}"  title="search-tab"><div style="float:left">Search</div><span>&nbsp;</span></a></li>
+    {% else %}
+    <li><a href="{% url controller.views.display_pool_page active_host "song" pool_page %}"  title="pool-tab"><div style="float:left">Pool</div><span>&nbsp;</span></a></li>
+    {% endif %}
+    <li><a href="{% url controller.views.display_history active_host %}" title="history-tab"><div style="float:left">History</div><span>&nbsp;</span></a></li>
+    <li><a href="{% url controller.views.display_help active_host %}" title="help-tab"><div style="float:left">Help</div><span>&nbsp;</span></a></li>
+  </ul>
 </div>
-   <div id="tabs-2">
 </div>
-   <div id="tabs-3">
-</div>
-   <div id="tabs-4">
-</div>
-   <div id="tabs-5">
-</div>
-<div id="accordion">
-  <div>
-	<h3><a href="#">Server Tools</a></h3>
-		<div>
-		    Tools.
-		</div>
-  </div>
-  <div>
-	<h3><a href="#">Second</a></h3>
-		<div>Phasellus mattis tincidunt nibh.</div>
-  </div>
-
-  <div>
-	<h3><a href="#">Third</a></h3>
-		<div>Nam dui erat, auctor a, dignissim quis.</div>
-	</div>
-</div>
-{% endcomment %}
 {% endblock content %}

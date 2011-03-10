@@ -31,7 +31,7 @@ text-align:left;
 margin: 0 50px 0 50px;
 }
 
-.header {
+div.header {
     border-style : solid;
     border-width : 0px 0px 0px 0px;
     border-color : black;
@@ -82,6 +82,10 @@ a:hover {
 text-decoration:underline;
 }
 
+div#controls a:hover, a {
+  text-decoration:none;
+}
+
 p {
 text-indent: 1.5em;
 }
@@ -102,6 +106,10 @@ display:inline;
 padding:0;
 margin:0px;
 margin-bottom:12px;
+}
+
+div.ui-widget-header.ui-corner-top img {
+  margin-top: -1px;
 }
 
 /*** Content wrap ***/
@@ -389,11 +397,28 @@ table.tablesorter td.remaining {
 }
 
 table.tablesorter td.volume-slider {
-        width:175px;
+        width:145px;
+        text-align:center;
 }
-i
+
 table.tablesorter td.volume {
         width:25%;
+        text-align:right;
+}
+
+table.tablesorter td.volume input {
+       width:100%;
+       text-align:right;
+       border:0;
+       color:#f6931f;
+       font-weight:bold;
+}
+
+.ui-slider {
+        width: 89%;
+        margin-top: 0.35em;
+        margin-left: 0.45em;
+        margin-right: 0.45em;
 }
 
 .ui-tabs {
@@ -437,6 +462,11 @@ table.tablesorter td.volume {
 	text-decoration:underline;
 }
 
+div.ui-widget-content.ui-corner-bottom :hover {
+  text-decoration: none;
+  background
+}
+
 .ui-tabs .ui-tabs-nav li a {
 	width:6.5em;
 	padding-right: 0.25em;
@@ -449,4 +479,13 @@ table.tablesorter td.volume {
 	padding:0;
 	margin:0;
 }
+
+#tooltip {
+  position:absolute;
+  border: 1px solid;
+  color: #000;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #E5E5E5;
+}  
 /*** End of file ***/
