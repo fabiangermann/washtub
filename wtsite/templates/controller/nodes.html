@@ -21,11 +21,7 @@
   {
     var sliderId = "#" + scope + "Slider";
     var volumeId = "#" + scope + "VolumeValue"; 
-    init_value = init_value * 100;
-    //document.write(sliderId + '\n');
-    //document.write(volumeId + '\n');
-    //document.write('init value:' + init_value + '\n');
-    //$(document).ready(function() {
+    init_value = Math.floor(init_value * 100);
     $(sliderId).slider({
         value: init_value,
         max: 100,
@@ -40,7 +36,6 @@
         }
       });
       $(volumeId).val( $(sliderId).slider( "value" ) );
-    //});
   }
 </script>
 
