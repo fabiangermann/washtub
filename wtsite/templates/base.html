@@ -30,14 +30,13 @@
 <meta name="author" content="Chris Everest" />
 <base target="_top" />
 {% if theme %}
-<link type="text/css" href="{{ "media/theme/"|cat:theme|cat:"/css/custom-theme/jquery-ui-1.7.1.custom.css"|baseurl }}" rel="stylesheet" />	
-<script type="text/javascript" src="{{ "media/js/jquery-1.3.2.min.js"|baseurl }}"></script>
-<script type="text/javascript" src="{{ "media/theme/"|cat:theme|cat:"/js/jquery-ui-1.7.1.custom.min.js"|baseurl }}"></script>
+<link type="text/css" href="{{ "media/theme/css/"|cat:theme|cat:"/jquery-ui-1.8.10.custom.css"|baseurl }}" rel="stylesheet" />	
+<!-- <script type="text/javascript" src="{{ "media/theme/"|cat:theme|cat:"/js/jquery-ui-1.7.1.custom.min.js"|baseurl }}"></script> -->
 {% else %}
-<link type="text/css" href="{{ "media/theme/default/css/custom-theme/jquery-ui-1.7.1.custom.css"|baseurl }}" rel="stylesheet" />	
-<script type="text/javascript" src="{{ "media/js/jquery-1.3.2.min.js"|baseurl }}"></script>
-<script type="text/javascript" src="{{ "media/theme/default/js/jquery-ui-1.7.1.custom.min.js"|baseurl }}"></script>
+<link type="text/css" href="{{ "media/theme/css/default/jquery-ui-1.8.10.custom.css"|baseurl }}" rel="stylesheet" />	
 {% endif %}
+<script type="text/javascript" src="{{ "media/theme/js/jquery-1.4.4.min.js"|baseurl }}"></script>
+<script type="text/javascript" src="{{ "media/theme/js/jquery-ui-1.8.10.custom.min.js"|baseurl }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ "media/css/main.css"|baseurl }}" />
 <script type="text/javascript" src="{{ "media/js/jquery.cookie.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tooltip.min.js"|baseurl }}"></script>
@@ -65,10 +64,13 @@ $(function(){
 		$("#poolTable").tablesorter();
 	});
 
-        $("#refresh").click(function() {
-          var current_index = $("#tabs").tabs("option","selected");
-          $("#tabs").tabs("load", current_index);
-        });
+        $('button').button();
+        $("button#refresh").click(
+          function() {
+            var current_index = $("#tabs").tabs("option","selected");
+            $("#tabs").tabs("load", current_index);
+          }
+        );
 		
 	{% block tabselect %}
 	{% endblock tabselect %}
@@ -93,7 +95,6 @@ $(function(){
 		$('#dialog_scan').dialog('open');
 		return false;
 	});
-
 });
 function GetHostStatus()
 {
