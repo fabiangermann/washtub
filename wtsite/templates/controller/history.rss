@@ -25,7 +25,7 @@
 	<language>en-us</language>
 	<generator>Washtub Liquidsoap Controller</generator> 
 {% for name, entries in history.items %}
-  	{% for e in entries reversed%}
+  	{% for e in entries.rids reversed%}
   		{% for rid, listing in metadata_storage.items %}
   			{% ifequal e rid %}
   				<item>

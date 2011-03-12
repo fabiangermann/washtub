@@ -189,7 +189,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for e in entries %}
+    {% for e in entries.rids %}
       {% for rid, listing in metadata_storage.items %}
         {% ifequal e rid %}
           <tr>
@@ -228,7 +228,7 @@
         </tr>
       </thead>
       <tbody>
-      {% for e in entries reversed %}
+      {% for e in entries.rids reversed %}
         {% for rid, listing in metadata_storage.items %}
           {% ifequal e rid %}
             <tr>

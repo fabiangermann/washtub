@@ -23,6 +23,7 @@ import re
 
 register = template.Library()
 
+# Custom Filters Here
 @register.filter("replacedot")
 @stringfilter
 def replacedot(value):
@@ -57,3 +58,29 @@ def tominutes(value):
 def basepath(value):
         return re.sub('^(.+\/)+', '', value);
 
+@register.filter('subtract')
+def subtract(value, operand):
+  return value - operand
+
+# Custom Template Here
+
+@register.tag(name="queue_offset")
+def do_queue_offset(parser, token):
+    try:
+        # XXX: This can only take a variable from context. 
+        # Not sure how to pick or choose what's passed.
+        tag_name, offset_value = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, "%r tag requires a single argument" % token.contents.split()[0]
+    return QueueOffsetNode(offset_value)
+
+class QueueOffsetNode(template.Node):
+    def __init__(self, offset_value):
+        self.offset_value = template.Variable(offset_value)
+    def render(self, context):
+        try:
+            offset = self.offset_value.resolve(context)
+            context['queue_offset'] = offset
+        except template.VariableDoesNotExist:
+            return ''
+        return ''

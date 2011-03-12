@@ -96,7 +96,7 @@ def parse_queue_metadata(host, host_settings, queue, storage):
 	   storage = {}
 	if queue:
 		for name,entries in queue.iteritems():
-			for rid in entries:
+			for rid in entries['rids']:
 				if rid not in storage:
 					storage[rid]= parse_metadata(host, host_settings, rid)
 	return storage
@@ -191,25 +191,51 @@ def parse_history(host, host_settings, node_list):
 					if(list == entry_list):
 					   found = True
 					   new_name = name+', '+node
-					   history[new_name] = entry_list
+                                           history[new_name] = {}
+					   history[new_name]['rids'] = entry_list
 					   del history[name]
 				if(not found):
-					history[node] = entry_list
+                                        history[node] = {}
+					history[node]['rids'] = entry_list
 	return history
-
+  
 def parse_queue_dict(host, host_settings):
 	queue_list = []
-	for p in host_settings:
-	   if p.value == 'queue_id':
-	   	queue_list.append(str(p.data))
-	#default port number (for telnet)
+	for s in host_settings:
+	   if s.value == 'queue_id':
+	   	queue_list.append(str(s.data))
 	if queue_list == []:
 		return None
 	request_list = {}
 	for q in queue_list:
-		request_list[q] = parse_rid_list(host, host_settings, "%s.queue" % (q))
+          request_list[q] = {}
+          
+          # Determine the type of queue we're dealing with
+          cmd = '%s.pending_length' % (q)
+          response = parse_command(host, host_settings, cmd)
+          if (re.match('ERROR', response)):
+            # queue is not editable
+            q_type = 'queue'
+          else:
+            q_type = 'equeue'
+            request_list[q]['pending_length'] = response
+          request_list[q]['type'] = q_type  
+          
+          # Determine the queue_offset, This is basically the length of the queue - pending_length.
+          # Or how many things in the queue are playing vs. pending
+          cmd = '%s.primary_queue' % (q)
+          response = parse_command(host, host_settings, cmd)
+          if response is not None:
+            offset = len(response.split(' '))
+          else:
+            offset = 0
+          request_list[q]['offset'] = offset
+
+          # Finally grab all the rids in the request queue (no matter the type)
+          request_list[q]['rids'] = parse_rid_list(host, host_settings, "%s.queue" % (q))
 	if request_list == []:
 		return None
+        #assert False
 	return request_list;
 	
 def build_status_list(host, host_settings, streams, available_commands):
@@ -233,6 +259,17 @@ def build_status_list(host, host_settings, streams, available_commands):
 def get_host_list():
 	h = Host.objects.all()
 	return h   
+def get_air_queue(host, host_settings):
+  queue = {}
+  queue['on_air'] = {}
+  queue['on_air']['rids'] = parse_rid_list(host, host_settings, "on_air")
+  return queue
+
+def get_alive_queue(host, host_settings):
+  queue = {}
+  queue['alive'] = {}
+  queue['alive']['rids'] = parse_rid_list(host, host_settings, "alive")
+  return queue
 
 ############################################################################
 #	Begin Main 'Display' Functions
@@ -261,13 +298,11 @@ def index (request):
 			metadata_storage = {}
 		
 			#Get 'on_air' Queue and Grab Metadata for it
-			air_queue = {}
-			air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+			air_queue = get_air_queue(host, host_settings)
 			metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 			
 			#Get 'alive' Queue and Grab Metadata for it
-			alive_queue = {} 
-			alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
+			alive_queue = get_alive_queue(host, host_settings)
 			metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
 				
 			template_dict['online'] = host_online
@@ -373,14 +408,12 @@ def display_nodes(request, host_name):
   #Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
   metadata_storage = {}
 
-	#Get 'on_air' Queue and Grab Metadata for it
-  air_queue = {}
-  air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+  #Get 'on_air' Queue and Grab Metadata for it
+  air_queue = get_air_queue(host, host_settings)
   metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 
   #Get 'alive' Queue and Grab Metadata for it
-  alive_queue = {} 
-  alive_queue['alive'] = parse_rid_list(host, host_settings, "alive")
+  alive_queue = get_alive_queue(host, host_settings) 
   metadata_storage = parse_queue_metadata(host, host_settings, alive_queue, metadata_storage)
 
   template_dict = {}
@@ -684,6 +717,48 @@ def queue_push(request, host_name):
 		message = 'Requests cannot be pushed via GET requests.'
 		return display_error(request, host_name, 'controller/status.html', message)
 
+def queue_reorder(request, host_name):
+  if request.method == 'GET':
+    # Make sure the queue accepts a move
+    host = get_object_or_404(Host, name=host_name)
+    host_settings = get_list_or_404(Setting, hostname=host)
+    help_list = parse_help(host, host_settings)
+
+    queue_name = request.GET['queue']
+    queue_op = queue_name + '.move'
+    queue_op_help = queue_op + ' <rid> <pos>'
+    if ( queue_op_help not in help_list ):
+      message = 'Queue Operation not valid: %s help_list: %s' % (queue_op, help_list)
+      #return display_error(request, host_name, 'controller/status.html', message)
+      return HttpResponse(message)
+
+    # Check to make sure the rid exists and is not playing
+    rid = request.GET['rid']
+    on_air = parse_rid_list(host, host_settings, 'on_air')
+    queue_list  = parse_queue_dict(host, host_settings)
+    if (rid not in queue_list[queue_name]['rids']) or (rid in on_air):
+      message = 'RID is not valid or cannot be moved: %s\nqueue: %s\non_air: %s' % (rid, queue_list[queue_name]['rids'], on_air)
+      #return display_error(request, host_name, 'controller/status.html', message)
+      return HttpResponse(message)
+
+    # Attempt the rid move
+    position = request.GET['pos']
+    command = '%s %s %s' % (queue_op, rid, position)
+    response = parse_command(host, host_settings, command) 
+    
+    # Return an OK or something similar to the ajax call
+    if (response is not None): 
+      # success
+      return HttpResponse("OK Response: %s" % (response))
+    else:
+      message = 'Queue operation was not successful: %s' % (command)
+      #return display_error(request, host_name, 'controller/status.html', message)
+      return HttpResponse(message)
+  else:
+    #return message about Get with bad parameters.
+    message = 'Requests cannot be moved via GET requests.'
+    return display_error(request, host_name, 'controller/status.html', message)
+
 def commit_log(host_name):
 	# sleep a certain amount of time 
 	# to allow 'on_air' metadata to register 
@@ -695,12 +770,11 @@ def commit_log(host_name):
 	
 	node_list = parse_node_list(host, host_settings)
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
-	air_queue = {}
 	history = {}
 	metadata_storage = {}
 
 	#Get 'on_air' Queue and Grab Metadata for it
-	air_queue['on_air'] = parse_rid_list(host, host_settings, "on_air")
+	air_queue = get_air_queue(host, host_settings)
 	metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
 	
 	#Get 'history' and Grab Metadata for it

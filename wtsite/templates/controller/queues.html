@@ -15,46 +15,55 @@
     You should have received a copy of the GNU General Public License
     along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 {% endcomment %}
-
-{% for name, entries in queue.items %}
-  	<b>Queue(</b><i>{{ name }}</i><b>):</b><br/>
-  	<table id="queueTable{{ forloop.counter0 }}" class="tablesorter"> 
-	<thead> 
-	<tr> 
-	    <th class="pos">#</th> 
-	    <th class="title">Title</th> 
-	    <th class="artist">Artist</th> 
-	    <th class="album">Album</th> 
-	    <th class="status">Status</th>
-	    <th class="onair">On Air</th>
-	    <th class="rid">RID</th> 
-	</tr>
-  	</thead>
-  	<tbody>
- 	{% if entries %}
-	  	{% for e in entries %}
-	  		{% for rid, listing in metadata_storage.items %}
-	  			{% ifequal e rid %}
-	  				<tr>
-	  					<td class="pos">{{ forloop.parentloop.counter }}</td>
-	  					<td>{{ listing.title|truncatewords:8 }}</td>
-	  					<td>{{ listing.artist }}</td>
-	  					<td>{{ listing.album|truncatewords:5 }}</td>
-	  					<td>{{ listing.status }}</td>
-	  					{% if listing.on_air %}
-	  						<td>{{ listing.on_air }}{% now "T" %}</td>
-	  					{% else %}
-	  						<td></td>
-	  					{% endif %}
-	  					<td class="rid">{{ listing.rid }}</td>
-	  				</tr>
-	  			{% endifequal %}
-	  	  	{% endfor %}
-	   	 {% endfor %}
- 	{% else %}
-   	  	<tr><td colspan="7">There are no items in this queue to display.</td></tr>
-  	{% endif %}
-  	</tbody>
-  	</table>
-  	<br/>
+{% load controller_extras %}
+{% for name, props in queue.items reversed %}
+  <b>Queue(</b><i>{{ name }}</i><b>):</b><br/>
+  <table id="queueTable{{ forloop.counter0 }}" class="tablesorter"> 
+  <thead> 
+  <tr id="{{ forloop.counter0 }}" class="nodrop nodrag"> 
+    <th class="pos">#</th> 
+    <th class="title">Title</th> 
+    <th class="artist">Artist</th> 
+    <th class="album">Album</th> 
+    <th class="status">Status</th>
+    <th class="onair">On Air</th>
+    <th class="rid">RID</th>
+    <!-- Hidden <td> so we can get the queue offset -->
+    <th class="offset" style="display:none">{{ props.offset }}</th> 
+  </tr>
+  </thead>
+  <tbody id="{{ name }}">
+  {% if props.rids %}
+    {% for e in props.rids %} 
+      {% for rid, listing in metadata_storage.items %}
+        {% ifequal e rid %}
+          {% if listing.on_air %}
+            <tr id="--" class="nodrop nodrag">
+            <td class="pos">--</td>
+          {% else %}
+            <tr id="{{ forloop.parentloop.counter0|subtract:props.offset }}">
+            <td class="pos">{{ forloop.parentloop.counter0|subtract:props.offset }}</td>
+          {% endif %}
+          <td>{{ listing.title|truncatewords:8 }}</td>
+          <td>{{ listing.artist }}</td>
+          <td>{{ listing.album|truncatewords:5 }}</td>
+          <td>{{ listing.status }}</td>
+          {% if listing.on_air %}
+             <td>{{ listing.on_air }}{% now "T" %}</td>
+          {% else %}
+             <td></td>
+          {% endif %}
+          <td class="rid">{{ listing.rid }}</td>
+          <!-- Hidden <td> so we can get the queue offset -->
+          <td class="offset" style="display:none">{{ props.offset }}</td>
+          </tr>
+        {% endifequal %}
+      {% endfor %}
+    {% endfor %}
+  {% else %}
+    <tr><td colspan="7">There are no items in this queue to display.</td></tr>
+  {% endif %}
+  </tbody>
+  </table>
+  <br/>
 {% endfor %}

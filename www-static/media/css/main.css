@@ -414,6 +414,10 @@ table.tablesorter td.volume input {
        font-weight:bold;
 }
 
+.tDnD_whileDrag {
+    background-color: #eee;
+}
+
 .ui-slider {
         width: 89%;
         margin-top: 0.35em;
