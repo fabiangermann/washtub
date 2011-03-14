@@ -18,9 +18,9 @@
 {% load controller_extras %}
 {% for name, props in queue.items reversed %}
   <b>Queue(</b><i>{{ name }}</i><b>):</b><br/>
-  <table id="queueTable{{ forloop.counter0 }}" class="tablesorter"> 
+  <table id="{{ props.type|capfirst }}Table" class="tablesorter"> 
   <thead> 
-  <tr id="{{ forloop.counter0 }}" class="nodrop nodrag"> 
+  <tr class="nodrop nodrag"> 
     <th class="pos">#</th> 
     <th class="title">Title</th> 
     <th class="artist">Artist</th> 

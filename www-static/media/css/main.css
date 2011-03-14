@@ -318,6 +318,14 @@ table.tablesorter {
 	text-align: left;
 }
 
+table.tablesorter, td, th {
+        /* border: solid 1px #CDCDCD; */
+} 
+
+table.tablesorter tr {
+        background-color: #FFF;
+}
+
 #controls table.tablesorter {
 	margin:10px 0pt 0px;
 }
@@ -329,6 +337,12 @@ table.tablesorter thead tr th, table.tablesorter tfoot tr th {
 	font-size: 8pt;
 	padding: 4px;
 }
+
+table.tablesorter thead tr td {
+        background-color: #e5e5e5;
+        padding-left: 2px;
+}
+
 table.tablesorter tfoot tr {
 	height:5px;
 }
@@ -340,7 +354,6 @@ table.tablesorter thead tr .header {
 table.tablesorter tbody td {
 	color: #3D3D3D;
 	padding: 4px;
-	background-color: #FFF;
 	vertical-align: top;
 }
 table.tablesorter tbody tr.odd td {
@@ -353,7 +366,7 @@ table.tablesorter thead tr .headerSortDown {
 	background-image: url(../images/desc.gif);
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
-background-color: #c0c0c0;
+        background-color: #c0c0c0;
 }
 table.tablesorter th.pos, td.pos, th.rid, td.rid, th.track, td.track, th.ops, td.ops {
 	width: 30px;
@@ -414,8 +427,8 @@ table.tablesorter td.volume input {
        font-weight:bold;
 }
 
-.tDnD_whileDrag {
-    background-color: #eee;
+table.tablesorter tr.tDnD_whileDrag {
+    background-color: #ffff99;
 }
 
 .ui-slider {

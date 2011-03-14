@@ -42,6 +42,7 @@
 <script type="text/javascript" src="{{ "media/js/jquery.tooltip.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tablesorter.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tablednd_0_5.js"|baseurl }}"></script>
+<script type="text/javascript" src="{{ "media/js/main.js"|baseurl }}"></script>
 <script type="text/javascript">
 $(function(){	
 	//Tabs
@@ -58,45 +59,19 @@ $(function(){
 		//the tablesorters that we need (speed enhancement)
 		$("#aliveTable").tablesorter();
 		$("#onAirTable").tablesorter();
-		//$("#queueTable0").tablesorter();
-		//$("#queueTable1").tablesorter();
 		$("#historyTable0").tablesorter();
 		$("#historyTable1").tablesorter();
 		$("#poolTable").tablesorter();
-		$("#queueTable0").tableDnD();
-		$("#queueTable1").tableDnD();
-		$('#queueTable0').tableDnD({
+		$("#EqueueTable").tableDnD();
+		$('#EqueueTable').tableDnD({
 		   onDrop: function(table, row) {
-		     var offset;
-		     var rid;
-		     var pos;
-		     var queue = table.tBodies[0].id;
-		     for (var i=0; i<table.rows.length; i++) {
-		       if (table.rows[i].id == row.id) {
-		         rid = table.rows[i].getElementsByClassName('rid')[0].innerHTML;
-		         // Offset is determined by liquidsoap and depends on whether a track
-		         // in the queue is actually live and playing. We then subtract an 
-		         // additional unit from the offset to make up for the table header 
-		         offset = table.rows[i].getElementsByClassName('offset')[0].innerHTML;
-		         pos = (i - offset) - 1;
-		       }
-		     }
-		     var url = "{{ "queue/move/"|cat:active_host|baseurl }}"; 
-		     $.get("{{ "queue/move/"|cat:active_host|baseurl }}", { 'queue': queue, 'rid': rid, 'pos': pos},
-		       function(data){
-		            alert("Server Response: " + data + "\n\nQueue: " + queue + "\nOrig Row: "+ row.id + "\nRID is: " + rid + "\nNew Position: " + pos );
-		       }
-		       );
-		     
-		     var current_index = $("#tabs").tabs("option","selected");
-		     $("#tabs").tabs("load", current_index);
+		     {% if active_host %} 
+		       var host = '{{ active_host }}';
+		       var base_url = '{{ ""|baseurl }}';
+		       QueueReorder(table, row, host, base_url);
+		     {% endif %}
 		   }
 		});
-                $('#queueTable1').tableDnD({
-                  onDrop: function(table, row) {
-                    alert($.tableDnD.serialize());
-                  }
-                });
 	});
 
         $('button').button();
@@ -131,21 +106,21 @@ $(function(){
 		return false;
 	});
 });
-function GetHostStatus()
-{
-	var hostlist = document.getElementById("HostList");
-	var myhost = hostlist.options[hostlist.selectedIndex].text;
-	if (myhost == "----------")
-	{
-		window.location="{{ ""|baseurl }}";
-	}
-	else
-	{
-		window.location="{{ "status/"|baseurl }}"+myhost;
-	}
+
+function GetHostStatus() {
+        var hostlist = document.getElementById("HostList");
+        var myhost = hostlist.options[hostlist.selectedIndex].text;
+        if (myhost == "----------")
+        {
+                window.location="{{ ""|baseurl }}";
+        }
+        else
+        {
+                window.location="{{ "status/"|baseurl }}"+myhost;
+        }
 }
+
 </script>
-<script type="text/javascript" src="{{ "media/js/main.js"|baseurl }}"></script>
 {% block extrahead %}
 {% endblock extrahead %}
 </head>

@@ -18,7 +18,7 @@
 
 {% load controller_extras %}
 
-{% for name, entries in history.items %}
+{% for name, props in history.items %}
   	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
   	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 	<thead> 
@@ -33,7 +33,7 @@
 	</tr>
     	  	</thead>
     	  	<tbody>
-  	{% for e in entries reversed%}
+  	{% for e in props.rids reversed%}
   		{% for rid, listing in metadata_storage.items %}
   			{% ifequal e rid %}
   				<tr>

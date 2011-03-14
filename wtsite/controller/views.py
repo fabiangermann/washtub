@@ -749,7 +749,7 @@ def queue_reorder(request, host_name):
     # Return an OK or something similar to the ajax call
     if (response is not None): 
       # success
-      return HttpResponse("OK Response: %s" % (response))
+      return HttpResponse("%s" % (response))
     else:
       message = 'Queue operation was not successful: %s' % (command)
       #return display_error(request, host_name, 'controller/status.html', message)

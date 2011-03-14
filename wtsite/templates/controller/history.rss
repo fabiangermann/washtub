@@ -24,8 +24,8 @@
 	<description>History detail for {{ active_host }} stream.</description>
 	<language>en-us</language>
 	<generator>Washtub Liquidsoap Controller</generator> 
-{% for name, entries in history.items %}
-  	{% for e in entries.rids reversed%}
+{% for name, props in history.items %}
+  	{% for e in props.rids reversed%}
   		{% for rid, listing in metadata_storage.items %}
   			{% ifequal e rid %}
   				<item>
