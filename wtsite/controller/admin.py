@@ -21,7 +21,7 @@ class ThemeAdmin(admin.ModelAdmin):
 	pass
 	
 class HostAdmin(admin.ModelAdmin):
-	list_display = ('name', 'ip_address', 'base_url', 'theme', 'admin')
+	list_display = ('name', 'version', 'ip_address', 'base_url', 'theme', 'admin')
 
 class SettingAdmin(admin.ModelAdmin):
 	list_filter = ['hostname']
@@ -31,8 +31,12 @@ class LogAdmin(admin.ModelAdmin):
 	list_filter = ['host']	
 	list_per_page = 50
 	list_display = ( 'simple_entrytime', 'info', 'host', 'title', 'artist', 'album', 'stream', 'song_id', )
+
+class VersionAdmin(admin.ModelAdmin):
+        list_display = ( 'version', )
 	 
 admin.site.register(Theme, ThemeAdmin)
 admin.site.register(Host, HostAdmin)
 admin.site.register(Setting, SettingAdmin)
 admin.site.register(Log, LogAdmin)
+admin.site.register(Version, VersionAdmin)

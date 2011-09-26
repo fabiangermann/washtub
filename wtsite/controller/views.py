@@ -76,7 +76,11 @@ def parse_command(host, host_settings, command):
   return response
 
 def parse_metadata(host, host_settings, rid):
-	meta_list = parse_command(host, host_settings, 'metadata %s\n' % rid)
+        if host.version == '0.9.x':
+		command = 'metadata'
+        else:
+                command = 'request.metadata'
+	meta_list = parse_command(host, host_settings, '%s %s' % (command, rid))
 	meta_list = meta_list.splitlines()
 	metadata = {}
 	for m in meta_list:
@@ -261,14 +265,22 @@ def get_host_list():
 	return h   
 def get_air_queue(host, host_settings):
   queue = {}
+  if host.version == '0.9.x':
+    on_air = 'on_air'
+  else:
+    on_air = 'request.on_air'
   queue['on_air'] = {}
-  queue['on_air']['rids'] = parse_rid_list(host, host_settings, "on_air")
+  queue['on_air']['rids'] = parse_rid_list(host, host_settings, on_air)
   return queue
 
 def get_alive_queue(host, host_settings):
   queue = {}
+  if host.version == '0.9.x':
+    alive = 'alive'
+  else:
+    alive = 'request.alive'
   queue['alive'] = {}
-  queue['alive']['rids'] = parse_rid_list(host, host_settings, "alive")
+  queue['alive']['rids'] = parse_rid_list(host, host_settings, alive)
   return queue
 
 ############################################################################
@@ -527,7 +539,7 @@ def search_pool(request, host_name):
 		results = Song.objects.filter(Q(title__icontains=str) |
 									  Q(artist__name__icontains=str) |
 									  Q(album__name__icontains=str) |
-									  Q(genre__name__icontains=str)).distinct()
+									  Q(genre__name__icontains=str)).distinct().order_by('album__name', 'track') 
 		if not results:
 			template_dict['alert'] = 'Search did not yield any results.'
 
@@ -569,10 +581,10 @@ def search_pool_page(request, host_name, page):
 		# Start the search process
 		cat = request.GET['type']
 		str = request.GET['search']
-		results = Song.objects.filter(title__icontains=str)
-		results = results | Song.objects.filter(artist__name__icontains=str)
-		results = results | Song.objects.filter(album__name__icontains=str)
-		results = results | Song.objects.filter(genre__name__icontains=str)
+		results = Song.objects.filter(title__icontains=str).order_by('album__name', 'track')
+		results = results | Song.objects.filter(artist__name__icontains=str).order_by('album__name', 'track')
+		results = results | Song.objects.filter(album__name__icontains=str).order_by('album__name', 'track')
+		results = results | Song.objects.filter(genre__name__icontains=str).order_by('album__name', 'track')
 
 		#populate the paginator using the search queryset.		
 		p = get_song_search_pager(results)

@@ -35,6 +35,7 @@ class Host(models.Model):
     description = models.TextField('Description', blank=True)
     admin_group = models.ManyToManyField(Group, related_name='host_admin_group', blank=True)
     admin = models.ForeignKey(User, related_name='host_admin', default=1)
+    version = models.ForeignKey('Version')
 
     def __unicode__(self):
     	return self.name
@@ -74,4 +75,10 @@ class Log(models.Model):
     class Meta:
         ordering = ['-entrytime']
         verbose_name_plural = "Log Entries"
+
+class Version(models.Model):
+    version = models.CharField(max_length=48, editable=True)
+
+    def __unicode__(self):
+        return self.version
     
