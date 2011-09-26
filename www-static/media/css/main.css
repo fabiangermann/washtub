@@ -28,7 +28,7 @@ color:black;
 font:62.5% "lucida sans", sans-serif;
 padding:0px;
 text-align:left;
-margin: 0 50px 0 50px;
+margin: 0 50px 25px 50px;
 }
 
 div.header {
@@ -211,6 +211,10 @@ line-height:1.1em;
 margin:0 5px 16px 10px;
 }
 
+#leftside div a{
+text-decoration:underline;
+}
+
 #rightside ul{
 margin:0 5px 5px 2px;
 padding:0;
@@ -312,14 +316,15 @@ vertical-align:middle;
 table.tablesorter {
 	font-family:arial;
 	background-color: #CDCDCD;
+        border-collapse:collapse;
 	margin:10px 0pt 15px;
 	font-size: 8pt;
 	width: 100%;
 	text-align: left;
 }
 
-table.tablesorter, td, th {
-        /* border: solid 1px #CDCDCD; */
+table.tablesorter, thead, td, th {
+        border: solid 1px #CDCDCD;
 } 
 
 table.tablesorter tr {
@@ -330,17 +335,18 @@ table.tablesorter tr {
 	margin:10px 0pt 0px;
 }
 	
-table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+table.tablesorter thead tr th {
 	background-color: #e5e5e5;
 	color:#3D3D3D;
-	border: 1px solid #FFF;
+	/* border: 1px solid #FFF; */
 	font-size: 8pt;
 	padding: 4px;
 }
 
-table.tablesorter thead tr td {
+table.tablesorter thead tr td, table.tablesorter tfoot tr td {
         background-color: #e5e5e5;
         padding-left: 2px;
+        border:0px;
 }
 
 table.tablesorter tfoot tr {
@@ -356,8 +362,16 @@ table.tablesorter tbody td {
 	padding: 4px;
 	vertical-align: top;
 }
-table.tablesorter tbody tr.odd td {
+table.tablesorter tr.odd {
 	background-color:#F0F0F6;
+}
+
+table#nodeTable tr.odd, table#streamTable tr.odd {
+        background-color:#FFF;
+}
+
+table.tablesorter tr.tDnD_whileDrag {
+    background-color: #ffff99;
 }
 table.tablesorter thead tr .headerSortUp {
 	background-image: url(../images/asc.gif);
@@ -425,10 +439,6 @@ table.tablesorter td.volume input {
        border:0;
        color:#f6931f;
        font-weight:bold;
-}
-
-table.tablesorter tr.tDnD_whileDrag {
-    background-color: #ffff99;
 }
 
 .ui-slider {

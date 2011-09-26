@@ -159,6 +159,3 @@ def get_song_pager():
 def get_song_search_pager(queryset):
      pager = Paginator(queryset, 15)
      return pager
-    
-
-    

@@ -23,6 +23,7 @@
   <tr class="nodrop nodrag"> 
     <th class="pos">#</th> 
     <th class="title">Title</th> 
+    <th class="track">Track</th>
     <th class="artist">Artist</th> 
     <th class="album">Album</th> 
     <th class="status">Status</th>
@@ -45,6 +46,7 @@
             <td class="pos">{{ forloop.parentloop.counter0|subtract:props.offset }}</td>
           {% endif %}
           <td>{{ listing.title|truncatewords:8 }}</td>
+          <td class="track">{{ listing.track }}</td>
           <td>{{ listing.artist }}</td>
           <td>{{ listing.album|truncatewords:5 }}</td>
           <td>{{ listing.status }}</td>
