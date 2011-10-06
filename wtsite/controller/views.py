@@ -700,38 +700,38 @@ def set_variable(request, host_name):
 		
 @login_required
 def queue_push(request, host_name):
-	if request.method == 'POST':
-		uri_id = request.POST['uri']
-		s = get_object_or_404(Song, pk=uri_id)
-		
-		#if the uri exists, then process the request
-		host = get_object_or_404(Host, name=host_name)
-		host_settings = get_list_or_404(Setting, hostname=host)
-		
-		#Parse all available help commands (for reference)	
-		help = parse_help(host, host_settings)
-		
-		#Make sure that the queue we have is valid.  
-		#Check Database and liquidsoap instance
-		queue_name = request.POST['queue']
-		get_object_or_404(Setting, data=queue_name)
-		queue_command = queue_name+'.push' 
-		check_command = smart_str(queue_command+' <uri>')
-		if check_command in help:
-			#we are okay to continue processing the request
-			queue_command += ' '+s.filename
-			queue_command = smart_str(queue_command)
-		else:
-			raise Http404
-		
-		#commit the command
-		response = parse_command(host, host_settings, queue_command)
-		referer = request.META['HTTP_REFERER']
-		return HttpResponseRedirect(request.META['HTTP_REFERER'])		
-	else:
-		#return message about Get with bad parameters.
-		message = 'Requests cannot be pushed via GET requests.'
-		return display_error(request, host_name, 'controller/status.html', message)
+  if request.method == 'POST':
+    uri_id = request.POST['uri']
+    s = get_object_or_404(Song, pk=uri_id)
+
+    #if the uri exists, then process the request
+    host = get_object_or_404(Host, name=host_name)
+    host_settings = get_list_or_404(Setting, hostname=host)
+
+    #Parse all available help commands (for reference)
+    help = parse_help(host, host_settings)
+
+    #Make sure that the queue we have is valid.
+    #Check Database and liquidsoap instance
+    queue_name = request.POST['queue']
+    get_object_or_404(Setting, data=queue_name)
+    queue_command = queue_name+'.push'
+    check_command = smart_str(queue_command+' <uri>')
+    if check_command in help:
+      #we are okay to continue processing the request
+      queue_command += ' '+s.filename
+      queue_command = smart_str(queue_command)
+    else:
+      raise Http404
+
+    #commit the command
+    response = parse_command(host, host_settings, queue_command)
+    referer = request.META['HTTP_REFERER']
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+  else:
+    #return message about Get with bad parameters.
+    message = 'Requests cannot be pushed via GET requests.'
+    return display_error(request, host_name, 'controller/status.html', message)
 
 def queue_reorder(request, host_name):
   if request.method == 'GET':
