@@ -441,6 +441,26 @@ table.tablesorter td.volume input {
        font-weight:bold;
 }
 
+table#streamTable.tablesorter td.audio-widget {
+}
+
+audio {
+       width:100%;
+}
+
+div#rss  {
+       float:right;
+       display:block;
+       width: 16px;
+       height:  16px;
+       margin-bottom:6px;
+}
+
+
+div #rss a img {
+       width: 16px;
+       height: 16px;
+}
 .ui-slider {
         width: 89%;
         margin-top: 0.35em;
