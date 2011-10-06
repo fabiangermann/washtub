@@ -56,8 +56,10 @@ def build_file_list2(dir):
     if not (access(dir, (F_OK or R_OK))):
         return
     #empty all songs from current database.  This should be fast!!!
-    d = Song.objects.all()
-    d.delete()
+    for t in (Artist, Album, Genre, Song, Albumart):
+      d = t.objects.all()
+      d.delete()
+
     list = walk(dir,topdown=True)
     for root, dirs, files in list:
         for f in files:

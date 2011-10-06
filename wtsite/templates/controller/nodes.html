@@ -68,8 +68,8 @@
           {% endifequal %}
         {% endfor %}
         {% endcomment %}
-        </td></tr>  
-      {% endwith %}
+        </td></tr>
+      {% endwith %}  
     </thead>
     <tbody>
       {% for item, info in status.items %}
@@ -111,6 +111,11 @@
         <a href="{% url controller.views.stream_skip active_host name %}" title="Skip"><span id="controlspan">&nbsp;</span></a>
         </td>
       </tr>
+     {% comment %}
+     {% with status.base_url|cat:name|replacedot as stream_url %}
+       <tr><td class="audio-widget" colspan="3"><audio controls ><source source src="{{ stream_url }}" /></audio></td></tr>
+     {% endwith %}
+     {% endcomment %}
       </tbody>
     </table> 
   {% endfor %}
@@ -188,6 +193,7 @@
     </tr>
     </thead>
     <tbody>
+    {% if entries.rids %}
     {% for e in entries.rids %}
       {% for rid, listing in metadata_storage.items %}
         {% ifequal e rid %}
@@ -207,6 +213,9 @@
         {% endifequal %}
       {% endfor %}
     {% endfor %}
+    {% else %}
+      <tr><td colspan="7">There are no items 'on_air' to display.</td></tr>
+    {% endif %}
     </tbody>
     </table>
     <br/>
@@ -227,6 +236,7 @@
         </tr>
       </thead>
       <tbody>
+      {% if entries.rids %}
       {% for e in entries.rids reversed %}
         {% for rid, listing in metadata_storage.items %}
           {% ifequal e rid %}
@@ -246,6 +256,9 @@
           {% endifequal %}
         {% endfor %}
       {% endfor %}
+      {% else %}
+        <tr><td colspan="7">There are no items 'alive' to display.</td></tr>
+      {% endif %}
       </tbody>
       </table>
       <br/>
