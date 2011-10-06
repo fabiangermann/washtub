@@ -15,6 +15,7 @@
 #    along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.utils import simplejson
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -69,14 +70,17 @@ def parse_command(host, host_settings, command):
     tn = telnetlib.Telnet(str(host.ip_address), port)
     tn.write(str(command))
     response = tn.read_until("END")
+    tn.write('quit\n')
     tn.close()
   except:
-    raise Exception()
+    raise Exception() # This exception needs to be caught and sent to users
   response = re.sub('\nEND$', '', response)
+  response = response.rstrip()
   return response
 
 def parse_metadata(host, host_settings, rid):
-        if host.version == '0.9.x':
+        v = Version.objects.get(host__version__exact=host.version)
+        if v.version == '0.9.x':
 		command = 'metadata'
         else:
                 command = 'request.metadata'
@@ -265,7 +269,8 @@ def get_host_list():
 	return h   
 def get_air_queue(host, host_settings):
   queue = {}
-  if host.version == '0.9.x':
+  v = Version.objects.get(host__version__exact=host.version)
+  if v.version == '0.9.x':
     on_air = 'on_air'
   else:
     on_air = 'request.on_air'
@@ -275,7 +280,8 @@ def get_air_queue(host, host_settings):
 
 def get_alive_queue(host, host_settings):
   queue = {}
-  if host.version == '0.9.x':
+  v = Version.objects.get(host__version__exact=host.version)
+  if v.version == '0.9.x':
     alive = 'alive'
   else:
     alive = 'request.alive'
@@ -585,14 +591,12 @@ def search_pool_page(request, host_name, page):
 		results = results | Song.objects.filter(artist__name__icontains=str).order_by('album__name', 'track')
 		results = results | Song.objects.filter(album__name__icontains=str).order_by('album__name', 'track')
 		results = results | Song.objects.filter(genre__name__icontains=str).order_by('album__name', 'track')
-
 		#populate the paginator using the search queryset.		
 		p = get_song_search_pager(results)
-		try:
+                try:
 			single_page = p.page(page)
 		except EmptyPage, InvalidPage:
 			single_page = p.page(p.num_pages)
-			
 		#place all the information we gathered into the template dictionary
 		template_dict['node_list'] = node_list
 		template_dict['active_host'] = host
@@ -601,7 +605,7 @@ def search_pool_page(request, host_name, page):
 		template_dict['single_page'] = single_page
 		template_dict['pool_page'] = page
 		logging.info('End of search_pool_page() with GET')
-		return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
+                return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
 	else:
 		#return message about Post with bad parameters.
 		message = 'Search cannot be executed via POST requests.'
@@ -731,6 +735,7 @@ def queue_push(request, host_name):
 
 def queue_reorder(request, host_name):
   if request.method == 'GET':
+    ajax = {};
     # Make sure the queue accepts a move
     host = get_object_or_404(Host, name=host_name)
     host_settings = get_list_or_404(Setting, hostname=host)
@@ -749,27 +754,26 @@ def queue_reorder(request, host_name):
     on_air = parse_rid_list(host, host_settings, 'on_air')
     queue_list  = parse_queue_dict(host, host_settings)
     if (rid not in queue_list[queue_name]['rids']) or (rid in on_air):
-      message = 'RID is not valid or cannot be moved: %s\nqueue: %s\non_air: %s' % (rid, queue_list[queue_name]['rids'], on_air)
-      #return display_error(request, host_name, 'controller/status.html', message)
-      return HttpResponse(message)
-
-    # Attempt the rid move
-    position = request.GET['pos']
-    command = '%s %s %s' % (queue_op, rid, position)
-    response = parse_command(host, host_settings, command) 
-    
-    # Return an OK or something similar to the ajax call
-    if (response is not None): 
-      # success
-      return HttpResponse("%s" % (response))
+      ajax['type'] = 'error'
+      ajax['msg'] = 'RID is not valid or cannot be moved: %s\nqueue: %s\non_air: %s' % (rid, queue_list[queue_name]['rids'], on_air)
     else:
-      message = 'Queue operation was not successful: %s' % (command)
-      #return display_error(request, host_name, 'controller/status.html', message)
-      return HttpResponse(message)
+      # Attempt the rid move
+      position = request.GET['pos']
+      command = '%s %s %s' % (queue_op, rid, position)
+      response = parse_command(host, host_settings, command) 
+    
+      # Return an OK or something similar to the ajax call
+      if (response == 'OK'): 
+        # success
+        ajax['type'] = 'info';
+      else:
+        ajax['type'] = 'error';
+      ajax['msg'] = response;
   else:
     #return message about Get with bad parameters.
-    message = 'Requests cannot be moved via GET requests.'
-    return display_error(request, host_name, 'controller/status.html', message)
+    ajax['type'] = 'info'
+    ajax['msg'] = 'Requests cannot be moved via GET requests.'
+  return HttpResponse(simplejson.dumps(ajax), mimetype='application/json')
 
 def commit_log(host_name):
 	# sleep a certain amount of time 

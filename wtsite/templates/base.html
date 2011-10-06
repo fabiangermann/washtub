@@ -23,7 +23,7 @@
 		{% load controller_extras %}	
         {% block title %} Washtub {% endblock title %}
 </title> 
-<link rel="Shortcut Icon" href="/media/images/favicon.ico"/>
+<link rel="Shortcut Icon" href="{{ "/media/images/washtub.ico"|baseurl }}"/>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="Washtub, the liquidsoap controller." />
 <meta name="keywords" content="" />
@@ -38,10 +38,13 @@
 <script type="text/javascript" src="{{ "media/theme/js/jquery-1.4.4.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/theme/js/jquery-ui-1.8.10.custom.min.js"|baseurl }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ "media/css/main.css"|baseurl }}" />
+<link rel="stylesheet" type="text/css" href="{{ "media/css/jquery.pnotify.default.css"|baseurl }}" />
+<link rel="stylesheet" type="text/css" href="{{ "media/css/jquery.pnotify.default.icons.css"|baseurl }}" />
 <script type="text/javascript" src="{{ "media/js/jquery.cookie.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tooltip.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tablesorter.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tablednd_0_5.js"|baseurl }}"></script>
+<script type="text/javascript" src="{{ "media/js/jquery.pnotify.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/main.js"|baseurl }}"></script>
 <script type="text/javascript">
 $(function(){	
@@ -109,7 +112,6 @@ $(function(){
 		$('#dialog_scan').dialog('open');
 		return false;
 	});
-
 });
 
 function GetHostStatus() {
@@ -123,6 +125,25 @@ function GetHostStatus() {
         {
                 window.location="{{ "status/"|baseurl }}"+myhost;
         }
+}
+
+function Pnotify(type, msg) {
+        if(type != 'error' && type != 'notice') { 
+                return;
+        }
+	$.pnotify({
+        	pnotify_title: false,
+                pnotify_text: msg,
+                pnotify_type: type,
+                pnotify_hide: false,
+                pnotify_delay: 2500, 
+                pnotify_history: false,
+                pnotify_addclass: "stack-queues",
+                //pnotify_notice_icon: '',
+                //pnotify_opacity: .85,
+                //pnotify_nonblock: true,
+                //pnotify_nonblock_opacity: .75
+        });
 }
 
 </script>
@@ -156,7 +177,7 @@ function GetHostStatus() {
     {% endif %}
   </div>  
 </div>
-
+<div id='messages'> </div>
 {% block errormessage %}
    {% if error %}
 	 <div class="ui-widget">
