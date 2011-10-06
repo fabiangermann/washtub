@@ -735,9 +735,6 @@ def queue_push(request, host_name):
     else:
       ajax['type'] = 'error'
       ajax['msg'] = 'something went wrong'
-
-    #referer = request.META['HTTP_REFERER']
-    #return HttpResponseRedirect(request.META['HTTP_REFERER'])
   else:
     #return message about Get with bad parameters.
     ajax['type'] = 'error'

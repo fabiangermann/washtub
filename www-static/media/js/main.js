@@ -101,7 +101,7 @@ function QueuePush(form, uri, host, base_url) {
         if (data.type == 'error') {
           notify_type = data.type;
         }
-        Pnotify(notify_type, base_msg + data.msig);
+        Pnotify(notify_type, base_msg + data.msg);
       },
       error: function(jqXHR, textStatus)  {
         Pnotify("error", "Queue push failed: " + textStatus);
