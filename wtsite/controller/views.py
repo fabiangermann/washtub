@@ -697,9 +697,10 @@ def set_variable(request, host_name):
     #return message about Get with bad parameters.
     message = 'Volume cannot be adjusted via GET requests.'
   return display_error(request, host_name, 'controller/status.html', message)
-		
+
 @login_required
 def queue_push(request, host_name):
+  ajax = {}
   if request.method == 'POST':
     uri_id = request.POST['uri']
     s = get_object_or_404(Song, pk=uri_id)
@@ -725,13 +726,23 @@ def queue_push(request, host_name):
       raise Http404
 
     #commit the command
+    logging.info('Pushing to queue: %s' % queue_command)
     response = parse_command(host, host_settings, queue_command)
-    referer = request.META['HTTP_REFERER']
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    logging.info('Response is: %s' % response)
+    if (True): #(re.search('^\d+$', response)):
+      ajax['type'] = 'info'
+      ajax['msg'] = 'new rid %s' % response
+    else:
+      ajax['type'] = 'error'
+      ajax['msg'] = 'something went wrong'
+
+    #referer = request.META['HTTP_REFERER']
+    #return HttpResponseRedirect(request.META['HTTP_REFERER'])
   else:
     #return message about Get with bad parameters.
-    message = 'Requests cannot be pushed via GET requests.'
-    return display_error(request, host_name, 'controller/status.html', message)
+    ajax['type'] = 'error'
+    ajax['msg'] = 'Requests cannot be pushed via GET requests.'
+  return HttpResponse(simplejson.dumps(ajax), mimetype='application/json')
 
 def queue_reorder(request, host_name):
   if request.method == 'GET':
@@ -760,10 +771,10 @@ def queue_reorder(request, host_name):
       # Attempt the rid move
       position = request.GET['pos']
       command = '%s %s %s' % (queue_op, rid, position)
-      response = parse_command(host, host_settings, command) 
-    
+      response = parse_command(host, host_settings, command)
+
       # Return an OK or something similar to the ajax call
-      if (response == 'OK'): 
+      if (response == 'OK'):
         # success
         ajax['type'] = 'info';
       else:

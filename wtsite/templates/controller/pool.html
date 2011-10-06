@@ -64,8 +64,8 @@
 				<td></td>
 			{% endif %}
 			<td class="ops">
-			<form name="queue_add_{{ entry.id }}" action="{% url controller.views.queue_push active_host %}" method="POST"> {% csrf_token %}
-			<select name="queue" onchange="this.form.submit();">
+			<form name="queue_add_{{ entry.id }}" onsubmit="return false;">{% csrf_token %}
+			<select name="queue" onchange="QueuePush(this.form, '{{ entry.id }}', '{{ active_host }}', '{{ ''|baseurl }}');">
 			<option>&lt;add to queue&gt;</option>
 			{% for item, type in node_list.items %}
 				{% ifequal type "queue" %}

@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2009, Chris Everest 
+    Copyright (c) 2009, Chris Everest
     This file is part of Washtub.
 
     Washtub is free software: you can redistribute it and/or modify
@@ -35,37 +35,77 @@ function QueueReorder(table, row, host, base_url) {
     if (table.rows[i].id == row.id) {
       rid = table.rows[i].getElementsByClassName('rid')[0].innerHTML;
       // Offset is determined by liquidsoap and depends on whether a track
-      // in the queue is actually live and playing. We then subtract an 
-      // additional unit from the offset to make up for the table header 
+      // in the queue is actually live and playing. We then subtract an
+      // additional unit from the offset to make up for the table header
       offset = table.rows[i].getElementsByClassName('offset')[0].innerHTML;
       pos = (i - offset) - 1;
     }
     max = (i - offset) - 1;
   }
   if ( pos != max && pos != row.id) {
-    var url = base_url + "queue/move/" + host; 
-    $.get(url, { 'queue': queue, 'rid': rid, 'pos': pos},
-      function(data){
-        if (data == "OK") {
-          status_color = green; // shade of green
-        }
-        else {
+    var url = base_url + "queue/move/" + host;
+    $.ajax({
+      type: "GET",
+      url: url,
+      sync: false,
+      data: { 'queue': queue, 'rid': rid, 'pos': pos},
+      dataType: "json",
+      success: function(data){
+        var notify_type = 'notice';
+        var status_color = green;
+        var base_msg = 'Queue reorder: ';
+        if (data.type == 'error') {
           status_color = red; // shade of red
+          notify_type = data.type;
         }
-        //alert("Server Response: " + data + "\n\nQueue: " + queue + "\nOrig Row: "+ row_id + "\nRID is: " + rid + "\nNew Position: " + pos );
+        Pnotify(notify_type, base_msg + data.msg);
+        //alert("Server Response: '" + data.msg + "'\n\nQueue: " + queue + "\nOrig Row: "+ row_id + "\nRID is: " + rid + "\nNew Position: " + pos );
         $(row_id).effect("highlight", { color: status_color }, timeout);
-        
+
+        // Reload the current tab
+        var current_index = $("#tabs").tabs("option","selected");
+        setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout)
+      },
+      error: function(jqXHR, textStatus)  {
+        Pnotify("error", "Queue reorder failed: " + textStatus);
         // Reload the current tab
         var current_index = $("#tabs").tabs("option","selected");
         setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout);
-      }
-    );
+      },
+    });
   }
   else {
     $(row_id).effect("highlight", { color: red }, timeout);
-    
+    Pnotify("error", "Queue operation failed: Items cannot be moved to the last position.");
+
     // Reload the current tab
     var current_index = $("#tabs").tabs("option","selected");
     setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout);
   }
+}
+
+function QueuePush(form, uri, host, base_url) {
+    var queue = form.queue.value;
+    var token = form.csrfmiddlewaretoken.value;
+    var url = base_url + "queue/push/" + host;
+    //alert(queue + ' ' + uri + ' ' + token + ' ' + host + ' ' + url);
+    $.ajax({
+      type: "POST",
+      url: url,
+      sync: false,
+      data: { 'queue': queue, 'uri': uri, 'csrfmiddlewaretoken': token},
+      dataType: "json",
+      success: function(data){
+        var notify_type = 'notice';
+        var base_msg = 'Queue push: ';
+        if (data.type == 'error') {
+          notify_type = data.type;
+        }
+        Pnotify(notify_type, base_msg + data.msig);
+      },
+      error: function(jqXHR, textStatus)  {
+        Pnotify("error", "Queue push failed: " + textStatus);
+      },
+    });
+    setTimeout(function () {form.queue.selectedIndex = 0;}, 750);
 }
