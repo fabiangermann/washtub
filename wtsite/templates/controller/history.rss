@@ -19,32 +19,33 @@
 
 {% load controller_extras %}
 <rss version="2.0">
-	<channel>
-	<title>{{ active_host }} - Recent Playlist History</title>
-	<description>History detail for {{ active_host }} stream.</description>
-	<language>en-us</language>
-	<generator>Washtub Liquidsoap Controller</generator> 
-{% for name, props in history.items %}
-  	{% for e in props.rids reversed%}
-  		{% for rid, listing in metadata_storage.items %}
-  			{% ifequal e rid %}
-  				<item>
-  					<title>"{{ listing.title }}" by {{ listing.artist }}</title>
-  					<link>{{ ""|serverurl }}{% url controller.views.display_status active_host %}{{ "?search="|cat:listing.title|cat:"&type=song#search-tab" }}</link>
-  					<description>
-  					artist: {{ listing.artist }} <br/>
-  					title: "{{ listing.title }}" <br/>
-  					album: {{ listing.album }} <br/>
-  					airtime: {{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %} <br/>
-  					</description>
-  					{% if listing.on_air %}
-  					<pubDate>{{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %}</pubDate>
-  					{% endif %}
-  				</item>
-  			{% endifequal %}
-    	 {% endfor %}
+  <channel>
+  <title>{{ active_host }} - Recent Playlist History</title>
+  <description>History detail for {{ active_host }} stream.</description>
+  <language>en-us</language>
+  <generator>Washtub Liquidsoap Controller</generator>
+  {% spaceless %}
+  {% for name, props in history.items %}
+    {% for e in props.rids reversed%}
+      {% for rid, listing in metadata_storage.items %}
+        {% ifequal e rid %}
+      	<item>
+  	<title>"{{ listing.title }}" by {{ listing.artist }}</title>
+  	<link>{{ ""|serverurl }}{% url controller.views.display_status active_host %}{{ "?search="|cat:listing.title|cat:"&type=song#search-tab" }}</link>
+  	<description>
+  	artist: {{ listing.artist }} <br/>
+  	title: "{{ listing.title }}" <br/>
+  	album: {{ listing.album }} <br/>
+  	airtime: {{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %} <br/>
+  	</description>
+  	{% if listing.on_air %}
+  	  <pubDate>{{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %}</pubDate>
+  	{% endif %}
+  	</item>
+  	{% endifequal %}
+      {% endfor %}
     {% endfor %}
-{% endfor %}
-
-</channel>
+  {% endfor %}
+  {% endspaceless %}
+  </channel>
 </rss>
