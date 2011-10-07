@@ -43,7 +43,7 @@
   	<tbody>
   	{% if single_page.object_list %}
   		{% for entry in single_page.object_list %}
-		<tr title="{{ entry.filename }}">
+		<tr> <!--  title="{{ entry.filename }}"> -->
 		        {% comment %}	
 			<tooltip>
 			<label value="title:{{ entry.title }}"/>

@@ -2,7 +2,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <!--
-    Copyright (c) 2009, Chris Everest 
+    Copyright (c) 2009, Chris Everest
     This file is part of Washtub.
 
     Washtub is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@
 -->
 <head>
 <title>
-		{% load controller_extras %}	
+		{% load controller_extras %}
         {% block title %} Washtub {% endblock title %}
-</title> 
+</title>
 <link rel="Shortcut Icon" href="{{ "/media/images/washtub.ico"|baseurl }}"/>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="Washtub, the liquidsoap controller." />
@@ -30,10 +30,10 @@
 <meta name="author" content="Chris Everest" />
 <base target="_top" />
 {% if theme %}
-<link type="text/css" href="{{ "media/theme/css/"|cat:theme|cat:"/jquery-ui-1.8.10.custom.css"|baseurl }}" rel="stylesheet" />	
+<link type="text/css" href="{{ "media/theme/css/"|cat:theme|cat:"/jquery-ui-1.8.10.custom.css"|baseurl }}" rel="stylesheet" />
 <!-- <script type="text/javascript" src="{{ "media/theme/"|cat:theme|cat:"/js/jquery-ui-1.7.1.custom.min.js"|baseurl }}"></script> -->
 {% else %}
-<link type="text/css" href="{{ "media/theme/css/default/jquery-ui-1.8.10.custom.css"|baseurl }}" rel="stylesheet" />	
+<link type="text/css" href="{{ "media/theme/css/default/jquery-ui-1.8.10.custom.css"|baseurl }}" rel="stylesheet" />
 {% endif %}
 <script type="text/javascript" src="{{ "media/theme/js/jquery-1.4.4.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/theme/js/jquery-ui-1.8.10.custom.min.js"|baseurl }}"></script>
@@ -47,104 +47,18 @@
 <script type="text/javascript" src="{{ "media/js/jquery.pnotify.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/main.js"|baseurl }}"></script>
 <script type="text/javascript">
-$(function(){	
-	//Tabs
-	$('#tabs').tabs({ cookie: { path: {{ ""|baseurl }}, name: "washtub-tabs" }, 
-			          ajaxOptions: { cache: false },
-			          spinner: "" //'<img width="50%" height="50%" src="{{ "media/images/throbber.gif"|baseurl }}"></img>' 
-	});
-	$('#tabs').bind('tabsload', function(event, ui) {
-	        // Stripe the Tablesorters
-		$.tablesorter.defaults.widgets = ['zebra'];
-		// Stripe the rest of the tables
-		$('tr:nth-child(even)').addClass("odd");
 
-                //Call Table Sorter
-		//This is hackish, but zebra widgets don't refresh automagically after
-		// ajax responses in tables
-		//A better solution would be to check the active tab and only instantiate
-		//the tablesorters that we need (speed enhancement)
-		$("#aliveTable").tablesorter();
-		$("#onAirTable").tablesorter();
-		$("#historyTable0").tablesorter();
-		$("#historyTable1").tablesorter();
-		$("#poolTable").tablesorter();
-		$("#EqueueTable").tableDnD();
-		$('#EqueueTable').tableDnD({
-		   onDrop: function(table, row) {
-		     {% if active_host %} 
-		       var host = '{{ active_host }}';
-		       var base_url = '{{ ""|baseurl }}';
-		       QueueReorder(table, row, host, base_url);
-		     {% endif %}
-		   }
-		});
-	});
+  /* Set up some global vars based on the django template vars */
+  var baseurl = '{{ ''|baseurl }}';
+  var host = '{{ active_host }}';
+  var filescanner_url = '{% url mediapool.views.file_scanner %}';
+  var red = "#EE8A7C";
+  var green = "#ABEE87";
+  var timeout = 750; // timeout used for user feedback and page refresh
 
-        $('button').button();
-        $("button#refresh").click(
-          function() {
-            var current_index = $("#tabs").tabs("option","selected");
-            $("#tabs").tabs("load", current_index);
-          }
-        );
-
-	{% block tabselect %}
-	{% endblock tabselect %}
-
-	// Dialog			
-	$('#dialog_scan').dialog({
-		autoOpen: false,
-		width: 350,
-		buttons: {
-			"OK": function() {
-				$(this).dialog("close");
-				window.location="{% url mediapool.views.file_scanner %}";
-			}, 
-			"Cancel": function() { 
-				$(this).dialog("close"); 
-			} 
-		}
-	});
-	
-	// Dialog Link
-	$('#dialog_scan_link').click(function(){
-		$('#dialog_scan').dialog('open');
-		return false;
-	});
-});
-
-function GetHostStatus() {
-        var hostlist = document.getElementById("HostList");
-        var myhost = hostlist.options[hostlist.selectedIndex].text;
-        if (myhost == "----------")
-        {
-                window.location="{{ ""|baseurl }}";
-        }
-        else
-        {
-                window.location="{{ "status/"|baseurl }}"+myhost;
-        }
-}
-
-function Pnotify(type, msg) {
-        if(type != 'error' && type != 'notice') { 
-                return;
-        }
-	$.pnotify({
-        	pnotify_title: false,
-                pnotify_text: msg,
-                pnotify_type: type,
-                pnotify_hide: true,
-                pnotify_delay: 2500, 
-                pnotify_history: false,
-                pnotify_addclass: "stack-queues",
-                //pnotify_notice_icon: '',
-                //pnotify_opacity: .85,
-                //pnotify_nonblock: true,
-                //pnotify_nonblock_opacity: .75
-        });
-}
+  $(function(){
+    setupUI();
+  });
 
 </script>
 {% block extrahead %}
@@ -152,10 +66,10 @@ function Pnotify(type, msg) {
 </head>
 <body>
 <div class="header">
-  <div class="status"> 
+  <div class="status">
     {% block userstatus %}
       {% if user.is_authenticated %}
-        Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a> 
+        Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a>
       {% else %}
         Please <a href="{% url django.contrib.auth.views.login %}" >log-in</a> to continue....<a class="action" href="{% url django.contrib.auth.views.password_reset %}">Retrieve Password</a>
       {% endif %}
@@ -170,19 +84,19 @@ function Pnotify(type, msg) {
     </select>
    	&nbsp;<a class="menu" href="{{ ""|baseurl }}">Home</a>
     {% if user.is_staff %}
-    <b>{% filter force_escape %}::{% endfilter %}</b> 
+    <b>{% filter force_escape %}::{% endfilter %}</b>
     <a class="menu" href="{{ "admin"|baseurl }}">Administration Panel</a>
-    <b>{% filter force_escape %}::{% endfilter %}</b> 
+    <b>{% filter force_escape %}::{% endfilter %}</b>
     <a class="menu" id="dialog_scan_link" href="#">Scan Media</a>
     {% endif %}
-  </div>  
+  </div>
 </div>
 <div id='messages'> </div>
 {% block errormessage %}
    {% if error %}
 	 <div class="ui-widget">
-		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
-			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+		<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
 			<strong>Alert:</strong> {{ error }}</p>
 		</div>
 	 </div>
@@ -193,21 +107,21 @@ function Pnotify(type, msg) {
 {% block alertmessage %}
   {% if alert %}
 	 <div class="ui-widget">
-		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;"> 
-			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span> 
+		<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
 			<strong>Notice:</strong> {{ alert }}</p>
 		</div>
 	 </div>
   {% endif %}
 {% endblock alertmessage %}
- 
+
 {% block content %}
 {% endblock content %}
 
 <!-- ui-dialog -->
 		<div id="dialog_scan" title="Scan Media Pool?">
-			<p><b>Please confirm before scanning the Media Pool.</b>  The media scanning 
-			process can be slow.  Do not refresh the page or initiate scanning repeatedly.  
+			<p><b>Please confirm before scanning the Media Pool.</b>  The media scanning
+			process can be slow.  Do not refresh the page or initiate scanning repeatedly.
 			There is nothing preventing the scan process(es) from trailing off into neverland.</p>
 		</div>
 

@@ -18,6 +18,103 @@
 
 /*  Add Custom Javascript Here */
 
+/* Initial JQuery UI setup */
+function setupUI() {
+  //Tabs
+  $('#tabs').tabs({ cookie: { path: baseurl, name: "washtub-tabs" },
+                    ajaxOptions: { cache: false },
+                    spinner: "" //'<img width="50%" height="50%" src="{{ "media/images/throbber.gif"|baseurl }}"></img>'
+  });
+  $('#tabs').bind('tabsload', function(event, ui) {
+    // Stripe the Tablesorters
+    $.tablesorter.defaults.widgets = ['zebra'];
+
+    // Stripe the rest of the tables
+    $('tr:nth-child(even)').addClass("odd");
+
+    // Call Table Sorter
+    // This is hackish, but zebra widgets don't refresh automagically after
+    // ajax responses in tables
+    // A better solution would be to check the active tab and only instantiate
+    //  the tablesorters that we need (speed enhancement)
+    $("#aliveTable").tablesorter();
+    $("#onAirTable").tablesorter();
+    $("#historyTable0").tablesorter();
+    $("#historyTable1").tablesorter();
+    $("#poolTable").tablesorter();
+    $('#EqueueTable').tableDnD({
+      onDrop: function(table, row) {
+        if (host != '') {
+          QueueReorder(table, row, host, baseurl);
+        }
+      }
+    });
+  });
+
+  $('button').button();
+  $("button#refresh").click(
+    function() {
+      var current_index = $("#tabs").tabs("option","selected");
+      $("#tabs").tabs("load", current_index);
+    }
+  );
+
+  // Dialog
+  $('#dialog_scan').dialog({
+    autoOpen: false,
+    width: 350,
+    buttons: {
+      "OK": function() {
+        $(this).dialog("close");
+        window.location=filescanner_url;
+      },
+      "Cancel": function() {
+        $(this).dialog("close");
+      }
+    }
+  });
+
+  // Dialog Link
+  $('#dialog_scan_link').click(function(){
+    $('#dialog_scan').dialog('open');
+      return false;
+  });
+}
+
+/* Function used to determine and select the active host */
+function GetHostStatus() {
+	var hostlist = document.getElementById("HostList");
+        var myhost = hostlist.options[hostlist.selectedIndex].text;
+        if (myhost == "----------")
+        {
+                window.location=base_url;
+        }
+        else
+        {
+                window.location=baseurl + "status/" + myhost;
+        }
+}
+
+/* Default Pnotify call */
+function Pnotify(type, msg) {
+        if(type != 'error' && type != 'notice') {
+                return;
+        }
+        $.pnotify({
+                pnotify_title: false,
+                pnotify_text: msg,
+                pnotify_type: type,
+                pnotify_hide: true,
+                pnotify_delay: 2500,
+                pnotify_history: false,
+                pnotify_addclass: "stack-queues",
+                //pnotify_notice_icon: '',
+                //pnotify_opacity: .85,
+                //pnotify_nonblock: true,
+                //pnotify_nonblock_opacity: .75
+        });
+}
+
 /* Function to manipulate the queue depending on the active
 /  host.  Called from TableDnD
 */
@@ -26,10 +123,8 @@ function QueueReorder(table, row, host, base_url) {
   var rid;
   var pos;
   var max;
-  var timeout = 750; // timeout used for user feedback and page refresh
-  var red = "#EE8A7C";
-  var green = "#ABEE87";
   var row_id = '#'+row.id;
+  var table_row_id = '#'+table.id+' '+row_id;
   var queue = table.tBodies[0].id;
   for (var i=0; i<table.rows.length; i++) {
     if (table.rows[i].id == row.id) {
@@ -60,7 +155,7 @@ function QueueReorder(table, row, host, base_url) {
         }
         Pnotify(notify_type, base_msg + data.msg);
         //alert("Server Response: '" + data.msg + "'\n\nQueue: " + queue + "\nOrig Row: "+ row_id + "\nRID is: " + rid + "\nNew Position: " + pos );
-        $(row_id).effect("highlight", { color: status_color }, timeout);
+        $(table_row_id).effect("highlight", { color: status_color }, timeout);
 
         // Reload the current tab
         var current_index = $("#tabs").tabs("option","selected");
@@ -75,7 +170,7 @@ function QueueReorder(table, row, host, base_url) {
     });
   }
   else {
-    $(row_id).effect("highlight", { color: red }, timeout);
+    $(table_row_id).effect("highlight", { color: red }, timeout);
     Pnotify("error", "Queue operation failed: Items cannot be moved to the last position.");
 
     // Reload the current tab
@@ -84,6 +179,7 @@ function QueueReorder(table, row, host, base_url) {
   }
 }
 
+/* Function used to push new requests into the specified queue */
 function QueuePush(form, uri, host, base_url) {
     var queue = form.queue.value;
     var token = form.csrfmiddlewaretoken.value;
@@ -98,14 +194,18 @@ function QueuePush(form, uri, host, base_url) {
       success: function(data){
         var notify_type = 'notice';
         var base_msg = 'Queue push: ';
+        var status_color = green;
         if (data.type == 'error') {
           notify_type = data.type;
+          status_color = red;
         }
         Pnotify(notify_type, base_msg + data.msg);
+        $(form.queue).effect("highlight", { color: status_color }, timeout);
       },
       error: function(jqXHR, textStatus)  {
         Pnotify("error", "Queue push failed: " + textStatus);
+        $(form.queue).effect("highlight", { color: red }, timeout);
       },
     });
-    setTimeout(function () {form.queue.selectedIndex = 0;}, 750);
+    setTimeout(function () {form.queue.selectedIndex = 0;}, timeout+1000);
 }
