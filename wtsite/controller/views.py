@@ -535,82 +535,52 @@ def display_pool(request, host_name, type):
 	return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
 
 @login_required
-def search_pool(request, host_name):
-	if request.method == 'GET':
-		host = get_object_or_404(Host, name=host_name)
-		template_dict = {}
+def search_pool(request, host_name, page):
+  logging.info('Start of search_pool()')
+  if request.method == 'GET':
+    host = get_object_or_404(Host, name=host_name)
+    host_settings = get_list_or_404(Setting, hostname=host)
+    node_list = parse_node_list(host, host_settings)
+    template_dict = {}
 		
-		cat = request.GET['type']
-		str = request.GET['search']
-		results = Song.objects.filter(Q(title__icontains=str) |
-									  Q(artist__name__icontains=str) |
-									  Q(album__name__icontains=str) |
-									  Q(genre__name__icontains=str)).distinct().order_by('album__name', 'track') 
-		if not results:
-			template_dict['alert'] = 'Search did not yield any results.'
+    # Start the search process
+    try:
+      cat = request.GET['type']
+    except:
+      cat = 'song'
 
-		#populate both dictionaries to avoid template errors.		
-		p = get_song_search_pager(results)
-		template_dict['all_pages'] = p
-		template_dict['single_page'] = p
-		return render_to_response('controller/pool.html', template_dict, context_instance=RequestContext(request))
-	else:
-		#return message about Post with bad parameters.
-		message = 'Search cannot be executed via POST requests.'
-		return display_error(request, host_name, 'controller/pool.html', message)
+    try:
+      term = request.GET['search']
+      results = Song.objects.filter(title__icontains=term).order_by('album__name', 'track')
+      results = results | Song.objects.filter(artist__name__icontains=term).order_by('album__name', 'track')
+      results = results | Song.objects.filter(album__name__icontains=term).order_by('album__name', 'track')
+      results = results | Song.objects.filter(genre__name__icontains=term).order_by('album__name', 'track')
+    except:
+      term = ''
+      results = Song.objects.all()
 
-	
-@login_required
-def search_pool_page(request, host_name, page):
-	logging.info('Start of search_pool_page()')
-	if request.method == 'GET':
-		host = get_object_or_404(Host, name=host_name)
-		host_settings = get_list_or_404(Setting, hostname=host)
-		node_list = parse_node_list(host, host_settings)
-		template_dict = {}
-		try:
-			pg_num = request.GET['pg']
-		except:
-			pg_num=1
-		
-		# This is quirky, but we don't want to pass the pg=3 parameter back to the search results.
-		# It causes, the pager links to append (i.e. ?pg=2&pg=2&pg=2)
-		# So we loop through the QueryDict and get rid of the pg=2 parameters.
-		fresh = QueryDict('')
-		fresh = fresh.copy()
-		q = QueryDict(request.META['QUERY_STRING'])
-		for key,value in q.iteritems():
-			if key != 'pg':
-				fresh.update({key : value})
-		template_dict['query_string'] = fresh.urlencode()
-		
-		# Start the search process
-		cat = request.GET['type']
-		str = request.GET['search']
-		results = Song.objects.filter(title__icontains=str).order_by('album__name', 'track')
-		results = results | Song.objects.filter(artist__name__icontains=str).order_by('album__name', 'track')
-		results = results | Song.objects.filter(album__name__icontains=str).order_by('album__name', 'track')
-		results = results | Song.objects.filter(genre__name__icontains=str).order_by('album__name', 'track')
-		#populate the paginator using the search queryset.		
-		p = get_song_search_pager(results)
-                try:
-			single_page = p.page(page)
-		except EmptyPage, InvalidPage:
-			single_page = p.page(p.num_pages)
-		#place all the information we gathered into the template dictionary
-		template_dict['node_list'] = node_list
-		template_dict['active_host'] = host
-		template_dict['search'] = True
-		template_dict['all_pages'] = p
-		template_dict['single_page'] = single_page
-		template_dict['pool_page'] = page
-		logging.info('End of search_pool_page() with GET')
-                return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
-	else:
-		#return message about Post with bad parameters.
-		message = 'Search cannot be executed via POST requests.'
-		logging.info('End of search_pool_page() with POST')
-		return display_error(request, host_name, 'controller/pool.html', message)
+    #populate the paginator using the search queryset.		
+    p = get_song_search_pager(results)
+    try:
+      single_page = p.page(page)
+    except EmptyPage, InvalidPage:
+      single_page = p.page(p.num_pages)
+    
+    #place all the information we gathered into the template dictionary
+    template_dict['node_list'] = node_list
+    template_dict['active_host'] = host
+    template_dict['search'] = True
+    template_dict['search_term'] = term
+    template_dict['all_pages'] = p
+    template_dict['single_page'] = single_page
+    template_dict['pool_page'] = page
+    logging.info('End of search_pool_page() with GET')
+    return render_to_response('controller/pool_search.html', template_dict, context_instance=RequestContext(request))
+  else:
+    #return message about Post with bad parameters.
+    message = 'Search cannot be executed via POST requests.'
+    logging.info('End of search_pool_page() with POST')
+    return display_error(request, host_name, 'controller/pool.html', message)
 
 ############################################################################
 #	Begin 'Action' Functions
@@ -702,8 +672,12 @@ def set_variable(request, host_name):
 def queue_push(request, host_name):
   ajax = {}
   if request.method == 'POST':
-    uri_id = request.POST['uri']
-    s = get_object_or_404(Song, pk=uri_id)
+    if (request.POST['song_uri']):
+      uri_id = request.POST['song_uri']
+      s = get_object_or_404(Song, pk=uri_id)
+    elif (request.POST['album_uri']):
+      uri_id = request.POST['album_uri']
+      s = get_list_or_404(Song, album__exact=uri_id)
 
     #if the uri exists, then process the request
     host = get_object_or_404(Host, name=host_name)

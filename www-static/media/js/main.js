@@ -189,7 +189,7 @@ function QueuePush(form, uri, host, base_url) {
       type: "POST",
       url: url,
       sync: false,
-      data: { 'queue': queue, 'uri': uri, 'csrfmiddlewaretoken': token},
+      data: { 'queue': queue, 'song_uri': uri, 'csrfmiddlewaretoken': token},
       dataType: "json",
       success: function(data){
         var notify_type = 'notice';
@@ -207,5 +207,18 @@ function QueuePush(form, uri, host, base_url) {
         $(form.queue).effect("highlight", { color: red }, timeout);
       },
     });
-    setTimeout(function () {form.queue.selectedIndex = 0;}, timeout+1000);
+    setTimeout(function () {form.queue.selectedIndex = 0;}, timeout+10);
+}
+
+/* Function to perform a new search, usually clicked from related info
+   links in the pool and search pages */
+function Search(term, type, pg_num) {
+  var search = '';
+  if ( term != '') {
+    search = '&search=' + term;
+  }
+  var search_url = baseurl + 'pool/search/' + host + '/'+ pg_num;
+  var current_index = $("#tabs").tabs("option","selected");
+  $('#tabs').tabs('url', current_index, search_url + '?type=song' + search);
+  $('#tabs').tabs('load', current_index);
 }

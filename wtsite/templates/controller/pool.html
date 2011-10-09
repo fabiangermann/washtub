@@ -18,11 +18,20 @@
 {% load controller_extras %}
 {% block tabselect %}
 
-	{% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
+{% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
-<script>$(document).ready(function() {$('.tablesorter tr[title]').tooltip();}); </script> 
-    <form class="searchform" action="{% url controller.views.display_status active_host %}" method="GET">
-	<input class="searchbox" type="text" name="search"></input>
+<script>
+$(document).ready(function() {
+ $('span.ui-icon').tooltip({
+   //events: {def: "mousin,click,mouseout"},
+   position: "top left",
+   offset: [15, -60],
+   //opacity: 0.75,
+ });
+});
+</script> 
+    <form class="searchform" action="." method="GET" onsubmit="Search(this.search.value, this.type.value, '1');return false;">
+	<input class="searchbox" type="text" name="search" value="{{ search_term }}"></input>
 	<input type="hidden" name="type" value="song"></input>
 	<button class="ui-state-default ui-corner-all" type="submit" value="submit">search</button>
 	</form>
@@ -31,29 +40,20 @@
 	<table id="poolTable" class="tablesorter"> 
 	<thead> 
 	<tr> 
-	    <th class="track">#</th> 
+	    <th class="track">Track</th> 
 	    <th class="title">Title</th> 
 	    <th class="artist">Artist</th> 
 	    <th class="album">Album</th> 
 	    <th class="genre">Genre</th>
 	    <th class="lastplay">Last Played</th>
+            <th class="info">Info</th>
 	    <th class="ops">Ops</th> 
 	</tr>
   	</thead>
   	<tbody>
-  	{% if single_page.object_list %}
-  		{% for entry in single_page.object_list %}
-		<tr> <!--  title="{{ entry.filename }}"> -->
-		        {% comment %}	
-			<tooltip>
-			<label value="title:{{ entry.title }}"/>
-			<label value="artist: {{ entry.artist }}"/>
-			<label value="album: {{ entry.album }}"/>
-			<label value="track: {{ entry.track }}"/>
-			<label value="genre: {{ entry.genre }}"/>
-			</tooltip>
-                        {% endcomment %}
-			<td class="track">{{ entry.track }}</td>
+  	{% for entry in single_page.object_list %}
+		<tr>
+			<td class="{{ field }}">{{ entry.track }}</td>
 			<td>{{ entry.title|truncatewords:4 }}</td>
 			<td>{{ entry.artist }}</td>
 			<td>{{ entry.album|truncatewords:4 }}</td>
@@ -63,6 +63,17 @@
 			{% else %}
 				<td></td>
 			{% endif %}
+                        <td class="info">
+                        <span style="padding:0px;margin: 0 auto 0 auto;" class="ui-icon ui-icon-info"></span>
+                        <div class="tooltip">
+                          <div class='tool-label'>Title:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.title }}', 'title', '1');return false;">{{ entry.title }}</a></div></br>
+                          <div class='tool-label'>Artist:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.artist }}', 'artist', '1');return false;">{{ entry.artist }}</a></div></br>
+                          <div class='tool-label'>Album:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.album }}', 'album', '1');return false;">{{ entry.album }}</a></div></br>
+                          <div class='tool-label'>Genre:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.genre }}', 'genre', '1');return false;">{{ entry.genre }}</a></div></br>
+                          <div class='tool-label'>Last:</div><div class='tool-info'>{{ entry.lastplay }}</div></br>
+                          <div class='tool-label'>File:</div><div class='tool-info' title="{{ entry.filename }}">{{ entry.filename|basepath }}</div></br>
+                        </div>
+                        </td>
 			<td class="ops">
 			<form name="queue_add_{{ entry.id }}" onsubmit="return false;">{% csrf_token %}
 			<select name="queue" onchange="QueuePush(this.form, '{{ entry.id }}', '{{ active_host }}', '{{ ''|baseurl }}');">
@@ -79,32 +90,26 @@
 			<input type="hidden" name="uri" value="{{ entry.id }}">
 			</form>
 			</td>
-		</tr>
-	  	{% endfor %}
-	{% else %}
+                </tr>
+	{% empty %}
 		<tr>
 		<td colspan="7">Search did not yield any results</td>
 		</tr>
-	{% endif %}
+	{% endfor %}
   	</tbody>
   	</table>
  	{% block pagination %}
- 	  	<div class="pagination"> 
-		<span class="pagination-pre">
-		{% if single_page.has_previous %}
-			&larr;<a href="{% url controller.views.display_status active_host %}?pg={{ single_page.previous_page_number }}">previous</a>
-		{% endif %}
-		</span>
-		{% if single_page.number %}
-		<span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
-		{% endif %}
-		<span class="pagination-next">
-		{% if single_page.has_next %}
-			<a href="{% url controller.views.display_status active_host %}?pg={{ single_page.next_page_number }}">next</a>&rarr;
-		{% endif %}
-	
-		</span>
-	</div>
+        <div class="pagination">
+           <span class="pagination-pre">
+             {% if single_page.has_previous %}&larr;<a href="." onclick="Search('{{ search_term }}', 'song', '{{ single_page.previous_page_number }}');return false;">previous</a>{% endif %}
+           </span>
+             {% if single_page.number %}
+               <span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
+             {% endif %}
+           <span class="pagination-next">
+             {% if single_page.has_next %}<a href="." onclick="Search('{{ search_term }}', 'song', '{{ single_page.next_page_number }}');return false;">next</a>&rarr;{% endif %}
+           </span>
+        </div>
 	{% endblock pagination %}
 
 {% endblock pooltab %}
