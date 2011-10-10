@@ -49,6 +49,26 @@ function setupUI() {
         }
       }
     });
+    $('button#remove').button({
+      icons: {
+        primary: "ui-icon-close"
+      },
+      text: false
+    });
+    $('button#info').button({
+      icons: {
+        primary: "ui-icon-info"
+      },
+      text: false
+    });
+    $('button#info').tooltip({
+      events: {def: "'click','mouseleave'"},
+      position: "top left",
+      offset: [15, -60],
+      predelay: 25,
+      //delay: 0,
+      //opacity: 0.75,
+ });
   });
 
   $('button').button();
@@ -58,7 +78,7 @@ function setupUI() {
       $("#tabs").tabs("load", current_index);
     }
   );
-
+  
   // Dialog
   $('#dialog_scan').dialog({
     autoOpen: false,
@@ -208,6 +228,38 @@ function QueuePush(form, uri, host, base_url) {
       },
     });
     setTimeout(function () {form.queue.selectedIndex = 0;}, timeout+10);
+}
+
+/* Function used to remove existing request from the specified queue */
+function QueueRemove(form, queue, rid) {
+    var token = form.csrfmiddlewaretoken.value;
+    var url = baseurl + "queue/remove/" + host;
+    //alert(queue + ' ' + uri + ' ' + token + ' ' + host + ' ' + url);
+    $.ajax({
+      type: "POST",
+      url: url,
+      sync: false,
+      data: { 'queue': queue, 'rid': rid, 'csrfmiddlewaretoken': token},
+      dataType: "json",
+      success: function(data){
+        var notify_type = 'notice';
+        var base_msg = 'Queue remove: ';
+        var status_color = green;
+        if (data.type == 'error') {
+          notify_type = data.type;
+          status_color = red;
+        }
+        Pnotify(notify_type, base_msg + data.msg);
+        $(form.button).effect("highlight", { color: status_color }, timeout);
+      },
+      error: function(jqXHR, textStatus)  {
+        Pnotify("error", "Queue remove failed: " + textStatus);
+        $(form.remove).effect("highlight", { color: red }, timeout);
+      },
+    });
+    // Reload the current tab
+    var current_index = $("#tabs").tabs("option","selected");
+    setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout);
 }
 
 /* Function to perform a new search, usually clicked from related info

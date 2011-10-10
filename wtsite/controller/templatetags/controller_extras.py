@@ -64,6 +64,23 @@ def subtract(value, operand):
 
 # Custom Template Here
 
+@register.filter("truncatemiddle")
+def do_truncatemiddle(value, new_size):
+    size = len(smart_str(value))
+    trunc = size - int(new_size) + 4 # Account for the size of the {..} ellipses we'll be adding
+    if size - trunc <= 0 or new_size >= size: 
+	# Account for the size of the ellipses
+	return value
+    f = int(round(new_size/3, 0))
+    t = trunc
+    regex = re.compile('^(.{%d,%d})(.{%d,%d})(.+)' % (f, f, t, t))
+    new_list = regex.split(smart_str(value))
+    if len(new_list) != 5:
+        # Something didn't match correctly
+        return value
+    new_list[2] = '{..}'
+    return ''.join(new_list)
+
 @register.tag(name="queue_offset")
 def do_queue_offset(parser, token):
     try:

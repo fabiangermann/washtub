@@ -29,6 +29,7 @@
     <th class="status">Status</th>
     <th class="onair">On Air</th>
     <th class="rid">RID</th>
+    <th class="ops">Ops</th> 
     <!-- Hidden <td> so we can get the queue offset -->
     <th class="offset" style="display:none">{{ props.offset }}</th> 
   </tr>
@@ -56,6 +57,12 @@
              <td></td>
           {% endif %}
           <td class="rid">{{ listing.rid }}</td>
+          {% if not listing.on_air %}
+          <td class="ops"><form>{% csrf_token %}<button id='remove' name="remove" title="remove rid {{ listing.rid }} from {{ name }}"onclick="QueueRemove(this.form, '{{ name }}', '{{ listing.rid }}');return false;">remove</button></form></td>
+          {% else %}
+          <td class="ops">--</td>
+          {% endif %}
+          </td>
           <!-- Hidden <td> so we can get the queue offset -->
           <td class="offset" style="display:none">{{ props.offset }}</td>
           </tr>
@@ -63,7 +70,7 @@
       {% endfor %}
     {% endfor %}
   {% else %}
-    <tr><td colspan="8">There are no items in this queue to display.</td></tr>
+    <tr><td colspan="9">There are no items in this queue to display.</td></tr>
   {% endif %}
   </tbody>
   </table>

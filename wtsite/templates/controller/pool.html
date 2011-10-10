@@ -20,16 +20,6 @@
 
 {% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
-<script>
-$(document).ready(function() {
- $('span.ui-icon').tooltip({
-   //events: {def: "mousin,click,mouseout"},
-   position: "top left",
-   offset: [15, -60],
-   //opacity: 0.75,
- });
-});
-</script> 
     <form class="searchform" action="." method="GET" onsubmit="Search(this.search.value, this.type.value, '1');return false;">
 	<input class="searchbox" type="text" name="search" value="{{ search_term }}"></input>
 	<input type="hidden" name="type" value="song"></input>
@@ -54,9 +44,9 @@ $(document).ready(function() {
   	{% for entry in single_page.object_list %}
 		<tr>
 			<td class="{{ field }}">{{ entry.track }}</td>
-			<td>{{ entry.title|truncatewords:4 }}</td>
+			<td>{{ entry.title|truncatemiddle:30 }}</td>
 			<td>{{ entry.artist }}</td>
-			<td>{{ entry.album|truncatewords:4 }}</td>
+			<td>{{ entry.album|truncatemiddle:30 }}</td>
 			<td>{{ entry.genre }}</td>
 			{% if entry.lastplay %}
 				<td>{{ listing.on_air }} {% now "T" %}</td>
@@ -64,14 +54,14 @@ $(document).ready(function() {
 				<td></td>
 			{% endif %}
                         <td class="info">
-                        <span style="padding:0px;margin: 0 auto 0 auto;" class="ui-icon ui-icon-info"></span>
+                        <button id="info"></button>
                         <div class="tooltip">
                           <div class='tool-label'>Title:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.title }}', 'title', '1');return false;">{{ entry.title }}</a></div></br>
                           <div class='tool-label'>Artist:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.artist }}', 'artist', '1');return false;">{{ entry.artist }}</a></div></br>
                           <div class='tool-label'>Album:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.album }}', 'album', '1');return false;">{{ entry.album }}</a></div></br>
                           <div class='tool-label'>Genre:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.genre }}', 'genre', '1');return false;">{{ entry.genre }}</a></div></br>
                           <div class='tool-label'>Last:</div><div class='tool-info'>{{ entry.lastplay }}</div></br>
-                          <div class='tool-label'>File:</div><div class='tool-info' title="{{ entry.filename }}">{{ entry.filename|basepath }}</div></br>
+                          <div class='tool-label'>File:</div><div class='tool-info' title="{{ entry.filename|basepath }}">{{ entry.filename|basepath|truncatemiddle:30 }}</div></br>
                         </div>
                         </td>
 			<td class="ops">
@@ -93,7 +83,7 @@ $(document).ready(function() {
                 </tr>
 	{% empty %}
 		<tr>
-		<td colspan="7">Search did not yield any results</td>
+		<td colspan="8">Search did not yield any results</td>
 		</tr>
 	{% endfor %}
   	</tbody>

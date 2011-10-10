@@ -715,6 +715,53 @@ def queue_push(request, host_name):
     ajax['msg'] = 'Requests cannot be pushed via GET requests.'
   return HttpResponse(simplejson.dumps(ajax), mimetype='application/json')
 
+def queue_remove(request, host_name):
+  ajax = {}
+  if request.method == 'POST':
+    rid = request.POST['rid']
+    host = get_object_or_404(Host, name=host_name)
+    host_settings = get_list_or_404(Setting, hostname=host)
+
+    # Parse all available help commands (for reference)
+    help = parse_help(host, host_settings)
+
+    # Make sure that the queue we have is valid.
+    #Check Database and liquidsoap instance
+    queue_name = request.POST['queue']
+    get_object_or_404(Setting, data=queue_name)
+    queue_command = queue_name+'.remove'
+    check_command = smart_str(queue_command+' <rid>')
+    if check_command in help:
+      #we are okay to continue processing the request
+      queue_command += ' '+rid
+      queue_command = smart_str(queue_command)
+    else:
+      raise Http404
+
+    # Get 'request' Queues and Grab Metadata for them
+    queue = parse_queue_dict(host, host_settings)
+    #assert True
+    if rid not in queue[queue_name]:
+      # Uh oh. Let's bail now it doesn't exist anymore
+      ajax['type'] = 'error'
+      ajax['msg'] = 'rid %s no longer exists' % rid
+
+    # If we are still here, commit the removal command
+    logging.info('Removing from queue: %s' % queue_command)
+    response = parse_command(host, host_settings, queue_command)
+    logging.info('Response is: %s' % response)
+    if (True): #(re.search('^\d+$', response)):
+      ajax['type'] = 'info'
+      ajax['msg'] = 'removed rid %s' % rid
+    else:
+      ajax['type'] = 'error'
+      ajax['msg'] = 'something went wrong'
+  else:
+    #return message about Get with bad parameters.
+    ajax['type'] = 'error'
+    ajax['msg'] = 'Requests cannot be removed via GET requests.'
+  return HttpResponse(simplejson.dumps(ajax), mimetype='application/json')
+
 def queue_reorder(request, host_name):
   if request.method == 'GET':
     ajax = {};
