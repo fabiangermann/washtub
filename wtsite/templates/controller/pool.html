@@ -23,7 +23,7 @@
     <form class="searchform" action="." method="GET" onsubmit="Search(this.search.value, this.type.value, '1');return false;">
 	<input class="searchbox" type="text" name="search" value="{{ search_term }}"></input>
 	<input type="hidden" name="type" value="song"></input>
-	<button class="ui-state-default ui-corner-all" type="submit" value="submit">search</button>
+	<button type="submit" value="submit">search</button>
 	</form>
 {% block pooltab %}
   	<b>Available Media(</b><i>{{ all_pages.count }} items found</i><b>):</b><br/>

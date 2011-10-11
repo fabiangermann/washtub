@@ -612,8 +612,7 @@ def stream_stop(request, host_name, stream):
 	node_list = parse_node_list(host, host_settings)
 	if(stream in node_list):
 		response = parse_command(host, host_settings, '%s.stop' % (str(stream)))
-		response = response.splitlines()
-		if '' in response:
+		if response == 'OK':
 			time.sleep(0.2)
 			return HttpResponseRedirect('/'+settings.BASE_URL+'status/'+host_name)
 		else:
@@ -628,8 +627,7 @@ def stream_start(request, host_name, stream):
 	node_list = parse_node_list(host, host_settings)
 	if(stream in node_list):
 		response = parse_command(host, host_settings, '%s.start' % (str(stream)))
-		response = response.splitlines()
-		if('' in response):
+		if response == 'OK' :
 			time.sleep(0.2)
 			return HttpResponseRedirect('/'+settings.BASE_URL+'status/'+host_name)
 		else:
@@ -703,7 +701,7 @@ def queue_push(request, host_name):
     logging.info('Pushing to queue: %s' % queue_command)
     response = parse_command(host, host_settings, queue_command)
     logging.info('Response is: %s' % response)
-    if (True): #(re.search('^\d+$', response)):
+    if re.search('^\d+$', response):
       ajax['type'] = 'info'
       ajax['msg'] = 'new rid %s' % response
     else:
@@ -750,7 +748,7 @@ def queue_remove(request, host_name):
     logging.info('Removing from queue: %s' % queue_command)
     response = parse_command(host, host_settings, queue_command)
     logging.info('Response is: %s' % response)
-    if (True): #(re.search('^\d+$', response)):
+    if response == 'OK':
       ajax['type'] = 'info'
       ajax['msg'] = 'removed rid %s' % rid
     else:

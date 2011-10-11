@@ -23,17 +23,19 @@ from wtsite.mediapool.models import *
 from os import access, stat, path, walk, F_OK, R_OK
 from os.path import join, getsize
 from stat import ST_MTIME
-import tagpy, datetime, logging
+import tagpy, datetime, logging, re
 
-def build_file_list(dir):
-    logging.info('Start of build_file_list(%s)' % dir)
-    if not (access(dir, (F_OK or R_OK))):
-        return
-    list = walk(dir,topdown=True)
-    for root, dirs, files in list:
+def build_file_list(directory):
+    logging.info('Start of build_file_list(%s)' % directory)
+    if not (access(directory, (F_OK or R_OK))):
+        return False
+    
+    walk_cache = walk(directory,topdown=True)
+    logging.info('Finish walk of (%s)' % directory)
+    for root, dirs, files in walk_cache:
         for f in files:
             ext = path.splitext(f)[1]
-            if ext in ('.mp3', '.flac'):
+            if re.search('\.(mp3|flac)$', ext, re.I):
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time)
@@ -48,23 +50,25 @@ def build_file_list(dir):
                     now = datetime.datetime.now().isoformat(' ')
                     s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                     s.save()
-    logging.info('End of build_file_list(%s)' % dir)
-    return
+    logging.info('End of build_file_list(%s)' % directory)
 
-def build_file_list2(dir):
-    logging.info('Start of build_file_list2(%s)' % dir)
-    if not (access(dir, (F_OK or R_OK))):
-        return
+    # Return the walk dictionary we generated, so we don't have to recreate it
+    return True
+
+def build_file_list2(directory):
+    logging.info('Start of build_file_list2(%s)' % directory)
+    if not (access(directory, (F_OK or R_OK))):
+        return False
     #empty all songs from current database.  This should be fast!!!
     for t in (Artist, Album, Genre, Song, Albumart):
       d = t.objects.all()
       d.delete()
 
-    list = walk(dir,topdown=True)
-    for root, dirs, files in list:
+    walk_cache = walk(directory,topdown=True)
+    for root, dirs, files in walk_cache:
         for f in files:
             ext = path.splitext(f)[1]
-            if ext in ('.mp3', '.flac'):
+            if re.search('\.(mp3|flac)$', ext, re.I): 
                 full_path = path.join(root,f)
                 mod_time = stat(full_path)[ST_MTIME]
                 mod_time = datetime.datetime.fromtimestamp(mod_time)
@@ -79,65 +83,41 @@ def build_file_list2(dir):
                 now = datetime.datetime.now().isoformat(' ')
                 s = Song(filename=full_path, date_modified=mod_time, date_entered=now)
                 s.save()
-    logging.info('End of build_file_list2(%s)' % dir)
-    return
+    logging.info('End of build_file_list2(%s)' % directory)
+    return True
 
-def clean_db(dir, songs):
-    logging.info('Start of clean_db(%s)' % dir)
-    if not (access(dir, (F_OK or R_OK))):
-        return
+def clean_db(directory, songs):
+    logging.info('Start of clean_db(%s)' % directory)
+    if not (access(directory, (F_OK or R_OK))):
+        return False
     # remove songs that are in the database, but aren't physically on the filesystem
     for s in songs:
-        found = False
-        db_filename = smart_str(s.filename)
-        list = walk(dir,topdown=True)
-        for root, dirs, files in list:
-            if(found):
-                continue
-            for f in files:
-                if(found):
-                    continue
-                ext = path.splitext(f)[1]
-                if ext in ('.mp3', '.flac'):
-                    full_path = path.join(root,f)
-                    if(full_path == db_filename):
-                        found = True
-        if not found:
-            d = Song.objects.get(filename__exact=s.filename)
-            d.delete()
+        filename = smart_str(s.filename)
+        if not (access(filename, (F_OK or R_OK))):
+            s.delete()
     
     # refresh list of songs (we may have just deleted some)
     songs = Song.objects.all()
     # remove albums that don't have corresponding songs
-    d = Album.objects.filter(song__title__isnull=True)
-    d.delete()
+    for t in (Album, Artist, Genre):
+        d = t.objects.filter(song__title__isnull=True)
+        d.delete()
     
-    d = Artist.objects.filter(song__title__isnull=True)
-    d.delete()
-    
-    d = Genre.objects.filter(song__title__isnull=True)
-    d.delete()
-    
-    logging.info('End of clean_db(%s)' % dir)
-    return  
+    logging.info('End of clean_db(%s)' % directory)
+    return True
 
-def clean_db2(dir, songs):
-    logging.info('Start of clean_db(%s)' % dir)
-    if not (access(dir, (F_OK or R_OK))):
-        return
+def clean_db2(directory, songs):
+    logging.info('Start of clean_db(%s)' % directory)
+    if not (access(directory, (F_OK or R_OK))):
+        return False
     # No need to remove objects that don't exist (build_file_list2 only adds new to empty database)
     # Remove albums that don't have corresponding songs
-    d = Album.objects.filter(song__title__isnull=True)
-    d.delete()
-    
-    d = Artist.objects.filter(song__title__isnull=True)
-    d.delete()
-    
-    d = Genre.objects.filter(song__title__isnull=True)
-    d.delete()
-    
-    logging.info('End of clean_db(%s)' % dir)
-    return 
+    for t in (Album, Artist, Genre):
+      d = t.objects.filter(song__title__isnull=True)
+      d.delete()
+
+    logging.info('End of clean_db(%s)' % directory)
+    return
 
 @login_required()
 def file_scanner(request):
@@ -145,14 +125,19 @@ def file_scanner(request):
     if(settings.MEDIAPOOL_PATH):
         directory = settings.MEDIAPOOL_PATH
     else:
-        return
-    
-    list = build_file_list2(directory)
+        return False
+
+    # Empty all songs from current database.  This should be fast!!!
+    #for t in (Artist, Album, Genre, Song, Albumart):
+    #  d = t.objects.all()
+    #  d.delete()
+ 
+    build_file_list(directory)
     songs = Song.objects.all()
-    clean_db2(directory, songs)
-    
+    clean_db(directory, songs)
+
+    # XXX: do something with the clean_db return values (true/false)
     return HttpResponseRedirect('/'+settings.BASE_URL)
-    
     
 def get_song_pager():
 	 pager = Paginator(Song.objects.all(), 15)

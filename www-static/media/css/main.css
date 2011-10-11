@@ -418,7 +418,10 @@ table.tablesorter th.status, th.genre {
 }
 table.tablesorter td.play {
 	background: #FFF url(../images/tango/16x16/actions/media-playback-start.png) no-repeat center;
-	width:60%;
+	width:20%;
+}
+table.tablesorter td#stream.play {
+	width: 60%;
 }
 table.tablesorter td.stop {
 	background: #FFF url(../images/tango/16x16/actions/media-playback-stop.png) no-repeat center;

@@ -101,12 +101,21 @@
         {% endwith %}
       {% endfor %}
       <tr>
-        <td class="play">
-        <a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a>
-        </td>
-        <td class="stop">
-        <a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a>
-        </td>
+      {% for item, info in status.items %}
+        {% with name|cat:".status" as info_command %}
+          {% ifequal info_command item %}
+            {% ifequal info "off" %}
+            <td class="play">
+            <a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a>
+            </td>
+            {% else %}
+            <td class="stop">
+            <a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a>
+            </td>
+            {% endifequal %}
+          {% endifequal %}
+        {% endwith %}
+      {% endfor %}
         <td class="skip">
         <a href="{% url controller.views.stream_skip active_host name %}" title="Skip"><span id="controlspan">&nbsp;</span></a>
         </td>
@@ -143,8 +152,8 @@
     </thead>
     <tbody>
       <tr>
-      <td class="play"><a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a></td>
-      <td class="stop"><a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a></td>
+      <td id="stream" class="play"><a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a></td>
+      <td id="stream" class="stop"><a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a></td>
       </tr>
     </tbody>
     </table> 
