@@ -43,25 +43,26 @@
   	<tbody>
   	{% for entry in single_page.object_list %}
 		<tr>
-			<td class="{{ field }}">{{ entry.track }}</td>
+			<td class="track">{{ entry.track }}</td>
 			<td>{{ entry.title|truncatemiddle:30 }}</td>
 			<td>{{ entry.artist }}</td>
 			<td>{{ entry.album|truncatemiddle:30 }}</td>
 			<td>{{ entry.genre }}</td>
-			{% if entry.lastplay %}
-				<td>{{ listing.on_air }} {% now "T" %}</td>
-			{% else %}
-				<td></td>
-			{% endif %}
+			<td>{{ entry.lastplay|default_if_none:''|date:"Y-m-d h:i:s T" }}</td>
                         <td class="info">
                         <button id="info"></button>
                         <div class="tooltip">
-                          <div class='tool-label'>Title:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.title }}', 'title', '1');return false;">{{ entry.title }}</a></div></br>
-                          <div class='tool-label'>Artist:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.artist }}', 'artist', '1');return false;">{{ entry.artist }}</a></div></br>
-                          <div class='tool-label'>Album:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.album }}', 'album', '1');return false;">{{ entry.album }}</a></div></br>
-                          <div class='tool-label'>Genre:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.genre }}', 'genre', '1');return false;">{{ entry.genre }}</a></div></br>
-                          <div class='tool-label'>Last:</div><div class='tool-info'>{{ entry.lastplay }}</div></br>
-                          <div class='tool-label'>File:</div><div class='tool-info' title="{{ entry.filename|basepath }}">{{ entry.filename|basepath|truncatemiddle:30 }}</div></br>
+                          <div class='tool-label'>Title:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.title|urlencode }}', 'title', '1');return false;">{{ entry.title }}</a></div></br>
+                          <div class='tool-label'>Artist:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.artist|urlencode }}', 'artist', '1');return false;">{{ entry.artist }}</a></div></br>
+                          <div class='tool-label'>Album:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.album|urlencode }}', 'album', '1');return false;">{{ entry.album }}</a></div></br>
+                          <div class='tool-label'>Genre:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.genre|urlencode }}', 'genre', '1');return false;">{{ entry.genre }}</a></div></br>
+                          <div class='tool-label'>Year:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.year|urlencode }}', 'song', '1');return false;">{{ entry.year }}<a/></div></br>
+                          <hr/>
+                          <div class='tool-label'>Name:</div><div class='tool-info' title="{{ entry.filename|basepath }}">{{ entry.filename|basepath|truncatemiddle:30 }}</div></br>
+                          <div class='tool-label'>Length:</div><div class='tool-info'>{{ entry.length|tominutes }}</div></br>
+                          <div class='tool-label'>Bitrate:</div><div class='tool-info'>{{ entry.bitrate }} kbps</div></br>
+			  <div class='tool-label'>Num:</div><div class='tool-info'>{{ entry.numplays }}</div></br>
+                          <div class='tool-label'>Last:</div><div class='tool-info'>{{ entry.lastplay|default_if_none:'' }}</div></br>
                         </div>
                         </td>
 			<td class="ops">
@@ -91,13 +92,13 @@
  	{% block pagination %}
         <div class="pagination">
            <span class="pagination-pre">
-             {% if single_page.has_previous %}&larr;<a href="." onclick="Search('{{ search_term }}', 'song', '{{ single_page.previous_page_number }}');return false;">previous</a>{% endif %}
+             {% if single_page.has_previous %}&larr;<a href="." onclick="Search('{{ search_term|urlencode }}', 'song', '{{ single_page.previous_page_number }}');return false;">previous</a>{% endif %}
            </span>
              {% if single_page.number %}
                <span class="pagination-count">page {{ single_page.number }} of {{ single_page.paginator.num_pages }}</span>
              {% endif %}
            <span class="pagination-next">
-             {% if single_page.has_next %}<a href="." onclick="Search('{{ search_term }}', 'song', '{{ single_page.next_page_number }}');return false;">next</a>&rarr;{% endif %}
+             {% if single_page.has_next %}<a href="." onclick="Search('{{ search_term|urlencode }}', 'song', '{{ single_page.next_page_number }}');return false;">next</a>&rarr;{% endif %}
            </span>
         </div>
 	{% endblock pagination %}

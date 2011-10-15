@@ -20,55 +20,108 @@
 
 /* Initial JQuery UI setup */
 function setupUI() {
+
   //Tabs
   $('#tabs').tabs({ cookie: { path: baseurl, name: "washtub-tabs" },
                     ajaxOptions: { cache: false },
                     spinner: "" //'<img width="50%" height="50%" src="{{ "media/images/throbber.gif"|baseurl }}"></img>'
   });
   $('#tabs').bind('tabsload', function(event, ui) {
+    var index = $('#tabs').tabs( "option", "selected" );
+    
+    // Do these actions for all tabs
     // Stripe the Tablesorters
     $.tablesorter.defaults.widgets = ['zebra'];
 
     // Stripe the rest of the tables
     $('tr:nth-child(even)').addClass("odd");
 
-    // Call Table Sorter
-    // This is hackish, but zebra widgets don't refresh automagically after
-    // ajax responses in tables
-    // A better solution would be to check the active tab and only instantiate
-    //  the tablesorters that we need (speed enhancement)
-    $("#aliveTable").tablesorter();
-    $("#onAirTable").tablesorter();
-    $("#historyTable0").tablesorter();
-    $("#historyTable1").tablesorter();
-    $("#poolTable").tablesorter();
-    $('#EqueueTable').tableDnD({
-      onDrop: function(table, row) {
-        if (host != '') {
-          QueueReorder(table, row, host, baseurl);
+    // Status Tab
+    if (index == '0') {
+      //$.history.load('status');
+      window.location.hash = '';
+      $("#aliveTable").tablesorter();
+      $("#onAirTable").tablesorter();
+    }
+    // Queue Tab
+    if (index == '1') {
+      $.history.load('queues');
+      $('#EqueueTable').tableDnD({
+        onDrop: function(table, row) {
+          if (host != '') {
+            QueueReorder(table, row, host, baseurl);
+          }
+        }
+      });
+      $('button#remove').button({
+        icons: {
+          primary: "ui-icon-close"
+        },
+        text: false
+      });
+    }
+    // Pool Tab (and search)
+    if (index == '2') {
+      // Get the url
+      var count = 0;
+      var url = '';
+
+      // Define a default hash value (no search crit defined)
+      var hash = 'pool';
+
+      // Get the current url that loads into pool tab
+      $('#tabs > ul li a').each(function() {
+        if (count == 2) {
+          url = $(this).data('load.tabs');
+        }
+        count++;
+      });
+
+      // Parse the url params (that define search crit)
+      var params = UrlParams(url);
+
+      // Build the hash value on the search crit
+      if ('type' in params) {
+        hash = 'search-' + params['type'];
+        if ('pg' in params) {
+          hash += '-' + params['pg'];
+        } else {
+          hash = '-1';
+        }
+        if ('search' in params) {
+          hash += '-' + params['search'];
         }
       }
-    });
-    $('button#remove').button({
-      icons: {
-        primary: "ui-icon-close"
-      },
-      text: false
-    });
-    $('button#info').button({
-      icons: {
-        primary: "ui-icon-info"
-      },
-      text: false
-    });
-    $('button#info').tooltip({
-      events: {def: "'click','mouseleave'"},
-      position: "top left",
-      offset: [15, -60],
-      predelay: 25,
-      //delay: 0,
-      //opacity: 0.75,
- });
+      $.history.load(hash);
+      
+      // Finish loading the rest of the tab elements
+      $("#poolTable").tablesorter();
+      $('button#info').button({
+        icons: {
+          primary: "ui-icon-info"
+        },
+        text: false
+      });
+      $('button#info').tooltip({
+        //events: {def: "click,mouseout"},
+        position: "top left",
+        offset: [15, -60],
+        predelay: 25,
+        //delay: 0,
+        //opacity: 0.75,
+      });
+    }
+    // History Tab
+    if (index == '3') { 
+      $.history.load('history');
+      $("#historyTable0").tablesorter();
+      $("#historyTable1").tablesorter();
+    }
+    // Help Tab
+    if (index == '4') {
+      $.history.load('help');
+      // Nothing here yet
+    }
   });
 
   $('button').button();
@@ -266,11 +319,38 @@ function QueueRemove(form, queue, rid) {
    links in the pool and search pages */
 function Search(term, type, pg_num) {
   var search = '';
-  if ( term != '') {
+  var tab = '2';
+  var hash = ['search', type, pg_num];
+  if (term != undefined && term != '') {
+    hash.push(term);
     search = '&search=' + term;
   }
   var search_url = baseurl + 'pool/search/' + host + '/'+ pg_num;
   var current_index = $("#tabs").tabs("option","selected");
-  $('#tabs').tabs('url', current_index, search_url + '?type=song' + search);
-  $('#tabs').tabs('load', current_index);
+  // XXX: We need to enable search types for type: album, artist, song
+  $('#tabs').tabs('url', 2, search_url + '?type=song' + search);
+  $('#tabs').tabs('select', tab);
+  $('#tabs').tabs('load', tab);
+  $('#tabs').tabs('show', tab);
+}
+
+/* Function to parse the url params out of a full url.
+   We use this to determine what state a tab is in, using
+   the url that is loaded.
+*/
+
+function UrlParams(s) {
+    var params = {},
+        e,
+        a = /\+/g,  // Regex for replacing addition symbol with a space
+        b = /(\d+)\?(.*)/,
+        r = /([^&=]+)=?([^&]*)/g,
+        d = function (s) { return decodeURIComponent(s.replace(a, " ")); };
+    if(q = b.exec(s)) {
+      params['pg']=q[1];
+    }
+    else { return params; }
+    while (e = r.exec(q[2]))
+       params[d(e[1])] = d(e[2]);
+    return params;
 }

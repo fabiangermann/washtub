@@ -196,7 +196,7 @@ def parse_history(host, host_settings, node_list):
 							entry_list.append(line[1].strip('"'))
 				found = False
 				for name,list in history.copy().iteritems():
-					if(list == entry_list):
+					if(list['rids'] == entry_list):
 					   found = True
 					   new_name = name+', '+node
                                            history[new_name] = {}
@@ -826,7 +826,9 @@ def commit_log(host_name):
 			
 	for name, entries in history.iteritems():
 		name = replacedot(name)
-		for i, e in enumerate(reversed(entries)): #reverse for descending order
+                if not entries['rids']:
+			return
+		for i, e in enumerate(reversed(entries['rids'])): #reverse for descending order
 			if i == 0: #only write log entry for the latest on_air entry							
 				for rid, listing in metadata_storage.iteritems():
 					if e == rid:
@@ -842,6 +844,9 @@ def commit_log(host_name):
 								  Q(album__name__iexact=listing['album']),
 								  Q(genre__name__iexact=listing['genre'])).distinct()[0]
 								id = results.id
+                                                                results.numplays=results.numplays+1;
+                                                                results.lastplay=listing['on_air'];
+                                                                results.save();  
 							except(IndexError):
 								id = -1
 							log = Log(

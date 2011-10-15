@@ -41,6 +41,7 @@
 <link rel="stylesheet" type="text/css" href="{{ "media/css/jquery.pnotify.default.css"|baseurl }}" />
 <link rel="stylesheet" type="text/css" href="{{ "media/css/jquery.pnotify.default.icons.css"|baseurl }}" />
 <script type="text/javascript" src="{{ "media/js/jquery.cookie.js"|baseurl }}"></script>
+<script type="text/javascript" src="{{ "media/js/jquery.history.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tools.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tablesorter.min.js"|baseurl }}"></script>
 <script type="text/javascript" src="{{ "media/js/jquery.tablednd_0_5.js"|baseurl }}"></script>
@@ -55,9 +56,31 @@
   var red = "#EE8A7C";
   var green = "#ABEE87";
   var timeout = 750; // timeout used for user feedback and page refresh
+  var search_regex = /search-(song|album|artist|genre)-(\d+)(-(.*))?$/;
 
   $(function(){
     setupUI();
+    $.history.init(function(hash){
+        if(hash == "" || hash == "status") {
+            //$('#tabs').tabs('select', 0);
+        } else if( hash == "queues" ) {
+            $('#tabs').tabs('select', 1);
+        } else if( hash == "pool" ) {
+            $('#tabs').tabs('select', 2);
+        } else if( search_regex.test(hash) ) {
+            bits = search_regex.exec(hash);
+            term = bits.length == 5 ? bits[4] : "";
+            //alert("length: "+ bits.length + "\nterm: "+ term + '\ntype: ' + bits[1] + '\npg: ' + bits[2]);
+            Search(term, bits[1], bits[2]);
+        } else if( hash == "history" ) {
+            $('#tabs').tabs('select', 3);
+        } else if( hash == "help" ) {
+            $('#tabs').tabs('select', 4);
+        }
+        $('#HostList').val(host);
+      },
+      { unescape: ",/" }
+    );
   });
 
 </script>
