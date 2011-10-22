@@ -57,7 +57,7 @@
              <td></td>
           {% endif %}
           <td class="rid">{{ listing.rid }}</td>
-          {% if not listing.on_air %}
+          {% if not listing.on_air and props.type != 'queue' %}
           <td class="ops"><form>{% csrf_token %}<button id='remove' name="remove" title="remove rid {{ listing.rid }} from {{ name }}"onclick="QueueRemove(this.form, '{{ name }}', '{{ listing.rid }}');return false;">remove</button></form></td>
           {% else %}
           <td class="ops">--</td>

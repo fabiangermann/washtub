@@ -25,10 +25,8 @@
   <language>en-us</language>
   <generator>Washtub Liquidsoap Controller</generator>
   {% spaceless %}
-  {% for name, props in history.items %}
-    {% for e in props.rids reversed%}
-      {% for rid, listing in metadata_storage.items %}
-        {% ifequal e rid %}
+  {% for name, entries in history.items %}
+      {% for entry, listing in entries.items %}
       	<item>
   	<title>"{{ listing.title }}" by {{ listing.artist }}</title>
   	<link>{{ ""|serverurl }}{% url controller.views.display_status active_host %}{{ "?search="|cat:listing.title|cat:"&type=song#search-tab" }}</link>
@@ -42,9 +40,7 @@
   	  <pubDate>{{ listing.on_air|date:"D d M Y" }} {{ listing.on_air|time:"H:i:s" }} {% now "T" %}</pubDate>
   	{% endif %}
   	</item>
-  	{% endifequal %}
-      {% endfor %}
-    {% endfor %}
+     {% endfor %}
   {% endfor %}
   {% endspaceless %}
   </channel>

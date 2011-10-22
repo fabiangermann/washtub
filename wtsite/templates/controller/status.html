@@ -27,8 +27,42 @@
 	$('#tabs').tabs();
 {% endblock tabsetup %}
 {% block content %}
-<button id="refresh" style="float:right;position:relative;z-index:10;margin:5px 7px 0px 0px;">Refresh</button>
 <div id="tabs">
+<table id="headerstatus">
+    {% if status %}
+      <tr>
+      <td id="leftside" class="ui-widget-content ui-corner-left ui-state-default">
+        <a href="http://sourceforge.net/p/washtub">Washtub - The Liquidsoap Controller</a>
+        <h1>{{ status.host|upper }}</h1>
+      </td>
+      <td id="middle" class="ui-widget-content">
+        <div class='status-header ui-state-default'>Info</div>
+        <div class='status-label'>IP:</div><div class="status-info">{{ status.ip_address }}</div></br>
+        <div class='status-label'>Version:</div><div class="status-info">{{ status.version }}</div><br/>
+        <div class='status-label'>Uptime:</div><div id='uptime' class="status-info">{{ status.uptime }}</div></br>
+        <div class='status-label'>Icecast:</div><div class="status-info">{{ status.base_url|urlize }}</div>
+      </td>
+      <td id="middle" class="ui-widget-content">
+        <div class='status-header ui-state-default'>Now Playing</div> 
+	{% if now_playing %}
+        <div class='status-label'>Title:</div><div id='title' class="status-info">{{ now_playing.title }}</div></br>
+        <div class='status-label'>Artist:</div><div id='artist' class="status-info">{{ now_playing.artist }}</div></br>
+        <div class='status-label'>Album:</div><div id='album' class="status-info">{{ now_playing.album }}</div></br>
+        <div class='status-label'>Genre:</div><div id='genre' class="status-info">{{ now_playing.genre }}</div></br>
+        {% endif %}
+      </td>
+      <td id='middle' class='ui-widget-content'>
+        <div class="status-header ui-state-default">Next Track</div>
+      </td>
+      <td id="rightside" class="ui-widget-content ui-corner-right">
+        <div class="status-header ui-state-default">Remaining</div>
+        <div class="status-remaining">{% if status.remaining %}{{ status.remaining|tominutes }}{% endif %}</div>
+        <div id='remaining' class="status-info" style="display:none">{% if status.remaining %}{{ status.remaining }}{% endif %}</div>
+      </td>
+      </tr>
+    {% endif %}
+</table>
+<button id="refresh" class="ui-widget-button ui-corner-all" style="float:right;position:relative;z-index:10;margin:2px 3px 0px 0px;">Refresh</button>
 <ul>
     <li><a href="{% url controller.views.display_nodes active_host %}" title="status-tab"><div style="float:left">Status</div><span>&nbsp;</span></a></li>
     <li><a href="{% url controller.views.display_queues active_host %}" title="queues-tab"><div style="float:left">Queues</div><span>&nbsp;</span></a></li>

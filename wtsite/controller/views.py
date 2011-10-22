@@ -16,11 +16,13 @@
 
 from django.conf import settings
 from django.utils import simplejson
+from django.utils.datastructures import SortedDict
+from django.core import serializers
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseRedirect, HttpResponse, HttpResponseServerError
+from django.http import Http404, HttpResponseRedirect, HttpResponse, HttpRequest, HttpResponseServerError
 from django.http import QueryDict
 from django.db.models import Q
 from django.template import RequestContext
@@ -48,7 +50,7 @@ def is_online(host, host_settings):
 		port = '1234' 
 	command='help\n'
 	try:
-		tn = telnetlib.Telnet(str(host.ip_address), port, 2)
+		tn = telnetlib.Telnet(str(host.ip_address), port, 0.5)
 		tn.write(command)
 		response = tn.read_until("END")
 		tn.close()
@@ -181,31 +183,52 @@ def parse_input_streams(host, host_settings, node_list):
 	return streams
 							
 def parse_history(host, host_settings, node_list):
-	history = {}
-	for node,type in node_list.iteritems():
-		type = type.split('.')
-		if (len(type) > 0):
-			if ('output' in type):
-				entry_list = []
-				meta = parse_command(host, host_settings, '%s.metadata\n' % (node))
-				meta = meta.splitlines()
-				for line in meta:
-					line = line.split('=')
-					if( 'rid' in line):
-						if ( len(line) > 1 ):
-							entry_list.append(line[1].strip('"'))
-				found = False
-				for name,list in history.copy().iteritems():
-					if(list['rids'] == entry_list):
-					   found = True
-					   new_name = name+', '+node
-                                           history[new_name] = {}
-					   history[new_name]['rids'] = entry_list
-					   del history[name]
-				if(not found):
-                                        history[node] = {}
-					history[node]['rids'] = entry_list
-	return history
+#  
+#
+# returns history dictionary of of form: 
+# {'stream_a': {'1': {'artist': 'michael jackson', 'title': 'beat it', 'genre':'pop'}, '2': {...}},
+#  'stream_b': {'1': {'artist': 'huey lewis', 'title': 'power of love', 'genre':'rock'}}}
+
+  history = {}
+  for node,t in node_list.iteritems():
+    if (re.search('^(output|store_metadata)', t)):
+      entry_list = SortedDict()
+      command = 'metadata'
+      if t == 'store_metadata':
+        command = 'get'
+      meta = parse_command(host, host_settings, '%s.%s\n' % (node, command))
+      meta = meta.splitlines()
+      for line in meta:
+        item = re.split('^--- (\d+) ---$', line)
+        if len(item) == 3: 
+          # Start a new item of metadata
+          num = item[1]
+          entry_list.insert(0, num, {})
+        else:
+          # continue the existing item
+          line = line.split('=')
+          if ( len(line) == 2 ):
+            key = line[0]
+            value = line[1].strip('"') 
+            if key == 'on_air':
+               value = datetime.strptime(value, "%Y/%m/%d %H:%M:%S")
+            entry_list[num][key] = value
+
+      found = False
+      logging.info('In parse_history() after entry_list')
+      h_copy = history.copy()
+      for name in h_copy.keys():
+        for h_key in h_copy[name].keys():
+          found = h_copy[name][h_key] == entry_list[h_key]
+        if found:
+          new_name = name+', '+node
+          history[new_name] = {}
+          history[new_name] = entry_list
+          del history[name]
+      if(not found):
+        history[node] = {}
+        history[node] = entry_list
+  return history
   
 def parse_queue_dict(host, host_settings):
 	queue_list = []
@@ -338,35 +361,56 @@ def index (request):
 
 @login_required	
 def display_status(request, host_name):
-	logging.info('Start of display_status()')
-	if request.method == 'GET':		
-		host = get_object_or_404(Host, name=host_name)
-		host_settings = get_list_or_404(Setting, hostname=host)
-		t = Theme.objects.get(host__name__exact=host_name)
-		template_dict = {}
-		try:
-			pg_num = request.GET['pg']
-		except:
-			pg_num=1
-		try:
-			# If there is a search string parameter,
-			# set search to active and pass along the
-			# the query string so ajax calls know what to search
-			search = request.GET['search']
-			template_dict['search'] = True
-			template_dict['query_string'] = request.META['QUERY_STRING']
-		except:
-			template_dict['search'] = False
-		
-		template_dict['pool_page'] = pg_num
-		template_dict['active_host'] = host
-		template_dict['hosts'] = get_host_list()
-		template_dict['theme'] = t.name
-		logging.info('End of display_status() with GET')
-		return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
-	else:
-		logging.info('End of display_status() with POST')
-		return
+  logging.info('Start of display_status()')
+  h = Host.objects.filter(name__exact=host_name)
+  for i in h:
+    host = i
+  host_settings = Setting.objects.filter(hostname=host)
+  
+  #Parse all available help commands (for reference)    
+  help_list = parse_help(host, host_settings)
+
+  #Get active nodes for this host and this liquidsoap instance
+  node_list = parse_node_list(host, host_settings)
+  out_streams = parse_output_streams(host, host_settings, node_list)
+  status = build_status_list(host, host_settings, out_streams, help_list)
+  history = parse_history(host, host_settings, node_list)
+  
+  template_dict = {}
+  template_dict['now_playing'] = {}
+
+  # Receive the most recent entry from the first history node AS now_playing
+  for node,entries in history.iteritems():
+    for number, entry in sorted(entries.iteritems(), reverse=True):
+      template_dict['now_playing'] = entry
+      continue
+
+  least = 0
+  # We want to reduce some status variables to one value 
+  for item,value in status.copy().iteritems():
+    if '.remaining' in item:
+      if (least == 0 or value < least) and value != '(undef)':
+        least = value
+      del status[item]
+
+  # These items don't need direct serialization
+  status['remaining'] = least 
+  template_dict['status'] = status
+  
+  # Check for ajax call so we can return json instead of full html
+  if request.is_ajax():
+    template_dict['active_host'] = serializers.serialize('json', h)
+    dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime) else None
+    return HttpResponse(simplejson.dumps(template_dict, indent=2, ensure_ascii=False, default=dthandler), mimetype='application/json') 
+  
+  # These values are only needed for the html template
+  template_dict['active_host'] = host
+  template_dict['hosts'] = get_host_list()
+  t = Theme.objects.get(host__name__exact=host_name)
+  template_dict['theme'] = t.name
+  logging.info('End of display_status() with GET')
+  
+  return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 def display_error(request, host_name, template, msg):		
 	host = get_object_or_404(Host, name=host_name)
@@ -463,6 +507,7 @@ def display_queues(request, host_name):
 	return render_to_response('controller/queues.html', template_dict, context_instance=RequestContext(request))
 	
 def display_history(request, host_name):
+	logging.info('Start of display_history()')
 	host = get_object_or_404(Host, name=host_name)
 	host_settings = get_list_or_404(Setting, hostname=host)
 	
@@ -475,7 +520,6 @@ def display_history(request, host_name):
 	#Get 'history' Listing and Grab Metadata for it.
 	history = parse_history(host, host_settings, node_list)
 	template_dict['active_host'] = host
-	template_dict['metadata_storage'] = parse_queue_metadata(host, host_settings, history, metadata_storage)
 	template_dict['history'] = history
 	
 	if request.method == 'GET':
@@ -490,6 +534,7 @@ def display_history(request, host_name):
 	else:
 		 template_file = 'history.html'
 		 mime_output = 'text/html'
+	logging.info('End of display_history()')
 	return render_to_response('controller/'+template_file, template_dict, context_instance=RequestContext(request), mimetype=mime_output)
 
 @login_required	
@@ -814,52 +859,42 @@ def commit_log(host_name):
 	node_list = parse_node_list(host, host_settings)
 	#Instantiate a dictionary for Metadata, RIDs will reference this dictionary.
 	history = {}
-	metadata_storage = {}
 
-	#Get 'on_air' Queue and Grab Metadata for it
-	air_queue = get_air_queue(host, host_settings)
-	metadata_storage = parse_queue_metadata(host, host_settings, air_queue, metadata_storage)
-	
 	#Get 'history' and Grab Metadata for it
 	history = parse_history(host, host_settings, node_list)
-	metadata_storage = parse_queue_metadata(host, host_settings, history, metadata_storage)
 			
 	for name, entries in history.iteritems():
 		name = replacedot(name)
-                if not entries['rids']:
-			return
-		for i, e in enumerate(reversed(entries['rids'])): #reverse for descending order
-			if i == 0: #only write log entry for the latest on_air entry							
-				for rid, listing in metadata_storage.iteritems():
-					if e == rid:
-						#this is the 'latest' on_air entry and 
-						#it matches a metadata listing
-						try:
-							log = Log.objects.get(Q(entrytime__exact=listing['on_air']),
-												  Q(stream__exact=name))
-						except Log.DoesNotExist:
-							try:
-								results = Song.objects.filter(Q(title__iexact=listing['title']),
-								  Q(artist__name__iexact=listing['artist']),
-								  Q(album__name__iexact=listing['album']),
-								  Q(genre__name__iexact=listing['genre'])).distinct()[0]
-								id = results.id
-                                                                results.numplays=results.numplays+1;
-                                                                results.lastplay=listing['on_air'];
-                                                                results.save();  
-							except(IndexError):
-								id = -1
-							log = Log(
-						    	entrytime = listing['on_air'],
-						    	info = 'RADIO_HISTORY',
-						    	host = host,
-						    	stream = name,
-						    	song_id = id,
-						    	title = listing['title'],
-						    	artist = listing['artist'],
-						    	album = listing['album'],
-								)
-							log.save()
+		for i, listing in entries.iteritems(): #reverse for descending order
+			if i == '1': #only write log entry for the latest on_air entry							
+				#this is the 'latest' on_air entry and 
+				#it matches a metadata listing
+				try:
+					log = Log.objects.get(Q(entrytime__exact=listing['on_air']),
+										  Q(stream__exact=name))
+				except Log.DoesNotExist:
+					try:
+						results = Song.objects.filter(Q(title__iexact=listing['title']),
+						  Q(artist__name__iexact=listing['artist']),
+						  Q(album__name__iexact=listing['album']),
+						  Q(genre__name__iexact=listing['genre'])).distinct()[0]
+						id = results.id
+                                                results.numplays=results.numplays+1;
+                                                results.lastplay=listing['on_air'];
+                                                results.save();  
+					except(IndexError):
+						id = -1
+					log = Log(
+				    	entrytime = listing['on_air'],
+				    	info = 'RADIO_HISTORY',
+				    	host = host,
+				    	stream = name,
+				    	song_id = id,
+				    	title = listing['title'],
+				    	artist = listing['artist'],
+				    	album = listing['album'],
+					)
+					log.save()
 	
 def write_log(request, host_name):
 	if request.method == 'GET':		

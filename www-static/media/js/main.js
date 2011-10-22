@@ -19,7 +19,13 @@
 /*  Add Custom Javascript Here */
 
 /* Initial JQuery UI setup */
+
+var timeout = 750; // Effects and general UI response timeouts
+var refresh_timeout = 0; // This is the trigger to use on clearInterval
+
 function setupUI() {
+  // Start the countdown until the next track
+  refresh_timeout = countdownRefresh();
 
   //Tabs
   $('#tabs').tabs({ cookie: { path: baseurl, name: "washtub-tabs" },
@@ -38,7 +44,6 @@ function setupUI() {
 
     // Status Tab
     if (index == '0') {
-      //$.history.load('status');
       window.location.hash = '';
       $("#aliveTable").tablesorter();
       $("#onAirTable").tablesorter();
@@ -127,8 +132,9 @@ function setupUI() {
   $('button').button();
   $("button#refresh").click(
     function() {
-      var current_index = $("#tabs").tabs("option","selected");
-      $("#tabs").tabs("load", current_index);
+      clearInterval(refresh_timeout);
+      refreshStatus();
+      refreshTab();
     }
   );
   
@@ -231,14 +237,12 @@ function QueueReorder(table, row, host, base_url) {
         $(table_row_id).effect("highlight", { color: status_color }, timeout);
 
         // Reload the current tab
-        var current_index = $("#tabs").tabs("option","selected");
-        setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout)
+        refreshTab();
       },
       error: function(jqXHR, textStatus)  {
         Pnotify("error", "Queue reorder failed: " + textStatus);
         // Reload the current tab
-        var current_index = $("#tabs").tabs("option","selected");
-        setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout);
+        refreshTab();
       },
     });
   }
@@ -247,8 +251,7 @@ function QueueReorder(table, row, host, base_url) {
     Pnotify("error", "Queue operation failed: Items cannot be moved to the last position.");
 
     // Reload the current tab
-    var current_index = $("#tabs").tabs("option","selected");
-    setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout);
+    refreshTab();
   }
 }
 
@@ -274,6 +277,7 @@ function QueuePush(form, uri, host, base_url) {
         }
         Pnotify(notify_type, base_msg + data.msg);
         $(form.queue).effect("highlight", { color: status_color }, timeout);
+        setTimeout("refreshStatus()", timeout);
       },
       error: function(jqXHR, textStatus)  {
         Pnotify("error", "Queue push failed: " + textStatus);
@@ -311,15 +315,14 @@ function QueueRemove(form, queue, rid) {
       },
     });
     // Reload the current tab
-    var current_index = $("#tabs").tabs("option","selected");
-    setTimeout(function() { $("#tabs").tabs("load", current_index); }, timeout);
+    refreshTab();
 }
 
 /* Function to perform a new search, usually clicked from related info
    links in the pool and search pages */
 function Search(term, type, pg_num) {
   var search = '';
-  var tab = '2';
+  var tab = 2;
   var hash = ['search', type, pg_num];
   if (term != undefined && term != '') {
     hash.push(term);
@@ -328,7 +331,7 @@ function Search(term, type, pg_num) {
   var search_url = baseurl + 'pool/search/' + host + '/'+ pg_num;
   var current_index = $("#tabs").tabs("option","selected");
   // XXX: We need to enable search types for type: album, artist, song
-  $('#tabs').tabs('url', 2, search_url + '?type=song' + search);
+  $('#tabs').tabs('url', tab, search_url + '?type=song' + search);
   $('#tabs').tabs('select', tab);
   $('#tabs').tabs('load', tab);
   $('#tabs').tabs('show', tab);
@@ -353,4 +356,106 @@ function UrlParams(s) {
     while (e = r.exec(q[2]))
        params[d(e[1])] = d(e[2]);
     return params;
+}
+
+function toMinutes(seconds) {
+  var minutes = parseInt((seconds / 60));
+  var seconds = '' + parseInt((seconds % 60));
+  if (seconds.length == 1) {
+    seconds = '0' + seconds;
+  }
+  return minutes + ':' + seconds;
+}
+
+/* Function to facilitate auto refresh on track changes
+   This takes no arguments, but could probably use some
+   inputs to specify the refresh function
+*/   
+function countdownRefresh() {
+  var empty = '--:--';
+  var get_value = $("div#remaining.status-info");
+  var display = $("div.status-remaining");
+  var count = parseInt($(get_value).html());
+  
+  countdown = setInterval(function(){
+    if ( isNaN(count) || count <= 0) {
+      // Refresh again, but let's give
+      // liquidsoap time for next track load
+      $(display).html(empty);
+      clearInterval(refresh_timeout);
+      setTimeout("refreshStatus();refreshTab();", 1500);
+    }
+    else {
+      $(display).html(toMinutes(count));
+    }
+    count--;
+  }, 1000);
+  return countdown;
+}
+
+/* Function to refresh status of the page.  This will reload
+   the current tab as well as refresh status info in the header
+   section for artist, title, etc
+*/
+
+function refreshStatus() {
+  if ( host == '' || host == undefined ) {
+    return;
+  }
+
+  // Then move on to the status header section
+  var url = baseurl + "status/" + host; 
+  var props = { 'now_playing': ['title', 'artist', 'album', 'genre', 'remaining'],
+                'status' : ['remaining', 'uptime']
+  };
+
+  // Setup a variable to grab for the status timeout
+  var remaining = 0;
+  $.ajax({
+      type: "GET",
+      url: url,
+      sync: false,
+      dataType: "json",
+      success: function(data){
+        for ( var key in props) {
+          // Check to see if the key existed in the response
+          if (data.hasOwnProperty(key)) {
+            var s = data[key];
+            for (i=0; i < props[key].length; i++) {
+              var label = props[key][i];
+              var element = $('div#' + label + '.status-info');
+              var text = '';
+              if (s.hasOwnProperty(label)) {
+                text = s[label];
+                if ( label == 'remaining' ) {
+                  remaining = text
+                }
+              }
+              // Set the text even if it's empty. We dont want old metadata to persist.
+              $(element).html(text);
+            }
+          }
+        }
+        // If we were successful, let's restart the timer
+        // And also clear the existing timer, just in case
+        // But only if there's actually something playing
+        if ( remaining > 0 ) {
+          clearInterval(refresh_timeout); 
+          refresh_timeout = countdownRefresh();
+        }
+      },
+      error: function(jqXHR, textStatus)  {
+        Pnotify("error", "Status update failed: " + textStatus);
+      },
+    });
+}
+
+function refreshTab() {
+   // Reload the current tab first
+  var current_index = $("#tabs").tabs("option","selected");
+  setTimeout(function() {
+      $("#tabs").tabs("load", current_index);
+    },
+    timeout
+  );
 }

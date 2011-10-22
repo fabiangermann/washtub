@@ -176,15 +176,6 @@
   {% endfor %}
   </div>
   <div id="leftside">
-  {% if status %}
-    <h1>{{ status.host|upper }}</h1>
-    <div>
-    IP Address:&nbsp;{{ status.ip_address }}<br/>
-    Version:&nbsp;{{ status.version }}<br/>
-    Uptime:&nbsp;{{ status.uptime }}<br/>
-    {{ status.base_url|urlize }}<br/>
-    </div>
-  {% endif %}
   </div>
   <div class="clearingdiv">&nbsp;</div>
   {% for name, entries in air_queue.items %}
@@ -198,7 +189,7 @@
       <th class="album">Album</th> 
       <th class="status">Status</th>
       <th class="onair">On Air</th>
-      <th class="rid">RID</th> 
+      <th class="rid">RID</th>
     </tr>
     </thead>
     <tbody>

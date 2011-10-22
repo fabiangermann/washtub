@@ -17,8 +17,8 @@
 {% endcomment %}
 
 {% load controller_extras %}
-<div id="rss"><a href="{{ "status/history/"|cat:active_host|cat:"?format=rss"|baseurl }}"><img src="{{ "media/images/rss.png"|baseurl}}"/></div>
-{% for name, props in history.items %}
+<div id="rss"><a href="{{ "status/history/"|cat:active_host|cat:"?format=rss"|baseurl }}"><img src="{{ "media/images/rss.png"|baseurl}}"/></a></div>
+{% for name, entries in history.items %}
   	<b>History Detail(</b><i>{{ name|replacedot }}</i><b>):</b><br/>
   	<table id="historyTable{{ forloop.counter0 }}" class="tablesorter"> 
 	<thead> 
@@ -33,12 +33,9 @@
 	</tr>
     	  	</thead>
     	  	<tbody>
-                {% if props.rids %}
-                {% for e in props.rids reversed%}
-  		  {% for rid, listing in metadata_storage.items %}
-  		    {% ifequal e rid %}
+                {% for entry,listing in entries.items %}
   		      <tr>
-  			<td class="pos">{{ forloop.parentloop.counter }}</td>
+  			<td class="pos">{{ entry }}</td>
   			<td>{{ listing.title|truncatewords:8 }}</td>
   			<td>{{ listing.artist }}</td>
   			<td>{{ listing.album|truncatewords:5 }}</td>
@@ -50,12 +47,9 @@
   			{% endif %}
   			<td class="rid">{{ listing.rid }}</td>
   			</tr>
-  		     {% endifequal %}
-    	  	  {% endfor %}
-    	  	{% endfor %}
-                {% else %}
+                {% empty %}
                    <tr><td colspan="8">There are no items in the history to display.</td></tr>
-                {% endif %}
+                {% endfor %}
     	  	</tbody>
     	  	</table>
     	  	<br/>

@@ -76,6 +76,7 @@ div.status a {
 }
 
 div.status{
+	margin-top:5px;
 	float:right;
 }
 
@@ -160,6 +161,71 @@ width: 542px;
 #leftside{
 width:auto;
 }
+
+#headerstatus {
+        height: 67px;
+        margin-bottom: 2px;
+        padding: 0px;
+        width:100%;
+        border-spacing: 0;
+        table-layout:fixed;
+}
+
+#headerstatus #leftside, #headerstatus #rightside, #middle, #middle-metadata, #middle-remaining{
+	clear:none;
+        float:none;
+        display:table-cell;
+        height: 100%;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+        overflow:hidden;
+        white-space:nowrap;
+	vertical-align:top;
+}
+
+#headerstatus #leftside div {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+}
+
+#headerstatus #leftside {
+        background-image:none;
+        border-color:#AAA;
+	width: 280px;
+        /*width: 300px;*/
+        border-right:0px;
+        /* display:inline-block; */
+}
+
+td#middle.ui-widget-content div.status-header.ui-state-default, #headerstatus td#leftside .ui-widget-content .ui-state-default, #headerstatus td#rightside.ui-widget-content div.status-header.ui-state-default {
+	background-image: none;
+        border-top: 0px;
+        border-right: 0px;
+	border-left: 0px;
+	border-color: #AAA;
+}
+
+#headerstatus td#leftside a {
+        display:block;
+	font-size:1.1em;
+        margin: 3px 0px 0px 7px;
+}
+
+#middle, #middle-metadata, #middle-remaining {
+        width: 20%;
+        border-right: 0px;
+}
+
+#middle-metadata, #middle-remaining {
+}
+
+#headerstatus td#rightside {
+        display:table-cell;
+        width: 130px;
+        overflow:visible;
+        white-space:nowrap;
+}
+
 #rightside, #controls{
 text-align:left;
 float:right;
@@ -187,10 +253,10 @@ font-weight:bold;
 
 #leftside h1,#rightside h1 {
 color:#505050;
-font-size:2.4em;
+font-size:2.2em;
 font-weight:bold;
 letter-spacing:-1px;
-margin:0px;
+margin: 2px 6px 2px 6px;
 }
 
 #leftside h1 a {
@@ -566,11 +632,40 @@ div #rss a img {
   min-width: 225px;
 }
 
-.tool-label {
+.tool-label, .status-label {
   width: 40px;
   text-align: right;
   font-weight: bold;
   display: inline-block;
+}
+
+.status-label, .status-info, .status-header {
+  font-size:0.85em;
+}
+
+.status-label {
+  width: 50px;
+  padding-top:0px;
+  margin:0px;
+}
+
+.status-header {
+  display:block;
+  border-bottom-style:solid;
+  border-bottom-width: 1px;
+  border-color: #AAA;
+  background-color: #E5E5E5;
+  font-weight: bold;
+  text-transform:uppercase;
+  text-align: center;
+}
+
+.status-remaining {
+  display:block;
+  font-size: 2.5em;
+  margin: 0px auto 0px auto;
+  text-align: center;
+  line-height: 55px;
 }
 
 .tool-info a, .tool-info a:link, .tool-info a:active, .tool-info a:visited, .tool-info a:hover {
@@ -579,9 +674,11 @@ div #rss a img {
   vertical-align: baseline;
 }
 
-.tool-info {
+.tool-info, .status-info, .status-label {
  margin-left: 3px;
- display:inline; 
+ display:inline-block;
+ overflow:hidden;
+ white-space:nowrap;
 }
 
 div.ui-widget-content.ui-corner-bottom :hover {
