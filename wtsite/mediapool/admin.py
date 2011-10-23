@@ -19,13 +19,13 @@ from django.contrib import admin
 
 class SongAdmin(admin.ModelAdmin):
     search_fields = ['title']
-    list_per_page = 50  
+    list_per_page = 100 
     list_filter = ['artist']
-    list_display = ('title', 'artist', 'album', 'genre')
+    list_display = ('title', 'artist', 'album', 'genre', 'date_entered')
     fieldsets = (
         (None, {
             'classes': ['wide'],
-            'fields': ('filename', 'title', 'artist', 'album', 'genre', )
+            'fields': ('filename', 'title', 'artist', 'album', 'genre')
         }),
         ('Extras', {
             'fields': ('track', 'year', 'length', 'numplays',

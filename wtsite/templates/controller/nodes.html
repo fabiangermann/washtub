@@ -106,18 +106,27 @@
           {% ifequal info_command item %}
             {% ifequal info "off" %}
             <td class="play">
-            <a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a>
+              <form>
+                {% csrf_token %}
+                <button id="play" title="Start stream: {{ name|replacedot }}" onClick="return streamControl(this.form, 'start', '{{ name }}')">start</button>
+              </form>
             </td>
             {% else %}
             <td class="stop">
-            <a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a>
+              <form>
+                {% csrf_token %}
+                <button id="stop" title="Stop stream: {{ name|replacedot }}" onClick="return streamControl(this.form, 'stop', '{{ name }}')">stop</button>
+              </form>
             </td>
             {% endifequal %}
           {% endifequal %}
         {% endwith %}
       {% endfor %}
         <td class="skip">
-        <a href="{% url controller.views.stream_skip active_host name %}" title="Skip"><span id="controlspan">&nbsp;</span></a>
+        <form>
+          {% csrf_token %}
+        <button id="skip" title="Skip current track: {{ name|replacedot }}" onClick="return streamControl(this.form, 'skip', '{{ name }}')">skip</button>
+        </form>
         </td>
       </tr>
      {% comment %}
@@ -152,9 +161,17 @@
     </thead>
     <tbody>
       <tr>
-      <td id="stream" class="play"><a href="{% url controller.views.stream_start active_host name %}" title="Play"><span id="controlspan">&nbsp;</span></a></td>
-      <td id="stream" class="stop"><a href="{% url controller.views.stream_stop active_host name %}" title="Stop"><span id="controlspan">&nbsp;</span></a></td>
-      </tr>
+      <td id="stream" class="play">
+        <form>
+          {% csrf_token %}
+          <button id="play" title="Start input stream: {{ name|replacedot }}" onClick="return streamControl(this.form, 'start', '{{ name }}')">start</button></td>
+        </form>
+      <td id="stream" class="stop">
+        <form>
+          {% csrf_token %}
+          <button id="stop" title="Stop input stream: {{ name|replacedot }}" onClick="return streamControl(this.form, 'stop', '{{ name }}')">stop</button></td>
+        </form>  
+    </tr>
     </tbody>
     </table> 
   {% endfor %}

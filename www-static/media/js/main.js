@@ -47,6 +47,25 @@ function setupUI() {
       window.location.hash = '';
       $("#aliveTable").tablesorter();
       $("#onAirTable").tablesorter();
+      $('button#skip').button({
+        icons: {
+          primary: "ui-icon-seek-end"
+        },
+        text: false
+      });
+      $('button#play').button({
+        icons: {
+          primary: "ui-icon-play"
+        },
+        text: false
+      });
+      $('button#stop').button({
+        icons: {
+          primary: "ui-icon-stop"
+        },
+        text: false
+      });
+
     }
     // Queue Tab
     if (index == '1') {
@@ -133,8 +152,8 @@ function setupUI() {
   $("button#refresh").click(
     function() {
       clearInterval(refresh_timeout);
-      refreshStatus();
-      refreshTab();
+      refreshStatus(0);
+      refreshTab(0);
     }
   );
   
@@ -237,12 +256,12 @@ function QueueReorder(table, row, host, base_url) {
         $(table_row_id).effect("highlight", { color: status_color }, timeout);
 
         // Reload the current tab
-        refreshTab();
+        refreshTab(timeout*2);
       },
       error: function(jqXHR, textStatus)  {
         Pnotify("error", "Queue reorder failed: " + textStatus);
         // Reload the current tab
-        refreshTab();
+        refreshTab(0);
       },
     });
   }
@@ -251,7 +270,7 @@ function QueueReorder(table, row, host, base_url) {
     Pnotify("error", "Queue operation failed: Items cannot be moved to the last position.");
 
     // Reload the current tab
-    refreshTab();
+    refreshTab(timeout*2);
   }
 }
 
@@ -277,7 +296,7 @@ function QueuePush(form, uri, host, base_url) {
         }
         Pnotify(notify_type, base_msg + data.msg);
         $(form.queue).effect("highlight", { color: status_color }, timeout);
-        setTimeout("refreshStatus()", timeout);
+        refreshStatus(timeout);
       },
       error: function(jqXHR, textStatus)  {
         Pnotify("error", "Queue push failed: " + textStatus);
@@ -315,7 +334,38 @@ function QueueRemove(form, queue, rid) {
       },
     });
     // Reload the current tab
-    refreshTab();
+    refreshTab(timeout);
+}
+
+function streamControl(form, action, stream) {
+    var token = form.csrfmiddlewaretoken.value;
+    var url = baseurl + "control/" + action + "/" + host + "/" + stream;
+    $.ajax({
+      type: "POST",
+      url: url,
+      sync: false,
+      data: { 'csrfmiddlewaretoken': token},
+      dataType: "json",
+      success: function(data){
+        var notify_type = 'notice';
+        var base_msg = "Stream " + action + " " + stream + " : ";
+        var status_color = green;
+        if (data.type == 'error') {
+          notify_type = data.type;
+          status_color = red;
+        }
+        Pnotify(notify_type, base_msg + data.msg);
+        $(form.button).effect("highlight", { color: status_color }, timeout);
+      },
+      error: function(jqXHR, textStatus)  {
+        Pnotify("error", "Stream '" + stream + "' skip failed: " + textStatus);
+        $(form.remove).effect("highlight", { color: red }, timeout);
+      },
+    });
+    // Reload the current tab
+    refreshTab(timeout);
+    refreshStatus(timeout*2);
+    return false;
 }
 
 /* Function to perform a new search, usually clicked from related info
@@ -383,7 +433,8 @@ function countdownRefresh() {
       // liquidsoap time for next track load
       $(display).html(empty);
       clearInterval(refresh_timeout);
-      setTimeout("refreshStatus();refreshTab();", 1500);
+      refreshStatus(timeout*2);
+      refreshTab(timeout*2);
     }
     else {
       $(display).html(toMinutes(count));
@@ -398,7 +449,7 @@ function countdownRefresh() {
    section for artist, title, etc
 */
 
-function refreshStatus() {
+function refreshStatus(delay) {
   if ( host == '' || host == undefined ) {
     return;
   }
@@ -411,51 +462,54 @@ function refreshStatus() {
 
   // Setup a variable to grab for the status timeout
   var remaining = 0;
-  $.ajax({
-      type: "GET",
-      url: url,
-      sync: false,
-      dataType: "json",
-      success: function(data){
-        for ( var key in props) {
-          // Check to see if the key existed in the response
-          if (data.hasOwnProperty(key)) {
-            var s = data[key];
-            for (i=0; i < props[key].length; i++) {
-              var label = props[key][i];
-              var element = $('div#' + label + '.status-info');
-              var text = '';
-              if (s.hasOwnProperty(label)) {
-                text = s[label];
-                if ( label == 'remaining' ) {
-                  remaining = text
+
+  setTimeout(function() {
+    $.ajax({
+        type: "GET",
+        url: url,
+        sync: false,
+        dataType: "json",
+        success: function(data){
+          for ( var key in props) {
+            // Check to see if the key existed in the response
+            if (data.hasOwnProperty(key)) {
+              var s = data[key];
+              for (i=0; i < props[key].length; i++) {
+                var label = props[key][i];
+                var element = $('div#' + label + '.status-info');
+                var text = '';
+                if (s.hasOwnProperty(label)) {
+                  text = s[label];
+                  if ( label == 'remaining' ) {
+                    remaining = text
+                  }
                 }
+                // Set the text even if it's empty. We dont want old metadata to persist.
+                $(element).html(text);
               }
-              // Set the text even if it's empty. We dont want old metadata to persist.
-              $(element).html(text);
             }
-          }
-        }
-        // If we were successful, let's restart the timer
-        // And also clear the existing timer, just in case
-        // But only if there's actually something playing
-        if ( remaining > 0 ) {
-          clearInterval(refresh_timeout); 
-          refresh_timeout = countdownRefresh();
-        }
-      },
-      error: function(jqXHR, textStatus)  {
-        Pnotify("error", "Status update failed: " + textStatus);
-      },
+         }
+         // If we were successful, let's restart the timer
+         // And also clear the existing timer, just in case
+         // But only if there's actually something playing
+         if ( remaining > 0 ) {
+           clearInterval(refresh_timeout); 
+           refresh_timeout = countdownRefresh();
+         }
+       },
+       error: function(jqXHR, textStatus)  {
+         Pnotify("error", "Status update failed: " + textStatus);
+       },
     });
+  }, delay);  
 }
 
-function refreshTab() {
+function refreshTab(delay) {
    // Reload the current tab first
   var current_index = $("#tabs").tabs("option","selected");
   setTimeout(function() {
       $("#tabs").tabs("load", current_index);
     },
-    timeout
+    delay
   );
 }

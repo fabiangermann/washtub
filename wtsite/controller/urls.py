@@ -17,9 +17,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('wtsite.controller.views',    
-	(r'^control/skip/(?P<host_name>\S+)/(?P<stream>\S+)$', 'stream_skip'),     
-	(r'^control/start/(?P<host_name>\S+)/(?P<stream>\S+)$', 'stream_start'),      
-	(r'^control/stop/(?P<host_name>\S+)/(?P<stream>\S+)$', 'stream_stop'),
+	(r'^control/(?P<action>\S+)/(?P<host_name>\S+)/(?P<stream>\S+)$', 'stream_control'),
         (r'^control/set/(?P<host_name>\S+)$', 'set_variable'),
 	(r'^queue/push/(?P<host_name>\S+)$', 'queue_push'),
         (r'^queue/move/(?P<host_name>\S+)$', 'queue_reorder'),

@@ -635,50 +635,34 @@ def search_pool(request, host_name, page):
 ############################################################################
 	
 @login_required
-def stream_skip(request, host_name, stream):
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	node_list = parse_node_list(host, host_settings)
-	if(stream in node_list):
-		response = parse_command(host, host_settings, '%s.skip' % (str(stream)))
-		response = response.splitlines()
-		if('Done' in response):
-			#time.sleep(0.75)
-			return HttpResponseRedirect('/'+settings.BASE_URL+'status/'+host_name)
-		else:
-			return HttpResponse(status=404)
-	else:
-		raise Http404
+def stream_control(request, action, host_name, stream):
+  json = {}
+  host = get_object_or_404(Host, name=host_name)
+  host_settings = get_list_or_404(Setting, hostname=host)
+  node_list = parse_node_list(host, host_settings)
 
-@login_required
-def stream_stop(request, host_name, stream):
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	node_list = parse_node_list(host, host_settings)
-	if(stream in node_list):
-		response = parse_command(host, host_settings, '%s.stop' % (str(stream)))
-		if response == 'OK':
-			time.sleep(0.2)
-			return HttpResponseRedirect('/'+settings.BASE_URL+'status/'+host_name)
-		else:
-			return HttpResponse(status=500)
-	else:
-		raise Http404
+  #Parse all available help commands (for reference)
+  help_list = parse_help(host, host_settings)
 
-@login_required
-def stream_start(request, host_name, stream):
-	host = get_object_or_404(Host, name=host_name)
-	host_settings = get_list_or_404(Setting, hostname=host)
-	node_list = parse_node_list(host, host_settings)
-	if(stream in node_list):
-		response = parse_command(host, host_settings, '%s.start' % (str(stream)))
-		if response == 'OK' :
-			time.sleep(0.2)
-			return HttpResponseRedirect('/'+settings.BASE_URL+'status/'+host_name)
-		else:
-			return HttpResponse(status=500)
-	else:
-		raise Http404
+  if request.method == 'POST':
+    if(stream in node_list):
+      command = '%s.%s' % (stream, action)
+      if command in help_list:
+        response = parse_command(host, host_settings, command)
+        #response = response.splitlines()
+        if(re.search('^(OK|Done)', response)):
+          #time.sleep(0.75)
+          json['type'] = 'info'
+          json['msg'] = response
+      else:
+        raise Http404
+    else:
+      raise Http404
+  else:
+    #return message about Get with bad parameters.
+    json['type'] = 'error'
+    json['msg'] = "Control '%s' cannot be completed via GET requests."
+  return HttpResponse(simplejson.dumps(json), mimetype='application/json')
 
 @login_required
 def set_variable(request, host_name):

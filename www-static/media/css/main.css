@@ -29,7 +29,7 @@ ul#icons span.ui-icon {float: left; margin: 0 4px;}
 }
 */
 
-button#remove, button#info {
+button#remove, tream.stop button#stop, button#info {
     margin: auto;
     width: 16px;
     height: 16px;
@@ -39,10 +39,33 @@ button#remove, button#info {
     left: 7px;
 }
 
-button#info {
-    border-width:0px;
-    background-color:transparent;
+button#skip, td#stream.stop button#stop {
+   width: 32px;
+   height: 16px;
+}
+
+button#play, button#stop {
+   width: 48px;
+   height: 16px;
+}
+
+.ui-icon.ui-icon-play, .ui-icon.ui-icon-stop {
+   left: 2.2em;
+}
+
+.ui-icon.ui-icon-seek-end, td#stream.stop .ui-icon.ui-icon-stop {
+   left: 1.45em;
+}
+
+button#info, button#skip.ui-state-default, button#stop.ui-state-default, button#play.ui-state-default {
+    border-color:#AAA;
+    background-color:#EFEFEF;
     background-image: none;
+}
+
+button#info {
+   border: 0px;
+   background-color:transparent;
 }
 
 body {
@@ -493,20 +516,12 @@ table.tablesorter th.onair, th.lastplay {
 table.tablesorter th.status, th.genre {
 	width: 75px;
 }
-table.tablesorter td.play {
-	background: #FFF url(../images/tango/16x16/actions/media-playback-start.png) no-repeat center;
-	width:20%;
-}
 table.tablesorter td#stream.play {
 	width: 60%;
 }
-table.tablesorter td.stop {
-	background: #FFF url(../images/tango/16x16/actions/media-playback-stop.png) no-repeat center;
+table.tablesorter td.skip, td.stop, td.play {
 	width:20%;
-}
-table.tablesorter td.skip {
-	background: #FFF url(../images/tango/16x16/actions/media-skip-forward.png) no-repeat center;
-	width:20%;
+        text-align:center;
 }
 table.tablesorter td.statuson {
 	background: #abee87 url(../images/tango/16x16/status/audio-volume-high.png) no-repeat 75% 50%;
