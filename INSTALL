@@ -3,7 +3,7 @@ For help with this install, please join the savonet users mailing list at:
 https://lists.sourceforge.net/lists/listinfo/savonet-users
 
 Make sure that you have all the dependencies installed on the apache host machine.
-Apache, Mod Python, TagPy, Django are all necessary to get washtub working.  Once
+Apache, Mod Python (or mod_wsgi), TagPy, Django are all necessary to get washtub working.  Once
 all these are installed, continue on with the installation. Liquidsoap can theoretically
 be running anywhere that is network accessible from the washtub instance.
 
