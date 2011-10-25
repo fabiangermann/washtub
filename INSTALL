@@ -21,6 +21,8 @@ the django/python environment.
 	cp /usr/share/washtub/washtub-apache-dist.conf \
 	   /etc/apache2/sites-available/washtub.conf
 
+TODO: Add a section for mod_wsgi setup and point to the new wsgi config
+
 Edit the new washtub.conf file with your own options.  Then link to it in 
 the 'sites-enabled' directory.
 
