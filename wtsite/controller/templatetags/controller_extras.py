@@ -32,7 +32,7 @@ def replacedot(value):
 @register.filter("cat")
 @stringfilter
 def cat(value, string):
-	return value+smart_str(string)
+  return value+smart_str(string)
 
 @register.filter("baseurl")
 @stringfilter

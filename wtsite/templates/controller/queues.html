@@ -47,7 +47,7 @@
             <td class="pos">{{ forloop.parentloop.counter0|subtract:props.offset }}</td>
           {% endif %}
           <td>{{ listing.title|truncatewords:8 }}</td>
-          <td class="track">{{ listing.track }}</td>
+          <td class="track">{{ listing.tracknumber }}</td>
           <td>{{ listing.artist }}</td>
           <td>{{ listing.album|truncatewords:5 }}</td>
           <td>{{ listing.status }}</td>

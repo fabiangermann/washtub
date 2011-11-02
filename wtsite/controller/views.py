@@ -71,13 +71,14 @@ def parse_command(host, host_settings, command):
   try:
     tn = telnetlib.Telnet(str(host.ip_address), port)
     tn.write(str(command))
-    response = tn.read_until("END")
+    response = tn.read_until("\r\nEND\r\n")
     tn.write('quit\n')
     tn.close()
   except:
     raise Exception() # This exception needs to be caught and sent to users
-  response = re.sub('\nEND$', '', response)
-  response = response.rstrip()
+  logging.debug('In parse_command() after telnet close')
+  response = re.sub('\r\nEND\r\n', '', response)
+  logging.debug('In parse_command() after strip response')
   return response
 
 def parse_metadata(host, host_settings, rid):
@@ -215,11 +216,12 @@ def parse_history(host, host_settings, node_list):
             entry_list[num][key] = value
 
       found = False
-      logging.info('In parse_history() after entry_list')
+      logging.debug('In parse_history() after entry_list')
       h_copy = history.copy()
       for name in h_copy.keys():
         for h_key in h_copy[name].keys():
-          found = h_copy[name][h_key] == entry_list[h_key]
+          if h_key in entry_list:
+              found = h_copy[name][h_key] == entry_list[h_key]
         if found:
           new_name = name+', '+node
           history[new_name] = {}
@@ -312,6 +314,17 @@ def get_alive_queue(host, host_settings):
   queue['alive']['rids'] = parse_rid_list(host, host_settings, alive)
   return queue
 
+def get_insert_metadata_ids(help_list, node_list):
+  if not node_list:
+    node_list = {}
+  regex = re.compile('^(.+)\.insert key1=')
+  for line in help_list:
+    match = regex.split(line)
+    if len(match) > 1:
+      meta_id = match[1]
+      node_list[meta_id] = 'metadata_id'
+  return node_list
+
 ############################################################################
 #	Begin Main 'Display' Functions
 #	Functions that display main pages with full layouts
@@ -359,7 +372,7 @@ def index (request):
 		quickstatus[host]=template_dict
 	return render_to_response('index.html', {'hosts': host_list, 'quickstatus': quickstatus}, context_instance=RequestContext(request))
 
-@login_required	
+@login_required
 def display_status(request, host_name):
   logging.info('Start of display_status()')
   h = Host.objects.filter(name__exact=host_name)
@@ -372,6 +385,10 @@ def display_status(request, host_name):
 
   #Get active nodes for this host and this liquidsoap instance
   node_list = parse_node_list(host, host_settings)
+
+  # Check for metadata_insert availability
+  node_list = get_insert_metadata_ids(help_list, node_list)
+
   out_streams = parse_output_streams(host, host_settings, node_list)
   status = build_status_list(host, host_settings, out_streams, help_list)
   history = parse_history(host, host_settings, node_list)
@@ -394,23 +411,22 @@ def display_status(request, host_name):
       del status[item]
 
   # These items don't need direct serialization
-  status['remaining'] = least 
+  status['remaining'] = least
   template_dict['status'] = status
-  
+
   # Check for ajax call so we can return json instead of full html
   if request.is_ajax():
-    template_dict['active_host'] = serializers.serialize('json', h)
+    template_dict['active_host'] = serializers.serialize('json', h, ensure_ascii=False)
     dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime) else None
     return HttpResponse(simplejson.dumps(template_dict, indent=2, ensure_ascii=False, default=dthandler), mimetype='application/json') 
-  
-  # These values are only needed for the html template
-  template_dict['active_host'] = host
-  template_dict['hosts'] = get_host_list()
-  t = Theme.objects.get(host__name__exact=host_name)
-  template_dict['theme'] = t.name
-  logging.info('End of display_status() with GET')
-  
-  return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
+  else:
+    template_dict['node_list'] = node_list
+    template_dict['active_host'] = host
+    template_dict['hosts'] = get_host_list()
+    t = Theme.objects.get(host__name__exact=host_name)
+    template_dict['theme'] = t.name
+    logging.info('End of display_status() with GET')
+    return render_to_response('controller/status.html', template_dict, context_instance=RequestContext(request))
 
 def display_error(request, host_name, template, msg):		
 	host = get_object_or_404(Host, name=host_name)
@@ -454,15 +470,19 @@ def display_nodes(request, host_name):
   host_settings = get_list_or_404(Setting, hostname=host)
 
   #Parse all available help commands (for reference)	
-  help = parse_help(host, host_settings)
+  help_list = parse_help(host, host_settings)
 
   #Get active nodes for this host and this liquidsoap instance
   node_list = parse_node_list(host, host_settings)
+
+  # Check for metadata_insert availability
+  node_list = get_insert_metadata_ids(help_list, node_list)
+
   out_streams = parse_output_streams(host, host_settings, node_list)
   out_streams = sorted(out_streams)
   in_streams = parse_input_streams(host, host_settings, node_list)
   in_streams = sorted(in_streams)
-  status = build_status_list(host, host_settings, out_streams, help)
+  status = build_status_list(host, host_settings, out_streams, help_list)
 
   # Get list of interactive variables for each host
   var_list = parse_var_list(host, host_settings)
@@ -665,6 +685,53 @@ def stream_control(request, action, host_name, stream):
   return HttpResponse(simplejson.dumps(json), mimetype='application/json')
 
 @login_required
+def insert_metadata(request, host_name):
+  json = {}
+
+  # This is the list metadata we'll support sending to liquidsoap
+  meta_tags = ['title', 'tracknumber', 'artist', 'album', 'genre', 'year']
+
+  if request.method == 'POST':
+    if request.POST['metadata_id']:
+      m_id = smart_str(request.POST['metadata_id'])
+    else:
+      # The metadata_id must be provided
+      return Http404
+
+    host = get_object_or_404(Host, name=host_name)
+    host_settings = get_list_or_404(Setting, hostname=host)
+
+    # Parse all available help commands (for reference)
+    help_list = parse_help(host, host_settings)
+    meta_list = get_insert_metadata_ids(help_list, None)
+
+    if meta_list[m_id] != 'metadata_id':
+      # We can't set metadata for an id that doesn't exist
+      return Http404
+
+    meta_command = []
+    for tag in meta_tags:
+      if request.POST[tag]:
+        new_tag = '%s="%s"' % (smart_str(tag), smart_str(request.POST[tag]))
+        meta_command.append(new_tag)
+    meta_string = ",".join(map(str,meta_command))
+
+    command = '%s.insert %s' % (m_id, meta_string)
+    response = parse_command(host, host_settings, command)
+    #response = response.splitlines()
+    if response == 'Done':
+      #time.sleep(0.75)
+      json['type'] = 'info'
+      json['msg'] = response
+    else:
+      raise Http500
+  else:
+    #return message about Get with bad parameters.
+    json['type'] = 'error'
+    json['msg'] = "Insert metadata '%s' cannot be completed via GET requests."
+  return HttpResponse(simplejson.dumps(json), mimetype='application/json')
+
+@login_required
 def set_variable(request, host_name):
   message = ''
   if request.method == 'GET':
@@ -857,16 +924,16 @@ def commit_log(host_name):
 					log = Log.objects.get(Q(entrytime__exact=listing['on_air']),
 										  Q(stream__exact=name))
 				except Log.DoesNotExist:
-					try:
-						results = Song.objects.filter(Q(title__iexact=listing['title']),
-						  Q(artist__name__iexact=listing['artist']),
-						  Q(album__name__iexact=listing['album']),
-						  Q(genre__name__iexact=listing['genre'])).distinct()[0]
-						id = results.id
-                                                results.numplays=results.numplays+1;
-                                                results.lastplay=listing['on_air'];
-                                                results.save();  
-					except(IndexError):
+                                        if 'filename' in listing:
+						try:
+							results = Song.objects.get(filename__exact=listing['filename'])
+							id = results.id
+	                                                results.numplays=results.numplays+1;
+	                                                results.lastplay=listing['on_air'];
+	                                                results.save();  
+						except(DoesNotExist):
+							id = -1
+					else:
 						id = -1
 					log = Log(
 				    	entrytime = listing['on_air'],

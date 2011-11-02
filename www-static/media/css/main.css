@@ -18,25 +18,46 @@
 
 .demoHeaders { margin-top: 2em; }
 #dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
-/*#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
-ul#icons {margin: 0; padding: 0;}
-ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
-ul#icons span.ui-icon {float: left; margin: 0 4px;}
-/*span.ui-icon.ui-icon-info {
-    cursor: pointer;
-    padding:0px;
-    margin: 0 auto 0 auto;
-}
-*/
 
-button#remove, tream.stop button#stop, button#info {
+/* @font-face kit by Fonts2u (http://www.fonts2u.com) */
+@font-face {
+  font-family:"Unispace Bold";
+  src:
+    url("../fonts/Unispace_Bold/unispace_bold.eot?") format("eot"),
+    url("../fonts/Unispace_Bold/unispace_bold.woff") format("woff"),
+    url("../fonts/Unispace_Bold/unispace_bold.ttf") format("truetype"),
+    url("../fonts/Unispace_Bold/unispace_bold.svg#Unispace-Bold") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+
+button#remove, button#stop, button#info {
     margin: auto;
     width: 16px;
     height: 16px;
 }
 
-.ui-icon.ui-icon-close, .ui-icon.ui-icon-info {
+.ui-icon.ui-icon-close, .ui-icon.ui-icon-info, .ui-icon.ui-icon-pencil {
     left: 7px;
+}
+
+button#refresh, button#edit-metadata {
+  float:right;
+}
+
+button#refresh, button#edit-metadata {
+  width: 16px;
+  height: 16px;
+  position:relative;
+  margin:7px 2px 0px 0px;
+}
+
+button#refresh {
+  margin-right:7px;
+}
+
+.ui-icon.ui-icon-arrowrefresh-1-e {
+    left: .65em;
 }
 
 button#skip, td#stream.stop button#stop {
@@ -350,7 +371,7 @@ font-size:1.0em;
 .searchbox {
 background:#f0f0f0;
 border:1px solid #b0b0b0;
-margin:0 4px 0 0;
+margin:0 0 0 0;
 width:100px;
 }
 
@@ -548,7 +569,7 @@ table.tablesorter td.volume {
 
 table.tablesorter td.volume input {
        width:100%;
-       text-align:right;
+       text-align:center;
        border:0;
        color:#f6931f;
        font-weight:bold;
@@ -654,14 +675,37 @@ div #rss a img {
   display: inline-block;
 }
 
+.status-container {
+  display:table-cell;
+  padding:0px;
+  margin:0px;
+  height:54px;
+  vertical-align: middle;
+}
+
 .status-label, .status-info, .status-header {
   font-size:0.85em;
 }
 
 .status-label {
-  width: 50px;
+  width: 28px;
   padding-top:0px;
+  font-size:7px;
   margin:0px;
+}
+
+#dialog-edit-metadata .status-label {
+  width: 45px;
+  font-weight:normal;
+  font-size:inherit;
+}
+
+#dialog-edit-metadata input {
+  width: 260px;
+}
+
+#info.status-label {
+  width: 2.5em;
 }
 
 .status-header {
@@ -677,10 +721,12 @@ div #rss a img {
 
 .status-remaining {
   display:block;
-  font-size: 2.5em;
+  font-family: 'Unispace Bold';
+  font-size: 1.4em;
+  letter-spacing:2px;
   margin: 0px auto 0px auto;
   text-align: center;
-  line-height: 55px;
+  line-height: 53px;
 }
 
 .tool-info a, .tool-info a:link, .tool-info a:active, .tool-info a:visited, .tool-info a:hover {

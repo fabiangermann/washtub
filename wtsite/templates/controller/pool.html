@@ -20,7 +20,7 @@
 
 {% comment %} $('#tabs').tabs('select', 2); {% endcomment %}
 {% endblock tabselect %}
-    <form class="searchform" action="." method="GET" onsubmit="Search(this.search.value, this.type.value, '1');return false;">
+    <form class="searchform" action="." method="GET" onsubmit="return Search(this.search.value, this.type.value, '1')">
 	<input class="searchbox" type="text" name="search" value="{{ search_term }}"></input>
 	<input type="hidden" name="type" value="song"></input>
 	<button type="submit" value="submit">search</button>

@@ -29,7 +29,7 @@
       {% for entry, listing in entries.items %}
       	<item>
   	<title>"{{ listing.title }}" by {{ listing.artist }}</title>
-  	<link>{{ ""|serverurl }}{% url controller.views.display_status active_host %}{{ "?search="|cat:listing.title|cat:"&type=song#search-tab" }}</link>
+        <link>{% if listing.title %}{% with listing.title|urlencode as title %}{{ ""|serverurl }}{% url controller.views.display_status active_host %}{{ "#search-song-1-"|cat:title }}{% endwith %}{% endif %}</link>
   	<description>
   	artist: {{ listing.artist }} <br/>
   	title: "{{ listing.title }}" <br/>

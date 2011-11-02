@@ -16,7 +16,8 @@
 
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('wtsite.controller.views',    
+urlpatterns = patterns('wtsite.controller.views',
+        (r'^control/metadata/(?P<host_name>\S+)$', 'insert_metadata'),
 	(r'^control/(?P<action>\S+)/(?P<host_name>\S+)/(?P<stream>\S+)$', 'stream_control'),
         (r'^control/set/(?P<host_name>\S+)$', 'set_variable'),
 	(r'^queue/push/(?P<host_name>\S+)$', 'queue_push'),

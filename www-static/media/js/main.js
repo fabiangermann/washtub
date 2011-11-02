@@ -33,6 +33,7 @@ function setupUI() {
                     spinner: "" //'<img width="50%" height="50%" src="{{ "media/images/throbber.gif"|baseurl }}"></img>'
   });
   $('#tabs').bind('tabsload', function(event, ui) {
+    //console.log("In tabsload: " + window.location.hash);
     var index = $('#tabs').tabs( "option", "selected" );
     
     // Do these actions for all tabs
@@ -44,7 +45,7 @@ function setupUI() {
 
     // Status Tab
     if (index == '0') {
-      window.location.hash = '';
+      $.history.load('status');
       $("#aliveTable").tablesorter();
       $("#onAirTable").tablesorter();
       $('button#skip').button({
@@ -65,7 +66,6 @@ function setupUI() {
         },
         text: false
       });
-
     }
     // Queue Tab
     if (index == '1') {
@@ -116,8 +116,9 @@ function setupUI() {
           hash += '-' + params['search'];
         }
       }
+      //console.log("In tabsload, pool tab: " + hash);
       $.history.load(hash);
-      
+
       // Finish loading the rest of the tab elements
       $("#poolTable").tablesorter();
       $('button#info').button({
@@ -149,6 +150,12 @@ function setupUI() {
   });
 
   $('button').button();
+  $("button#refresh").button({
+    icons: {
+      primary: "ui-icon-arrowrefresh-1-e",
+    },
+    text: false,
+  });
   $("button#refresh").click(
     function() {
       clearInterval(refresh_timeout);
@@ -156,6 +163,15 @@ function setupUI() {
       refreshTab(0);
     }
   );
+  $('button#edit-metadata').button({
+    icons: {
+      primary: "ui-icon-pencil"
+    },
+    text: false
+  });
+  $('button#edit-metadata').click(function() {
+    $('#dialog-edit-metadata').dialog('open');
+  });
   
   // Dialog
   $('#dialog_scan').dialog({
@@ -176,6 +192,22 @@ function setupUI() {
   $('#dialog_scan_link').click(function(){
     $('#dialog_scan').dialog('open');
       return false;
+  });
+
+  // Dialog Edit Metadata
+  $('#dialog-edit-metadata').dialog({
+    autoOpen: false,
+    width: 350,
+    buttons: {
+      "Update": function() {
+        insertMetadata($('#dialog-edit-metadata form'));
+        $(this).dialog("close");
+        // Trigger the request to washtub for metdata update
+      },
+      "Cancel": function() {
+        $(this).dialog("close");
+      }
+    }
   });
 }
 
@@ -368,23 +400,68 @@ function streamControl(form, action, stream) {
     return false;
 }
 
+function insertMetadata(dialog_form) {
+    var query_string = $(dialog_form).serialize();
+    var url = baseurl + "control/metadata/" + host;
+    $.ajax({
+      type: "POST",
+      url: url,
+      sync: false,
+      data: query_string,
+      dataType: "json",
+      success: function(data){
+        var notify_type = 'notice';
+        var base_msg = "Insert metadata: ";
+        var status_color = green;
+        if (data.type == 'error') {
+          notify_type = data.type;
+          status_color = red;
+        }
+        Pnotify(notify_type, base_msg + data.msg);
+      },
+      error: function(jqXHR, textStatus)  {
+        Pnotify("error", "Insert metadata failed: " + textStatus);
+      },
+    });
+    // Reload the current tab
+    refreshTab(timeout);
+    refreshStatus(timeout*2);
+    return false;
+}
+
 /* Function to perform a new search, usually clicked from related info
    links in the pool and search pages */
 function Search(term, type, pg_num) {
   var search = '';
   var tab = 2;
+  var current_url = '';
+  var count = 0;
+  // Check what url we have loaded in the current tab
+  $('#tabs > ul li a').each(function() {
+    if (count == tab) {
+      current_url = $(this).data('load.tabs');
+    }
+    count++;
+  });
+
   var hash = ['search', type, pg_num];
   if (term != undefined && term != '') {
     hash.push(term);
     search = '&search=' + term;
   }
-  var search_url = baseurl + 'pool/search/' + host + '/'+ pg_num;
-  var current_index = $("#tabs").tabs("option","selected");
   // XXX: We need to enable search types for type: album, artist, song
-  $('#tabs').tabs('url', tab, search_url + '?type=song' + search);
+  var search_url = baseurl + 'pool/search/' + host + '/'+ pg_num + '?type=song' + search;
+  if ( search_url == current_url ) {
+    //console.log('In Search() and doing nothing.  I suspect this url has already been loaded');
+    return false;
+  }
+
+  //console.log('In Search(), current hash: ' + window.location.hash + ', new hash: #' + hash.join('-'));
+  $('#tabs').tabs('url', tab, search_url);
   $('#tabs').tabs('select', tab);
   $('#tabs').tabs('load', tab);
   $('#tabs').tabs('show', tab);
+  return false;
 }
 
 /* Function to parse the url params out of a full url.
@@ -424,22 +501,41 @@ function toMinutes(seconds) {
 function countdownRefresh() {
   var empty = '--:--';
   var get_value = $("div#remaining.status-info");
-  var display = $("div.status-remaining");
   var count = parseInt($(get_value).html());
-  
+  //alert(count); 
   countdown = setInterval(function(){
-    if ( isNaN(count) || count <= 0) {
-      // Refresh again, but let's give
-      // liquidsoap time for next track load
-      $(display).html(empty);
+    //var start = new Date()
+    //start = start.getTime() + (start.getMilliseconds()/1000);
+    var status_display = $("div.status-remaining");
+    var node_display = $("td.remaining");
+    if ( isNaN(count) || count < 0) {
+      $(status_display).html(empty);
+      $(node_display).html(empty);
       clearInterval(refresh_timeout);
-      refreshStatus(timeout*2);
-      refreshTab(timeout*2);
+    }
+    else if ( count == 0 ) {
+      $(status_display).html(empty);
+      $(node_display).html(empty);
+      clearInterval(refresh_timeout);
+      // Refresh again, but be sure to give
+      // liquidsoap time for next track load
+      refreshStatus(timeout*5);
+      refreshTab(timeout*5);
     }
     else {
-      $(display).html(toMinutes(count));
+      $(status_display).html(toMinutes(count));
+      $(node_display).html(toMinutes(count));
+      if ( (count % 30) == 0 ) {
+        refreshStatus(timeout);
+        if ( $("#tabs").tabs("option","selected") == 0 ) { 
+          refreshTab(timeout); // Only refresh the status tab here
+        }
+      }
     }
     count--;
+    //var now = new Date();
+    //now = now.getTime() + (now.getMilliseconds()/1000);
+    ////console.log("In countdownRefresh(): time to execute: now (" + now + ") - start(" + start + ") = " + (now - start));
   }, 1000);
   return countdown;
 }
@@ -450,13 +546,14 @@ function countdownRefresh() {
 */
 
 function refreshStatus(delay) {
+  //console.log('In refreshStatus: host=' + host);
   if ( host == '' || host == undefined ) {
     return;
   }
 
   // Then move on to the status header section
   var url = baseurl + "status/" + host; 
-  var props = { 'now_playing': ['title', 'artist', 'album', 'genre', 'remaining'],
+  var props = { 'now_playing': ['title', 'artist', 'album', 'genre', 'remaining', 'tracknumber', 'year'],
                 'status' : ['remaining', 'uptime']
   };
 
@@ -466,18 +563,29 @@ function refreshStatus(delay) {
   setTimeout(function() {
     $.ajax({
         type: "GET",
-        url: url,
+        url: url + '?',
         sync: false,
         dataType: "json",
         success: function(data){
           for ( var key in props) {
+            // FLAC has to be difficult and use 'date' instead of 'year'
+            if (data[key].hasOwnProperty('decoder') && data[key]['decoder'] == 'FLAC') {
+              //console.log("In refreshStatus: decoder is FLAC");
+              var decoder = 'FLAC';
+            }
             // Check to see if the key existed in the response
             if (data.hasOwnProperty(key)) {
               var s = data[key];
               for (i=0; i < props[key].length; i++) {
                 var label = props[key][i];
                 var element = $('div#' + label + '.status-info');
+                var meta_form = $('input#' + label + '.status-info');
                 var text = '';
+
+                // The html label above is still 'year', but the data itself will be 'date' for FLAC
+                if (label == 'year' && decoder == 'FLAC') {
+                  label = 'date';
+                }
                 if (s.hasOwnProperty(label)) {
                   text = s[label];
                   if ( label == 'remaining' ) {
@@ -486,6 +594,7 @@ function refreshStatus(delay) {
                 }
                 // Set the text even if it's empty. We dont want old metadata to persist.
                 $(element).html(text);
+                $(meta_form).val(text);
               }
             }
          }
