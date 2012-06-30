@@ -49,6 +49,7 @@ BASE_URL = '' #use empty string for webserver root path
 # This is a custom setting for the mediapool app
 # * no trailing slash
 MEDIAPOOL_PATH = '/full/path/to/mediapool/dir'
+MEDIAPOOL_KEY = 'super_secret_key_sdv87uqa3w4lva0e9si45tvaer'
 
 ########################################################################
 # Regular Django Global Settings
@@ -60,12 +61,16 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'database'          # Or path to database file if using sqlite3.
-DATABASE_USER = 'user'              # Not used with sqlite3.
-DATABASE_PASSWORD = 'pass'          # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.mysql',   # django.db.backends.postgresql_psycopg2, mysql, sqlite3 or oracle
+    'NAME': 'dbname',         # Or path to database file if using sqlite3.
+    'USER': 'dbuser',         # Not used with sqlite3.
+    'PASSWORD': 'dbpass',     # Not used with sqlite3.
+    'HOST': 'dbhost',         # Set to empty string for localhost. Not used with sqlite3.
+    'PORT': 'dbport',         # Set to empty string for default. Not used with sqlite3.
+   }
+}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -94,6 +99,11 @@ MEDIA_ROOT = PROJECT_PATH+'/www-static/media/'
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = SERVER_NAME+BASE_URL+'media/'
 
+# STATIC_URL and STATIC_ROOT identify non-user-uploaded files
+# XXXTODO: These should be separate from MEDIA_ROOT and MEDIA_URL
+STATIC_ROOT = PROJECT_PATH + 'www-static'
+STATIC_URL = '/' + BASE_URL + 'static/'
+
 # Provide the URL for access denied redirects.
 LOGIN_URL = '/'+BASE_URL+'login'
 LOGIN_REDIRECT_URL = '/'+BASE_URL
@@ -110,8 +120,8 @@ SECRET_KEY = '&)*b)wj5u$y+&qjo!@-4e*r!&zuixt*%g8%b1xm#jtcs$r*($-'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
+     'django.template.loaders.app_directories.Loader',
+     'django.template.loaders.filesystem.Loader',
 #     'django.template.loaders.eggs.load_template_source',
 )
 
@@ -138,6 +148,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.staticfiles',
     'django.contrib.admin',
     'wtsite.controller',
     'wtsite.mediapool'

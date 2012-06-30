@@ -675,6 +675,18 @@ div #rss a img {
   display: inline-block;
 }
 
+.scan-results .tool-label {
+  text-align:left;
+  width: 150px;
+  float: left;
+}
+
+.scan-results .tool-info {
+  text-align:right;
+  float:right;
+  width: 120px;
+}
+
 .status-container {
   display:table-cell;
   padding:0px;

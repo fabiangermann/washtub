@@ -22,9 +22,8 @@ from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
-# admin.autodiscover()
-
 admin.autodiscover()
+
 urlpatterns = patterns('',
     # Example:
     # (r'^wtsite/', include('wtsite.foo.urls')),
@@ -33,10 +32,10 @@ urlpatterns = patterns('',
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
-    (r'^%sadmin/doc/' % settings.BASE_URL, include('django.contrib.admindocs.urls')),
+    #(r'^%sadmin/doc/' % settings.BASE_URL, include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^%sadmin/(.*)' % settings.BASE_URL, admin.site.root),
+    (r'^%sadmin/' % settings.BASE_URL, include(admin.site.urls)),
     
     # Add Login URLS
     (r'^%slogin/$' % settings.BASE_URL, 'django.contrib.auth.views.login'),

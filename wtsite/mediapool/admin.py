@@ -47,7 +47,28 @@ class AlbumAdmin(admin.ModelAdmin):
 class GenreAdmin(admin.ModelAdmin):
     list_per_page = 50  
 
+class ScanResultInline(admin.StackedInline):
+    model = ScanResult
+    max_num = 1
+    fields = ['in_progress', 'start', 'duration', 'total', 'progress', 'detail', 'songs_new', 'songs_modified', 'songs_deleted', 'artist_delta', 'album_delta', 'genre_delta', 'total_time_delta']
+    readonly_fields = ['start', 'duration', 'total', 'progress', 'detail', 'songs_new', 'songs_modified', 'songs_deleted', 'artist_delta', 'album_delta', 'genre_delta', 'total_time_delta']
+
+class MusicStatsAdmin(admin.ModelAdmin):
+    list_per_page = 10
+    readonly_fields = ['num_songs', 'num_artists', 'num_albums', 'num_genres', 'total_time', 'total_size', 'id']
+    inlines = [
+        ScanResultInline,
+    ]
+
+#class ScanResultAdmin(admin.ModelAdmin):
+#    date_heirarchy = 'start'
+#    list_display = ('id', 'start', 'finish', 'duration', 'in_progress', 'progress', 'detail')
+#    readonly_fields = ['start', 'finish', 'current', 'total', 'detail', 'songs_new', 'songs_modified', 'songs_deleted', 'artist_delta', 'album_delta', 'genre_delta', 'total_time_delta', 'total_size_delta', 'stats_id']
+#    list_per_page = 50
+
 admin.site.register(Song, SongAdmin)
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Artist, ArtistAdmin)
 admin.site.register(Genre, GenreAdmin)
+admin.site.register(MusicStats, MusicStatsAdmin)
+##admin.site.register(ScanResult, ScanResultAdmin)

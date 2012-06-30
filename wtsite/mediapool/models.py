@@ -15,6 +15,7 @@
 #    along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.db.models import Sum
 from django.conf import settings
 from django.utils.encoding import smart_str, smart_unicode
 from os import path, access, F_OK, R_OK
@@ -205,11 +206,80 @@ class Smartplaylists(models.Model):
         db_table = u'music_smartplaylists'
 
 class MusicStats(models.Model):
-    num_artists = models.IntegerField()
-    num_albums = models.IntegerField()
-    num_songs = models.IntegerField()
-    num_genres = models.IntegerField()
-    total_time = models.CharField(max_length=36)
-    total_size = models.CharField(max_length=30)
+    num_artists = models.IntegerField(default=0)
+    num_albums = models.IntegerField(default=0)
+    num_songs = models.IntegerField(default=0)
+    num_genres = models.IntegerField(default=0)
+    total_time = models.CharField(default=0,max_length=36)
+    total_size = models.CharField(default=0,max_length=30)
     class Meta:
         db_table = u'music_stats'
+        verbose_name_plural = 'Music Stats'
+    def __unicode__(self):
+        return u'%d' % self.id
+    def calculate(self):
+        self.num_artists = Artist.objects.count()
+        self.num_albums = Album.objects.count()
+        self.num_songs = Song.objects.count()
+        self.num_genres = Genre.objects.count()
+        t = Song.objects.aggregate(time=Sum('length'), size=Sum('size'))
+        if t['time'] is not None:
+            self.total_time = t['time']
+        if t['size'] is not None:
+            self.total_size = t['size']
+        super(MusicStats, self).save()
+
+class ScanResult(models.Model):
+    start = models.DateTimeField(auto_now_add=True, null=False, blank=False)
+    finish = models.DateTimeField(auto_now=True, null=False, blank=False)
+    current = models.IntegerField(default=0)
+    total = models.IntegerField(default=0)
+    detail = models.CharField(max_length=765)
+    in_progress = models.BooleanField()
+    songs_new = models.IntegerField(default=0)
+    songs_modified = models.IntegerField(default=0)
+    songs_deleted = models.IntegerField(default=0)
+    artist_delta = models.IntegerField(default=0)
+    album_delta = models.IntegerField(default=0)
+    genre_delta = models.IntegerField(default=0)
+    total_time_delta = models.IntegerField(default=0)
+    total_size_delta = models.IntegerField(default=0)
+    stats_id = models.ForeignKey(MusicStats)
+    class Meta:
+        db_table = u'music_scan_result'
+    def __unicode__(self):
+        return u'%d' % self.id
+    def duration(self):
+        return (self.finish - self.start)
+    def progress(self):
+        try:
+            return int((float(self.current)/float(self.total)) * 100)
+        except ZeroDivisionError:
+            return 0
+    def calculate_delta(self, previous_scan_id):
+        if previous_scan_id != -1: # Then this is NOT the first scan and we can continue
+            old_stats = MusicStats.objects.get(scanresult__id__exact=previous_scan_id)
+            new_stats = MusicStats.objects.get(scanresult__id__exact=self.id)
+            empty = MusicStats.objects.none()
+            if old_stats == empty or new_stats == empty: # Then bail, something is wrong
+                return
+            self.artist_delta = int(new_stats.num_artists) - int(old_stats.num_artists)
+            self.album_delta = int(new_stats.num_albums) - int(old_stats.num_albums)
+            self.genre_delta = int(new_stats.num_genres) - int(old_stats.num_genres)
+            self.total_time_delta = int(new_stats.total_time) - int(old_stats.total_time)
+            self.total_size_delta = int(new_stats.total_size) - int(old_stats.total_size)
+            super(ScanResult, self).save()
+        else:
+            # This is the first scan 'EVAR' and we can bail out and leave the deltas NULL
+            return
+
+    def save(self, force_insert=False, force_update=False):
+        # Create a new instance of MusicStats
+        try:
+            if self.stats_id == None:
+               pass 
+        except:
+            m = MusicStats()
+            m.save()
+            self.stats_id = m
+        super(ScanResult, self).save(force_insert, force_update)

@@ -177,14 +177,16 @@ function setupUI() {
   $('#dialog_scan').dialog({
     autoOpen: false,
     width: 350,
+    modal: true,
+    resizable: false,
     buttons: {
-      "OK": function() {
-        $(this).dialog("close");
-        window.location=filescanner_url;
-      },
       "Cancel": function() {
         $(this).dialog("close");
-      }
+      },
+      "Scan": function() {
+        $(this).dialog("close");
+        scanMedia($(this).children('form'));
+      },
     }
   });
 
@@ -397,6 +399,101 @@ function streamControl(form, action, stream) {
     // Reload the current tab
     refreshTab(timeout);
     refreshStatus(timeout*2);
+    return false;
+}
+
+function scanMedia(dialog_form) {
+    var action_url = filescanner_url;
+    var status_url = filescanner_url + '/status';
+    var query_string = $(dialog_form).serialize();
+    $.ajax({
+      type: "POST",
+      url: action_url,
+      sync: false,
+      data: query_string,
+      dataType: "json",
+      timeout: (1000*60*15), // 15 mins???
+      success: function(data){
+        var notify_type = 'notice';
+        var base_msg = "Media scan: ";
+        if (data.type == 'error') {
+          notify_type = data.type;
+        }
+        Pnotify(notify_type, base_msg + data.msg);
+      },
+      error: function(jqXHR, textStatus)  {
+        Pnotify("error", "Media scan failed: " + textStatus);
+      },
+    });
+    // Load our scanner status
+    var cur_value = 0;
+    var scan_data = '';
+    var display_keys = {
+      'songs_new': 'Songs added',
+      'songs_modified': 'Songs modified',
+      'songs_deleted': 'Songs deleted',
+      'artist_delta': 'Artist (+/-)',
+      'album_delta': 'Album (+/-)',
+      'genre_delta': 'Genre (+/-)',
+      'total_time_delta': 'Time (+/-)',
+      'duration': 'Scan Time'
+    };
+    var progress_div = "<div class=\"scan-progress\" /><div class=\"scan-results\" ></div>"
+    loader = $.pnotify({
+      pnotify_title: "Scanning mediapool",
+      pnotify_text: progress_div,
+      pnotify_notice_icon: '', // default example -> 'picon picon-throbber',
+      pnotify_hide: false,
+      pnotify_closer: true,
+      pnotify_history: false,
+      pnotify_addclass: "stack-queues",
+      pnotify_before_open: function(pnotify){
+        progress = pnotify.find("div.scan-progress");
+        results = pnotify.find("div.scan-results");
+        progress.progressbar({value: cur_value});
+      }
+    });
+    // Pretend to do something.
+    var progress_timeout = setInterval(function(){
+      if (cur_value >= 100) {
+        // Remove the interval.
+        window.clearInterval(progress_timeout);
+        var text = '</br>';
+        for (var key in display_keys) {
+          if (key in scan_data) {
+            var value = scan_data[key];
+            if (key == 'duration') {
+              value = toMinutes(value);
+            } 
+            text += "<div class='tool-label'>" + display_keys[key] + ":</div><div class='tool-info'>" + value + '</div></br>';
+          }
+        }
+        results.html(text);
+        progress.progressbar("option", "value", parseInt(cur_value));
+        //loader.pnotify_remove();
+        return;
+      }
+      // Call the status_url to get the current progress
+      $.ajax({
+        type: "GET",
+        url: status_url,
+        sync: false,
+        dataType: "json",
+        success: function(data) {
+          if (data.type == 'info' && data.hasOwnProperty('scan_status') && data.hasOwnProperty('progress') && data.hasOwnProperty('duration')) {
+            cur_value = data.progress;
+            scan_data = data.scan_status[0];
+            scan_data['duration'] = data.duration;
+            progress.progressbar("option", "value", parseInt(cur_value));
+          }
+          //else if (data.type == 'error') {
+          //  window.clearInterval(progress_timeout);
+          //}
+        }
+      });
+      //console.log("in scanMedia(): cur_value: " + cur_value);
+      //console.log("in_scanMedia(): progress_value: " + progress.progressbar("value"));
+    }, 5000); // Query for the scanner status every 3 seconds
     return false;
 }
 

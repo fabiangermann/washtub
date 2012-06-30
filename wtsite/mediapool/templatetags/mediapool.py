@@ -1,4 +1,4 @@
-#    Copyright (c) 2009, Chris Everest 
+#    Copyright (c) 2009, Chris Everest
 #    This file is part of Washtub.
 #
 #    Washtub is free software: you can redistribute it and/or modify
@@ -14,13 +14,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls.defaults import *
+from django.template.defaultfilters import stringfilter
+from django.conf import settings
+from django import template
+import hashlib
 
-urlpatterns = patterns('wtsite.mediapool.views',     
-    (r'^scan$', 'file_scanner'),
-    (r'^scan/status$', 'scanner_status'),
-    (r'^stream/(?P<song_id>\S+)', 'stream'),
-    (r'^stream_test$', 'stream_test_liq'),
-    (r'^stream_test/(?P<song_id>\S+)', 'stream_test'),
-    #(r'^$', 'index'),
-    )
+register = template.Library()
+
+# Custom Filters Here
+@register.filter("media_hash")
+@stringfilter
+def url_hash(value, hasher):
+    # Create a new media hash
+    t = hashlib.new('ripemd160')
+    t.update("%s%s%s" % (value, hasher, settings.MEDIAPOOL_KEY))
+    return t.hexdigest()
