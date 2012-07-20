@@ -78,6 +78,17 @@ button#play, button#stop {
    left: 1.45em;
 }
 
+a.preview {
+   width: 20px;
+   height: 125px;
+   border-width: 0px;
+   float: right;
+}
+
+a.preview .ui-icon-volume-on {
+  left: 0.95em;
+}
+
 button#info, button#skip.ui-state-default, button#stop.ui-state-default, button#play.ui-state-default {
     border-color:#AAA;
     background-color:#EFEFEF;
@@ -654,6 +665,12 @@ div #rss a img {
 	height:16px;
 	padding:0;
 	margin:0;
+}
+
+div.tooltip hr {
+  text-align:left;
+  width: 70%;
+  clear:none;
 }
 
 .tooltip {

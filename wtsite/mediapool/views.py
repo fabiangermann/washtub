@@ -198,8 +198,6 @@ def build_file_list(directory, r):
             if(mod_time > s.date_modified):
                 modified = modified + 1
                 fhash = get_file_hash(full_path)
-                mod_time = stat(full_path)[ST_MTIME]
-                mod_time = datetime.datetime.fromtimestamp(mod_time)
                 s.date_modified = mod_time.isoformat(' ')
                 s.size = statinfo[ST_SIZE]
                 s.filehash = fhash

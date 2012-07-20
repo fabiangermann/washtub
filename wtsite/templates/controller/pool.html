@@ -52,6 +52,7 @@
                         <td class="info">
                         <button id="info"></button>
                         <div class="tooltip">
+                          {% if entry.filehash and entry.format == '.mp3' %}<a title='preview track' class='preview' href="{% url mediapool.views.stream_test entry.filehash %}"></a>{% endif %}
                           <div class='tool-label'>Title:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.title|urlencode }}', 'title', '1');return false;">{{ entry.title }}</a></div></br>
                           <div class='tool-label'>Artist:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.artist|urlencode }}', 'artist', '1');return false;">{{ entry.artist }}</a></div></br>
                           <div class='tool-label'>Album:</div><div class='tool-info'><a href="." onclick="Search('{{ entry.album|urlencode }}', 'album', '1');return false;">{{ entry.album }}</a></div></br>
@@ -63,7 +64,6 @@
                           <div class='tool-label'>Bitrate:</div><div class='tool-info'>{{ entry.bitrate }} kbps</div></br>
 			  <div class='tool-label'>Num:</div><div class='tool-info'>{{ entry.numplays }}</div></br>
                           <div class='tool-label'>Last:</div><div class='tool-info'>{{ entry.lastplay|default_if_none:'' }}</div></br>
-                          {% if entry.filehash %}<div class='tool-label'><a class='preview' href="{% url mediapool.views.stream_test entry.filehash %}">Preview:</a></div><div class='tool-info'></div></br>{% endif %}
                         </div>
                         </td>
 			<td class="ops">

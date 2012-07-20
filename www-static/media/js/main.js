@@ -135,6 +135,12 @@ function setupUI() {
         //delay: 0,
         //opacity: 0.75,
       });
+      $('.preview').button({
+        icons: {
+          primary: 'ui-icon-volume-on'
+        },
+        text: false
+      });
       $('.preview').popupWindow({
         height: 190,
         width: 230,
