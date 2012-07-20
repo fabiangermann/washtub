@@ -9,13 +9,13 @@
         
         <!--<link href="http://jplayer.org/latest/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css" />--> 
         <!--<link href="http://jplayer.org/latest/skin/pink.flag/jplayer.pink.flag.css" rel="stylesheet" type="text/css" />-->
-        <link type="text/css" href="/washtub/media/theme/css/orange/jquery-ui-1.8.10.custom.css" rel="stylesheet" /> 
+        <link type="text/css" href="/washtub/media/theme/css/gray/jquery-ui-1.8.10.custom.css" rel="stylesheet" /> 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>    
         <script type="text/javascript" src="/washtub/media/theme/js/jquery-ui-1.8.10.custom.min.js"></script>
         <link riel="stylesheet" type="text/css" href="/washtub/media/css/main.css" />
         <link rel="stylesheet" type="text/css" href="/washtub/media/css/jplayer-jqueryui.css" />
         <script type="text/javascript" src="/washtub/media/js/main.js"></script>
-        <script type="text/javascript" src="http://jplayer.org/2.1.0/js/jquery.jplayer.min.js"></script>
+        <script type="text/javascript" src="/washtub/media/js/jquery.jplayer.js"></script>
         <script type="text/javascript">
             
           $(document).ready(function() {
@@ -45,24 +45,73 @@
               }
             });
 
-            var stream_url = "/washtub/mediapool/stream/" + "{{ song.id }}" //|media_hash:request.session
+            var stream_url = "/washtub/mediapool/stream/" + "{{ song.filehash }}"; //|media_hash:request.session
+            var format = "{{ song.format }}";
+            format = format.replace(/\./g,"")
+            //console.log("format: " + format)
             $("#jquery_jplayer_1").jPlayer({
+              loadstart: function(event) {
+              },
               ready: function(event) {
                 $.post(stream_url, function(data) {});
-                $(this).jPlayer("setMedia", {
-                  mp3: stream_url,
-                });
+                if(event.jPlayer.html.used && event.jPlayer.html.audio.available) {
+                  self.audio = $(this).data("jPlayer").htmlElement.audio;
+                }
+                var media = {}
+                media[format] = stream_url;
+                $(this).jPlayer("setMedia", media).jPlayer("play");;
+              },
+              loadstart: function(event) {
+                $.post(stream_url, function(data) {});
+              },
+              progress: function(event) {
+                var percent = 0;
+                if((typeof self.audio.buffered === "object") && (self.audio.buffered.length > 0)) {
+                  if(self.audio.duration > 0) {
+                    var bufferTime = 0;
+                    for(var i = 0; i < self.audio.buffered.length; i++) {
+                      bufferTime += self.audio.buffered.end(i) - self.audio.buffered.start(i);
+                      //console.log(i + " | start = " + self.audio.buffered.start(i) + " | end = " + self.audio.buffered.end(i) + " | bufferTime = " + bufferTime + " | duration = " + self.audio.duration);
+                    }
+                    percent = 100 * bufferTime / self.audio.duration;
+                  } // else the Metadata has not been read yet.
+                  //console.log("percent = " + percent);
+                } else { // Fallback if buffered not supported
+                  // percent = event.jPlayer.status.seekPercent;
+                  percent = 0; // Cleans up the inital conditions on all browsers, since seekPercent defaults to 100 when object is undefined.
+                }
+                //$(".jp-buffer").progressbar("value", percent);         
+		//self._progress(percent); // Problem here at initial condition. Due to the Opera clause above of buffered.length > 0 above... Removing it means Opera's white buffer ring never shows like with polyfill.
+                // Firefox 4 does not always give the final progress event when buffered = 100%
+              },
+              error: function(event) {
+                console.log('error:')
+                console.log(event)
+                if (event.jPlayer.error.type != undefined) {
+                  console.log("Error Code: " + event.jPlayer.error.type);
+                }
+              },
+              seeking: function(event) {
+                //console.log('seeking:')
+                //console.log(event)
+              },
+              seeked: function(event) {
+                //console.log('seeked:')
+                //console.log(event)
+                $.post(stream_url, function(data) {})
               },
               volumechange: function(event) {
-                $(".jp-volume-bar").slider('value', $("#jquery_jplayer_1").jPlayer("option", "volume"));
+                // Important NOT to use the 'value' method, since that will recursively call this method infinitely
+                $(".jp-volume-bar").slider('option', value, $("#jquery_jplayer_1").jPlayer("option", "volume"));
               }, 
               timeupdate: function(event) {
                 //$(".jp-progress").progressbar("value", $("#jquery_jplayer_1").data("jPlayer").status.currentPercentRelative);
               },
-              swfPath: "http://www.jplayer.org/2.1.0/js",
-              supplied: "mp3",
-              preload: "none",
+              swfPath: "/washtub/media",
+              supplied: format,
+              preload: "auto",
               volume: 1,
+              errorAlerts: false,
             });
             /*$(".jp-seek-bar").slider({
               value: 0, // Seek should always start at 0
@@ -73,6 +122,9 @@
                 $("#jquery_jplayer_1").jPlayer("playHead", ui.value);
               },
             });*/
+            $(".jp-buffer").progressbar({
+              value: 0,  // This also should start at zero and is basically an empty progress bar
+            });
             $(".jp-progress").progressbar({
               value: 0,  // This also should start at zero and is basically an empty progress bar
             });
@@ -122,6 +174,7 @@
                     
                     <div class="jp-progress">
                        <div class="jp-seek-bar"<>
+                            <!-- <div class="jp-buffer"></div> -->
                             <div class="jp-play-bar"></div>
                         </div>
                     </div>

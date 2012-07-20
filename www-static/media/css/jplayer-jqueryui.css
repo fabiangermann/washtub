@@ -31,6 +31,7 @@ div.jp-video {
 	border-bottom:1px solid #AAA;
 	background-color:#fff;
 	position:relative;
+        margin:auto;
 }
 div.jp-audio {
 	width:175px;
@@ -294,6 +295,13 @@ div.jp-seeking-bg {
 	overflow:hidden;
 }
 
+.jp-buffer {
+	width: 172;
+        height: 13px;
+        margin: bottom: 4px;
+        overflow:hidden;
+
+}
 div.jp-video .jp-progress {
 	border-top:1px solid #180a1f;
 	border-bottom: 1px solid #554560;

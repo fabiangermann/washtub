@@ -135,6 +135,14 @@ function setupUI() {
         //delay: 0,
         //opacity: 0.75,
       });
+      $('.preview').popupWindow({
+        height: 190,
+        width: 230,
+        top: 50,
+        left: 50,
+        scrollbars: 0,
+        windowName: 'preview-file',
+      });
     }
     // History Tab
     if (index == '3') { 
@@ -455,7 +463,7 @@ function scanMedia(dialog_form) {
     });
     // Pretend to do something.
     var progress_timeout = setInterval(function(){
-      if (cur_value >= 100) {
+      if (cur_value >= 99) {
         // Remove the interval.
         window.clearInterval(progress_timeout);
         var text = '</br>';

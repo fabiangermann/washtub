@@ -71,6 +71,7 @@ class Genre(models.Model):
 class Song(models.Model):
     #filename = models.FilePathField(path=settings.MEDIAPOOL_PATH, recursive=False, match=".*(\.mp3|\.flac)$", max_length=765)
     filename = models.CharField(max_length=765)
+    filehash = models.CharField(max_length=256, null=True)
     title = models.CharField(max_length=765)
     track = models.IntegerField()
     artist = models.ForeignKey(Artist)
@@ -109,10 +110,17 @@ class Song(models.Model):
             self.filename = smart_str(self.filename)
         if not ( access(str(self.filename), (F_OK or R_OK))):
             return
-        ref = tagpy.FileRef(self.filename)
-        tags = ref.tag()
-        props = ref.audioProperties()
-    
+        #print >>sys.stderr, "Begin:"
+        try:
+          ref = tagpy.FileRef(self.filename)
+          tags = ref.tag()
+          props = ref.audioProperties()
+        except:
+          #print >>sys.stderr, "Couldn't read tag: %s:" % (self.filename)
+          #print >>sys.stderr, "Unexpected error:", sys.exc_info()[0]
+          return
+        #print >>sys.stderr, "End tagpy FileRef:"
+ 
         #take care of the non-relational fields first
         self.title = tags.title     
         self.year = tags.year
@@ -242,8 +250,8 @@ class ScanResult(models.Model):
     artist_delta = models.IntegerField(default=0)
     album_delta = models.IntegerField(default=0)
     genre_delta = models.IntegerField(default=0)
-    total_time_delta = models.IntegerField(default=0)
-    total_size_delta = models.IntegerField(default=0)
+    total_time_delta = models.BigIntegerField(default=0)
+    total_size_delta = models.BigIntegerField(default=0)
     stats_id = models.ForeignKey(MusicStats)
     class Meta:
         db_table = u'music_scan_result'

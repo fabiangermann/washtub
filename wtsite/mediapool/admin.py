@@ -22,13 +22,14 @@ class SongAdmin(admin.ModelAdmin):
     list_per_page = 100 
     list_filter = ['artist']
     list_display = ('title', 'artist', 'album', 'genre', 'date_entered')
+    readonly_fields = ['filehash']
     fieldsets = (
         (None, {
             'classes': ['wide'],
             'fields': ('filename', 'title', 'artist', 'album', 'genre')
         }),
         ('Extras', {
-            'fields': ('track', 'year', 'length', 'numplays',
+            'fields': ('filehash', 'track', 'year', 'length', 'numplays',
                        'rating', 'lastplay', 'date_entered', 'date_modified', 'format', 'size', 
                        'description', 'comment', 'disc_count', 'disc_number', 'track_count', 'start_time',
                        'stop_time', 'eq_preset', 'relative_volume', 'sample_rate', 'bitrate', 'bpm')

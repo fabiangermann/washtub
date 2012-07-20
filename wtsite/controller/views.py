@@ -935,15 +935,22 @@ def commit_log(host_name):
 							id = -1
 					else:
 						id = -1
+                                        t,a,b = '', '', ''
+                                        if 'title' in listing:
+                                                t = listing['title'],
+                                        if 'artist' in listing:
+                                                a = listing['artist'],
+                                        if 'album' in listing:
+                                                b = listing['album'],
 					log = Log(
 				    	entrytime = listing['on_air'],
 				    	info = 'RADIO_HISTORY',
 				    	host = host,
 				    	stream = name,
 				    	song_id = id,
-				    	title = listing['title'],
-				    	artist = listing['artist'],
-				    	album = listing['album'],
+					title = t,
+					artist = a,
+					album = b,
 					)
 					log.save()
 	
