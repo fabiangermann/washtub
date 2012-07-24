@@ -174,7 +174,7 @@ def build_file_list(directory, r):
     
     # Create a reasonable progress checkpoint based on a fraction of the total
     # We don't want to update progress on every pass of the scan loop
-    progress_mod = int(total/150)
+    progress_mod = int(total/.70)
     logging.info('Finish walk of (%s)' % directory)
     for i, full_path in enumerate(file_list):
         statinfo = stat(full_path)
@@ -267,7 +267,7 @@ def clean_db(directory, songs, r):
 @login_required()
 def file_scanner(request):
   json = {}
-  if request.method == 'POST':    
+  if request.method == 'POST':
     if(settings.MEDIAPOOL_PATH):
         directory = settings.MEDIAPOOL_PATH
     else:
