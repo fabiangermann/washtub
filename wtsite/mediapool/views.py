@@ -1,4 +1,4 @@
-#    Copyright (c) 2009, Chris Everest 
+#    Copyright (c) 2009, Chris Everest
 #    This file is part of Washtub.
 #
 #    Washtub is free software: you can redistribute it and/or modify
@@ -14,11 +14,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 
+import simplejson
+
 from time import sleep
 from django.forms import model_to_dict
 from django.conf import settings
 from django.core.paginator import Paginator
-from django.utils import simplejson
 from django.core import serializers
 from django.http import HttpResponseForbidden, Http404, HttpResponseRedirect, HttpResponse, HttpResponseServerError
 from django.utils.encoding import smart_str, smart_unicode
@@ -146,12 +147,12 @@ def get_file_hash(filename):
   t = hashlib.new('ripemd160')
   t.update("%s%s" % (filehash, settings.MEDIAPOOL_KEY))
   return t.hexdigest()
-  
+
 def build_file_list(directory, r):
     logging.info('Start of build_file_list(%s)' % directory)
     if not (access(directory, (F_OK or R_OK))):
         return False
-    
+
     walk_cache = walk(directory,topdown=True)
     # Setup our scan statistics
     current = 0
@@ -171,7 +172,7 @@ def build_file_list(directory, r):
     r.total = total
     r.in_progress = True
     r.save()
-    
+
     # Create a reasonable progress checkpoint based on a fraction of the total
     # We don't want to update progress on every pass of the scan loop
     progress_mod = int(total/.70)
@@ -182,7 +183,7 @@ def build_file_list(directory, r):
           continue
         mod_time = statinfo[ST_MTIME]
         mod_time = datetime.datetime.fromtimestamp(mod_time)
-        try: 
+        try:
             # check update time and compare against database.
             s = Song.objects.get(filename=full_path)
 
@@ -206,7 +207,7 @@ def build_file_list(directory, r):
             #add it into the database
             new = new + 1
             fhash = get_file_hash(full_path)
-            #print >>sys.stderr, 'retrieved hash: %s for %s' % (fhash, full_path) 
+            #print >>sys.stderr, 'retrieved hash: %s for %s' % (fhash, full_path)
             mod_time = mod_time.isoformat(' ')
             now = datetime.datetime.now().isoformat(' ')
             s = Song(filename=full_path, date_modified=mod_time, date_entered=now, filehash=fhash, size=statinfo[ST_SIZE])
@@ -245,7 +246,7 @@ def clean_db(directory, songs, r):
             else:
               s.delete()
               deleted = deleted + 1
-    
+
     # refresh list of songs (we may have just deleted some)
     songs = Song.objects.all()
     # remove albums that don't have corresponding songs
@@ -260,7 +261,7 @@ def clean_db(directory, songs, r):
     # Calculate our new mediapool stats after all the work is done
     new_stats = MusicStats.objects.get(scanresult=r.id)
     new_stats.calculate()
-    
+
     logging.info('End of clean_db(%s)' % directory)
     return True
 
@@ -272,7 +273,7 @@ def file_scanner(request):
         directory = settings.MEDIAPOOL_PATH
     else:
         return False
- 
+
     # Check to see if there is a current scan in progress.
     if ScanResult.objects.filter(in_progress=True).exists():
         # Catch this and return a useful message
@@ -302,7 +303,7 @@ def file_scanner(request):
       # Finally, generate the deltas from the last scan to this one
       r.calculate_delta(scan_id)
 
-      # Close out the scan in progress.  Not sure how this will work for a pidlock-esque situation    
+      # Close out the scan in progress.  Not sure how this will work for a pidlock-esque situation
       r.in_progress = False
       r.save()
       sleep(6)
@@ -326,7 +327,7 @@ def scanner_status(request):
     if s.count() == 1:
       json['type'] = 'info'
       json['msg'] = 'OK'
-      json['scan_status'] = [model_to_dict(e) for e in s] #serializers.serialize('json', list(s), ensure_ascii=False) 
+      json['scan_status'] = [model_to_dict(e) for e in s] #serializers.serialize('json', list(s), ensure_ascii=False)
       json['progress'] = [e.progress() for e in s]
       json['duration'] = [e.duration().total_seconds() for e in s]
       dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime) else None

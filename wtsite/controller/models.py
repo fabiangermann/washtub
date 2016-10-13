@@ -1,4 +1,4 @@
-#    Copyright (c) 2009, Chris Everest 
+#    Copyright (c) 2009, Chris Everest
 #    This file is part of Washtub.
 #
 #    Washtub is free software: you can redistribute it and/or modify
@@ -23,14 +23,14 @@ from datetime import datetime
 # Create your models here.
 class Theme(models.Model):
     name = models.CharField(max_length=64, unique=True)
-    
+
     def __unicode__(self):
         return self.name
 
 class Host(models.Model):
     name = models.CharField(max_length=128)
     ip_address = models.IPAddressField('Liquidsoap IP Address')
-    base_url = models.URLField(verify_exists=False)
+    base_url = models.URLField()
     theme = models.ForeignKey(Theme)
     description = models.TextField('Description', blank=True)
     admin_group = models.ManyToManyField(Group, related_name='host_admin_group', blank=True)
@@ -39,7 +39,7 @@ class Host(models.Model):
 
     def __unicode__(self):
     	return self.name
-    
+
 class Setting(models.Model):
     SETTINGS_CHOICES = (
     	('port', 'port'),
@@ -50,15 +50,15 @@ class Setting(models.Model):
     value = models.CharField(max_length=128, choices=SETTINGS_CHOICES)
     data = models.CharField(max_length=255)
     hostname = models.ForeignKey('Host',default=1)
-    
+
     def __unicode__(self):
         return self.value
-    
+
     class Meta:
         ordering = ['hostname', 'value']
         verbose_name = "Setting"
         verbose_name_plural = "Settings"
-        
+
 class Log(models.Model):
     entrytime = models.DateTimeField(editable=False)
     info = models.CharField(max_length=48, editable=False)
@@ -71,7 +71,7 @@ class Log(models.Model):
 
     def simple_entrytime(self):
         return self.entrytime.strftime('%Y-%m-%d %H:%M:%S')
-    
+
     class Meta:
         ordering = ['-entrytime']
         verbose_name_plural = "Log Entries"
@@ -81,4 +81,4 @@ class Version(models.Model):
 
     def __unicode__(self):
         return self.version
-    
+

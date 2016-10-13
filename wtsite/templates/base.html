@@ -53,7 +53,7 @@
   /* Set up some global vars based on the django template vars */
   var baseurl = '{{ ''|baseurl }}';
   var host = '{{ active_host }}';
-  var filescanner_url = '{% url mediapool.views.file_scanner %}';
+  var filescanner_url = '{% url 'mediapool.views.file_scanner' %}';
   var red = "#EE8A7C";
   var green = "#ABEE87";
   var timeout = 750; // timeout used for user feedback and page refresh
@@ -93,7 +93,7 @@
   <div class="status">
     {% block userstatus %}
       {% if user.is_authenticated %}
-        Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url django.contrib.auth.views.logout_then_login %}">Logout?</a>
+        Hello {{ user.first_name }}!&nbsp;<a class="action" href="{% url 'django.contrib.auth.views.logout_then_login' %}">Logout?</a>
       {% else %}
         Please <a href="{% url django.contrib.auth.views.login %}" >log-in</a> to continue....<a class="action" href="{% url django.contrib.auth.views.password_reset %}">Retrieve Password</a>
       {% endif %}

@@ -1,4 +1,4 @@
-#    Copyright (c) 2009, Chris Everest 
+#    Copyright (c) 2009, Chris Everest
 #    This file is part of Washtub.
 #
 #    Washtub is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Washtub.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns
 
 urlpatterns = patterns('wtsite.controller.views',
         (r'^control/metadata/(?P<host_name>\S+)$', 'insert_metadata'),
@@ -30,7 +30,7 @@ urlpatterns = patterns('wtsite.controller.views',
 	(r'^status/(?P<host_name>\S+)$', 'display_status'),
 	(r'^log/(?P<host_name>\S+)$', 'write_log'),
 	(r'^pool/search/(?P<host_name>\S+)/(?P<page>\d+)$', 'search_pool'),
-	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)/(?P<page>\d+)$', 'display_pool_page'),     
+	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)/(?P<page>\d+)$', 'display_pool_page'),
 	(r'^pool/(?P<host_name>\S+)/(?P<type>\S+)$', 'display_pool'),
 	(r'^$', 'index'),
 	)

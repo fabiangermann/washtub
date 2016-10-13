@@ -1,2 +1,4 @@
 *.py[cod]
 settings.py
+venv
+*.db
