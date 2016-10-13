@@ -18,9 +18,9 @@ from django.conf.urls import patterns
 
 urlpatterns = patterns('wtsite.mediapool.views',
     (r'^scan$', 'file_scanner'),
-    (r'^scan/status$', 'scanner_status', name='scanner_status'),
+    (r'^scan/status$', 'scanner_status'),
     (r'^stream/(?P<hash_id>\S+)', 'stream'),
-    mr'^stream_test$', 'stream_test_liq'),
+    (r'^stream_test$', 'stream_test_liq'),
     (r'^stream_test/(?P<hash_id>\S+)', 'stream_test'),
     #(r'^$', 'index'),
     )
